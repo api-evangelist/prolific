@@ -1,0 +1,833 @@
+openapi: 3.1.0
+info:
+  title: API Reference aiTaskBuilder filters API
+  version: 1.0.0
+servers:
+- url: https://api.prolific.com
+  description: Production
+tags:
+- name: filters
+paths:
+  /api/v1/filters/:
+    get:
+      operationId: get-filters
+      summary: List all filters
+      description: List all filters that can be applied to your filter sets or studies.
+      tags:
+      - filters
+      parameters:
+      - name: detailed
+        in: query
+        description: Include extra information required to sort and categorise filters in the Prolific app. This is not required for API use. Default false.
+        required: false
+        schema:
+          type: string
+      - name: workspace_id
+        in: query
+        description: The workspace ID for the workspace you are creating a study or filterset in. This is used to get contextual data such as previous studies and participant groups.
+        required: false
+        schema:
+          type: string
+      - name: filter_tag
+        in: query
+        description: Can be used to return only Custom Group filters.
+        required: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of filters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FilterList'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/filters/{id}/distribution/:
+    get:
+      operationId: get-filter-distribution
+      summary: Get filter distribution
+      description: Get the distribution of a filter.
+      tags:
+      - filters
+      parameters:
+      - name: id
+        in: path
+        description: ID of the filter to get distribution for. Only filters tagged with "custom-group" are supported.
+        required: true
+        schema:
+          type: string
+      - name: workspace_id
+        in: query
+        description: ID of your current workspace.
+        required: true
+        schema:
+          type: string
+      - name: distribution_filters
+        in: query
+        description: Filters to get distributions for. This should be a comma-separated list of filter IDs. Only filters tagged with "allow-distribution" are supported.
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Filter distribution
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FilterDistribution'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/eligibility-count/:
+    post:
+      operationId: get-eligible-count
+      summary: Count participants
+      description: 'Count how many participants meet all the given filters.
+
+        Only participants that pass **every one** of the filters are counted.
+
+        Zero means that there are less than 25 participants. We do not show lower numbers to protect the privacy of the participants.
+
+
+        To see a list of filters that may be passed to this endpoint, see the documentation for filters.'
+      tags:
+      - filters
+      parameters:
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Count
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequirementsCount'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequirementsCountRequest'
+components:
+  schemas:
+    RangeFilterListDetailedResponseMinMax:
+      oneOf:
+      - type: integer
+      - type: number
+        format: double
+      - type: string
+      description: Optional maximum allowed value for the selected_range lower bound.
+      title: RangeFilterListDetailedResponseMinMax
+    SelectFilterListResponseType:
+      type: string
+      enum:
+      - select
+      - range
+      description: The filter type.
+      title: SelectFilterListResponseType
+    RangeFilterListDetailedResponse:
+      type: object
+      properties:
+        filter_id:
+          type: string
+          description: The ID of the filter, based on a slugified version of the title at the time the filter was created.
+        title:
+          type: string
+          description: The title of the filter.
+        description:
+          type: string
+          description: A description of the filter.
+        type:
+          $ref: '#/components/schemas/RangeFilterListDetailedResponseType'
+          description: The filter type.
+        question:
+          type: string
+          description: The question asked of participants to generate this filter.
+        min:
+          $ref: '#/components/schemas/RangeFilterListDetailedResponseMin'
+          description: The minimum valid value of the range.
+        max:
+          $ref: '#/components/schemas/RangeFilterListDetailedResponseMax'
+          description: The maximum valid value of the range.
+        data_type:
+          $ref: '#/components/schemas/RangeFilterListDetailedResponseDataType'
+          description: 'The data type of the range.
+
+            - If the data type is integer, the lower and upper values must be integers. Example: `70`.
+
+            - If the data type is date, the lower and upper values must be ISO8601 dates. Example: `2025-07-11`.
+
+            - If the data type is float, the lower and upper values can be provided as floats or integers. Returned values will be floats. Example: `70.5` or `80.0`.'
+        min_max:
+          $ref: '#/components/schemas/RangeFilterListDetailedResponseMinMax'
+          description: Optional maximum allowed value for the selected_range lower bound.
+        max_min:
+          $ref: '#/components/schemas/RangeFilterListDetailedResponseMaxMin'
+          description: Optional minimum allowed value for the selected_range upper bound.
+        researcher_help_text:
+          type:
+          - string
+          - 'null'
+          description: Some help text to be displayed to researchers in the filter selection modal.
+        participant_help_text:
+          type:
+          - string
+          - 'null'
+          description: Some help text to be displayed to participants in the About You section.
+        category:
+          type:
+          - string
+          - 'null'
+          description: The category the filter is displayed in About You and the filter selection modal.
+        subcategory:
+          type:
+          - string
+          - 'null'
+          description: The sub-category the filter is displayed in the filter selection modal.
+        display_order:
+          type:
+          - integer
+          - 'null'
+          description: The order in which the filter is displayed within its sub-category in the filter selection modal.
+        tags:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Some additional tags that can be used to display the filter in a specific way, e.g. recommended, new, expiring.
+      title: RangeFilterListDetailedResponse
+    RangeFilterListResponseType:
+      type: string
+      enum:
+      - select
+      - range
+      description: The filter type.
+      title: RangeFilterListResponseType
+    RangeFilterListDetailedResponseMaxMin:
+      oneOf:
+      - type: integer
+      - type: number
+        format: double
+      - type: string
+      description: Optional minimum allowed value for the selected_range upper bound.
+      title: RangeFilterListDetailedResponseMaxMin
+    ErrorDetail:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: Status code as in the http standards
+        error_code:
+          type: integer
+          description: Internal error code
+        title:
+          type: string
+          description: Error title
+        detail:
+          $ref: '#/components/schemas/ErrorDetailDetail'
+          description: Error detail
+        additional_information:
+          type: string
+          description: Optional extra information
+        traceback:
+          type: string
+          description: Optional debug information
+        interactive:
+          type: boolean
+      required:
+      - status
+      - error_code
+      - title
+      - detail
+      title: ErrorDetail
+    RangeFilterListResponseMin:
+      oneOf:
+      - type: integer
+      - type: number
+        format: double
+      - type: string
+      description: The minimum valid value of the range.
+      title: RangeFilterListResponseMin
+    RequirementsCount:
+      type: object
+      properties:
+        count:
+          type: number
+          format: double
+          description: Number of participants passing all the requirements
+      required:
+      - count
+      title: RequirementsCount
+    RangeFilterWeightings:
+      type: object
+      properties:
+        selected_range:
+          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRange'
+        weighting:
+          type: number
+          format: double
+      required:
+      - selected_range
+      - weighting
+      title: RangeFilterWeightings
+    RequirementsCountRequestFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: RequirementsCountRequestFiltersItems
+    Error:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
+      required:
+      - error
+      title: Error
+    RangeFilterListDetailedResponseDataType:
+      type: string
+      enum:
+      - date
+      - integer
+      - float
+      description: 'The data type of the range.
+
+        - If the data type is integer, the lower and upper values must be integers. Example: `70`.
+
+        - If the data type is date, the lower and upper values must be ISO8601 dates. Example: `2025-07-11`.
+
+        - If the data type is float, the lower and upper values can be provided as floats or integers. Returned values will be floats. Example: `70.5` or `80.0`.'
+      title: RangeFilterListDetailedResponseDataType
+    FilterDistribution:
+      type: object
+      properties:
+        distribution:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/FilterDistributionDistribution'
+          description: Distribution data for the specified `distribution_filters`
+      title: FilterDistribution
+    CompositeFilterFilterId:
+      type: string
+      enum:
+      - and
+      - or
+      description: Composite filter group operator. Use `and` when every child filter must match, or `or` when at least one child filter must match.
+      title: CompositeFilterFilterId
+    RangeFilterSelectedRangeUpper:
+      oneOf:
+      - type: integer
+      - type: string
+      - type: number
+        format: double
+      description: Your selected upper bound for the range.
+      title: RangeFilterSelectedRangeUpper
+    RangeFilterListDetailedResponseMax:
+      oneOf:
+      - type: integer
+      - type: number
+        format: double
+      - type: string
+      description: The maximum valid value of the range.
+      title: RangeFilterListDetailedResponseMax
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
+    SelectFilterListResponseDataType:
+      type: string
+      enum:
+      - ChoiceID
+      - ParticipantID
+      - StudyID
+      - ParticipantGroupID
+      description: 'The format of the keys in the choices object. If the keys are strings representing sequential integers,
+
+        the data format is integer. If the keys are database ObjectIDs, the type of ID is specified.'
+      title: SelectFilterListResponseDataType
+    RangeFilterWeightingsSelectedRangeLower:
+      oneOf:
+      - type: integer
+      - type: string
+      - type: number
+        format: double
+      title: RangeFilterWeightingsSelectedRangeLower
+    RangeFilterListDetailedResponseMin:
+      oneOf:
+      - type: integer
+      - type: number
+        format: double
+      - type: string
+      description: The minimum valid value of the range.
+      title: RangeFilterListDetailedResponseMin
+    SelectFilterListDetailedResponse:
+      type: object
+      properties:
+        filter_id:
+          type: string
+          description: The ID of the filter, based on a slugified version of the title at the time the filter was created.
+        title:
+          type: string
+          description: The title of the filter.
+        description:
+          type: string
+          description: A description of the filter.
+        type:
+          $ref: '#/components/schemas/SelectFilterListDetailedResponseType'
+          description: The filter type.
+        question:
+          type: string
+          description: The question asked of participants to generate this filter.
+        choices:
+          type: object
+          additionalProperties:
+            description: Any type
+          description: An object containing all the filter's possible responses as key-value pairs, with sequential integer IDs or database ObjectIDs as the keys and the text of the response as the values.
+        data_type:
+          $ref: '#/components/schemas/SelectFilterListDetailedResponseDataType'
+          description: 'The format of the keys in the choices object. If the keys are strings representing sequential integers,
+
+            the data format is integer. If the keys are database ObjectIDs, the type of ID is specified.'
+        researcher_help_text:
+          type:
+          - string
+          - 'null'
+          description: Some help text to be displayed to researchers in the filter selection modal.
+        participant_help_text:
+          type:
+          - string
+          - 'null'
+          description: Some help text to be displayed to participants in the About You section.
+        category:
+          type:
+          - string
+          - 'null'
+          description: The category the filter is displayed in About You and the filter selection modal.
+        subcategory:
+          type:
+          - string
+          - 'null'
+          description: The sub-category the filter is displayed in the filter selection modal.
+        display_order:
+          type:
+          - integer
+          - 'null'
+          description: The order in which the filter is displayed within its sub-category in the filter selection modal.
+        tags:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Some additional tags that can be used to display the filter in a specific way, e.g. recommended, new, expiring.
+      title: SelectFilterListDetailedResponse
+    CompositeFilter:
+      type: object
+      properties:
+        filter_id:
+          $ref: '#/components/schemas/CompositeFilterFilterId'
+          description: Composite filter group operator. Use `and` when every child filter must match, or `or` when at least one child filter must match.
+        selected_filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompositeFilterSelectedFiltersItems'
+          description: Child filters in this group. Children can be select filters, range filters, or supported nested composite groups.
+      required:
+      - filter_id
+      - selected_filters
+      title: CompositeFilter
+    FilterList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FilterListResultsItems'
+        _links:
+          type: object
+          additionalProperties:
+            description: Any type
+        meta:
+          type: object
+          additionalProperties:
+            description: Any type
+      title: FilterList
+    SelectFilterListDetailedResponseDataType:
+      type: string
+      enum:
+      - ChoiceID
+      - ParticipantID
+      - StudyID
+      - ParticipantGroupID
+      description: 'The format of the keys in the choices object. If the keys are strings representing sequential integers,
+
+        the data format is integer. If the keys are database ObjectIDs, the type of ID is specified.'
+      title: SelectFilterListDetailedResponseDataType
+    RangeFilterListResponseDataType:
+      type: string
+      enum:
+      - date
+      - integer
+      - float
+      description: 'The data type of the range.
+
+        - If the data type is integer, the lower and upper values must be integers. Example: `70`.
+
+        - If the data type is date, the lower and upper values must be ISO8601 dates. Example: `2025-07-11`.
+
+        - If the data type is float, the lower and upper values can be provided as floats or integers. Returned values will be floats. Example: `70.5` or `80.0`.'
+      title: RangeFilterListResponseDataType
+    RangeFilterListResponseMaxMin:
+      oneOf:
+      - type: integer
+      - type: number
+        format: double
+      - type: string
+      description: Optional minimum allowed value for the selected_range upper bound.
+      title: RangeFilterListResponseMaxMin
+    FilterListResultsItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilterListResponse'
+      - $ref: '#/components/schemas/SelectFilterListDetailedResponse'
+      - $ref: '#/components/schemas/RangeFilterListResponse'
+      - $ref: '#/components/schemas/RangeFilterListDetailedResponse'
+      title: FilterListResultsItems
+    RangeFilterSelectedRange:
+      type: object
+      properties:
+        lower:
+          $ref: '#/components/schemas/RangeFilterSelectedRangeLower'
+          description: Your selected lower bound for the range.
+        upper:
+          $ref: '#/components/schemas/RangeFilterSelectedRangeUpper'
+          description: Your selected upper bound for the range.
+      description: 'This schema applies for filters of the `range` type, as defined in the [filter list response](\#tag/Filters/paths/~1api~1v1~1filters~1/get).
+
+
+        A dictionary with two possible objects, ''lower'' and ''upper''. At least one must be present and a non-null value.
+
+
+        The expected data type for these values is defined by the `range` filter''s `data_type` (see response linked above).
+
+
+        If the data_type is a date, string format should be a parseable ISO8601 date string. Date values should be provided as a string in ISO 8601 format.
+
+
+        Leaving a value as null will result in that bound being set to the lowest or highest possible value, depending on whether it is the upper or lower bound.'
+      title: RangeFilterSelectedRange
+    CompositeFilterSelectedFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: CompositeFilterSelectedFiltersItems
+    RangeFilterWeightingsSelectedRangeUpper:
+      oneOf:
+      - type: integer
+      - type: string
+      - type: number
+        format: double
+      title: RangeFilterWeightingsSelectedRangeUpper
+    RangeFilterListResponseMax:
+      oneOf:
+      - type: integer
+      - type: number
+        format: double
+      - type: string
+      description: The maximum valid value of the range.
+      title: RangeFilterListResponseMax
+    SelectFilter:
+      type: object
+      properties:
+        filter_id:
+          type: string
+          description: ID of the "select" type filter.
+        selected_values:
+          type: array
+          items:
+            type: string
+          description: 'This schema applies for filters of the `select` type, as defined in the [filter list response](\#tag/Filters/paths/~1api~1v1~1filters~1/get).
+
+
+            Array of IDs matching the response IDs, from the `select` filter''s `choices` (see response linked above).
+
+
+            String format should match the `data_type` of the `select` filter''s `choices` (see response linked above).'
+        weightings:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+          description: 'Ratios to control the distribution of participants across the selected values.
+
+
+            Integer percentages, floats, and exact quantities are valid inputs.'
+      required:
+      - filter_id
+      - selected_values
+      title: SelectFilter
+    RangeFilterListDetailedResponseType:
+      type: string
+      enum:
+      - select
+      - range
+      description: The filter type.
+      title: RangeFilterListDetailedResponseType
+    FilterDistributionDistribution:
+      oneOf:
+      - type: object
+        additionalProperties:
+          type: integer
+      - type: object
+        additionalProperties:
+          type: integer
+      title: FilterDistributionDistribution
+    RangeFilterListResponseMinMax:
+      oneOf:
+      - type: integer
+      - type: number
+        format: double
+      - type: string
+      description: Optional maximum allowed value for the selected_range lower bound.
+      title: RangeFilterListResponseMinMax
+    RequirementsCountRequest:
+      type: object
+      properties:
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/RequirementsCountRequestFiltersItems'
+          description: 'List of filters to apply to the count. This parameter uses the new, simplified
+
+            filters schema for interacting with eligibility.'
+        workspace_id:
+          type: string
+          description: 'The ID of the workspace you will be creating a study in.
+
+
+            Due to US tax laws, non US residents may not participate in studies created by US researchers.
+
+            For this reason, we use the country specified in the workspace to determine eligibility.
+
+
+            If you do not specify a workspace ID, we will use the current workspace ID of the user making the request.
+
+            Your eligibility count may not be accurate if you do not specify a workspace ID.'
+        organisation_id:
+          type: string
+          description: The ID of the workspace you will be creating a filterset in.
+      required:
+      - filters
+      title: RequirementsCountRequest
+    SelectFilterListResponse:
+      type: object
+      properties:
+        filter_id:
+          type: string
+          description: The ID of the filter, based on a slugified version of the title at the time the filter was created.
+        title:
+          type: string
+          description: The title of the filter.
+        description:
+          type: string
+          description: A description of the filter.
+        type:
+          $ref: '#/components/schemas/SelectFilterListResponseType'
+          description: The filter type.
+        question:
+          type: string
+          description: The question asked of participants to generate this filter.
+        choices:
+          type: object
+          additionalProperties:
+            description: Any type
+          description: An object containing all the filter's possible responses as key-value pairs, with sequential integer IDs or database ObjectIDs as the keys and the text of the response as the values.
+        data_type:
+          $ref: '#/components/schemas/SelectFilterListResponseDataType'
+          description: 'The format of the keys in the choices object. If the keys are strings representing sequential integers,
+
+            the data format is integer. If the keys are database ObjectIDs, the type of ID is specified.'
+      title: SelectFilterListResponse
+    RangeFilterSelectedRangeLower:
+      oneOf:
+      - type: integer
+      - type: string
+      - type: number
+        format: double
+      description: Your selected lower bound for the range.
+      title: RangeFilterSelectedRangeLower
+    SelectFilterListDetailedResponseType:
+      type: string
+      enum:
+      - select
+      - range
+      description: The filter type.
+      title: SelectFilterListDetailedResponseType
+    RangeFilterListResponse:
+      type: object
+      properties:
+        filter_id:
+          type: string
+          description: The ID of the filter, based on a slugified version of the title at the time the filter was created.
+        title:
+          type: string
+          description: The title of the filter.
+        description:
+          type: string
+          description: A description of the filter.
+        type:
+          $ref: '#/components/schemas/RangeFilterListResponseType'
+          description: The filter type.
+        question:
+          type: string
+          description: The question asked of participants to generate this filter.
+        min:
+          $ref: '#/components/schemas/RangeFilterListResponseMin'
+          description: The minimum valid value of the range.
+        max:
+          $ref: '#/components/schemas/RangeFilterListResponseMax'
+          description: The maximum valid value of the range.
+        data_type:
+          $ref: '#/components/schemas/RangeFilterListResponseDataType'
+          description: 'The data type of the range.
+
+            - If the data type is integer, the lower and upper values must be integers. Example: `70`.
+
+            - If the data type is date, the lower and upper values must be ISO8601 dates. Example: `2025-07-11`.
+
+            - If the data type is float, the lower and upper values can be provided as floats or integers. Returned values will be floats. Example: `70.5` or `80.0`.'
+        min_max:
+          $ref: '#/components/schemas/RangeFilterListResponseMinMax'
+          description: Optional maximum allowed value for the selected_range lower bound.
+        max_min:
+          $ref: '#/components/schemas/RangeFilterListResponseMaxMin'
+          description: Optional minimum allowed value for the selected_range upper bound.
+      title: RangeFilterListResponse
+    RangeFilterWeightingsSelectedRange:
+      type: object
+      properties:
+        lower:
+          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRangeLower'
+        upper:
+          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRangeUpper'
+      title: RangeFilterWeightingsSelectedRange
+    RangeFilter:
+      type: object
+      properties:
+        filter_id:
+          type: string
+          description: ID of the "range" type filter.
+        selected_range:
+          $ref: '#/components/schemas/RangeFilterSelectedRange'
+          description: 'This schema applies for filters of the `range` type, as defined in the [filter list response](\#tag/Filters/paths/~1api~1v1~1filters~1/get).
+
+
+            A dictionary with two possible objects, ''lower'' and ''upper''. At least one must be present and a non-null value.
+
+
+            The expected data type for these values is defined by the `range` filter''s `data_type` (see response linked above).
+
+
+            If the data_type is a date, string format should be a parseable ISO8601 date string. Date values should be provided as a string in ISO 8601 format.
+
+
+            Leaving a value as null will result in that bound being set to the lowest or highest possible value, depending on whether it is the upper or lower bound.'
+        weightings:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/RangeFilterWeightings'
+          description: 'Ratios to control the distribution of participants across the selected values.
+
+
+            Integers and exact quantities are valid inputs.'
+      required:
+      - filter_id
+      - selected_range
+      title: RangeFilter
+    ErrorDetailDetail2:
+      type: object
+      properties:
+        any_field:
+          type: array
+          items:
+            type: string
+          description: Name of the field with a validation error and as a value an array with the error descriptions
+      description: All fields with validation errors
+      title: ErrorDetailDetail2
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+        Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+        If your token is leaked, delete it and create a new one directly in the app.
+
+
+        In your requests add `Authorization` header with the value `Token <your token>`.'

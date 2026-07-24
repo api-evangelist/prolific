@@ -1,0 +1,688 @@
+openapi: 3.1.0
+info:
+  title: API Reference aiTaskBuilder webhooks API
+  version: 1.0.0
+servers:
+- url: https://api.prolific.com
+  description: Production
+tags:
+- name: webhooks
+paths:
+  /api/v1/hooks/event-types/:
+    get:
+      operationId: get-event-types
+      summary: List all subscribable event types
+      description: You can subscribe to any of the event types defined in this response.
+      tags:
+      - webhooks
+      parameters:
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of event types that can be subscribed to.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventTypeList'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/hooks/secrets/:
+    get:
+      operationId: get-secrets
+      summary: List all secrets
+      description: A view of all the secrets for the workspaces you belong to.
+      tags:
+      - webhooks
+      parameters:
+      - name: workspace_id
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecretList'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: create-secret
+      summary: Create/replace a secret
+      description: Generate a secret for verifying the request signature header of the subscription payload. If a secret already exists, this call will delete the old secret and create a new one.
+      tags:
+      - webhooks
+      parameters:
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecretDetail'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSecret'
+  /api/v1/hooks/subscriptions/:
+    get:
+      operationId: get-subscriptions
+      summary: List all subscriptions
+      description: A view of all subscriptions you have created.
+      tags:
+      - webhooks
+      parameters:
+      - name: is_enabled
+        in: query
+        description: A filter to only pull back enabled subscriptions. Default true.
+        required: false
+        schema:
+          type: boolean
+      - name: workspace_id
+        in: query
+        description: The Workspace ID we want to get the subscriptions for. If not given, the subscriptions for all of your workspaces will be returned.
+        required: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of subscriptions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionList'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: create-subscription
+      summary: Create a subscription
+      description: 'Create a subscription for an event type. When an event is triggered in the Prolific system, the hook will automatically notify the specified target URL.
+
+
+        Before creating a subscription, you must ensure that you have created a secret for your workspace.'
+      tags:
+      - webhooks
+      parameters:
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionList'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionDetail'
+  /api/v1/hooks/subscriptions/{subscription_id}/:
+    get:
+      operationId: get-subscription
+      summary: Retrieve a subscription
+      description: Get a single subscription
+      tags:
+      - webhooks
+      parameters:
+      - name: subscription_id
+        in: path
+        description: Subscription id
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionDetail'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: confirm-subscription
+      summary: Confirm a subscription
+      description: Confirm a subscription to an event type
+      tags:
+      - webhooks
+      parameters:
+      - name: subscription_id
+        in: path
+        description: Subscription id
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Confirmed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionDetail'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionConfirmation'
+    delete:
+      operationId: delete-subscription
+      summary: Delete a subscription
+      description: If you no longer require to be notified of a certain event type, you can delete a subscription. If you want to temporarily pause notifications, you can use the PATCH request documented.
+      tags:
+      - webhooks
+      parameters:
+      - name: subscription_id
+        in: path
+        description: Subscription id
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: update-subscription
+      summary: Update a subscription
+      description: This allows you to update a subscription. For example you can temporarily disable or enable a subscription if you wish.
+      tags:
+      - webhooks
+      parameters:
+      - name: subscription_id
+        in: path
+        description: Subscription id
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionDetail'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionUpdateDetail'
+  /api/v1/hooks/subscriptions/{subscription_id}/events/:
+    get:
+      operationId: get-events
+      summary: Get subscription events
+      description: Get all of the events that have triggered for the given subscription.
+      tags:
+      - webhooks
+      parameters:
+      - name: subscription_id
+        in: path
+        description: Subscription id
+        required: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 0
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 100
+      - name: status
+        in: query
+        description: Filter events by status. Accepts a single status or a JSON array of statuses as a string.
+        required: false
+        schema:
+          type: string
+      - name: resource_id
+        in: query
+        description: Filter events by the ID of the resource for which the event was sent.
+        required: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionEventList'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    SubscriptionEventPayload:
+      type: object
+      properties: {}
+      description: The event payload that was sent to the target url.
+      title: SubscriptionEventPayload
+    SubscriptionUpdateDetail:
+      type: object
+      properties:
+        event_type:
+          type: string
+          description: The name of the event type associated to the subscription.
+        target_url:
+          type: string
+          description: The URL that the subscription will notify when your event type is triggered.
+        is_enabled:
+          type: boolean
+          description: Whether the subscription is enabled or not.
+      title: SubscriptionUpdateDetail
+    ErrorDetail:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: Status code as in the http standards
+        error_code:
+          type: integer
+          description: Internal error code
+        title:
+          type: string
+          description: Error title
+        detail:
+          $ref: '#/components/schemas/ErrorDetailDetail'
+          description: Error detail
+        additional_information:
+          type: string
+          description: Optional extra information
+        traceback:
+          type: string
+          description: Optional debug information
+        interactive:
+          type: boolean
+      required:
+      - status
+      - error_code
+      - title
+      - detail
+      title: ErrorDetail
+    SecretList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SecretDetail'
+          description: A list of secrets.
+      title: SecretList
+    SubscriptionConfirmation:
+      type: object
+      properties:
+        secret:
+          type: string
+          description: The secret that was generated when the subscription was created and returned as the `X-Hook-Secret` header.
+      required:
+      - secret
+      title: SubscriptionConfirmation
+    SubscriptionList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubscriptionDetail'
+          description: List of all subscriptions.
+      required:
+      - results
+      title: SubscriptionList
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
+    SecretDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the secret.
+        value:
+          type: string
+          description: The secret value.
+        workspace_id:
+          type: string
+          description: The ID of the workspace that the secret belongs to.
+      title: SecretDetail
+    SubscriptionEventList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubscriptionEvent'
+          description: All the events triggered for the subscription
+      required:
+      - results
+      title: SubscriptionEventList
+    Error:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
+      required:
+      - error
+      title: Error
+    SubscriptionEvent:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the subscription event.
+        datetime_created:
+          type: string
+          description: The time the event was created.
+        datetime_updated:
+          type: string
+          description: The last time the event was updated.
+        event_type:
+          type: string
+          description: The event type that was triggered.
+        resource_id:
+          type: string
+          description: The Prolific Resource ID that the event is linked to.
+        status:
+          $ref: '#/components/schemas/SubscriptionEventStatus'
+          description: The status of the event. Will be `FAILED` if the `target_url` response is not 2xx.
+        target_url:
+          type: string
+          description: The URL where the event payload is sent.
+        payload:
+          oneOf:
+          - $ref: '#/components/schemas/SubscriptionEventPayload'
+          - type: 'null'
+          description: The event payload that was sent to the target url.
+      title: SubscriptionEvent
+    EventType:
+      type: object
+      properties:
+        event_type:
+          type: string
+        description:
+          type: string
+      title: EventType
+    CreateSecret:
+      type: object
+      properties:
+        workspace_id:
+          type: string
+          description: The ID of the workspace you are creating the secret in
+      title: CreateSecret
+    EventTypeList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventType'
+      title: EventTypeList
+    SubscriptionEventStatus:
+      type: string
+      enum:
+      - PENDING
+      - SUCCEEDED
+      - FAILED
+      description: The status of the event. Will be `FAILED` if the `target_url` response is not 2xx.
+      title: SubscriptionEventStatus
+    ErrorDetailDetail2:
+      type: object
+      properties:
+        any_field:
+          type: array
+          items:
+            type: string
+          description: Name of the field with a validation error and as a value an array with the error descriptions
+      description: All fields with validation errors
+      title: ErrorDetailDetail2
+    SubscriptionDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the subscription.
+        event_type:
+          type: string
+          description: The name of the event type associated to the subscription.
+        target_url:
+          type: string
+          description: The URL that the subscription will notify when your event type is triggered.
+        is_enabled:
+          type: boolean
+          description: Whether the subscription is enabled or not.
+        workspace_id:
+          type: string
+          description: The ID of the workspace we will create the subscription in.
+      required:
+      - event_type
+      - target_url
+      - workspace_id
+      title: SubscriptionDetail
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+        Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+        If your token is leaked, delete it and create a new one directly in the app.
+
+
+        In your requests add `Authorization` header with the value `Token <your token>`.'

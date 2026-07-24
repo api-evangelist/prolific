@@ -1,0 +1,120 @@
+openapi: 3.1.0
+info:
+  title: API Reference aiTaskBuilder wellKnownEndpoints API
+  version: 1.0.0
+servers:
+- url: https://api.prolific.com
+  description: Production
+tags:
+- name: wellKnownEndpoints
+paths:
+  /.well-known/study/jwks.json:
+    get:
+      operationId: get-study-jwks
+      summary: Retrieve JSON Web Key Set (JWKS)
+      description: 'Fetches the public keys that can be used to verify JWTs signed by Prolific. Clients should cache these keys and update them at least daily.
+
+
+        To verify the signature of a JWT you must verify the following:
+
+        * The JWT signature is authentic by verifying it with the public key from Prolific that correlates with the KID.
+
+        * The JWT hasn''t expired, by checking the `exp` claim.
+
+        * The `aud` claim is the correct domain for your tool.
+
+        * The `prolific` claim matches your expected payload as set in the `external_study_url` property. It always includes `workspace_id`. When the workspace is linked to an organisation, it also includes `organisation_id`.
+
+        '
+      tags:
+      - wellKnownEndpoints
+      responses:
+        '200':
+          description: Successful response with the JWKS.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JWKSResponse'
+components:
+  schemas:
+    JWK:
+      type: object
+      properties:
+        kty:
+          $ref: '#/components/schemas/JwkKty'
+          description: Key type, always "RSA".
+        kid:
+          type: string
+          description: Key ID used to match the key to the JWT header.
+        alg:
+          $ref: '#/components/schemas/JwkAlg'
+          description: Algorithm used, always "RS256".
+        n:
+          type: string
+          description: The modulus of the RSA public key.
+        e:
+          type: string
+          description: The exponent of the RSA public key.
+        use:
+          $ref: '#/components/schemas/JwkUse'
+          description: The intended use of the public key.
+        key_ops:
+          type: array
+          items:
+            $ref: '#/components/schemas/JwkKeyOpsItems'
+          description: The operations that the key is intended to be used for.
+      required:
+      - kty
+      - kid
+      - alg
+      - n
+      - e
+      - use
+      - key_ops
+      title: JWK
+    JwkKeyOpsItems:
+      type: string
+      enum:
+      - verify
+      title: JwkKeyOpsItems
+    JWKSResponse:
+      type: object
+      properties:
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/JWK'
+      title: JWKSResponse
+    JwkAlg:
+      type: string
+      enum:
+      - RS256
+      description: Algorithm used, always "RS256".
+      title: JwkAlg
+    JwkUse:
+      type: string
+      enum:
+      - sig
+      description: The intended use of the public key.
+      title: JwkUse
+    JwkKty:
+      type: string
+      enum:
+      - RSA
+      description: Key type, always "RSA".
+      title: JwkKty
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+        Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+        If your token is leaked, delete it and create a new one directly in the app.
+
+
+        In your requests add `Authorization` header with the value `Token <your token>`.'

@@ -1,0 +1,967 @@
+openapi: 3.1.0
+info:
+  title: API Reference aiTaskBuilder filterSets API
+  version: 1.0.0
+servers:
+- url: https://api.prolific.com
+  description: Production
+tags:
+- name: filterSets
+paths:
+  /api/v1/filter-sets/:
+    get:
+      operationId: get-filter-sets
+      summary: List all filter sets
+      description: List of all filter sets in the specified workspace.
+      tags:
+      - filterSets
+      parameters:
+      - name: workspace_id
+        in: query
+        description: ID of the workspace to get filter sets for.
+        required: false
+        schema:
+          type: string
+      - name: organisation_id
+        in: query
+        description: ID of the organisation to get filter sets for.
+        required: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of filter sets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FilterSetList'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: create-filter-set
+      summary: Create filter set
+      description: Create a filter set from a list of filters
+      tags:
+      - filterSets
+      parameters:
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Filter set created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Filter Sets_CreateFilterSet_Response_201'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFilterSet'
+  /api/v1/filter-sets/{id}/:
+    get:
+      operationId: get-filter-set
+      summary: Get filter set
+      description: Get details of a filter set.
+      tags:
+      - filterSets
+      parameters:
+      - name: id
+        in: path
+        description: ID of the filter set.
+        required: true
+        schema:
+          type: string
+      - name: version_number
+        in: query
+        description: Allows you to specify a specific version of the filter set to retrieve.
+        required: false
+        schema:
+          type: integer
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Filter set details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Filter Sets_GetFilterSet_Response_200'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: delete-filter-set
+      summary: Delete filter set
+      description: Delete a filter set.
+      tags:
+      - filterSets
+      parameters:
+      - name: id
+        in: path
+        description: ID of the filter set.
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Deleted the filter set
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: update-filter-set
+      summary: Update filter set
+      description: Update the details of a filter set.
+      tags:
+      - filterSets
+      parameters:
+      - name: id
+        in: path
+        description: ID of the filter set.
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Filter set updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Filter Sets_UpdateFilterSet_Response_200'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFilterSet'
+  /api/v1/filter-sets/{id}/clone/:
+    post:
+      operationId: clone-filter-set
+      summary: Clone filter set
+      description: Create a copy of a filter set.
+      tags:
+      - filterSets
+      parameters:
+      - name: id
+        in: path
+        description: ID of the filter set.
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Filter set cloned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Filter Sets_CloneFilterSet_Response_201'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                new_name:
+                  type: string
+                  description: A new name for the cloned filter set.
+  /api/v1/filter-sets/{id}/lock/:
+    post:
+      operationId: lock-filter-set
+      summary: Lock filter set for editing
+      description: Lock the filter set for editing.
+      tags:
+      - filterSets
+      parameters:
+      - name: id
+        in: path
+        description: ID of the filter set.
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Filter set locked
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Filter Sets_LockFilterSet_Response_200'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/filter-sets/{id}/unlock/:
+    post:
+      operationId: unlock-filter-set
+      summary: Unlock filter set for editing
+      description: Unlock the filter set for editing.
+      tags:
+      - filterSets
+      parameters:
+      - name: id
+        in: path
+        description: ID of the filter set.
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Filter set locked
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Filter Sets_UnlockFilterSet_Response_200'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    ErrorDetail:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: Status code as in the http standards
+        error_code:
+          type: integer
+          description: Internal error code
+        title:
+          type: string
+          description: Error title
+        detail:
+          $ref: '#/components/schemas/ErrorDetailDetail'
+          description: Error detail
+        additional_information:
+          type: string
+          description: Optional extra information
+        traceback:
+          type: string
+          description: Optional debug information
+        interactive:
+          type: boolean
+      required:
+      - status
+      - error_code
+      - title
+      - detail
+      title: ErrorDetail
+    ApiV1FilterSetsIdUnlockPostResponsesContentApplicationJsonSchemaFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: ApiV1FilterSetsIdUnlockPostResponsesContentApplicationJsonSchemaFiltersItems
+    Filter Sets_UpdateFilterSet_Response_200:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the filter set.
+        version:
+          type: integer
+          description: An incrementing integer indicating the version of the filter set.
+        is_deleted:
+          type: boolean
+          description: Whether the filter set has been deleted.
+        is_locked:
+          type: boolean
+          description: Whether the filter set has been locked.
+        workspace_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the workspace where the filter set can be used.
+        organisation_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the workspace where the filter set can be used.
+        name:
+          type: string
+          description: Name of the filter set.
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiV1FilterSetsIdPatchResponsesContentApplicationJsonSchemaFiltersItems'
+          description: List of all filters contained in the filter set.
+        eligible_participant_count:
+          type: integer
+          description: 'The number of participants who match the filter sets filters. Please note that if the number is
+
+            lower than 25 the count will be obscured to prevent identification of participants.'
+      title: Filter Sets_UpdateFilterSet_Response_200
+    ApiV1FilterSetsIdPatchResponsesContentApplicationJsonSchemaFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: ApiV1FilterSetsIdPatchResponsesContentApplicationJsonSchemaFiltersItems
+    RangeFilterWeightings:
+      type: object
+      properties:
+        selected_range:
+          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRange'
+        weighting:
+          type: number
+          format: double
+      required:
+      - selected_range
+      - weighting
+      title: RangeFilterWeightings
+    CreateFilterSet:
+      type: object
+      properties:
+        workspace_id:
+          type: string
+          description: ID of the workspace where the filter set can be used.
+        organisation_id:
+          type: string
+          description: ID of the organisation where the filter set can be used.
+        name:
+          type: string
+          description: Name of the filter set.
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateFilterSetFiltersItems'
+          description: List of all filters contained in the filter set.
+      title: CreateFilterSet
+    Filter Sets_GetFilterSet_Response_200:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the filter set.
+        version:
+          type: integer
+          description: An incrementing integer indicating the version of the filter set.
+        is_deleted:
+          type: boolean
+          description: Whether the filter set has been deleted.
+        is_locked:
+          type: boolean
+          description: Whether the filter set has been locked.
+        workspace_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the workspace where the filter set can be used.
+        organisation_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the workspace where the filter set can be used.
+        name:
+          type: string
+          description: Name of the filter set.
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiV1FilterSetsIdGetResponsesContentApplicationJsonSchemaFiltersItems'
+          description: List of all filters contained in the filter set.
+        eligible_participant_count:
+          type: integer
+          description: 'The number of participants who match the filter sets filters. Please note that if the number is
+
+            lower than 25 the count will be obscured to prevent identification of participants.'
+      title: Filter Sets_GetFilterSet_Response_200
+    Error:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
+      required:
+      - error
+      title: Error
+    ApiV1FilterSetsPostResponsesContentApplicationJsonSchemaFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: ApiV1FilterSetsPostResponsesContentApplicationJsonSchemaFiltersItems
+    Filter Sets_LockFilterSet_Response_200:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the filter set.
+        version:
+          type: integer
+          description: An incrementing integer indicating the version of the filter set.
+        is_deleted:
+          type: boolean
+          description: Whether the filter set has been deleted.
+        is_locked:
+          type: boolean
+          description: Whether the filter set has been locked.
+        workspace_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the workspace where the filter set can be used.
+        organisation_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the workspace where the filter set can be used.
+        name:
+          type: string
+          description: Name of the filter set.
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiV1FilterSetsIdLockPostResponsesContentApplicationJsonSchemaFiltersItems'
+          description: List of all filters contained in the filter set.
+        eligible_participant_count:
+          type: integer
+          description: 'The number of participants who match the filter sets filters. Please note that if the number is
+
+            lower than 25 the count will be obscured to prevent identification of participants.'
+      title: Filter Sets_LockFilterSet_Response_200
+    CompositeFilterFilterId:
+      type: string
+      enum:
+      - and
+      - or
+      description: Composite filter group operator. Use `and` when every child filter must match, or `or` when at least one child filter must match.
+      title: CompositeFilterFilterId
+    CreateFilterSetFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: CreateFilterSetFiltersItems
+    RangeFilterSelectedRangeUpper:
+      oneOf:
+      - type: integer
+      - type: string
+      - type: number
+        format: double
+      description: Your selected upper bound for the range.
+      title: RangeFilterSelectedRangeUpper
+    Filter Sets_CloneFilterSet_Response_201:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the filter set.
+        version:
+          type: integer
+          description: An incrementing integer indicating the version of the filter set.
+        is_deleted:
+          type: boolean
+          description: Whether the filter set has been deleted.
+        is_locked:
+          type: boolean
+          description: Whether the filter set has been locked.
+        workspace_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the workspace where the filter set can be used.
+        organisation_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the workspace where the filter set can be used.
+        name:
+          type: string
+          description: Name of the filter set.
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiV1FilterSetsIdClonePostResponsesContentApplicationJsonSchemaFiltersItems'
+          description: List of all filters contained in the filter set.
+        eligible_participant_count:
+          type: integer
+          description: 'The number of participants who match the filter sets filters. Please note that if the number is
+
+            lower than 25 the count will be obscured to prevent identification of participants.'
+      title: Filter Sets_CloneFilterSet_Response_201
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
+    RangeFilterWeightingsSelectedRangeLower:
+      oneOf:
+      - type: integer
+      - type: string
+      - type: number
+        format: double
+      title: RangeFilterWeightingsSelectedRangeLower
+    CompositeFilter:
+      type: object
+      properties:
+        filter_id:
+          $ref: '#/components/schemas/CompositeFilterFilterId'
+          description: Composite filter group operator. Use `and` when every child filter must match, or `or` when at least one child filter must match.
+        selected_filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompositeFilterSelectedFiltersItems'
+          description: Child filters in this group. Children can be select filters, range filters, or supported nested composite groups.
+      required:
+      - filter_id
+      - selected_filters
+      title: CompositeFilter
+    UpdateFilterSetFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: UpdateFilterSetFiltersItems
+    UpdateFilterSet:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the filter set.
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/UpdateFilterSetFiltersItems'
+          description: List of all filters contained in the filter set.
+      title: UpdateFilterSet
+    RangeFilterSelectedRange:
+      type: object
+      properties:
+        lower:
+          $ref: '#/components/schemas/RangeFilterSelectedRangeLower'
+          description: Your selected lower bound for the range.
+        upper:
+          $ref: '#/components/schemas/RangeFilterSelectedRangeUpper'
+          description: Your selected upper bound for the range.
+      description: 'This schema applies for filters of the `range` type, as defined in the [filter list response](\#tag/Filters/paths/~1api~1v1~1filters~1/get).
+
+
+        A dictionary with two possible objects, ''lower'' and ''upper''. At least one must be present and a non-null value.
+
+
+        The expected data type for these values is defined by the `range` filter''s `data_type` (see response linked above).
+
+
+        If the data_type is a date, string format should be a parseable ISO8601 date string. Date values should be provided as a string in ISO 8601 format.
+
+
+        Leaving a value as null will result in that bound being set to the lowest or highest possible value, depending on whether it is the upper or lower bound.'
+      title: RangeFilterSelectedRange
+    FilterSetList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FilterSet'
+          description: List of filter sets.
+      title: FilterSetList
+    FilterSetFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: FilterSetFiltersItems
+    CompositeFilterSelectedFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: CompositeFilterSelectedFiltersItems
+    RangeFilterWeightingsSelectedRangeUpper:
+      oneOf:
+      - type: integer
+      - type: string
+      - type: number
+        format: double
+      title: RangeFilterWeightingsSelectedRangeUpper
+    FilterSet:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the filter set.
+        version:
+          type: integer
+          description: An incrementing integer indicating the version of the filter set.
+        is_deleted:
+          type: boolean
+          description: Whether the filter set has been deleted.
+        is_locked:
+          type: boolean
+          description: Whether the filter set has been locked.
+        workspace_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the workspace where the filter set can be used.
+        organisation_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the workspace where the filter set can be used.
+        name:
+          type: string
+          description: Name of the filter set.
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/FilterSetFiltersItems'
+          description: List of all filters contained in the filter set.
+      title: FilterSet
+    Filter Sets_CreateFilterSet_Response_201:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the filter set.
+        version:
+          type: integer
+          description: An incrementing integer indicating the version of the filter set.
+        is_deleted:
+          type: boolean
+          description: Whether the filter set has been deleted.
+        is_locked:
+          type: boolean
+          description: Whether the filter set has been locked.
+        workspace_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the workspace where the filter set can be used.
+        organisation_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the workspace where the filter set can be used.
+        name:
+          type: string
+          description: Name of the filter set.
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiV1FilterSetsPostResponsesContentApplicationJsonSchemaFiltersItems'
+          description: List of all filters contained in the filter set.
+        eligible_participant_count:
+          type: integer
+          description: 'The number of participants who match the filter sets filters. Please note that if the number is
+
+            lower than 25 the count will be obscured to prevent identification of participants.'
+      title: Filter Sets_CreateFilterSet_Response_201
+    SelectFilter:
+      type: object
+      properties:
+        filter_id:
+          type: string
+          description: ID of the "select" type filter.
+        selected_values:
+          type: array
+          items:
+            type: string
+          description: 'This schema applies for filters of the `select` type, as defined in the [filter list response](\#tag/Filters/paths/~1api~1v1~1filters~1/get).
+
+
+            Array of IDs matching the response IDs, from the `select` filter''s `choices` (see response linked above).
+
+
+            String format should match the `data_type` of the `select` filter''s `choices` (see response linked above).'
+        weightings:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+          description: 'Ratios to control the distribution of participants across the selected values.
+
+
+            Integer percentages, floats, and exact quantities are valid inputs.'
+      required:
+      - filter_id
+      - selected_values
+      title: SelectFilter
+    ApiV1FilterSetsIdGetResponsesContentApplicationJsonSchemaFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: ApiV1FilterSetsIdGetResponsesContentApplicationJsonSchemaFiltersItems
+    ApiV1FilterSetsIdClonePostResponsesContentApplicationJsonSchemaFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: ApiV1FilterSetsIdClonePostResponsesContentApplicationJsonSchemaFiltersItems
+    Filter Sets_UnlockFilterSet_Response_200:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the filter set.
+        version:
+          type: integer
+          description: An incrementing integer indicating the version of the filter set.
+        is_deleted:
+          type: boolean
+          description: Whether the filter set has been deleted.
+        is_locked:
+          type: boolean
+          description: Whether the filter set has been locked.
+        workspace_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the workspace where the filter set can be used.
+        organisation_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the workspace where the filter set can be used.
+        name:
+          type: string
+          description: Name of the filter set.
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiV1FilterSetsIdUnlockPostResponsesContentApplicationJsonSchemaFiltersItems'
+          description: List of all filters contained in the filter set.
+        eligible_participant_count:
+          type: integer
+          description: 'The number of participants who match the filter sets filters. Please note that if the number is
+
+            lower than 25 the count will be obscured to prevent identification of participants.'
+      title: Filter Sets_UnlockFilterSet_Response_200
+    RangeFilterSelectedRangeLower:
+      oneOf:
+      - type: integer
+      - type: string
+      - type: number
+        format: double
+      description: Your selected lower bound for the range.
+      title: RangeFilterSelectedRangeLower
+    ApiV1FilterSetsIdLockPostResponsesContentApplicationJsonSchemaFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: ApiV1FilterSetsIdLockPostResponsesContentApplicationJsonSchemaFiltersItems
+    RangeFilterWeightingsSelectedRange:
+      type: object
+      properties:
+        lower:
+          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRangeLower'
+        upper:
+          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRangeUpper'
+      title: RangeFilterWeightingsSelectedRange
+    RangeFilter:
+      type: object
+      properties:
+        filter_id:
+          type: string
+          description: ID of the "range" type filter.
+        selected_range:
+          $ref: '#/components/schemas/RangeFilterSelectedRange'
+          description: 'This schema applies for filters of the `range` type, as defined in the [filter list response](\#tag/Filters/paths/~1api~1v1~1filters~1/get).
+
+
+            A dictionary with two possible objects, ''lower'' and ''upper''. At least one must be present and a non-null value.
+
+
+            The expected data type for these values is defined by the `range` filter''s `data_type` (see response linked above).
+
+
+            If the data_type is a date, string format should be a parseable ISO8601 date string. Date values should be provided as a string in ISO 8601 format.
+
+
+            Leaving a value as null will result in that bound being set to the lowest or highest possible value, depending on whether it is the upper or lower bound.'
+        weightings:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/RangeFilterWeightings'
+          description: 'Ratios to control the distribution of participants across the selected values.
+
+
+            Integers and exact quantities are valid inputs.'
+      required:
+      - filter_id
+      - selected_range
+      title: RangeFilter
+    ErrorDetailDetail2:
+      type: object
+      properties:
+        any_field:
+          type: array
+          items:
+            type: string
+          description: Name of the field with a validation error and as a value an array with the error descriptions
+      description: All fields with validation errors
+      title: ErrorDetailDetail2
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+        Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+        If your token is leaked, delete it and create a new one directly in the app.
+
+
+        In your requests add `Authorization` header with the value `Token <your token>`.'

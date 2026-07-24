@@ -1,0 +1,227 @@
+openapi: 3.1.0
+info:
+  title: API Reference aiTaskBuilder users API
+  version: 1.0.0
+servers:
+- url: https://api.prolific.com
+  description: Production
+tags:
+- name: users
+paths:
+  /api/v1/users/me/:
+    get:
+      operationId: get-user
+      summary: Retrieve a user
+      description: 'Use this endpoint to test your token and retrieve the basic information of your account.
+
+
+        Add an `Authorization` header with the value `Token <your token>`.'
+      tags:
+      - users
+      parameters:
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/researchers/participants/:
+    post:
+      operationId: create-test-participant-for-researcher
+      summary: Create a test participant for a researcher
+      description: '### Overview
+
+        Creates a test participant with the same details as the researcher and the supplied email. This participant will
+
+        bypass any fraud checks and on-boarding steps.
+
+
+        ### Enabling the feature
+
+        This endpoint is only enabled for select workspaces and will need enabling before the endpoint can be used.
+
+
+        ### Participant Limitations
+
+        - The participant will be limited to take studies only in the workspaces associated to the researcher and where
+
+        the feature is enabled.
+
+        - The participant will not be able to cashout any balance earned from completing studies.
+
+
+        ### Usage
+
+        - The API response contains the participant ID. This can be used in a custom allowlist or participant group to
+
+        target the participant on studies. This enables the researcher to test the study set up end-to-end.
+
+        - A randomly generated password is assigned to the participant account. We recommend that you request to reset
+
+        the password, and use this new password to login to the participant account.
+
+        '
+      tags:
+      - users
+      parameters:
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateTestParticipantForResearcherResponse'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTestParticipantForResearcher'
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+      required:
+      - id
+      - email
+      title: User
+    ErrorDetail:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: Status code as in the http standards
+        error_code:
+          type: integer
+          description: Internal error code
+        title:
+          type: string
+          description: Error title
+        detail:
+          $ref: '#/components/schemas/ErrorDetailDetail'
+          description: Error detail
+        additional_information:
+          type: string
+          description: Optional extra information
+        traceback:
+          type: string
+          description: Optional debug information
+        interactive:
+          type: boolean
+      required:
+      - status
+      - error_code
+      - title
+      - detail
+      title: ErrorDetail
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
+    CreateTestParticipantForResearcherResponse:
+      type: object
+      properties:
+        participant_id:
+          type: string
+          format: objectId
+          description: The ID of the test participant
+      title: CreateTestParticipantForResearcherResponse
+    Error:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
+      required:
+      - error
+      title: Error
+    ErrorDetailDetail2:
+      type: object
+      properties:
+        any_field:
+          type: array
+          items:
+            type: string
+          description: Name of the field with a validation error and as a value an array with the error descriptions
+      description: All fields with validation errors
+      title: ErrorDetailDetail2
+    CreateTestParticipantForResearcher:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: '- The email of the test participant.
+
+            - This cannot be an email that has been registered with Prolific already.
+
+            '
+      required:
+      - email
+      title: CreateTestParticipantForResearcher
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+        Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+        If your token is leaked, delete it and create a new one directly in the app.
+
+
+        In your requests add `Authorization` header with the value `Token <your token>`.'

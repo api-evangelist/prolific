@@ -1,0 +1,823 @@
+openapi: 3.1.0
+info:
+  title: API Reference aiTaskBuilder surveys API
+  version: 1.0.0
+servers:
+- url: https://api.prolific.com
+  description: Production
+tags:
+- name: surveys
+paths:
+  /api/v1/surveys/:
+    get:
+      operationId: get-surveys
+      summary: Get all surveys
+      description: Get all the surveys for a researcher.
+      tags:
+      - surveys
+      parameters:
+      - name: researcher_id
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 0
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 100
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAllSurveysResponse'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: create-survey
+      summary: Create survey
+      description: 'You can create a survey with either `sections -> questions` or just `questions`. This allows you to decide
+
+        how much flexibility you want in your survey design. However, if you want to render the survey in the Prolific Application, you must use `sections`.'
+      tags:
+      - surveys
+      parameters:
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SurveyOut'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SurveyIn'
+  /api/v1/surveys/{survey_id}:
+    get:
+      operationId: get-survey
+      summary: Get survey
+      description: Get a single survey given an ID.
+      tags:
+      - surveys
+      parameters:
+      - name: survey_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SurveyOut'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: delete-survey
+      summary: Delete survey
+      description: Delete a single Survey.
+      tags:
+      - surveys
+      parameters:
+      - name: survey_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/surveys/{survey_id}/responses/:
+    get:
+      operationId: get-responses
+      summary: Get all responses
+      description: Get all the responses for a given Survey.
+      tags:
+      - surveys
+      parameters:
+      - name: survey_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: create-response
+      summary: Create response
+      description: Create a Response for a survey.
+      tags:
+      - surveys
+      parameters:
+      - name: survey_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SurveyResponseOut'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SurveyResponseIn'
+    delete:
+      operationId: delete-responses
+      summary: Delete all responses
+      description: Delete all the responses for a given Survey.
+      tags:
+      - surveys
+      parameters:
+      - name: survey_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/surveys/{survey_id}/responses/summary/:
+    get:
+      operationId: get-summary
+      summary: Get summary of responses
+      description: Get an aggregated summary of responses for a given survey.
+      tags:
+      - surveys
+      parameters:
+      - name: survey_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SurveySummary'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/surveys/{survey_id}/responses/{response_id}:
+    get:
+      operationId: get-response
+      summary: Get response
+      description: Get a single response for a survey.
+      tags:
+      - surveys
+      parameters:
+      - name: survey_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: response_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SurveyResponseOut'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: delete-response
+      summary: Delete a response
+      description: Delete a single Response.
+      tags:
+      - surveys
+      parameters:
+      - name: survey_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: response_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    ErrorDetail:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: Status code as in the http standards
+        error_code:
+          type: integer
+          description: Internal error code
+        title:
+          type: string
+          description: Error title
+        detail:
+          $ref: '#/components/schemas/ErrorDetailDetail'
+          description: Error detail
+        additional_information:
+          type: string
+          description: Optional extra information
+        traceback:
+          type: string
+          description: Optional debug information
+        interactive:
+          type: boolean
+      required:
+      - status
+      - error_code
+      - title
+      - detail
+      title: ErrorDetail
+    SurveySummary:
+      type: object
+      properties:
+        survey_id:
+          type: string
+          description: The survey ID.
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/SurveySummaryQuestion'
+          description: A list of questions for the given survey.
+      required:
+      - survey_id
+      description: Responsible for providing a base for all the aggregated answers for a survey.
+      title: SurveySummary
+    Error:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
+      required:
+      - error
+      title: Error
+    SurveyAnswerOption:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        value:
+          type: string
+          description: The answer option value that can be selected.
+      required:
+      - value
+      description: Responsible for defining an answer model for a given question
+      title: SurveyAnswerOption
+    GetAllSurveysResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SurveyOut'
+          description: List of all surveys matching the criteria.
+      required:
+      - results
+      title: GetAllSurveysResponse
+    SurveySummaryQuestion:
+      type: object
+      properties:
+        question_id:
+          type: string
+          format: uuid
+          description: The question ID.
+        question:
+          type: string
+          description: The title of the question.
+        total_answers:
+          type: integer
+          default: 0
+          description: The total number of answered responses for a given question.
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/SurveySummaryAnswer'
+          description: A list of aggregated answer information.
+      required:
+      - question
+      description: Responsible for housing the questions we want to aggregate for the summary.
+      title: SurveySummaryQuestion
+    SurveyResponseIn:
+      type: object
+      properties:
+        participant_id:
+          type: string
+          description: The Prolific participant ID.
+        sections:
+          type: array
+          items:
+            $ref: '#/components/schemas/SurveyResponseSection'
+          description: An array of sections from the survey, otherwise use `questions`.
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/SurveyQuestionResponse'
+          description: An array of questions from the survey, otherwise use `sections`.
+        submission_id:
+          type: string
+          description: The Prolific submission ID.
+      required:
+      - participant_id
+      - submission_id
+      description: The model used to create a `Response`.
+      title: SurveyResponseIn
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
+    SurveyQuestionResponse:
+      type: object
+      properties:
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/SurveyResponseAnswer'
+          description: The answers selected.
+        question_id:
+          type: string
+          format: uuid
+          description: The question ID.
+        question_title:
+          type: string
+          description: The title of the survey question.
+      required:
+      - answers
+      - question_id
+      - question_title
+      description: Responsible for defining an answer to a survey question
+      title: SurveyQuestionResponse
+    SurveyResponseSection:
+      type: object
+      properties:
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/SurveyQuestionResponse'
+          description: The questions for a given section.
+        section_id:
+          type: string
+          format: uuid
+          description: The section ID.
+      required:
+      - questions
+      - section_id
+      description: 'Responsible for linking question/answers to a response for a survey.
+
+
+        This is more of a long term thing, but helps if we add now.'
+      title: SurveyResponseSection
+    SurveySection:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Auto generated by the system.
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/SurveyQuestion'
+          description: An array of questions a section within a Survey.
+        title:
+          type: string
+          description: The section title.
+      required:
+      - questions
+      - title
+      description: 'Responsible for providing a section to the survey.
+
+
+        This is more of a long term thing, but helps if we add now.'
+      title: SurveySection
+    SurveyResponseAnswer:
+      type: object
+      properties:
+        answer_id:
+          type: string
+          format: uuid
+          description: The answer ID.
+        value:
+          type: string
+          description: The answer option value selected.
+      required:
+      - answer_id
+      - value
+      description: Responsible for defining a response to a question
+      title: SurveyResponseAnswer
+    SurveyOut:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Auto generated by the system.
+        date_created:
+          type: string
+          format: date-time
+          description: The date/time the survey was created (UTC).
+        date_modified:
+          type: string
+          format: date-time
+          description: The date/time the survey was modified (UTC).
+        researcher_id:
+          type: string
+          description: The Prolific researcher ID.
+        sections:
+          type: array
+          items:
+            $ref: '#/components/schemas/SurveySection'
+          description: 'Optional: An array of sections in the survey, otherwise `questions` will be defined.'
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/SurveyQuestion'
+          description: 'Optional: An array of questions in the survey, otherwise `sections` will be defined.'
+        title:
+          type: string
+          description: The survey title.
+      required:
+      - researcher_id
+      - title
+      description: The model used to create a serialised representation a `Survey`.
+      title: SurveyOut
+    SurveyIn:
+      type: object
+      properties:
+        researcher_id:
+          type: string
+          description: The Prolific researcher ID.
+        sections:
+          type: array
+          items:
+            $ref: '#/components/schemas/SurveySection'
+          description: An array of sections in the survey, or use `questions`.
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/SurveyQuestion'
+          description: An array of questions in the survey, or use `sections`.
+        title:
+          type: string
+          description: The survey title.
+      required:
+      - researcher_id
+      - title
+      description: The model used to create a `Survey`.
+      title: SurveyIn
+    SurveyQuestionType:
+      type: string
+      enum:
+      - single
+      - multiple
+      description: "Responsible for articulating the question type. At the moment we have:\n\n- single answer\n- multiple answer\n\nArgs:\n    str (_type_): The type of question.\n    Enum (_type_): The class to define an enum."
+      title: SurveyQuestionType
+    SurveySummaryAnswer:
+      type: object
+      properties:
+        answer_id:
+          type: string
+          format: uuid
+          description: The answer ID.
+        answer:
+          type: string
+          description: The answer selected.
+        count:
+          type: integer
+          default: 0
+          description: The count of how many times this answer was used in a response.
+      required:
+      - answer
+      description: Responsible for housing the aggregation for a specific answer.
+      title: SurveySummaryAnswer
+    SurveyQuestion:
+      type: object
+      properties:
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/SurveyAnswerOption'
+          description: An array of answer options for a question.
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          description: The question title.
+        type:
+          $ref: '#/components/schemas/SurveyQuestionType'
+          description: The type of question being asked.
+      required:
+      - answers
+      - title
+      - type
+      description: Responsible for defining a question within a survey.
+      title: SurveyQuestion
+    SurveyResponseOut:
+      type: object
+      properties:
+        _id:
+          type: string
+        date_created:
+          type: string
+          format: date-time
+          description: The date/time the response was created (UTC).
+        date_modified:
+          type: string
+          format: date-time
+          description: The date/time the response was modified (UTC).
+        participant_id:
+          type: string
+          description: The Prolific participant ID.
+        sections:
+          type: array
+          items:
+            $ref: '#/components/schemas/SurveyResponseSection'
+          description: An array of sections from the survey, otherwise `questions`.
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/SurveyQuestionResponse'
+          description: An array of questions from the survey, otherwise `sections`.
+        submission_id:
+          type: string
+          description: The Prolific submission ID.
+      required:
+      - participant_id
+      - submission_id
+      description: The model used to create a serialised representation a `Response`.
+      title: SurveyResponseOut
+    ErrorDetailDetail2:
+      type: object
+      properties:
+        any_field:
+          type: array
+          items:
+            type: string
+          description: Name of the field with a validation error and as a value an array with the error descriptions
+      description: All fields with validation errors
+      title: ErrorDetailDetail2
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+        Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+        If your token is leaked, delete it and create a new one directly in the app.
+
+
+        In your requests add `Authorization` header with the value `Token <your token>`.'

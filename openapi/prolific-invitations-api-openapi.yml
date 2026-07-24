@@ -1,0 +1,230 @@
+openapi: 3.1.0
+info:
+  title: API Reference aiTaskBuilder invitations API
+  version: 1.0.0
+servers:
+- url: https://api.prolific.com
+  description: Production
+tags:
+- name: invitations
+paths:
+  /api/v1/invitations/:
+    post:
+      operationId: create-invitation
+      summary: Create a new invitation
+      description: 'Initiate a new invitation process for adding users to a Workspace.
+
+
+        This operation can be performed only by authenticated users who are admins for the specified workspace. Invitations will be sent to the email addresses provided in the request.
+
+        '
+      tags:
+      - invitations
+      parameters:
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Invitation created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateInvitationResponse'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInvitationRequest'
+components:
+  schemas:
+    ErrorDetail:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: Status code as in the http standards
+        error_code:
+          type: integer
+          description: Internal error code
+        title:
+          type: string
+          description: Error title
+        detail:
+          $ref: '#/components/schemas/ErrorDetailDetail'
+          description: Error detail
+        additional_information:
+          type: string
+          description: Optional extra information
+        traceback:
+          type: string
+          description: Optional debug information
+        interactive:
+          type: boolean
+      required:
+      - status
+      - error_code
+      - title
+      - detail
+      title: ErrorDetail
+    InvitationStatus:
+      type: string
+      enum:
+      - INVITED
+      - ACCEPTED
+      description: The current status of the invitation.
+      title: InvitationStatus
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
+    InvitationRole:
+      type: string
+      enum:
+      - WORKSPACE_ADMIN
+      - WORKSPACE_COLLABORATOR
+      description: Assigned role for the user in this workspace.
+      title: InvitationRole
+    InvitationInvitee:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          format: objectId
+          description: The unique ID of the invitee.
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the invitee.
+        email:
+          type: string
+          format: email
+          description: The email address of the invitee.
+      title: InvitationInvitee
+    Error:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
+      required:
+      - error
+      title: Error
+    Invitation:
+      type: object
+      properties:
+        association:
+          type: string
+          format: objectId
+          description: The ID of the workspace to which the invitee was invited.
+        invitee:
+          $ref: '#/components/schemas/InvitationInvitee'
+        invited_by:
+          type: string
+          format: objectId
+          description: The ID of the user who sent the invitation.
+        status:
+          $ref: '#/components/schemas/InvitationStatus'
+          description: The current status of the invitation.
+        invite_link:
+          type: string
+          format: uri
+          description: The link that the invitee can use to accept the invitation.
+        role:
+          $ref: '#/components/schemas/InvitationRole'
+          description: Assigned role for the user in this workspace.
+      title: Invitation
+    CreateInvitationRequest:
+      type: object
+      properties:
+        association:
+          type: string
+          format: objectId
+          description: The ID of the workspace to which the users are being invited.
+        emails:
+          type: array
+          items:
+            type: string
+            format: email
+          description: An array of email addresses of the users to invite.
+        role:
+          $ref: '#/components/schemas/CreateInvitationRequestRole'
+          description: 'The role that the invited users will have in the workspace. This can be one of the following:
+
+            - "WORKSPACE_ADMIN": The user will have administrative rights in the workspace. They can manage settings, invite users, and oversee all projects.
+
+            - "WORKSPACE_COLLABORATOR": The user will be a regular collaborator in the workspace. They can contribute to projects but don''t have administrative rights.
+
+            '
+      title: CreateInvitationRequest
+    CreateInvitationResponse:
+      type: object
+      properties:
+        invitations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Invitation'
+      title: CreateInvitationResponse
+    ErrorDetailDetail2:
+      type: object
+      properties:
+        any_field:
+          type: array
+          items:
+            type: string
+          description: Name of the field with a validation error and as a value an array with the error descriptions
+      description: All fields with validation errors
+      title: ErrorDetailDetail2
+    CreateInvitationRequestRole:
+      type: string
+      enum:
+      - WORKSPACE_ADMIN
+      - WORKSPACE_COLLABORATOR
+      description: 'The role that the invited users will have in the workspace. This can be one of the following:
+
+        - "WORKSPACE_ADMIN": The user will have administrative rights in the workspace. They can manage settings, invite users, and oversee all projects.
+
+        - "WORKSPACE_COLLABORATOR": The user will be a regular collaborator in the workspace. They can contribute to projects but don''t have administrative rights.
+
+        '
+      title: CreateInvitationRequestRole
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+        Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+        If your token is leaked, delete it and create a new one directly in the app.
+
+
+        In your requests add `Authorization` header with the value `Token <your token>`.'

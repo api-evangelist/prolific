@@ -1,0 +1,898 @@
+openapi: 3.1.0
+info:
+  title: API Reference aiTaskBuilder submissions API
+  version: 1.0.0
+servers:
+- url: https://api.prolific.com
+  description: Production
+tags:
+- name: submissions
+paths:
+  /api/v1/submissions/:
+    get:
+      operationId: get-submissions
+      summary: List submissions
+      description: 'Returns basic information of submissions, including study id, participant id, status and start timestamp.
+
+
+        **Filtering and Ordering:**
+
+        - Filter by status, completion state, dates, and study
+
+        - Order by start time, reward amount, or study name
+
+        - Paginate by page_size and page (Default page_size is 20)
+
+        - Boolean parameters accept multiple formats: 1/0, true/false, yes/no, t/f (case-insensitive)
+
+        - Date parameters use DD/MM/YYYY format
+
+        - Status parameters are case-insensitive with underscore normalization'
+      tags:
+      - submissions
+      parameters:
+      - name: study
+        in: query
+        description: Filter by study ID (required). This is the ID we pass to the survey platform using %STUDY_ID%
+        required: true
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: Filter by submission status (case-insensitive). Valid values include ACTIVE, AWAITING_REVIEW, APPROVED, REJECTED, RETURNED, SCREENED_OUT, TIMED-OUT
+        required: false
+        schema:
+          $ref: '#/components/schemas/ApiV1SubmissionsGetParametersStatus'
+      - name: completed
+        in: query
+        description: Filter by completion status. Accepts 1/true/yes/t for completed, 0/false/no/f for incomplete (case-insensitive)
+        required: false
+        schema:
+          $ref: '#/components/schemas/ApiV1SubmissionsGetParametersCompleted'
+      - name: returned
+        in: query
+        description: Filter by returned status. Accepts 1/true/yes/t for returned, 0/false/no/f for not returned (case-insensitive)
+        required: false
+        schema:
+          $ref: '#/components/schemas/ApiV1SubmissionsGetParametersReturned'
+      - name: awaiting_review
+        in: query
+        description: Filter by awaiting review status. Accepts 1/true/yes/t for awaiting review, 0/false/no/f for not awaiting review (case-insensitive)
+        required: false
+        schema:
+          $ref: '#/components/schemas/ApiV1SubmissionsGetParametersAwaitingReview'
+      - name: approved
+        in: query
+        description: Filter by approved status. Accepts 1/true/yes/t for approved, 0/false/no/f for not approved (case-insensitive)
+        required: false
+        schema:
+          $ref: '#/components/schemas/ApiV1SubmissionsGetParametersApproved'
+      - name: active
+        in: query
+        description: Filter by active status. Accepts 1/true/yes/t for active, 0/false/no/f for not active (case-insensitive)
+        required: false
+        schema:
+          $ref: '#/components/schemas/ApiV1SubmissionsGetParametersActive'
+      - name: timeout
+        in: query
+        description: Filter by timed out status. Accepts 1/true/yes/t for timed out, 0/false/no/f for not timed out (case-insensitive)
+        required: false
+        schema:
+          $ref: '#/components/schemas/ApiV1SubmissionsGetParametersTimeout'
+      - name: rejected
+        in: query
+        description: Filter by rejected status. Accepts 1/true/yes/t for rejected, 0/false/no/f for not rejected (case-insensitive)
+        required: false
+        schema:
+          $ref: '#/components/schemas/ApiV1SubmissionsGetParametersRejected'
+      - name: screened_out
+        in: query
+        description: Filter by screened out status. Accepts 1/true/yes/t for screened out, 0/false/no/f for not screened out (case-insensitive)
+        required: false
+        schema:
+          $ref: '#/components/schemas/ApiV1SubmissionsGetParametersScreenedOut'
+      - name: completeoractive
+        in: query
+        description: Filter for submissions that are either completed or active. Accepts 1/true/yes/t to include, 0/false/no/f to exclude (case-insensitive)
+        required: false
+        schema:
+          $ref: '#/components/schemas/ApiV1SubmissionsGetParametersCompleteoractive'
+      - name: submitted_from
+        in: query
+        description: Filter submissions completed after the given date. Format DD/MM/YYYY (e.g., 01/01/2024)
+        required: false
+        schema:
+          type: string
+      - name: submitted_before
+        in: query
+        description: Filter submissions completed before the given date. Format DD/MM/YYYY (e.g., 31/12/2024)
+        required: false
+        schema:
+          type: string
+      - name: ordering
+        in: query
+        description: Order results by field. Prefix with '-' for descending order. Supported values are started_at, submission_reward, study_name
+        required: false
+        schema:
+          $ref: '#/components/schemas/ApiV1SubmissionsGetParametersOrdering'
+      - name: page_size
+        in: query
+        description: Number of items to return per page (Default 20)
+        required: false
+        schema:
+          type: integer
+      - name: page
+        in: query
+        description: Page number to retrieve (Default 1)
+        required: false
+        schema:
+          type: integer
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List submissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmissionListResponse'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+  /api/v1/submissions/{id}/:
+    get:
+      operationId: get-submission
+      summary: Retrieve a submission
+      description: 'Returns the detailed information of a submission, including the
+
+        study id, participant id, status and start timestamp'
+      tags:
+      - submissions
+      parameters:
+      - name: id
+        in: path
+        description: 'Submission id. This is the ID we pass to the survey platform
+
+          using %SESSION_ID%'
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmissionDetail'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/submissions/{id}/transition/:
+    post:
+      operationId: transition-submission
+      summary: Approve or reject a submission
+      description: "Transition a submission to `APPROVED`, `REJECTED`, `PARTIALLY APPROVED`, `AWAITING REVIEW` or `SCREENED OUT`. Once the status is changed, it can not be restored to its previous value.\n\nYou can only transition a submission to PARTIALLY APPROVED or SCREENED OUT by:\n  - setting up the study with the appropriate completion codes (only some workspaces have access to these features)\n  - providing the correct completion code in the request body\n  - providing the necessary data in the request body (to PARTIALLY APPROVE a submission)\n\nNote this endpoint is idempotent, so if you make the same request twice, the second request will be ignored."
+      tags:
+      - submissions
+      parameters:
+      - name: id
+        in: path
+        description: 'Submission id. This is the ID we pass to the survey platform
+
+          using %SESSION_ID%'
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Submission'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmissionTransition'
+  /api/v1/submissions/{id}/request-return/:
+    post:
+      operationId: request-submission-return
+      summary: Request the participant who submitted the response to return their response
+      description: '**This is an experimental feature that may be subject to change in the future.** <br/>
+
+        It offers researchers the ability to ask a participant to return a submission. The return reason must be provided in the request and can be any free text string. <br/> The Prolific UI allows users to select any of the following options:
+
+        * Didn''t finish the study
+
+        * Encountered technical problems
+
+        * Withdrew consent
+
+        * Other ( uses the free text input)
+
+
+        This constructs a message around the reasons provided so there is no need to provide additional text beyond the reasons.
+
+        <img alt="Example" src="/assets/img/api/message.png" />
+
+        '
+      tags:
+      - submissions
+      parameters:
+      - name: id
+        in: path
+        description: The submission id
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 'A message is sent to the participant belonging to the submission asking them to return.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReturnRequestedResponse'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                request_return_reasons:
+                  type: array
+                  items:
+                    type: string
+              required:
+              - request_return_reasons
+  /api/v1/submissions/bulk-approve/:
+    post:
+      operationId: bulk-approve-submissions
+      summary: Bulk approve submissions
+      description: 'Bulk approve study submissions to pay participants after they have
+
+        completed your survey or experiment. There are two variant payloads to
+
+        this request.
+
+
+        - You can supply a Study ID, and a list of participant IDs, or
+
+        - You can provide a list of submission IDs
+
+
+        We strongly recommend that you provide a list of submission IDs. These submissions do not need to be from the same study.
+
+
+        We recommend a maximum of 1,000 submission or participant IDs per request.'
+      tags:
+      - submissions
+      parameters:
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Bulk approve in progress
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Submissions_BulkApproveSubmissions_Request'
+components:
+  schemas:
+    ApiV1SubmissionsGetParametersScreenedOut:
+      type: string
+      enum:
+      - '0'
+      - '1'
+      - 'true'
+      - 'false'
+      - 'yes'
+      - 'no'
+      - t
+      - f
+      title: ApiV1SubmissionsGetParametersScreenedOut
+    ErrorDetail:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: Status code as in the http standards
+        error_code:
+          type: integer
+          description: Internal error code
+        title:
+          type: string
+          description: Error title
+        detail:
+          $ref: '#/components/schemas/ErrorDetailDetail'
+          description: Error detail
+        additional_information:
+          type: string
+          description: Optional extra information
+        traceback:
+          type: string
+          description: Optional debug information
+        interactive:
+          type: boolean
+      required:
+      - status
+      - error_code
+      - title
+      - detail
+      title: ErrorDetail
+    ReturnRequestedResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: the database id of the submission instance
+        status:
+          $ref: '#/components/schemas/ReturnRequestedResponseStatus'
+          description: The current status of the submission
+        participant:
+          type: string
+          description: The participant who took part in the study.
+        return_requested:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: The date and time when a return request for the submission was made.
+      title: ReturnRequestedResponse
+    ApiV1SubmissionsGetParametersCompleted:
+      type: string
+      enum:
+      - '0'
+      - '1'
+      - 'true'
+      - 'false'
+      - 'yes'
+      - 'no'
+      - t
+      - f
+      title: ApiV1SubmissionsGetParametersCompleted
+    Error:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
+      required:
+      - error
+      title: Error
+    SubmissionTransitionCompletionCodeData:
+      type: object
+      properties:
+        percentage_of_reward:
+          type: number
+          format: double
+          description: Required if the code is for a DYNAMIC_PAYMENT action. Must be between 8 - 99 (inclusive).
+        message_to_participant:
+          type: string
+          description: Optional message to the participant to be sent alongside a dynamic payment.
+      description: Required if the action is 'COMPLETE' and the code has the action "DYNAMIC_PAYMENT" associated with it.
+      title: SubmissionTransitionCompletionCodeData
+    ApiV1SubmissionsGetParametersCompleteoractive:
+      type: string
+      enum:
+      - '0'
+      - '1'
+      - 'true'
+      - 'false'
+      - 'yes'
+      - 'no'
+      - t
+      - f
+      title: ApiV1SubmissionsGetParametersCompleteoractive
+    ApiV1SubmissionsGetParametersRejected:
+      type: string
+      enum:
+      - '0'
+      - '1'
+      - 'true'
+      - 'false'
+      - 'yes'
+      - 'no'
+      - t
+      - f
+      title: ApiV1SubmissionsGetParametersRejected
+    SubmissionListResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubmissionShort'
+          description: List of all submissions matching the criteria.
+      required:
+      - results
+      title: SubmissionListResponse
+    ApiV1SubmissionsGetParametersReturned:
+      type: string
+      enum:
+      - '0'
+      - '1'
+      - 'true'
+      - 'false'
+      - 'yes'
+      - 'no'
+      - t
+      - f
+      title: ApiV1SubmissionsGetParametersReturned
+    ReturnRequestedResponseStatus:
+      type: string
+      enum:
+      - ACTIVE
+      - APPROVED
+      - AWAITING REVIEW
+      - SCREENED OUT
+      - REJECTED
+      - RESERVED
+      - RETURNED
+      - TIMED-OUT
+      - UNKNOWN
+      description: The current status of the submission
+      title: ReturnRequestedResponseStatus
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
+    Submission:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The id of the submission
+        completed_at:
+          type:
+          - string
+          - 'null'
+          description: The time the submission was completed at.
+        entered_code:
+          type:
+          - string
+          - 'null'
+          description: The completion code used by the participant to complete the study.
+        participant:
+          type: string
+          description: Participant id.
+        started_at:
+          type: string
+          description: The date and time that the user started the submission (UTC)
+        status:
+          $ref: '#/components/schemas/SubmissionStatus'
+          description: The current status of the submission
+        study_id:
+          type: string
+          description: Study id.
+      required:
+      - id
+      - started_at
+      - status
+      - study_id
+      title: Submission
+    ApiV1SubmissionsGetParametersApproved:
+      type: string
+      enum:
+      - '0'
+      - '1'
+      - 'true'
+      - 'false'
+      - 'yes'
+      - 'no'
+      - t
+      - f
+      title: ApiV1SubmissionsGetParametersApproved
+    SubmissionTransitionRejectionCategory:
+      type: string
+      enum:
+      - TOO_QUICKLY
+      - TOO_SLOWLY
+      - FAILED_INSTRUCTIONS
+      - INCOMP_LONGITUDINAL
+      - FAILED_CHECK
+      - LOW_EFFORT
+      - MALINGERING
+      - NO_CODE
+      - BAD_CODE
+      - NO_DATA
+      - UNSUPP_DEVICE
+      - OTHER
+      description: 'Required if action is ''REJECT'', it sums as the category of
+
+        the rejection.'
+      title: SubmissionTransitionRejectionCategory
+    SubmissionShort:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Submission id.
+        participant_id:
+          type: string
+          description: Participant id.
+        status:
+          $ref: '#/components/schemas/SubmissionShortStatus'
+          description: Status of the submission.
+        started_at:
+          type: string
+          format: date-time
+          description: Date started
+        completed_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Date completed
+        has_siblings:
+          type: boolean
+          description: Whether or not the submission has sibling submissions (sharing the same study).
+        study_code:
+          type:
+          - string
+          - 'null'
+          description: The completion code used by the participant to complete the study.
+        return_requested:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: The date and time when a return request for the submission was made.
+      required:
+      - id
+      - participant_id
+      - status
+      - started_at
+      - has_siblings
+      title: SubmissionShort
+    SubmissionTransition:
+      type: object
+      properties:
+        action:
+          $ref: '#/components/schemas/SubmissionTransitionAction'
+          description: The action that should be performed on the submission.
+        message:
+          type: string
+          description: 'Required if action is ''REJECT''. Message sent to the participant
+
+            explaining the reason for the rejection.
+
+            It must be at least 100 chars long.'
+        rejection_category:
+          $ref: '#/components/schemas/SubmissionTransitionRejectionCategory'
+          description: 'Required if action is ''REJECT'', it sums as the category of
+
+            the rejection.'
+        completion_code:
+          type: string
+          description: Required if the action is 'COMPLETE'. The completion code must match a value provided when creating the study, and the actor must have been set to `researcher`. Any actions that were provided during the set up of the completion code (e.g. automatically approve) will then be carried out.
+        completion_code_data:
+          $ref: '#/components/schemas/SubmissionTransitionCompletionCodeData'
+          description: Required if the action is 'COMPLETE' and the code has the action "DYNAMIC_PAYMENT" associated with it.
+      required:
+      - action
+      title: SubmissionTransition
+    SubmissionDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The id of the submission
+        completed_at:
+          type:
+          - string
+          - 'null'
+          description: The time the submission was completed at.
+        entered_code:
+          type:
+          - string
+          - 'null'
+          description: The completion code used by the participant to complete the study.
+        participant:
+          type: string
+          description: Participant id.
+        started_at:
+          type: string
+          description: The date and time that the user started the submission (UTC)
+        status:
+          $ref: '#/components/schemas/SubmissionDetailStatus'
+          description: The current status of the submission
+        study_id:
+          type: string
+          description: Study id.
+        parent_study_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the study's parent, if any. (This applies to representative sample and quota studies.)
+        bonus_payments:
+          type: array
+          items:
+            type: number
+            format: double
+          description: Bonus payments that have been paid on the submission. Returned in pence / cents.
+        return_requested:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: The date and time when a return request for the submission was made.
+      required:
+      - id
+      - started_at
+      - status
+      - study_id
+      title: SubmissionDetail
+    SubmissionShortStatus:
+      type: string
+      enum:
+      - RESERVED
+      - ACTIVE
+      - TIMED-OUT
+      - AWAITING REVIEW
+      - APPROVED
+      - RETURNED
+      - REJECTED
+      - SCREENED OUT
+      description: Status of the submission.
+      title: SubmissionShortStatus
+    Submissions_BulkApproveSubmissions_Request:
+      oneOf:
+      - $ref: '#/components/schemas/SubmissionsBulkApproveSubmissionsRequest0'
+      - $ref: '#/components/schemas/SubmissionsBulkApproveSubmissionsRequest1'
+      title: Submissions_BulkApproveSubmissions_Request
+    SubmissionStatus:
+      type: string
+      enum:
+      - ACTIVE
+      - APPROVED
+      - AWAITING REVIEW
+      - REJECTED
+      - RESERVED
+      - RETURNED
+      - TIMED-OUT
+      - SCREENED OUT
+      - UNKNOWN
+      description: The current status of the submission
+      title: SubmissionStatus
+    SubmissionTransitionAction:
+      type: string
+      enum:
+      - APPROVE
+      - COMPLETE
+      - REJECT
+      - RETURN
+      - START
+      - SCREEN_OUT
+      - UNREJECT
+      - UNRETURN
+      description: The action that should be performed on the submission.
+      title: SubmissionTransitionAction
+    ApiV1SubmissionsGetParametersStatus:
+      type: string
+      enum:
+      - ACTIVE
+      - AWAITING_REVIEW
+      - APPROVED
+      - PARTIALLY_APPROVED
+      - REJECTED
+      - RETURNED
+      - SCREENED_OUT
+      - TIMED-OUT
+      - UNKNOWN
+      title: ApiV1SubmissionsGetParametersStatus
+    SubmissionsBulkApproveSubmissionsRequest0:
+      type: object
+      properties:
+        study_id:
+          type: string
+        participant_ids:
+          type: array
+          items:
+            type: string
+      required:
+      - study_id
+      - participant_ids
+      title: SubmissionsBulkApproveSubmissionsRequest0
+    ApiV1SubmissionsGetParametersActive:
+      type: string
+      enum:
+      - '0'
+      - '1'
+      - 'true'
+      - 'false'
+      - 'yes'
+      - 'no'
+      - t
+      - f
+      title: ApiV1SubmissionsGetParametersActive
+    ApiV1SubmissionsGetParametersAwaitingReview:
+      type: string
+      enum:
+      - '0'
+      - '1'
+      - 'true'
+      - 'false'
+      - 'yes'
+      - 'no'
+      - t
+      - f
+      title: ApiV1SubmissionsGetParametersAwaitingReview
+    SubmissionsBulkApproveSubmissionsRequest1:
+      type: object
+      properties:
+        submission_ids:
+          type: array
+          items:
+            type: string
+      required:
+      - submission_ids
+      title: SubmissionsBulkApproveSubmissionsRequest1
+    SubmissionDetailStatus:
+      type: string
+      enum:
+      - ACTIVE
+      - APPROVED
+      - PARTIALLY APPROVED
+      - AWAITING REVIEW
+      - REJECTED
+      - RESERVED
+      - RETURNED
+      - TIMED-OUT
+      - SCREENED OUT
+      - UNKNOWN
+      description: The current status of the submission
+      title: SubmissionDetailStatus
+    ApiV1SubmissionsGetParametersOrdering:
+      type: string
+      enum:
+      - started_at
+      - -started_at
+      - submission_reward
+      - -submission_reward
+      - study_name
+      - -study_name
+      title: ApiV1SubmissionsGetParametersOrdering
+    ApiV1SubmissionsGetParametersTimeout:
+      type: string
+      enum:
+      - '0'
+      - '1'
+      - 'true'
+      - 'false'
+      - 'yes'
+      - 'no'
+      - t
+      - f
+      title: ApiV1SubmissionsGetParametersTimeout
+    ErrorDetailDetail2:
+      type: object
+      properties:
+        any_field:
+          type: array
+          items:
+            type: string
+          description: Name of the field with a validation error and as a value an array with the error descriptions
+      description: All fields with validation errors
+      title: ErrorDetailDetail2
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+        Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+        If your token is leaked, delete it and create a new one directly in the app.
+
+
+        In your requests add `Authorization` header with the value `Token <your token>`.'

@@ -1,0 +1,654 @@
+openapi: 3.1.0
+info:
+  title: API Reference aiTaskBuilder participantGroups API
+  version: 1.0.0
+servers:
+- url: https://api.prolific.com
+  description: Production
+tags:
+- name: participantGroups
+paths:
+  /api/v1/participant-groups/:
+    get:
+      operationId: get-participant-groups
+      summary: Get a list of all participant groups within a project or workspace
+      tags:
+      - participantGroups
+      parameters:
+      - name: active
+        in: query
+        description: Filter by the active (not deleted) status of the participant group.
+        required: false
+        schema:
+          $ref: '#/components/schemas/ApiV1ParticipantGroupsGetParametersActive'
+      - name: filter
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/ApiV1ParticipantGroupsGetParametersFilter'
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Request successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParticipantGroupListResponse'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: create-participant-group
+      summary: Create a new participant group within a workspace
+      tags:
+      - participantGroups
+      parameters:
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Participant group created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParticipantGroupResponse'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                workspace_id:
+                  type: string
+                  description: The id of the workspace to create the participant group in. Either a workspace or organisation ID must be specified.
+                organisation_id:
+                  type: string
+                  description: The id of the organisation to create the participant group in. Either a workspace or organisation ID must be specified.
+                name:
+                  type: string
+                  description: The name of the participant group
+                description:
+                  type: string
+                  description: A description of the participant group
+                participant_ids:
+                  type: array
+                  items:
+                    type: string
+                  description: The ids of participants to be initially added to the group
+              required:
+              - name
+  /api/v1/participant-groups/{id}/:
+    get:
+      operationId: get-participant-group
+      summary: Get a participant group
+      tags:
+      - participantGroups
+      parameters:
+      - name: id
+        in: path
+        description: The id of the participant group
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Request successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParticipantGroupResponse'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: delete-participant-group
+      summary: Delete a participant group
+      tags:
+      - participantGroups
+      parameters:
+      - name: id
+        in: path
+        description: The id of the participant group
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: update-participant-group
+      summary: Update a participant group
+      tags:
+      - participantGroups
+      parameters:
+      - name: id
+        in: path
+        description: The id of the participant group
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Request successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParticipantGroupResponse'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParticipantGroupUpdate'
+  /api/v1/participant-groups/{id}/participants/:
+    get:
+      operationId: get-participant-group-participants
+      summary: Get a list of all participants within a participant group
+      tags:
+      - participantGroups
+      parameters:
+      - name: id
+        in: path
+        description: The id of the participant group to get participants for
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Request successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParticipantGroupMembershipListResponse'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: add-to-participant-group
+      summary: Add participants to a participant group
+      description: 'Append participants to a participant group if they are not already members. If a participant is already a member of the group, they will be ignored.
+
+        '
+      tags:
+      - participantGroups
+      parameters:
+      - name: id
+        in: path
+        description: The id of the participant group to add the participant to
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: All participant(s) now in participant group
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParticipantGroupMembershipListResponse'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParticipantIDList'
+    delete:
+      operationId: remove-from-participant-group
+      summary: Remove participants from a participant group
+      description: 'Remove specified participants from a participant group if they are members. If a participant is not a member of the group, they will be ignored.
+
+        '
+      tags:
+      - participantGroups
+      parameters:
+      - name: id
+        in: path
+        description: The id of the participant group to remove the participant(s) from
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: All participant(s) now in participant group
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParticipantGroupMembershipListResponse'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParticipantIDList'
+components:
+  schemas:
+    ErrorDetail:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: Status code as in the http standards
+        error_code:
+          type: integer
+          description: Internal error code
+        title:
+          type: string
+          description: Error title
+        detail:
+          $ref: '#/components/schemas/ErrorDetailDetail'
+          description: Error detail
+        additional_information:
+          type: string
+          description: Optional extra information
+        traceback:
+          type: string
+          description: Optional debug information
+        interactive:
+          type: boolean
+      required:
+      - status
+      - error_code
+      - title
+      - detail
+      title: ErrorDetail
+    ApiV1ParticipantGroupsGetParametersFilter:
+      oneOf:
+      - $ref: '#/components/schemas/ApiV1ParticipantGroupsGetParametersFilter0'
+      - $ref: '#/components/schemas/ApiV1ParticipantGroupsGetParametersFilter1'
+      title: ApiV1ParticipantGroupsGetParametersFilter
+    ParticipantIDList:
+      type: object
+      properties:
+        participant_ids:
+          type: array
+          items:
+            type: string
+      title: ParticipantIDList
+    ParticipantGroup:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The id of the participant group
+        name:
+          type: string
+          description: The name of the participant group
+        project_id:
+          type:
+          - string
+          - 'null'
+          description: The id of the project the participant group belongs to
+        workspace_id:
+          type:
+          - string
+          - 'null'
+          description: The id of the workspace the participant group belongs to. A participant group can only belong to either a workspace or an organisation.
+        organisation_id:
+          type:
+          - string
+          - 'null'
+          description: The id of the organisation the participant group belongs to. A participant group can only belong to either a workspace or an organisation.
+        description:
+          type:
+          - string
+          - 'null'
+          description: The user-provided description of the participant group
+        participant_count:
+          type: integer
+          description: The number of participants in the participant group
+        is_deleted:
+          type: boolean
+          description: Whether the participant group has been deleted
+        feeder_studies:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParticipantGroupFeederStudiesItems'
+          description: Details of all studies which are configured to modify the participants in this group through completion codes.
+      title: ParticipantGroup
+    ParticipantGroupMembershipListResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParticipantGroupMembership'
+      title: ParticipantGroupMembershipListResponse
+    ApiV1ParticipantGroupsGetParametersFilter1:
+      type: object
+      properties:
+        project_id:
+          type: string
+          description: The id of the project to get participant groups for
+      required:
+      - project_id
+      title: ApiV1ParticipantGroupsGetParametersFilter1
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
+    ParticipantGroupUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the participant group
+        participant_ids:
+          type: array
+          items:
+            type: string
+          description: 'The ids of participants to be included in the group.
+
+
+            Note, this overwrites any existing participants in the group; use the participant group membership endpoints to [append](#tag/Participant-Groups/operation/AddToParticipantGroup) or [remove](#tag/Participant-Groups/operation/RemoveFromParticipantGroup) participants from the group.'
+      title: ParticipantGroupUpdate
+    ParticipantGroupMembership:
+      type: object
+      properties:
+        participant_id:
+          type: string
+          description: The id of the participant
+        datetime_created:
+          type: string
+          description: The date and time the participant was added to the Participant Group
+      title: ParticipantGroupMembership
+    ApiV1ParticipantGroupsGetParametersFilter0:
+      type: object
+      properties:
+        workspace_id:
+          type: string
+          description: The id of the workspace to get participant groups for
+      required:
+      - workspace_id
+      title: ApiV1ParticipantGroupsGetParametersFilter0
+    ParticipantGroupFeederStudiesItems:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The id of the study.
+        name:
+          type: string
+          description: The name of the study.
+        internal_name:
+          type: string
+          description: The internal name of the study.
+        status:
+          type: string
+          description: The current status of the study.
+        feeder_completion_codes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParticipantGroupFeederStudiesItemsFeederCompletionCodesItems'
+          description: The completion codes which will modify the participants in this group.
+      title: ParticipantGroupFeederStudiesItems
+    ParticipantGroupFeederStudiesItemsFeederCompletionCodesItems:
+      type: object
+      properties:
+        code:
+          type: string
+          description: The code that will modify the participants in this group.
+        code_type:
+          type: string
+          description: The label or code type given to this code within the context of the study.
+        action:
+          $ref: '#/components/schemas/ParticipantGroupFeederStudiesItemsFeederCompletionCodesItemsAction'
+          description: The action that will be taken when this code is used.
+      description: The code within this study that interacts with the participant group.
+      title: ParticipantGroupFeederStudiesItemsFeederCompletionCodesItems
+    ParticipantGroupListResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParticipantGroup'
+      title: ParticipantGroupListResponse
+    Error:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
+      required:
+      - error
+      title: Error
+    ParticipantGroupResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The id of the participant group
+        name:
+          type: string
+          description: The name of the participant group
+        project_id:
+          type:
+          - string
+          - 'null'
+          description: The id of the project the participant group belongs to
+        workspace_id:
+          type:
+          - string
+          - 'null'
+          description: The id of the workspace the participant group belongs to. A participant group can only belong to either a workspace or an organisation.
+        organisation_id:
+          type:
+          - string
+          - 'null'
+          description: The id of the organisation the participant group belongs to. A participant group can only belong to either a workspace or an organisation.
+        description:
+          type:
+          - string
+          - 'null'
+          description: The user-provided description of the participant group
+        participant_count:
+          type: integer
+          description: The number of participants in the participant group
+        is_deleted:
+          type: boolean
+          description: Whether the participant group has been deleted
+        feeder_studies:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParticipantGroupFeederStudiesItems'
+          description: Details of all studies which are configured to modify the participants in this group through completion codes.
+      title: ParticipantGroupResponse
+    ApiV1ParticipantGroupsGetParametersActive:
+      type: string
+      enum:
+      - 'true'
+      - 'false'
+      title: ApiV1ParticipantGroupsGetParametersActive
+    ParticipantGroupFeederStudiesItemsFeederCompletionCodesItemsAction:
+      type: string
+      enum:
+      - ADD_TO_PARTICIPANT_GROUP
+      - REMOVE_FROM_PARTICIPANT_GROUP
+      description: The action that will be taken when this code is used.
+      title: ParticipantGroupFeederStudiesItemsFeederCompletionCodesItemsAction
+    ErrorDetailDetail2:
+      type: object
+      properties:
+        any_field:
+          type: array
+          items:
+            type: string
+          description: Name of the field with a validation error and as a value an array with the error descriptions
+      description: All fields with validation errors
+      title: ErrorDetailDetail2
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+        Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+        If your token is leaked, delete it and create a new one directly in the app.
+
+
+        In your requests add `Authorization` header with the value `Token <your token>`.'

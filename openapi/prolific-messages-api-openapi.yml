@@ -1,0 +1,413 @@
+openapi: 3.1.0
+info:
+  title: API Reference aiTaskBuilder messages API
+  version: 1.0.0
+servers:
+- url: https://api.prolific.com
+  description: Production
+tags:
+- name: messages
+paths:
+  /api/v1/messages/:
+    get:
+      operationId: get-messages
+      summary: Retrieve messages
+      description: Get messages between you and another user or your messages with all users.
+      tags:
+      - messages
+      parameters:
+      - name: user_id
+        in: query
+        description: Another user ID, must be provided if no created_after date is provided.
+        required: false
+        schema:
+          type: string
+      - name: created_after
+        in: query
+        description: Only fetch messages created after timestamp. Datetime in ISO8601 format. Must be provided if no user_id is provided. You can only fetch up to the last 30 days of messages.
+        required: false
+        schema:
+          type: string
+      - name: excluded_sender_ids
+        in: query
+        description: 'A comma-separated list of sender IDs whose messages should be excluded from the response. Maximum 10 IDs.
+
+
+          e.g. `excluded_sender_ids=abc,def`.
+
+          '
+        required: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Messages
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Messages'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+    post:
+      operationId: send-message
+      summary: Send a message
+      description: Send a message to a participant or another researcher
+      tags:
+      - messages
+      parameters:
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: The message has been sent
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendMessage'
+  /api/v1/messages/bulk/:
+    post:
+      operationId: bulk-message-participants
+      summary: Send a message to multiple participants
+      description: Send a message to multiple participants.
+      tags:
+      - messages
+      parameters:
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: The message has been sent
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendBulkMessage'
+  /api/v1/messages/participant-group/:
+    post:
+      operationId: send-message-to-participant-group
+      summary: Send a message to a participant group
+      description: Send a message to a participant group.
+      tags:
+      - messages
+      parameters:
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: The message has been sent
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageParticipantGroup'
+  /api/v1/messages/unread/:
+    get:
+      operationId: get-unread-messages
+      summary: Retrieve unread messages
+      description: 'Get all unread messages.
+
+        The messages you have sent are never returned, only messages you have received and not read.
+
+        It does not mark those messages as read.'
+      tags:
+      - messages
+      parameters:
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Messages
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Messages'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+components:
+  schemas:
+    ErrorDetail:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: Status code as in the http standards
+        error_code:
+          type: integer
+          description: Internal error code
+        title:
+          type: string
+          description: Error title
+        detail:
+          $ref: '#/components/schemas/ErrorDetailDetail'
+          description: Error detail
+        additional_information:
+          type: string
+          description: Optional extra information
+        traceback:
+          type: string
+          description: Optional debug information
+        interactive:
+          type: boolean
+      required:
+      - status
+      - error_code
+      - title
+      - detail
+      title: ErrorDetail
+    MessageData:
+      type: object
+      properties:
+        study_id:
+          type: string
+          description: What study the message relates to. In case this is not automatically filled for the participant, they can choose which study their message relates to.
+        category:
+          $ref: '#/components/schemas/MessageDataCategory'
+          description: Participants can self-categorise their message before sending it.
+      description: Metadata for a message
+      title: MessageData
+    SendMessage:
+      type: object
+      properties:
+        recipient_id:
+          type: string
+          description: Recipient user's id
+        body:
+          type: string
+          description: Message Body. Text is sanitised for safe storage and display.
+        study_id:
+          type: string
+          description: This study is the reason for this message
+      required:
+      - recipient_id
+      - body
+      - study_id
+      title: SendMessage
+    MessageParticipantGroup:
+      type: object
+      properties:
+        participant_group_id:
+          type: string
+          description: A participant group ID
+        body:
+          type: string
+          description: Message Body. Text is sanitised for safe storage and display.
+        study_id:
+          type: string
+          description: A study ID
+      required:
+      - participant_group_id
+      - body
+      title: MessageParticipantGroup
+    Messages:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+      title: Messages
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
+    SendBulkMessage:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+          description: A list of participant ID's
+        body:
+          type: string
+          description: Message Body. Text is sanitised for safe storage and display.
+        study_id:
+          type: string
+          description: A study ID
+      required:
+      - ids
+      - body
+      - study_id
+      title: SendBulkMessage
+    MessageDataCategory:
+      type: string
+      enum:
+      - payment-timing
+      - payment-issues
+      - technical-issues
+      - feedback
+      - rejections
+      - other
+      description: Participants can self-categorise their message before sending it.
+      title: MessageDataCategory
+    ErrorDetailDetail2:
+      type: object
+      properties:
+        any_field:
+          type: array
+          items:
+            type: string
+          description: Name of the field with a validation error and as a value an array with the error descriptions
+      description: All fields with validation errors
+      title: ErrorDetailDetail2
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique ID of the message
+        sender_id:
+          type: string
+          description: Id of the user who sent the message
+        body:
+          type: string
+          description: Body of the message.
+        sent_at:
+          type: string
+          format: date-time
+          description: Date time when message was sent
+        type:
+          type: string
+          description: Will only me message for now
+        channel_id:
+          type: string
+          description: The channel ID, for linking back to a thread in the Prolific app.
+        data:
+          $ref: '#/components/schemas/MessageData'
+          description: Metadata for a message
+      required:
+      - id
+      - sender_id
+      - body
+      - sent_at
+      - channel_id
+      title: Message
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+        Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+        If your token is leaked, delete it and create a new one directly in the app.
+
+
+        In your requests add `Authorization` header with the value `Token <your token>`.'

@@ -1,0 +1,242 @@
+openapi: 3.1.0
+info:
+  title: API Reference aiTaskBuilder rewardRecommendations API
+  version: 1.0.0
+servers:
+- url: https://api.prolific.com
+  description: Production
+tags:
+- name: rewardRecommendations
+paths:
+  /api/v1/reward-recommendations/:
+    get:
+      operationId: calculate-reward-recommendations
+      summary: Calculate reward recommendations
+      description: Calculate the recommended participant reward rates for a data collection, optionally based upon a given set of filters
+      tags:
+      - rewardRecommendations
+      parameters:
+      - name: workspace_id
+        in: query
+        description: The ID of the workspace in which you'll be creating the study
+        required: true
+        schema:
+          type: string
+      - name: currency
+        in: query
+        description: An ISO 4217 currency code. Note that we only support a selection of currency codes as per the enum values.
+        required: true
+        schema:
+          $ref: '#/components/schemas/ApiV1RewardRecommendationsGetParametersCurrency'
+      - name: screener_ids
+        in: query
+        description: 'A URL-encoded, comma-delimited list of filter IDs (e.g. custom group filter IDs) that you plan to apply to your study.
+
+
+          There are various methods of converting an array of filter IDs to a URL-encoded, comma delimited array e.g:
+
+
+          JavaScript:
+
+
+          ```js
+
+          const screenerIDs = ["mandarin", "spanish"];
+
+          const encodedScreenerIDs = encodeURIComponent(screenerIDs.join(","));
+
+          const url = `https://api.prolific.com/api/v1/reward-recommendations?screener_ids=${encodedScreenerIDs}&workspace_id=<workspace ID>&currency=GBP`
+
+          ```
+
+
+          Python:
+
+
+          ```python
+
+          import urllib.parse
+
+
+          screener_ids = ["mandarin", "spanish"]
+
+          encoded_screener_ids = urllib.parse.quote(",".join(screener_ids))
+
+          url = f"https://api.prolific.com/api/v1/reward-recommendations?screener_ids={encoded_screener_ids}&workspace_id=<workspace ID>&currency=GBP"
+
+          ```'
+        required: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 'A list of reward recommendations. We suggest using the first recommendation in the list as this is guaranteed to be the most recent set of reward rates.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RewardRecommendationsResponse'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+components:
+  schemas:
+    RewardRecommendationsResponseItems:
+      type: object
+      properties:
+        currency:
+          $ref: '#/components/schemas/RewardRecommendationsResponseItemsCurrency'
+          description: An ISO 4217 currency code. Note that we only support a selection of currency codes as per the enum values.
+        min_reward_per_hour:
+          type: integer
+          description: 'The **minimum** hourly reward rate that we recommend you pay to your study''s participants.
+
+
+            **Note that** this is returned as the hundredth subunit of the given currency i.e:
+
+
+            * for USD, this will be the value in cents
+
+            * for GBP, this will be the value in pence
+
+
+            To display this as USD or GBP respectively, you''ll need to divide this value by 100 and use an appropriate number formatting API e.g:
+
+
+            JavaScript:
+
+
+            ```js
+
+            new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(2000/ 100); // "$20.00"
+
+            ```
+
+            '
+        recommended_reward_per_hour:
+          type: integer
+          description: 'The **good** hourly reward rate that we recommend you pay to your study''s participants.
+
+
+            **Note that** this is returned as the hundredth subunit of the given currency i.e:
+
+
+            * for USD, this will be the value in cents
+
+            * for GBP, this will be the value in pence
+
+
+            To display this as USD or GBP respectively, you''ll need to divide this value by 100 and use an appropriate number formatting API e.g:
+
+
+            JavaScript:
+
+
+            ```js
+
+            new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(2000/ 100); // "$20.00"
+
+            ```
+
+            '
+      title: RewardRecommendationsResponseItems
+    ErrorDetail:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: Status code as in the http standards
+        error_code:
+          type: integer
+          description: Internal error code
+        title:
+          type: string
+          description: Error title
+        detail:
+          $ref: '#/components/schemas/ErrorDetailDetail'
+          description: Error detail
+        additional_information:
+          type: string
+          description: Optional extra information
+        traceback:
+          type: string
+          description: Optional debug information
+        interactive:
+          type: boolean
+      required:
+      - status
+      - error_code
+      - title
+      - detail
+      title: ErrorDetail
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
+    RewardRecommendationsResponseItemsCurrency:
+      type: string
+      enum:
+      - USD
+      - GBP
+      description: An ISO 4217 currency code. Note that we only support a selection of currency codes as per the enum values.
+      title: RewardRecommendationsResponseItemsCurrency
+    ApiV1RewardRecommendationsGetParametersCurrency:
+      type: string
+      enum:
+      - USD
+      - GBP
+      title: ApiV1RewardRecommendationsGetParametersCurrency
+    RewardRecommendationsResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/RewardRecommendationsResponseItems'
+      title: RewardRecommendationsResponse
+    ErrorDetailDetail2:
+      type: object
+      properties:
+        any_field:
+          type: array
+          items:
+            type: string
+          description: Name of the field with a validation error and as a value an array with the error descriptions
+      description: All fields with validation errors
+      title: ErrorDetailDetail2
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+        Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+        If your token is leaked, delete it and create a new one directly in the app.
+
+
+        In your requests add `Authorization` header with the value `Token <your token>`.'

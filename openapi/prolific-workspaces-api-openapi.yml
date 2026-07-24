@@ -1,0 +1,543 @@
+openapi: 3.1.0
+info:
+  title: API Reference aiTaskBuilder workspaces API
+  version: 1.0.0
+servers:
+- url: https://api.prolific.com
+  description: Production
+tags:
+- name: workspaces
+paths:
+  /api/v1/workspaces/:
+    get:
+      operationId: get-workspaces
+      summary: Get all a user's workspaces
+      description: Gets a list of all workspaces that the user is a member of.
+      tags:
+      - workspaces
+      parameters:
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspacesListResponse'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: create-workspace
+      summary: Create a workspace
+      description: Creates a new workspace and adds the user as a Workspace Admin.
+      tags:
+      - workspaces
+      parameters:
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Created workspace
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workspace'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWorkspace'
+  /api/v1/workspaces/{workspace_id}/:
+    get:
+      operationId: get-workspace
+      summary: Get workspace
+      description: Gets a workspace's details
+      tags:
+      - workspaces
+      parameters:
+      - name: workspace_id
+        in: path
+        description: Workspace id
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workspace'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: update-workspace
+      summary: Update a workspace
+      description: Updates a workspace's details.
+      tags:
+      - workspaces
+      parameters:
+      - name: workspace_id
+        in: path
+        description: Workspace id
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Updated workspace redirect link
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workspace'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Workspace'
+  /api/v1/workspaces/{workspace_id}/balance/:
+    get:
+      operationId: get-workspace-balance
+      summary: Get the balance of a workspace
+      description: Provides details of the funds available in the workspace.
+      tags:
+      - workspaces
+      parameters:
+      - name: workspace_id
+        in: path
+        description: Workspace id
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+          Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+          If your token is leaked, delete it and create a new one directly in the app.
+
+
+          In your requests add `Authorization` header with the value `Token <your token>`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceBalance'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    WorkspaceBalanceAvailableBalanceBreakdown:
+      type: object
+      properties: {}
+      description: 'A breakdown of the available balance of the workspace into:
+
+        - Funds available to pay to participants
+
+        - Funds pre-paid to Prolific for our services
+
+        - Funds for any VAT applied to our Platform fees'
+      title: WorkspaceBalanceAvailableBalanceBreakdown
+    WorkspaceShort:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Workspace id. It is created by Prolific.
+        title:
+          type: string
+          description: Name of workspace
+        description:
+          type: string
+          description: What is this workspace used for
+        owner:
+          type: string
+          description: User id of the creator of the workspace. It is created by Prolific.
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceUser'
+          description: Data for all users who have access to this workspace
+        naivety_distribution_rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The rate at which the studies within this project are distributed.
+      required:
+      - id
+      - title
+      title: WorkspaceShort
+    WorkspaceUser:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id of user
+        name:
+          type: string
+          description: Name of user
+        email:
+          type: string
+          description: email of user
+        roles:
+          type: array
+          items:
+            type: string
+          description: User roles in workspace
+      required:
+      - id
+      title: WorkspaceUser
+    ErrorDetail:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: Status code as in the http standards
+        error_code:
+          type: integer
+          description: Internal error code
+        title:
+          type: string
+          description: Error title
+        detail:
+          $ref: '#/components/schemas/ErrorDetailDetail'
+          description: Error detail
+        additional_information:
+          type: string
+          description: Optional extra information
+        traceback:
+          type: string
+          description: Optional debug information
+        interactive:
+          type: boolean
+      required:
+      - status
+      - error_code
+      - title
+      - detail
+      title: ErrorDetail
+    WorkspaceBalanceBalanceBreakdown:
+      type: object
+      properties: {}
+      description: 'A breakdown of the total balance of the workspace into:
+
+        - Funds available to pay to participants
+
+        - Funds pre-paid to Prolific for our services
+
+        - Funds for any VAT applied to our Platform fees'
+      title: WorkspaceBalanceBalanceBreakdown
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
+    ProjectType:
+      type: string
+      enum:
+      - PRIVATE
+      - PUBLIC
+      description: Project visibility type.
+      title: ProjectType
+    CreateWorkspace:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Name of workspace
+        naivety_distribution_rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: 'Control the balance between speed of your studies and the naivety of the participants.
+
+
+            If not defined, by default Prolific calculates the best rate for most studies
+
+            taking into account the `filters` and the `total_available_places` needed for this study.
+
+
+            Use 0 if your priority is speed. When this property is set to 0 all eligible participants will have access
+
+            to your study at the same time, without any prioritization.
+
+
+            You can also set this at a project and study level.'
+        currency_code:
+          type: string
+          description: Currency used for all transactions within the workspace. Must be GBP or USD.
+      required:
+      - title
+      title: CreateWorkspace
+    WorkspacesListResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceShort'
+          description: List of all workspaces for user
+      required:
+      - results
+      title: WorkspacesListResponse
+    ProjectShort:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Project id. It is created by Prolific.
+        title:
+          type: string
+          description: Name of project
+        description:
+          type: string
+          description: What is this project used for
+        owner:
+          type: string
+          description: User id of the creator of the project. It is created by Prolific.
+        type:
+          $ref: '#/components/schemas/ProjectType'
+        public_details:
+          oneOf:
+          - $ref: '#/components/schemas/PublicDetails'
+          - type: 'null'
+          description: Public metadata for `PUBLIC` projects. `null` for `PRIVATE` projects.
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceUser'
+          description: Data for all users who have access to this project
+        naivety_distribution_rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The rate at which the studies within this project are distributed.
+      required:
+      - id
+      - title
+      - type
+      title: ProjectShort
+    PublicDetails:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/PublicProjectStatus'
+          description: Status of the public project metadata. Defaults to `ENABLED`.
+        title:
+          type: string
+          description: Participant-facing title for the public project.
+        short_description:
+          type: string
+          description: Short participant-facing summary shown to participants for the public project.
+        description:
+          type: string
+          description: Additional participant-facing information shown to participants for the public project.
+      title: PublicDetails
+    Error:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
+      required:
+      - error
+      title: Error
+    Workspace:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Workspace id. It is created by Prolific.
+        title:
+          type: string
+          description: Name of workspace
+        description:
+          type: string
+          description: What is this workspace used for
+        owner:
+          type: string
+          description: Workspace id. It is created by Prolific.
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceUser'
+          description: Data for a user related to a workspace
+        projects:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectShort'
+          description: Data for a project related to a workspace
+        wallet:
+          type: string
+          description: Wallet tied to workspace
+        naivety_distribution_rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The rate at which the studies within this workspace are distributed.
+      required:
+      - id
+      - title
+      title: Workspace
+    PublicProjectStatus:
+      type: string
+      enum:
+      - ENABLED
+      - DISABLED
+      description: Participant-facing publication status for a public project.
+      title: PublicProjectStatus
+    WorkspaceBalance:
+      type: object
+      properties:
+        currency_code:
+          type: string
+          description: The currency used for all financial transactions within the workspace.
+        total_balance:
+          type: integer
+          description: 'The total balance of the workspace, including funds which have already been assigned to active studies.
+
+
+            All monetary values are shown in the sub-currency of your workspace currency (e.g. pence, cents).'
+        balance_breakdown:
+          $ref: '#/components/schemas/WorkspaceBalanceBalanceBreakdown'
+          description: 'A breakdown of the total balance of the workspace into:
+
+            - Funds available to pay to participants
+
+            - Funds pre-paid to Prolific for our services
+
+            - Funds for any VAT applied to our Platform fees'
+        available_balance:
+          type: integer
+          description: The remaining balance of your workspace which is available to spend, after removing funds assigned to already active studies, etc.
+        available_balance_breakdown:
+          $ref: '#/components/schemas/WorkspaceBalanceAvailableBalanceBreakdown'
+          description: 'A breakdown of the available balance of the workspace into:
+
+            - Funds available to pay to participants
+
+            - Funds pre-paid to Prolific for our services
+
+            - Funds for any VAT applied to our Platform fees'
+      title: WorkspaceBalance
+    ErrorDetailDetail2:
+      type: object
+      properties:
+        any_field:
+          type: array
+          items:
+            type: string
+          description: Name of the field with a validation error and as a value an array with the error descriptions
+      description: All fields with validation errors
+      title: ErrorDetailDetail2
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+
+        Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+
+        If your token is leaked, delete it and create a new one directly in the app.
+
+
+        In your requests add `Authorization` header with the value `Token <your token>`.'
