@@ -1,0 +1,76 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/prolific-openapi-original.yml
+summary: >-
+  Entity graph derived from OpenAPI path nesting and id-reference fields. Workspaces are the top
+  organizational container; studies recruit participants via filters/filter-sets and produce
+  submissions; bonuses, messages, surveys and webhooks hang off these core entities.
+entities:
+- name: Workspace
+  id_field: id
+  operations: [get-workspaces, create-workspace, get-workspace, update-workspace, get-workspace-balance]
+  relationships:
+  - {type: has_many, target: Project, via: workspace_id}
+  - {type: has_many, target: ParticipantGroup, via: workspace_id}
+  - {type: has_many, target: CredentialPool, via: workspace_id}
+- name: Project
+  id_field: id
+  operations: [get-projects, create-project, get-project, update-project, get-project-studies]
+  relationships:
+  - {type: belongs_to, target: Workspace, via: workspace_id}
+  - {type: has_many, target: Study, via: project_id}
+- name: Study
+  id_field: id
+  operations: [get-studies, create-study, get-study, update-study, delete-study, publish-study, duplicate-study, get-study-cost, create-test-study]
+  relationships:
+  - {type: belongs_to, target: Project, via: project_id}
+  - {type: has_many, target: Submission, via: study}
+  - {type: has_one, target: FilterSet, via: filter_set_id}
+  - {type: has_many, target: Filter, via: filters}
+- name: Submission
+  id_field: id
+  operations: [get-submissions, get-submission, transition-submission, request-submission-return, bulk-approve-submissions]
+  relationships:
+  - {type: belongs_to, target: Study, via: study}
+  - {type: has_many, target: BonusPayment, via: submission}
+- name: Filter
+  operations: [get-filters, get-filter-distribution, get-eligible-count]
+- name: FilterSet
+  id_field: id
+  operations: [get-filter-sets, create-filter-set, get-filter-set, update-filter-set, clone-filter-set, lock-filter-set, unlock-filter-set]
+  relationships:
+  - {type: has_many, target: Filter, via: filters}
+- name: ParticipantGroup
+  id_field: id
+  operations: [get-participant-groups, create-participant-group, get-participant-group, update-participant-group, get-participant-group-participants, add-to-participant-group, remove-from-participant-group]
+  relationships:
+  - {type: belongs_to, target: Workspace, via: workspace_id}
+- name: BonusPayment
+  operations: [create-bonus-payments, pay-bonus-payments]
+  relationships:
+  - {type: belongs_to, target: Submission, via: submission}
+- name: Message
+  operations: [get-messages, send-message, bulk-message-participants, send-message-to-participant-group, get-unread-messages]
+- name: Survey
+  id_field: survey_id
+  operations: [get-surveys, create-survey, get-survey, delete-survey]
+  relationships:
+  - {type: has_many, target: SurveyResponse, via: survey_id}
+- name: SurveyResponse
+  id_field: response_id
+  operations: [get-responses, create-response, get-response, delete-response, get-summary]
+  relationships:
+  - {type: belongs_to, target: Survey, via: survey_id}
+- name: WebhookSubscription
+  id_field: subscription_id
+  operations: [get-subscriptions, create-subscription, get-subscription, confirm-subscription, update-subscription, delete-subscription, get-events]
+  relationships:
+  - {type: has_one, target: WebhookSecret, via: secret}
+- name: TaskBuilderBatch
+  id_field: batch_id
+  operations: [get-task-builder-batches, create-task-builder-batch, get-task-builder-batch, sync-task-builder-batch, setup-task-builder-batch, request-batch-export]
+  relationships:
+  - {type: has_one, target: TaskBuilderDataset, via: dataset_id}
+- name: TaskBuilderDataset
+  id_field: dataset_id
+  operations: [create-task-builder-dataset, get-task-builder-dataset, update-task-builder-dataset, append-dataset-datapoints]

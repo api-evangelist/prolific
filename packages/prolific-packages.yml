@@ -1,0 +1,25 @@
+generated: '2026-07-20'
+method: searched
+source: https://github.com/orgs/prolific-oss/repositories
+packages:
+- language: go
+  registry: pkg.go.dev
+  name: github.com/prolific-oss/cli
+  url: https://pkg.go.dev/github.com/prolific-oss/cli
+  install: go install github.com/prolific-oss/cli/cmd/prolific@latest
+  official: true
+  description: First-party Prolific CLI for managing and automating platform workflows.
+  repo: https://github.com/prolific-oss/cli
+- language: python
+  registry: pypi
+  name: prolific-mcp
+  url: https://github.com/prolific-oss/prolific-mcp
+  install: uvx prolific-mcp
+  official: true
+  description: Official Prolific Model Context Protocol server bridging LLM agents to the Prolific public API (FastMCP). Distributed via PyPI and per-platform .mcpb bundles.
+  repo: https://github.com/prolific-oss/prolific-mcp
+notes: >-
+  Prolific publishes no general-purpose server SDK (Python/JS) as a client library; the two
+  first-party installables are the Go CLI and the Python MCP server. Numerous getting-started
+  example repos (surveys, external study links, AI Task Builder, secure links, HITL post-training)
+  exist under prolific-oss but are samples, not distributable client libraries.

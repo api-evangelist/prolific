@@ -1,0 +1,24 @@
+generated: '2026-07-20'
+method: searched
+source: live probes of /.well-known/* on api.prolific.com + www.prolific.com
+hosts:
+- host: https://api.prolific.com
+  documents:
+  - path: /.well-known/study/jwks.json      # JSON Web Key Set for study taskflow (signed access details)
+    status: 200
+    file: prolific-study-jwks.json
+    source_operation: openapi/prolific-openapi-original.yml#get-study-jwks
+  - path: /.well-known/security.txt          # RFC 9116
+    status: 404
+  - path: /.well-known/openid-configuration  # OIDC discovery
+    status: 404
+  - path: /.well-known/oauth-authorization-server  # RFC 8414
+    status: 404
+  - path: /.well-known/api-catalog           # RFC 9727
+    status: 404
+- host: https://www.prolific.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404

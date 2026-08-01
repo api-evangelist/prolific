@@ -1,0 +1,51 @@
+generated: '2026-07-20'
+method: searched
+status: published
+source: https://github.com/prolific-oss/prolific-mcp
+servers:
+- name: prolific
+  description: >-
+    Official Prolific MCP server bridging LLM agents to the Prolific public API. Built with
+    FastMCP; listed on the official MCP Registry. Defaults to stdio (launched by an MCP client);
+    supports streamable HTTP for local dev. Ships per-platform .mcpb bundles for Claude Desktop.
+  transport: stdio            # also: http (streamable) via --http on http://127.0.0.1:8765/mcp
+  package: prolific-mcp        # PyPI, run with: uvx prolific-mcp
+  repo: https://github.com/prolific-oss/prolific-mcp
+  registry: https://registry.modelcontextprotocol.io/v0/servers?search=prolific
+  env:
+    PROLIFIC_TOKEN: required   # sent as Authorization: Token <token>
+    PROLIFIC_URL: https://api.prolific.com
+  warning: >-
+    publish_study spends real money — a published study charges you as participants start it.
+    There is no sandbox mode for that endpoint; treat any LLM-driven invocation as a real spend.
+  tools:
+  - name: get_filters
+    source_operation: openapi/prolific-openapi-original.yml#get-filters
+  - name: get_filter_sets
+    source_operation: openapi/prolific-openapi-original.yml#get-filter-sets
+  - name: create_filter_set
+    source_operation: openapi/prolific-openapi-original.yml#create-filter-set
+  - name: get_eligibility_count
+    source_operation: openapi/prolific-openapi-original.yml#get-eligible-count
+  - name: list_workspaces
+    source_operation: openapi/prolific-openapi-original.yml#get-workspaces
+  - name: list_projects
+    source_operation: openapi/prolific-openapi-original.yml#get-projects
+  - name: list_studies
+    source_operation: openapi/prolific-openapi-original.yml#get-studies
+  - name: view_study
+    source_operation: openapi/prolific-openapi-original.yml#get-study
+  - name: create_study
+    source_operation: openapi/prolific-openapi-original.yml#create-study
+  - name: publish_study
+    source_operation: openapi/prolific-openapi-original.yml#publish-study
+- name: prolific-docs
+  description: >-
+    Hosted documentation-search MCP server (fern-docs-mcp-server) over docs.prolific.com.
+    Exposes a single read-only searchDocs tool for AI clients.
+  transport: http            # streamable-http
+  url: https://docs.prolific.com/_mcp/server
+  install: claude mcp add --transport http fern_mcp_docs-prolific-com https://docs.prolific.com/_mcp/server
+  tools:
+  - name: searchDocs
+    description: Search docs.prolific.com; returns doc passages with source URLs (read-only).

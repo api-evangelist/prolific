@@ -1,0 +1,23 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/prolific-openapi-original.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: token
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: |-
+    The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.
+
+    Your API token does not have an expiry date and carries full permission, so be sure to keep them secure.
+
+    If your token is leaked, delete it and create a new one directly in the app.
+
+    In your requests add `Authorization` header with the value `Token <your token>`.
+  sources:
+  - openapi/prolific-openapi-original.yml

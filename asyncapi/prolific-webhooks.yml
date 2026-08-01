@@ -1,0 +1,40 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.prolific.com/api-reference/webhooks.md
+spec_type: Webhooks
+summary: >-
+  Prolific offers an outbound webhook system: researchers create subscriptions to event types and
+  receive HTTP POST callbacks. No AsyncAPI document is published; this captures the webhook surface.
+subscription:
+  model: >-
+    Create a secret, then create a subscription to one or more event types with a callback URL.
+    Subscriptions are confirmed via a challenge before events flow.
+  operations:
+    list_event_types: openapi/prolific-openapi-original.yml#get-event-types      # GET /api/v1/hooks/event-types/
+    create_secret: openapi/prolific-openapi-original.yml#create-secret            # POST /api/v1/hooks/secrets/
+    create_subscription: openapi/prolific-openapi-original.yml#create-subscription # POST /api/v1/hooks/subscriptions/
+    confirm_subscription: openapi/prolific-openapi-original.yml#confirm-subscription
+    get_events: openapi/prolific-openapi-original.yml#get-events                  # GET /api/v1/hooks/subscriptions/{id}/events/
+event_types:
+  discovery: GET /api/v1/hooks/event-types/ returns the up-to-date list (runtime source of truth)
+  naming: noun.verb pattern
+  documented_examples:
+  - study.status.change   # fires when a study transitions status (e.g. published, completed)
+  note: >-
+    The full event-type list is served at runtime and not enumerated in docs; submission- and
+    study-scoped events are the primary surface. Not fabricating the full list here.
+delivery:
+  transport: HTTPS POST to subscriber callback URL
+  guarantee: at-least-once (retries on failure)
+  ordering: X-Timestamp / X-Prolific-Request-Timestamp header conveys event time for ordering
+  idempotency: X-Event-ID header — dedupe on it to handle retries idempotently
+  retry: exponential retry; persistent failures disable the subscription
+  docs:
+  - https://docs.prolific.com/api-reference/webhooks/event-delivery-and-retry-logic
+  - https://docs.prolific.com/api-reference/webhooks/persistent-failures-and-disabling-logic
+security:
+  verification: HMAC-SHA256 over (X-Prolific-Request-Timestamp + raw body), base64-encoded
+  signature_header: X-Prolific-Request-Signature
+  timestamp_header: X-Prolific-Request-Timestamp
+  comparison: constant-time
+  docs: https://docs.prolific.com/api-reference/webhooks/verifying

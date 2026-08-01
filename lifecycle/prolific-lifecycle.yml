@@ -1,0 +1,23 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.prolific.com/api-reference/introduction/versioning-and-stability.md
+versioning:
+  scheme: uri-path
+  current: v1
+  base_path: /api/v1/
+  docs: https://docs.prolific.com/api-reference/introduction/versioning-and-stability
+  policy: >-
+    Prolific strongly aims for backward compatibility on documented endpoints. Backward-incompatible
+    changes would be released under a new API version.
+deprecation:
+  policy_documented: false
+  sunset_header: false
+  notes: No RFC 8594 Sunset/Deprecation header support or dated deprecation policy is published.
+sla:
+  url: https://status.prolific.com
+  notes: API shares availability with the Prolific web application; no separate uptime SLA number published.
+status_page: https://status.prolific.com
+changelog:
+  documented: false
+  notes: No dedicated dated API changelog located as of this pass.
+deprecated_operations: []

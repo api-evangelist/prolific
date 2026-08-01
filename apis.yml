@@ -1,7 +1,15 @@
 aid: prolific
 name: Prolific
-description: 'Prolific is a company surfaced as a portfolio company of partech and added to the API Evangelist
-  network as a stub for enrichment. Sector: AI/ML. This profile is a lead awaiting the enrichment pipeline.'
+description: >-
+  Prolific is a platform for high-quality human data collection, connecting researchers and
+  AI/ML teams with a vetted pool of verified participants for online studies, surveys, and
+  human-feedback tasks (preference tuning, safety evals, benchmarks, RLHF). Its public REST API
+  (api.prolific.com, OpenAPI 3.1) automates the full workflow: create and cost studies, target
+  participants with demographic filters and filter sets, launch and monitor recruitment, review
+  and approve submissions, pay rewards and bonuses, message participants, run AI Task Builder
+  batches, and receive HMAC-signed webhooks. Prolific also ships a Go CLI and an official
+  Model Context Protocol server for agent-driven study workflows. Trusted by Google, Hugging Face,
+  and academic and government researchers.
 url: https://raw.githubusercontent.com/api-evangelist/prolific/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -9,18 +17,397 @@ x-backed-by:
 - partech
 x-tier: stub
 x-tier-reason: portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://www.prolific.com/favicon.ico
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-20'
 tags:
 - Company
 - Ai/Ml
-apis: []
+- Human Data
+- Research
+- Participant Recruitment
+- Surveys
+- Human Feedback
+- RLHF
+- Data Collection
+- API
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- aid: prolific:prolific-aitaskbuilder-api
+  name: Prolific aiTaskBuilder API
+  description: The aiTaskBuilder API from Prolific — 24 operation(s) for aitaskbuilder.
+  humanURL: https://docs.prolific.com/documentation/get-started/overview
+  baseURL: https://api.prolific.com
+  tags:
+  - aiTaskBuilder
+  properties:
+  - type: OpenAPI
+    url: openapi/prolific-aitaskbuilder-api-openapi.yml
+  - type: Authentication
+    url: authentication/prolific-authentication.yml
+  - type: ErrorCatalog
+    url: errors/prolific-problem-types.yml
+  - type: DataModel
+    url: data-model/prolific-data-model.yml
+- aid: prolific:prolific-bonuses-api
+  name: Prolific bonuses API
+  description: The bonuses API from Prolific — 2 operation(s) for bonuses.
+  humanURL: https://docs.prolific.com/documentation/get-started/overview
+  baseURL: https://api.prolific.com
+  tags:
+  - bonuses
+  properties:
+  - type: OpenAPI
+    url: openapi/prolific-bonuses-api-openapi.yml
+  - type: Authentication
+    url: authentication/prolific-authentication.yml
+  - type: ErrorCatalog
+    url: errors/prolific-problem-types.yml
+  - type: DataModel
+    url: data-model/prolific-data-model.yml
+- aid: prolific:prolific-credentials-api
+  name: Prolific credentials API
+  description: The credentials API from Prolific — 2 operation(s) for credentials.
+  humanURL: https://docs.prolific.com/documentation/get-started/overview
+  baseURL: https://api.prolific.com
+  tags:
+  - credentials
+  properties:
+  - type: OpenAPI
+    url: openapi/prolific-credentials-api-openapi.yml
+  - type: Authentication
+    url: authentication/prolific-authentication.yml
+  - type: ErrorCatalog
+    url: errors/prolific-problem-types.yml
+  - type: DataModel
+    url: data-model/prolific-data-model.yml
+- aid: prolific:prolific-filters-api
+  name: Prolific filters API
+  description: The filters API from Prolific — 3 operation(s) for filters.
+  humanURL: https://docs.prolific.com/documentation/get-started/overview
+  baseURL: https://api.prolific.com
+  tags:
+  - filters
+  properties:
+  - type: OpenAPI
+    url: openapi/prolific-filters-api-openapi.yml
+  - type: Authentication
+    url: authentication/prolific-authentication.yml
+  - type: ErrorCatalog
+    url: errors/prolific-problem-types.yml
+  - type: DataModel
+    url: data-model/prolific-data-model.yml
+- aid: prolific:prolific-filtersets-api
+  name: Prolific filterSets API
+  description: The filterSets API from Prolific — 5 operation(s) for filtersets.
+  humanURL: https://docs.prolific.com/documentation/get-started/overview
+  baseURL: https://api.prolific.com
+  tags:
+  - filterSets
+  properties:
+  - type: OpenAPI
+    url: openapi/prolific-filtersets-api-openapi.yml
+  - type: Authentication
+    url: authentication/prolific-authentication.yml
+  - type: ErrorCatalog
+    url: errors/prolific-problem-types.yml
+  - type: DataModel
+    url: data-model/prolific-data-model.yml
+- aid: prolific:prolific-invitations-api
+  name: Prolific invitations API
+  description: The invitations API from Prolific — 1 operation(s) for invitations.
+  humanURL: https://docs.prolific.com/documentation/get-started/overview
+  baseURL: https://api.prolific.com
+  tags:
+  - invitations
+  properties:
+  - type: OpenAPI
+    url: openapi/prolific-invitations-api-openapi.yml
+  - type: Authentication
+    url: authentication/prolific-authentication.yml
+  - type: ErrorCatalog
+    url: errors/prolific-problem-types.yml
+  - type: DataModel
+    url: data-model/prolific-data-model.yml
+- aid: prolific:prolific-messages-api
+  name: Prolific messages API
+  description: The messages API from Prolific — 4 operation(s) for messages.
+  humanURL: https://docs.prolific.com/documentation/get-started/overview
+  baseURL: https://api.prolific.com
+  tags:
+  - messages
+  properties:
+  - type: OpenAPI
+    url: openapi/prolific-messages-api-openapi.yml
+  - type: Authentication
+    url: authentication/prolific-authentication.yml
+  - type: ErrorCatalog
+    url: errors/prolific-problem-types.yml
+  - type: DataModel
+    url: data-model/prolific-data-model.yml
+- aid: prolific:prolific-participantgroups-api
+  name: Prolific participantGroups API
+  description: The participantGroups API from Prolific — 3 operation(s) for participantgroups.
+  humanURL: https://docs.prolific.com/documentation/get-started/overview
+  baseURL: https://api.prolific.com
+  tags:
+  - participantGroups
+  properties:
+  - type: OpenAPI
+    url: openapi/prolific-participantgroups-api-openapi.yml
+  - type: Authentication
+    url: authentication/prolific-authentication.yml
+  - type: ErrorCatalog
+    url: errors/prolific-problem-types.yml
+  - type: DataModel
+    url: data-model/prolific-data-model.yml
+- aid: prolific:prolific-projects-api
+  name: Prolific projects API
+  description: The projects API from Prolific — 2 operation(s) for projects.
+  humanURL: https://docs.prolific.com/documentation/get-started/overview
+  baseURL: https://api.prolific.com
+  tags:
+  - projects
+  properties:
+  - type: OpenAPI
+    url: openapi/prolific-projects-api-openapi.yml
+  - type: Authentication
+    url: authentication/prolific-authentication.yml
+  - type: ErrorCatalog
+    url: errors/prolific-problem-types.yml
+  - type: DataModel
+    url: data-model/prolific-data-model.yml
+- aid: prolific:prolific-rewardrecommendations-api
+  name: Prolific rewardRecommendations API
+  description: The rewardRecommendations API from Prolific — 1 operation(s) for rewardrecommendations.
+  humanURL: https://docs.prolific.com/documentation/get-started/overview
+  baseURL: https://api.prolific.com
+  tags:
+  - rewardRecommendations
+  properties:
+  - type: OpenAPI
+    url: openapi/prolific-rewardrecommendations-api-openapi.yml
+  - type: Authentication
+    url: authentication/prolific-authentication.yml
+  - type: ErrorCatalog
+    url: errors/prolific-problem-types.yml
+  - type: DataModel
+    url: data-model/prolific-data-model.yml
+- aid: prolific:prolific-studies-api
+  name: Prolific studies API
+  description: The studies API from Prolific — 18 operation(s) for studies.
+  humanURL: https://docs.prolific.com/documentation/get-started/overview
+  baseURL: https://api.prolific.com
+  tags:
+  - studies
+  properties:
+  - type: OpenAPI
+    url: openapi/prolific-studies-api-openapi.yml
+  - type: Authentication
+    url: authentication/prolific-authentication.yml
+  - type: ErrorCatalog
+    url: errors/prolific-problem-types.yml
+  - type: DataModel
+    url: data-model/prolific-data-model.yml
+- aid: prolific:prolific-submissionfeedbackupload-api
+  name: Prolific submissionFeedbackUpload API
+  description: >-
+    The submissionFeedbackUpload API from Prolific — 1 operation(s) for submissionfeedbackupload.
+  humanURL: https://docs.prolific.com/documentation/get-started/overview
+  baseURL: https://api.prolific.com
+  tags:
+  - submissionFeedbackUpload
+  properties:
+  - type: OpenAPI
+    url: openapi/prolific-submissionfeedbackupload-api-openapi.yml
+  - type: Authentication
+    url: authentication/prolific-authentication.yml
+  - type: ErrorCatalog
+    url: errors/prolific-problem-types.yml
+  - type: DataModel
+    url: data-model/prolific-data-model.yml
+- aid: prolific:prolific-submissions-api
+  name: Prolific submissions API
+  description: The submissions API from Prolific — 5 operation(s) for submissions.
+  humanURL: https://docs.prolific.com/documentation/get-started/overview
+  baseURL: https://api.prolific.com
+  tags:
+  - submissions
+  properties:
+  - type: OpenAPI
+    url: openapi/prolific-submissions-api-openapi.yml
+  - type: Authentication
+    url: authentication/prolific-authentication.yml
+  - type: ErrorCatalog
+    url: errors/prolific-problem-types.yml
+  - type: DataModel
+    url: data-model/prolific-data-model.yml
+- aid: prolific:prolific-surveys-api
+  name: Prolific surveys API
+  description: The surveys API from Prolific — 5 operation(s) for surveys.
+  humanURL: https://docs.prolific.com/documentation/get-started/overview
+  baseURL: https://api.prolific.com
+  tags:
+  - surveys
+  properties:
+  - type: OpenAPI
+    url: openapi/prolific-surveys-api-openapi.yml
+  - type: Authentication
+    url: authentication/prolific-authentication.yml
+  - type: ErrorCatalog
+    url: errors/prolific-problem-types.yml
+  - type: DataModel
+    url: data-model/prolific-data-model.yml
+- aid: prolific:prolific-users-api
+  name: Prolific users API
+  description: The users API from Prolific — 2 operation(s) for users.
+  humanURL: https://docs.prolific.com/documentation/get-started/overview
+  baseURL: https://api.prolific.com
+  tags:
+  - users
+  properties:
+  - type: OpenAPI
+    url: openapi/prolific-users-api-openapi.yml
+  - type: Authentication
+    url: authentication/prolific-authentication.yml
+  - type: ErrorCatalog
+    url: errors/prolific-problem-types.yml
+  - type: DataModel
+    url: data-model/prolific-data-model.yml
+- aid: prolific:prolific-webhooks-api
+  name: Prolific webhooks API
+  description: The webhooks API from Prolific — 5 operation(s) for webhooks.
+  humanURL: https://docs.prolific.com/documentation/get-started/overview
+  baseURL: https://api.prolific.com
+  tags:
+  - webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/prolific-webhooks-api-openapi.yml
+  - type: Authentication
+    url: authentication/prolific-authentication.yml
+  - type: ErrorCatalog
+    url: errors/prolific-problem-types.yml
+  - type: DataModel
+    url: data-model/prolific-data-model.yml
+- aid: prolific:prolific-wellknownendpoints-api
+  name: Prolific wellKnownEndpoints API
+  description: The wellKnownEndpoints API from Prolific — 1 operation(s) for wellknownendpoints.
+  humanURL: https://docs.prolific.com/documentation/get-started/overview
+  baseURL: https://api.prolific.com
+  tags:
+  - wellKnownEndpoints
+  properties:
+  - type: OpenAPI
+    url: openapi/prolific-wellknownendpoints-api-openapi.yml
+  - type: Authentication
+    url: authentication/prolific-authentication.yml
+  - type: ErrorCatalog
+    url: errors/prolific-problem-types.yml
+  - type: DataModel
+    url: data-model/prolific-data-model.yml
+- aid: prolific:prolific-workspaces-api
+  name: Prolific workspaces API
+  description: The workspaces API from Prolific — 3 operation(s) for workspaces.
+  humanURL: https://docs.prolific.com/documentation/get-started/overview
+  baseURL: https://api.prolific.com
+  tags:
+  - workspaces
+  properties:
+  - type: OpenAPI
+    url: openapi/prolific-workspaces-api-openapi.yml
+  - type: Authentication
+    url: authentication/prolific-authentication.yml
+  - type: ErrorCatalog
+    url: errors/prolific-problem-types.yml
+  - type: DataModel
+    url: data-model/prolific-data-model.yml
 common:
+# --- identity / links ---
 - type: Website
-  url: https://www.prolific.co/
+  url: https://www.prolific.com/
+- type: DeveloperPortal
+  url: https://docs.prolific.com/documentation/get-started/overview
+- type: Documentation
+  url: https://docs.prolific.com/
+- type: APIReference
+  url: https://docs.prolific.com/api-reference.md
+- type: GettingStarted
+  url: https://docs.prolific.com/documentation/get-started/your-first-data-collection
+- type: Support
+  url: https://researcher-help.prolific.com/en
+- type: Blog
+  url: https://www.prolific.com/blog
+- type: GitHubOrganization
+  url: https://github.com/prolific-oss
+- type: Pricing
+  url: https://www.prolific.com/pricing
+- type: SignUp
+  url: https://app.prolific.com/register
+- type: PrivacyPolicy
+  url: https://www.prolific.com/privacy-and-legal
+- type: Security
+  url: https://www.prolific.com/prolific-security-overview
+- type: StatusPage
+  url: https://status.prolific.com
+# --- artifacts (canonical scored pointers) ---
+- type: OpenAPI
+  url: openapi/prolific-openapi-original.yml
+- type: Authentication
+  url: authentication/prolific-authentication.yml
+- type: LLMsTxt
+  url: llms/prolific-llms.txt
+- type: Packages
+  url: packages/prolific-packages.yml
+- type: SDKs
+  url: packages/prolific-packages.yml
+- type: CLI
+  url: cli/prolific-cli.yml
+- type: MCPServer
+  url: mcp/prolific-mcp.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: WellKnown
+  url: well-known/prolific-well-known.yml
+- type: Webhooks
+  url: asyncapi/prolific-webhooks.yml
+- type: Conventions
+  url: conventions/prolific-conventions.yml
+- type: Idempotency
+  url: conventions/prolific-conventions.yml
+- type: ErrorCatalog
+  url: errors/prolific-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/prolific-lifecycle.yml
+- type: Conformance
+  url: conformance/prolific-conformance.yml
+- type: DataModel
+  url: data-model/prolific-data-model.yml
+- type: Sandbox
+  url: sandbox/prolific-sandbox.yml
+- type: DomainSecurity
+  url: security/prolific-domain-security.yml
+- type: Overlay
+  url: overlays/prolific-openapi-overlay.yaml
+x-enrichment:
+  date: '2026-07-20'
+  status: enriched
+  artifacts_added: 16
+  pass: local-v1

@@ -1,0 +1,29 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.prolific.com/documentation/tooling/prolific-cli.md
+name: prolific
+repo: https://github.com/prolific-oss/cli
+license: Apache-2.0
+language: go
+install:
+- method: go-install
+  command: go install github.com/prolific-oss/cli/cmd/prolific@latest
+  note: Recommended. Requires Go 1.26+ when building from source.
+- method: source
+  command: git clone https://github.com/prolific-oss/cli && make all
+- method: binary
+  url: https://github.com/prolific-oss/cli/releases
+  note: Pre-built platform binaries from the releases page.
+command_surface:
+  study_management: [study, studies, submission]
+  configuration: [credentials, filter-sets, participant, hook]
+  communication: [message]
+  organization: [workspace, project, campaign]
+  utilities: [requirements, whoami, completion, help]
+key_flows:
+- Create and publish research studies
+- Manage participant groups and eligibility filters
+- Handle submissions and survey responses
+- Configure webhook (hook) subscriptions
+- Cross-workspace project administration
+modes: [interactive, scripted]

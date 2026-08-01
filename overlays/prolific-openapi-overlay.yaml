@@ -1,0 +1,19 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Prolific API
+  version: 1.0.0
+extends: openapi/prolific-openapi-original.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: '2026-07-20'
+    x-api-base-url: https://api.prolific.com
+    x-authentication: 'apiKey header (Authorization: Token <token>)'
+    x-webhooks: 'HMAC-SHA256 signed, X-Event-ID idempotency, event-types via /api/v1/hooks/event-types/'
+    x-mcp-server: https://github.com/prolific-oss/prolific-mcp
+    x-cli: https://github.com/prolific-oss/cli
+    x-status-page: https://status.prolific.com
+- target: $.servers
+  update:
+  - url: https://api.prolific.com
+    description: Production (only environment; no separate sandbox host)

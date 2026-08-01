@@ -1,0 +1,22 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.prolific.com/api-reference/testing.md + https://docs.prolific.com/documentation/core-concepts/testing-study-set-up.md
+summary: >-
+  Prolific has no test-vs-live key separation and no synthetic test-payment values — a single
+  production API token and base URL are used everywhere. Testing is done with dedicated test
+  studies and test participants that do not recruit or charge for real participant work.
+test_mode:
+  key_separation: none      # one token, no test/live prefix
+  base_url: https://api.prolific.com   # same host for testing
+mechanisms:
+- name: test study
+  operation: openapi/prolific-openapi-original.yml#create-test-study      # POST /api/v1/studies/{id}/test-study
+  description: Create a test copy of a study to preview and validate the participant experience without live recruitment.
+- name: test participant for researcher
+  operation: openapi/prolific-openapi-original.yml#create-test-participant-for-researcher  # POST /api/v1/researchers/participants/
+  description: Create a test participant so a researcher can run through their own study end-to-end.
+caution: >-
+  Publishing a real (non-test) study spends real money — participants can start immediately and
+  you are charged. The official MCP server flags publish_study as a real-spend action. Never treat
+  the production endpoints as a sandbox.
+test_values: none   # provider publishes no magic test cards/tokens/identifiers

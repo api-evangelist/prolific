@@ -1,0 +1,33 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/prolific-openapi-original.yml + docs.prolific.com
+standards:
+- id: openapi-3.1
+  conforms: true
+  evidence: Provider publishes an OpenAPI 3.1.0 document at docs.prolific.com/openapi.yaml.
+- id: oauth2
+  conforms: false
+  evidence: Authentication is a static API token (apiKey header), not OAuth2.
+- id: openid-connect
+  conforms: false
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Errors use a custom application/json envelope, not application/problem+json.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No Sunset/Deprecation header support documented.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404.
+- id: jwks-rfc7517
+  conforms: true
+  evidence: Publishes a JWKS at /.well-known/study/jwks.json for verifying signed study taskflow tokens.
+- id: webhooks-hmac-signing
+  conforms: true
+  evidence: Outbound webhooks are HMAC-SHA256 signed with timestamped, constant-time verification.
+- id: pagination
+  conforms: true
+  evidence: page/page_size + ordering query params on list endpoints.
+- id: idempotency
+  conforms: true
+  evidence: Webhook delivery is idempotent via the X-Event-ID header.

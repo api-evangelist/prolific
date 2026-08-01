@@ -1,0 +1,14 @@
+{
+  "repo": "prolific",
+  "feeds": [
+    {
+      "source": "https://researcher-help.prolific.com/en",
+      "feed_url": "https://researcher-help.prolific.com/en",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-07-25T15:00:33Z"
+}

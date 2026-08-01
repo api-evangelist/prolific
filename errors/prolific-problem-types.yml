@@ -1,0 +1,38 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/prolific-openapi-original.yml
+format: custom-json
+media_type: application/json
+envelope:
+  schema: Error
+  shape: '{ "error": { "status": int, "error_code": int, "title": string, "detail": object|string, "additional_information": string } }'
+  notes: >-
+    Prolific returns a wrapped error object (not RFC 9457 application/problem+json). `status`
+    mirrors the HTTP status, `error_code` is an internal numeric code, `title` is a short label,
+    `detail` carries field-level validation detail, `additional_information` is free text.
+problems:
+- status: 400
+  title: Bad Request
+  meaning: Malformed request, invalid field values, or a study/batch validation failure.
+- status: 403
+  title: Forbidden
+  meaning: Token valid but lacks permission for the workspace/resource, or action not allowed in current state.
+- status: 404
+  title: Not Found
+  meaning: Referenced study, submission, workspace, project, or other resource does not exist.
+- status: 409
+  title: Conflict
+  meaning: State conflict — e.g. transitioning a study/submission that is not in a compatible state, or a locked filter set.
+- status: 422
+  title: Unprocessable Entity
+  meaning: Semantically invalid payload — validation passed shape checks but failed business rules.
+- status: 502
+  title: Bad Gateway
+  meaning: Upstream/gateway error; retry with backoff.
+specialized_error_schemas:
+- BatchItemsValidationError    # AI Task Builder batch item validation issues[]
+- UpdateTaskBuilderBatchRequestBadRequestError
+- SyncTaskBuilderBatchRequestBadRequestError
+- ImportJobError
+- DatasetAppendError
+- SchemaMigrationError

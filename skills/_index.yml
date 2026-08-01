@@ -1,0 +1,21 @@
+generated: '2026-07-20'
+method: generated
+source: openapi/prolific-openapi-original.yml + conventions/prolific-conventions.yml
+api: openapi/prolific-openapi-original.yml
+skills:
+- file: prolific-launch-study.md
+  name: Create, cost, and launch a Prolific study
+  api: openapi/prolific-openapi-original.yml
+  operations: [create-study, get-study-cost, create-test-study, publish-study]
+- file: prolific-review-submissions.md
+  name: Review submissions and pay bonuses
+  api: openapi/prolific-openapi-original.yml
+  operations: [get-study-submissions, get-submission, transition-submission, bulk-approve-submissions, create-bonus-payments, pay-bonus-payments]
+- file: prolific-target-participants.md
+  name: Target participants with filters and filter sets
+  api: openapi/prolific-openapi-original.yml
+  operations: [get-filters, get-eligible-count, create-filter-set, get-participant-groups]
+- file: prolific-subscribe-webhooks.md
+  name: Subscribe to and verify Prolific webhooks
+  api: openapi/prolific-openapi-original.yml
+  operations: [get-event-types, create-secret, create-subscription, confirm-subscription, get-events]

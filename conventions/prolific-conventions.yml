@@ -1,0 +1,52 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.prolific.com/api-reference/introduction/basic.md + openapi/prolific-openapi-original.yml
+api: openapi/prolific-openapi-original.yml
+base_url: https://api.prolific.com
+authentication:
+  style: api-key
+  header: Authorization
+  format: Token <your token>
+  notes: >-
+    Tokens have no expiry and carry full account permission; create/revoke in app settings
+    (https://app.prolific.com/researcher/tokens/). See authentication/prolific-authentication.yml.
+pagination:
+  style: page-number
+  params:
+  - page          # 1-based page index
+  - page_size     # items per page
+  ordering_param: ordering   # e.g. ?ordering=-completed_at
+  notes: List endpoints (submissions, studies, messages) use page/page_size query params.
+versioning:
+  scheme: uri-path
+  current: v1
+  base_path: /api/v1/
+  policy: >-
+    Prolific aims for backward compatibility on documented endpoints; backward-incompatible
+    changes would be released under a new version. See lifecycle/prolific-lifecycle.yml.
+idempotency:
+  supported: true
+  surface: webhooks
+  header: X-Event-ID
+  description: >-
+    Delivered webhook events carry an X-Event-ID header; consumers dedupe on it to make event
+    handling idempotent under at-least-once delivery/retry. Event ordering is conveyed via
+    X-Timestamp / X-Prolific-Request-Timestamp. (Applies to inbound event handling; the write
+    REST endpoints do not document a request Idempotency-Key.)
+  docs: https://docs.prolific.com/api-reference/webhooks/idempotency-and-the-x-event-id-header
+error_envelope:
+  format: custom-json     # not RFC 9457 problem+json
+  media_type: application/json
+  shape: '{ "error": { "status": <int>, "error_code": <int>, "title": <string>, "detail": <object|string>, "additional_information": <string> } }'
+  ref: errors/prolific-problem-types.yml
+rate_limiting:
+  documented: true
+  detail: >-
+    The API shares the rate limit and availability of the Prolific web application; specific
+    numeric limits and rate-limit response headers are not published. Status at
+    https://status.prolific.com.
+webhooks:
+  verification: HMAC-SHA256 over (timestamp + body), base64-encoded, constant-time compared
+  signature_header: X-Prolific-Request-Signature
+  timestamp_header: X-Prolific-Request-Timestamp
+  ref: asyncapi/prolific-webhooks.yml
