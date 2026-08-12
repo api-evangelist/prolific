@@ -369,7 +369,7 @@ common:
   url: https://status.prolific.com
 # --- artifacts (canonical scored pointers) ---
 - type: OpenAPI
-  url: openapi/prolific-openapi-original.yml
+  url: openapi/_original/prolific-openapi-original.yml
 - type: Authentication
   url: authentication/prolific-authentication.yml
 - type: LLMsTxt
