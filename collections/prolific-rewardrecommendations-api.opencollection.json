@@ -1,0 +1,55 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference aiTaskBuilder rewardRecommendations API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "rewardRecommendations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Calculate reward recommendations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/reward-recommendations/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the workspace in which you'll be creating the study"
+              },
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query",
+                "description": "An ISO 4217 currency code. Note that we only support a selection of currency codes as per the enum values."
+              },
+              {
+                "name": "screener_ids",
+                "value": "",
+                "type": "query",
+                "description": "A URL-encoded, comma-delimited list of filter IDs (e.g. custom group filter IDs) that you plan to apply to your study.\n\nThere are various methods of converting an array of filter IDs to a URL-encoded, comma delimited array e.g:\n\nJavaScript:\n\n```js\nconst screenerIDs = [\"mandarin\", \"spanish\"];\nconst encodedScreenerIDs = encodeURIComponent(screenerIDs.join(\",\"));\nconst url = `https://api.prolific.com/api/v1/reward-recommendations?screener_ids=${encodedScreenerIDs}&workspace_id=<workspace ID>&currency=GBP`\n```\n\nPython:\n\n```python\nimport urllib.parse\n\nscreener_ids = [\"mandarin\", \"spanish\"]\nencoded_screener_ids = urllib.parse.quote(\",\".join(screener_ids))\nurl = f\"https://api.prolific.com/api/v1/reward-recommendations?screener_ids={encoded_screener_ids}&workspace_id=<workspace ID>&currency=GBP\"\n```"
+              }
+            ]
+          },
+          "docs": "Calculate the recommended participant reward rates for a data collection, optionally based upon a given set of filters"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

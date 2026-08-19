@@ -1,0 +1,231 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference aiTaskBuilder participantGroups API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "participantGroups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a list of all participant groups within a project or workspace",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/participant-groups/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "active",
+                "value": "",
+                "type": "query",
+                "description": "Filter by the active (not deleted) status of the participant group."
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get a list of all participant groups within a project or workspace"
+        },
+        {
+          "info": {
+            "name": "Create a new participant group within a workspace",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/participant-groups/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new participant group within a workspace"
+        },
+        {
+          "info": {
+            "name": "Get a participant group",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/participant-groups/:id/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the participant group"
+              }
+            ]
+          },
+          "docs": "Get a participant group"
+        },
+        {
+          "info": {
+            "name": "Update a participant group",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.prolific.com/api/v1/participant-groups/:id/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the participant group"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a participant group"
+        },
+        {
+          "info": {
+            "name": "Delete a participant group",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.prolific.com/api/v1/participant-groups/:id/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the participant group"
+              }
+            ]
+          },
+          "docs": "Delete a participant group"
+        },
+        {
+          "info": {
+            "name": "Get a list of all participants within a participant group",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/participant-groups/:id/participants/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the participant group to get participants for"
+              }
+            ]
+          },
+          "docs": "Get a list of all participants within a participant group"
+        },
+        {
+          "info": {
+            "name": "Add participants to a participant group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/participant-groups/:id/participants/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the participant group to add the participant to"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Append participants to a participant group if they are not already members. If a participant is already a member of the group, they will be ignored.\n"
+        },
+        {
+          "info": {
+            "name": "Remove participants from a participant group",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.prolific.com/api/v1/participant-groups/:id/participants/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the participant group to remove the participant(s) from"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Remove specified participants from a participant group if they are members. If a participant is not a member of the group, they will be ignored.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

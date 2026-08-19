@@ -4,20 +4,18 @@ status: published
 source: https://github.com/prolific-oss/prolific-mcp
 servers:
 - name: prolific
-  description: >-
-    Official Prolific MCP server bridging LLM agents to the Prolific public API. Built with
-    FastMCP; listed on the official MCP Registry. Defaults to stdio (launched by an MCP client);
-    supports streamable HTTP for local dev. Ships per-platform .mcpb bundles for Claude Desktop.
-  transport: stdio            # also: http (streamable) via --http on http://127.0.0.1:8765/mcp
-  package: prolific-mcp        # PyPI, run with: uvx prolific-mcp
+  description: Official Prolific MCP server bridging LLM agents to the Prolific public API. Built with
+    FastMCP; listed on the official MCP Registry. Defaults to stdio (launched by an MCP client); supports
+    streamable HTTP for local dev. Ships per-platform .mcpb bundles for Claude Desktop.
+  transport: stdio
+  package: prolific-mcp
   repo: https://github.com/prolific-oss/prolific-mcp
   registry: https://registry.modelcontextprotocol.io/v0/servers?search=prolific
   env:
-    PROLIFIC_TOKEN: required   # sent as Authorization: Token <token>
+    PROLIFIC_TOKEN: required
     PROLIFIC_URL: https://api.prolific.com
-  warning: >-
-    publish_study spends real money — a published study charges you as participants start it.
-    There is no sandbox mode for that endpoint; treat any LLM-driven invocation as a real spend.
+  warning: publish_study spends real money — a published study charges you as participants start it. There
+    is no sandbox mode for that endpoint; treat any LLM-driven invocation as a real spend.
   tools:
   - name: get_filters
     source_operation: openapi/prolific-openapi-original.yml#get-filters
@@ -40,12 +38,20 @@ servers:
   - name: publish_study
     source_operation: openapi/prolific-openapi-original.yml#publish-study
 - name: prolific-docs
-  description: >-
-    Hosted documentation-search MCP server (fern-docs-mcp-server) over docs.prolific.com.
-    Exposes a single read-only searchDocs tool for AI clients.
-  transport: http            # streamable-http
+  description: Hosted documentation-search MCP server (fern-docs-mcp-server) over docs.prolific.com. Exposes
+    a single read-only searchDocs tool for AI clients.
+  transport: http
   url: https://docs.prolific.com/_mcp/server
   install: claude mcp add --transport http fern_mcp_docs-prolific-com https://docs.prolific.com/_mcp/server
   tools:
   - name: searchDocs
     description: Search docs.prolific.com; returns doc passages with source URLs (read-only).
+deployment:
+  mode: none
+  endpoint: https://registry.modelcontextprotocol.io/v0/servers?search=prolific
+  verified: probed
+  probe: dead
+  note: the endpoint this manifest claimed did not answer; recorded as none rather than deleted so the
+    claim stays auditable
+  checked: '2026-08-12'
+  source: catalog MCP census

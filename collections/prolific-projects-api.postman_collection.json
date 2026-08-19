@@ -1,0 +1,708 @@
+{
+  "item": [
+    {
+      "id": "bfeb4d15-fe2c-44a4-83f6-8ed4ed4b5cab",
+      "name": "projects",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8f1be74f-a9b5-474c-8850-b55bbf456458",
+          "name": "Get all projects in a workspace",
+          "request": {
+            "name": "Get all projects in a workspace",
+            "description": {
+              "content": "Gets a list of all the projects within the workspace.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "workspaces",
+                ":workspace_id",
+                "projects",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "workspace_id",
+                  "description": "(Required) Workspace id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f1fd2a22-fd73-4d9b-94ac-788e78e8b177",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workspaces",
+                    ":workspace_id",
+                    "projects",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workspace_id",
+                      "description": "(Required) Workspace id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"id\": \"string\",\n      \"title\": \"string\",\n      \"type\": \"PRIVATE\",\n      \"description\": \"string\",\n      \"owner\": \"string\",\n      \"public_details\": {\n        \"status\": \"DISABLED\",\n        \"title\": \"string\",\n        \"short_description\": \"string\",\n        \"description\": \"string\"\n      },\n      \"users\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"naivety_distribution_rate\": 7449.523347150304\n    },\n    {\n      \"id\": \"string\",\n      \"title\": \"string\",\n      \"type\": \"PRIVATE\",\n      \"description\": \"string\",\n      \"owner\": \"string\",\n      \"public_details\": {\n        \"status\": \"ENABLED\",\n        \"title\": \"string\",\n        \"short_description\": \"string\",\n        \"description\": \"string\"\n      },\n      \"users\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"naivety_distribution_rate\": 1469.53905523011\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aae1dc50-1a93-481e-9e7d-ea38ef4dc591",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workspaces",
+                    ":workspace_id",
+                    "projects",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workspace_id",
+                      "description": "(Required) Workspace id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 2932,\n    \"error_code\": 1891,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "25358f76-b095-464e-9b81-5dad56828f9a",
+          "name": "Create a project",
+          "request": {
+            "name": "Create a project",
+            "description": {
+              "content": "Creates a new project within the workspace.\nWhen this project is created, it adds the user as a Project Editor.\nSet `type` to `PUBLIC` to create a public project.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "workspaces",
+                ":workspace_id",
+                "projects",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "workspace_id",
+                  "description": "(Required) Workspace id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"type\": \"PRIVATE\",\n  \"public_details\": {\n    \"status\": \"<string>\",\n    \"title\": \"<string>\",\n    \"short_description\": \"<string>\",\n    \"description\": \"<string>\"\n  },\n  \"naivety_distribution_rate\": \"<number,null-double>\",\n  \"is_longitudinal\": false,\n  \"longitudinal\": {\n    \"config\": {\n      \"target_completions\": \"<integer>\",\n      \"retention_rate\": \"<double>\",\n      \"filters\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "400e9fac-d671-4b71-9996-1359b819dae6",
+              "name": "Successfully created project.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workspaces",
+                    ":workspace_id",
+                    "projects",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workspace_id",
+                      "description": "(Required) Workspace id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"type\": \"PRIVATE\",\n  \"public_details\": {\n    \"status\": \"DISABLED\",\n    \"title\": \"string\",\n    \"short_description\": \"string\",\n    \"description\": \"string\"\n  },\n  \"naivety_distribution_rate\": \"<number,null-double>\",\n  \"is_longitudinal\": false,\n  \"longitudinal\": {\n    \"config\": {\n      \"target_completions\": 953,\n      \"retention_rate\": 217.076486537503,\n      \"filters\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"title\": \"string\",\n  \"type\": \"PRIVATE\",\n  \"description\": \"string\",\n  \"owner\": \"string\",\n  \"public_details\": {\n    \"status\": \"DISABLED\",\n    \"title\": \"string\",\n    \"short_description\": \"string\",\n    \"description\": \"string\"\n  },\n  \"users\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"email\": \"string\",\n      \"roles\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"email\": \"string\",\n      \"roles\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"workspace\": \"string\",\n  \"naivety_distribution_rate\": 3103.4186769086205,\n  \"is_longitudinal\": true,\n  \"longitudinal\": {\n    \"config\": {\n      \"target_completions\": 1782,\n      \"retention_rate\": 7856.949661876529,\n      \"filters\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    },\n    \"retention\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "44ab5557-075b-4c46-9ffe-7654020e94f2",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workspaces",
+                    ":workspace_id",
+                    "projects",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workspace_id",
+                      "description": "(Required) Workspace id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"type\": \"PRIVATE\",\n  \"public_details\": {\n    \"status\": \"DISABLED\",\n    \"title\": \"string\",\n    \"short_description\": \"string\",\n    \"description\": \"string\"\n  },\n  \"naivety_distribution_rate\": \"<number,null-double>\",\n  \"is_longitudinal\": false,\n  \"longitudinal\": {\n    \"config\": {\n      \"target_completions\": 953,\n      \"retention_rate\": 217.076486537503,\n      \"filters\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 2932,\n    \"error_code\": 1891,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "25e88245-b864-4d57-91f9-e33f3a65cb2b",
+          "name": "Get project",
+          "request": {
+            "name": "Get project",
+            "description": {
+              "content": "Gets a project's details",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "projects",
+                ":project_id",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) Project id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f8e9a694-2c93-4c87-874a-ae65e21d0a03",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "projects",
+                    ":project_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) Project id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"title\": \"string\",\n  \"type\": \"PRIVATE\",\n  \"description\": \"string\",\n  \"owner\": \"string\",\n  \"public_details\": {\n    \"status\": \"DISABLED\",\n    \"title\": \"string\",\n    \"short_description\": \"string\",\n    \"description\": \"string\"\n  },\n  \"users\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"email\": \"string\",\n      \"roles\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"email\": \"string\",\n      \"roles\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"workspace\": \"string\",\n  \"naivety_distribution_rate\": 3103.4186769086205,\n  \"is_longitudinal\": true,\n  \"longitudinal\": {\n    \"config\": {\n      \"target_completions\": 1782,\n      \"retention_rate\": 7856.949661876529,\n      \"filters\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    },\n    \"retention\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "82b2f33c-d96f-4c2b-8809-fbe48f3ea545",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "projects",
+                    ":project_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) Project id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 2932,\n    \"error_code\": 1891,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "321279bb-f100-4a9c-888b-43c2ccc20bda",
+          "name": "Update a project",
+          "request": {
+            "name": "Update a project",
+            "description": {
+              "content": "Update a project's details.\nPublic projects support partial updates to `public_details`.\nOnce a public project has published studies, `public_details.title` can no longer be changed.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "projects",
+                ":project_id",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) Project id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"owner\": \"<string>\",\n  \"position\": \"<integer>\",\n  \"hidden\": \"<boolean>\",\n  \"type\": \"<string>\",\n  \"public_details\": {\n    \"status\": \"<string>\",\n    \"title\": \"<string>\",\n    \"short_description\": \"<string>\",\n    \"description\": \"<string>\"\n  },\n  \"is_sequential\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e2131b3d-a9fd-4f9e-be09-3d12166746d7",
+              "name": "Updated project redirect link",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "projects",
+                    ":project_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) Project id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"owner\": \"<string>\",\n  \"position\": \"<integer>\",\n  \"hidden\": \"<boolean>\",\n  \"type\": \"PUBLIC\",\n  \"public_details\": {\n    \"status\": \"DISABLED\",\n    \"title\": \"string\",\n    \"short_description\": \"string\",\n    \"description\": \"string\"\n  },\n  \"is_sequential\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"title\": \"string\",\n  \"type\": \"PRIVATE\",\n  \"description\": \"string\",\n  \"owner\": \"string\",\n  \"public_details\": {\n    \"status\": \"DISABLED\",\n    \"title\": \"string\",\n    \"short_description\": \"string\",\n    \"description\": \"string\"\n  },\n  \"users\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"email\": \"string\",\n      \"roles\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"email\": \"string\",\n      \"roles\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"workspace\": \"string\",\n  \"naivety_distribution_rate\": 3103.4186769086205,\n  \"is_longitudinal\": true,\n  \"longitudinal\": {\n    \"config\": {\n      \"target_completions\": 1782,\n      \"retention_rate\": 7856.949661876529,\n      \"filters\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    },\n    \"retention\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6e43197e-021d-49ce-9b41-5578e0f8b842",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "projects",
+                    ":project_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) Project id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"owner\": \"<string>\",\n  \"position\": \"<integer>\",\n  \"hidden\": \"<boolean>\",\n  \"type\": \"PUBLIC\",\n  \"public_details\": {\n    \"status\": \"DISABLED\",\n    \"title\": \"string\",\n    \"short_description\": \"string\",\n    \"description\": \"string\"\n  },\n  \"is_sequential\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 2932,\n    \"error_code\": 1891,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.prolific.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "5b5f6f7e-1eaa-47b8-9e2e-3c09b83bcdc1",
+    "name": "API Reference aiTaskBuilder projects API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

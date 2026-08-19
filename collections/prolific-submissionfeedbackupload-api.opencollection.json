@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference aiTaskBuilder submissionFeedbackUpload API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "submissionFeedbackUpload",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Request a feedback upload URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/submissions/signals/upload-url/:filename",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "filename",
+                "value": "",
+                "type": "path",
+                "description": "The name of the file you want to upload, including its extension (e.g. `participant_feedback.csv`)."
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the Prolific workspace the feedback belongs to."
+              }
+            ]
+          },
+          "docs": "Request a temporary, pre-signed URL to upload a feedback file for your completed studies.\n\nThis is the first step of a two-step upload process:\n  1. Call this endpoint to receive a pre-signed `upload_url`.\n  2. Upload your file directly to that URL with an HTTP `PUT` request before it expires.\n\n<Note>\n  Supported file formats are CSV, XLS, XLSX, JSON, TXT and PDF. The maximum file size is 5GB. Please check the [supported file formats](/api-reference/submission-feedback-upload#supported-file-form"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

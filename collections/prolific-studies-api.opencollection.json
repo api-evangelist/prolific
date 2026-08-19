@@ -1,0 +1,583 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference aiTaskBuilder studies API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "studies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all studies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/studies/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "state",
+                "value": "",
+                "type": "query",
+                "description": "Filter studies by status. Accepts a string in the format \"(active|published|...)\", where \"active\" and \"published\" are example statuses."
+              }
+            ]
+          },
+          "docs": "List all studies, with the option to filter by study status."
+        },
+        {
+          "info": {
+            "name": "Create a draft study",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/studies/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a draft study. Publishing a study is a two step process, first create a draft study then publish it.\n\n## Taskflow Studies:\nTaskflow studies are created in the same manner as regular studies, however instead of providing an **external_study_url**, you should\nprovide an access_details array with **access_detail** objects instead, containing an external_url field and a total_allocation field."
+        },
+        {
+          "info": {
+            "name": "List all studies in a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/projects/:project_id/studies/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "Project id"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number to retrieve."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "The number of studies to retrieve per page."
+              },
+              {
+                "name": "ordering",
+                "value": "",
+                "type": "query",
+                "description": "The ordering of the studies. Use `-date_created` to order by date created in descending order."
+              }
+            ]
+          },
+          "docs": "List all of your studies in a project.\n\nFor projects with a large number of studies, pagination can be used to optimize the response size and performance. To paginate, use the `page`, `page_size` and `ordering` query parameters. For example, to retrieve the first 10 studies, use `/api/v1/projects/{project_id}/studies/?page=1&page_size=10&ordering=-date_created`."
+        },
+        {
+          "info": {
+            "name": "Delete a study from a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.prolific.com/api/v1/projects/:project_id/studies/:study_id/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "Project id"
+              },
+              {
+                "name": "study_id",
+                "value": "",
+                "type": "path",
+                "description": "Study id"
+              }
+            ]
+          },
+          "docs": "Delete a study and remove it from a project. Only draft studies can be deleted."
+        },
+        {
+          "info": {
+            "name": "Retrieve a study",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/studies/:id/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Study id"
+              }
+            ]
+          },
+          "docs": "Retrieve a study by id. If you are polling the API for updates to a study, consider using a [Hook](#tag/Hooks). We will call your endpoint when certain events occur on your study, such as new completed submissions or changes in status."
+        },
+        {
+          "info": {
+            "name": "Update a study",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.prolific.com/api/v1/studies/:id/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Study id"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "You can update any field for a draft study.\n\nOnce the study has been published only the following fields can be updated with some restrictions:\n- internal_name: Internal name of the study, not shown to participants\n- total_available_places: Only increasing is allowed. A completed study will become active again and resume recruiting of participants. For more information, check the [guide](https://researcher-help.prolific.com/en/articles/445201-how-do-i-increase-places-on-a-study)\n- access_details"
+        },
+        {
+          "info": {
+            "name": "Delete a study",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.prolific.com/api/v1/studies/:id/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Study id"
+              }
+            ]
+          },
+          "docs": "Published studies cannot be deleted, but you can delete draft studies."
+        },
+        {
+          "info": {
+            "name": "Transition a study's status",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/studies/:id/transition/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Study id"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Transition a study between statuses using one of the available actions.\n\nThe following transitions are available:\n\n| Current Status | Action | Resulting Status |\n|---|---|---|\n| UNPUBLISHED | PUBLISH | ACTIVE |\n| UNPUBLISHED | SCHEDULE_PUBLISH | SCHEDULED |\n| SCHEDULED | CANCEL_PUBLISH | UNPUBLISHED |\n| ACTIVE | PAUSE | PAUSED |\n| ACTIVE | STOP | COMPLETED |\n| PAUSED | START | ACTIVE |\n| PAUSED | STOP | COMPLETED |\n\n**Action details:**\n- **PUBLISH**: Publish a draft study so participants can tak"
+        },
+        {
+          "info": {
+            "name": "Create a test study",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/studies/:id/test-study",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Study id"
+              }
+            ]
+          },
+          "docs": "### Overview\n- Make sure atleast one test participant is created and exists against the user before hitting this endpoint.\n  - To create test participant: POST /api/v1/researchers/participants/\n- Create and publish a test study from a draft study to all the test participants associated with the workspace.\n- This will allow a data collector to test the study as a participant.\n## Prerequisites\n✅ **Required:**\n- At least one active test participant (created via [`POST /api/v1/researchers/participan"
+        },
+        {
+          "info": {
+            "name": "Get taskflow progress",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/studies/:id/access-details-progress/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Study id"
+              }
+            ]
+          },
+          "docs": "Returns per-URL allocation progress for a Taskflow study (studies configured with `access_details`).\nEach item in `progress` corresponds to one `external_url` from the study's access details, including how many participants are allocated and any screenout-driven capacity increments.\n\nReturns **404** if the study has no access-details collection (not a Taskflow study)."
+        },
+        {
+          "info": {
+            "name": "Show Study cost",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/studies/:id/cost/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Study id"
+              },
+              {
+                "name": "is_projected",
+                "value": "",
+                "type": "query",
+                "description": "Return the projected cost of the study"
+              }
+            ]
+          },
+          "docs": "Returns cost information about the study. Default behaviour is to return cost at the time of the request, but projected cost can be requested via a query parameter."
+        },
+        {
+          "info": {
+            "name": "List study submissions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/studies/:id/submissions/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Study id"
+              },
+              {
+                "name": "ordering",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort results by. Prefix with `-` for descending order. Allowed values: `started_at`, `completed_at`, `status`, `ip`, `time_taken`, `participant_id`, `study_code`."
+              }
+            ]
+          },
+          "docs": "Returns basic information of the submissions, including the study id, participant id, status and start timestamp"
+        },
+        {
+          "info": {
+            "name": "Count study submissions by status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/studies/:id/submissions/counts/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Study id"
+              }
+            ]
+          },
+          "docs": "Returns a count of the number of submissions per submission status in the study."
+        },
+        {
+          "info": {
+            "name": "Download credential usage report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/studies/:id/credentials/report/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Study id"
+              }
+            ]
+          },
+          "docs": "Download a CSV report of credential usage for a study. The report includes participant IDs, submission IDs, usernames, and credential status (USED/UNUSED). This endpoint is only available for studies that have credentials configured."
+        },
+        {
+          "info": {
+            "name": "Download demographic data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/studies/:id/export/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Study id"
+              }
+            ]
+          },
+          "docs": "<span  style=\"font-size:x-large\">**Deprecated - please use the new [Demographic Export](https://docs.prolific.com/docs/api-docs/public/#tag/Studies/operation/ExportDemographicData) endpoint instead.**</span>\n\n<span  style=\"font-size:x-large\">**This endpoint will be sunset after the 14th of April 2026**</span>\n\nDownload a snapshot of the participants' filter responses at the time that they took your study.\n\nIn addition to the responses to all filters applied to the study (subject to change), you'"
+        },
+        {
+          "info": {
+            "name": "Export demographic data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/studies/:id/demographic-export/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Study ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create and download a demographic export for a study. This endpoint allows you to export participant demographic data with optional study filter data.\n\n**Filter Support**: This endpoint supports applying demographic filters to export data for participants who match specific criteria.\n\nWhen filters are provided, the export includes both base demographic data (age, sex, country, etc.) and the filters.\n\nWhen no filters are provided, the export includes only base demographic data for all participant"
+        },
+        {
+          "info": {
+            "name": "Get demographic export history",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/studies/:id/demographic-export-history/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Study ID"
+              }
+            ]
+          },
+          "docs": "Retrieve the latest demographic export request history for a study. This endpoint returns information about your most recent export request, including the filters used and the total number of export combinations made.\n\n**Usage**: Use this endpoint to check your current export usage and see what filters were used in your latest request. This helps you understand your remaining export quota and track your export history.\n\n**Export Limits**: You are limited to 2 different filter combinations per st"
+        },
+        {
+          "info": {
+            "name": "Duplicate a study",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/studies/:id/clone/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Study id"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Duplicating a study can save a lot of time and effort compared to creating a new study from scratch, since all of the information and data from the original study will be carried over to the new study. Additionally, duplicating a study can help ensure that the new study is set up consistently with the original, reducing the risk of errors or inconsistencies.\n\nTo prevent repeat participation, a block list containing the original study will be added to the duplicated study's filters unless `block_"
+        },
+        {
+          "info": {
+            "name": "Show Study predicted recruitment time",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/studies/:study_id/predicted-recruitment-time/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "study_id",
+                "value": "",
+                "type": "path",
+                "description": "Study id"
+              }
+            ]
+          },
+          "docs": "Returns the predicted recruitment time for the study if it was published right now, based on a machine learning model.\nThe recruitment time is the time from publish to the time when the final participant starts their submission.\nIt does not account for the time to complete the submission."
+        },
+        {
+          "info": {
+            "name": "Show Study predicted recruitment time",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/studies/predicted-recruitment-time/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the predicted recruitment time for a study that has not even been saved as a draft if it was published right now, based on a machine learning model.\nThe recruitment time is the time from publish to the time when the final participant starts their submission.\nIt does not account for the time to complete the submission."
+        },
+        {
+          "info": {
+            "name": "Calculate the study cost",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/study-cost-calculator/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Calculate the study cost, including VAT and fees."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

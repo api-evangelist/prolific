@@ -1,0 +1,1666 @@
+{
+  "item": [
+    {
+      "id": "0797ea9b-2cf4-4349-bc2d-e6118ff4d28e",
+      "name": "surveys",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b6650579-1e60-43fd-8772-e7cd327216cf",
+          "name": "Get all surveys",
+          "request": {
+            "name": "Get all surveys",
+            "description": {
+              "content": "Get all the surveys for a researcher.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "surveys",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "researcher_id",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ec54761b-c7f9-413f-9e50-65a174e4ceac",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "surveys",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "researcher_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"researcher_id\": \"string\",\n      \"title\": \"string\",\n      \"_id\": \"string\",\n      \"date_created\": \"1986-11-27T00:41:25.275Z\",\n      \"date_modified\": \"1964-07-16T16:27:24.509Z\",\n      \"sections\": [\n        {\n          \"questions\": [\n            {\n              \"answers\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"title\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"answers\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"title\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"string\",\n          \"id\": \"68e10e39-85c7-be54-0d1f-d0fb5ce3ce96\"\n        },\n        {\n          \"questions\": [\n            {\n              \"answers\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"title\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"answers\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"title\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"string\",\n          \"id\": \"75073bab-5ddf-471a-370f-891eaa076509\"\n        }\n      ],\n      \"questions\": [\n        {\n          \"answers\": [\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"string\",\n          \"type\": \"multiple\",\n          \"id\": \"5f341c69-ad56-ecfc-3960-c1a69ff50f81\"\n        },\n        {\n          \"answers\": [\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"string\",\n          \"type\": \"single\",\n          \"id\": \"b620db6b-f853-308b-9b46-2547e4dd4bb8\"\n        }\n      ]\n    },\n    {\n      \"researcher_id\": \"string\",\n      \"title\": \"string\",\n      \"_id\": \"string\",\n      \"date_created\": \"1960-10-15T09:31:09.840Z\",\n      \"date_modified\": \"2016-03-04T04:32:01.123Z\",\n      \"sections\": [\n        {\n          \"questions\": [\n            {\n              \"answers\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"title\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"answers\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"title\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"string\",\n          \"id\": \"b7e287fb-1c12-b2f2-906e-3b77d203c569\"\n        },\n        {\n          \"questions\": [\n            {\n              \"answers\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"title\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"answers\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"title\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"string\",\n          \"id\": \"b4cef6d5-6449-febe-7608-67c1c0ba684d\"\n        }\n      ],\n      \"questions\": [\n        {\n          \"answers\": [\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"string\",\n          \"type\": \"single\",\n          \"id\": \"71c53739-65b8-b980-d512-d5fa45a7ea15\"\n        },\n        {\n          \"answers\": [\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"string\",\n          \"type\": \"multiple\",\n          \"id\": \"89bddb3a-25ca-bacc-eb7b-7cbd28a0b3bb\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0c8f5e59-e20d-4218-b9f8-b5a5dc66f5f7",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "surveys",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "researcher_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 6320,\n    \"error_code\": 7576,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "536267a2-bae1-46a7-a2df-eaa3834b9d42",
+          "name": "Create survey",
+          "request": {
+            "name": "Create survey",
+            "description": {
+              "content": "You can create a survey with either `sections -> questions` or just `questions`. This allows you to decide\nhow much flexibility you want in your survey design. However, if you want to render the survey in the Prolific Application, you must use `sections`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "surveys",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"researcher_id\": \"<string>\",\n  \"title\": \"<string>\",\n  \"sections\": [\n    {\n      \"questions\": [\n        {\n          \"answers\": [\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"<string>\",\n          \"type\": \"<string>\",\n          \"id\": \"<uuid>\"\n        },\n        {\n          \"answers\": [\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"<string>\",\n          \"type\": \"<string>\",\n          \"id\": \"<uuid>\"\n        }\n      ],\n      \"title\": \"<string>\",\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"questions\": [\n        {\n          \"answers\": [\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"<string>\",\n          \"type\": \"<string>\",\n          \"id\": \"<uuid>\"\n        },\n        {\n          \"answers\": [\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"<string>\",\n          \"type\": \"<string>\",\n          \"id\": \"<uuid>\"\n        }\n      ],\n      \"title\": \"<string>\",\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"questions\": [\n    {\n      \"answers\": [\n        {\n          \"value\": \"<string>\",\n          \"id\": \"<uuid>\"\n        },\n        {\n          \"value\": \"<string>\",\n          \"id\": \"<uuid>\"\n        }\n      ],\n      \"title\": \"<string>\",\n      \"type\": \"<string>\",\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"answers\": [\n        {\n          \"value\": \"<string>\",\n          \"id\": \"<uuid>\"\n        },\n        {\n          \"value\": \"<string>\",\n          \"id\": \"<uuid>\"\n        }\n      ],\n      \"title\": \"<string>\",\n      \"type\": \"<string>\",\n      \"id\": \"<uuid>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b2dc4d20-c73d-4446-af0a-e8f2c6a855a0",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "surveys",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"researcher_id\": \"<string>\",\n  \"title\": \"<string>\",\n  \"sections\": [\n    {\n      \"questions\": [\n        {\n          \"answers\": [\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"string\",\n          \"type\": \"single\",\n          \"id\": \"774e9857-1884-f071-50ae-222f5177f456\"\n        },\n        {\n          \"answers\": [\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"string\",\n          \"type\": \"multiple\",\n          \"id\": \"bab379e0-0d9e-d73d-df1f-ece62553a2ae\"\n        }\n      ],\n      \"title\": \"string\",\n      \"id\": \"30c125d2-914d-8c64-5db3-f4df51bff20b\"\n    },\n    {\n      \"questions\": [\n        {\n          \"answers\": [\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"string\",\n          \"type\": \"multiple\",\n          \"id\": \"487ba360-36ab-e4c1-f30a-0d2a58c89ac0\"\n        },\n        {\n          \"answers\": [\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"string\",\n          \"type\": \"multiple\",\n          \"id\": \"8b57d49c-a29a-6f65-7042-11d848a9d643\"\n        }\n      ],\n      \"title\": \"string\",\n      \"id\": \"be10dfd7-e227-9abc-9493-a5cb3dfa9268\"\n    }\n  ],\n  \"questions\": [\n    {\n      \"answers\": [\n        {\n          \"value\": \"string\",\n          \"id\": \"c0410c50-38be-5e80-692b-994df348d742\"\n        },\n        {\n          \"value\": \"string\",\n          \"id\": \"32ae0621-94b6-8937-eb1f-b16bf593919a\"\n        }\n      ],\n      \"title\": \"string\",\n      \"type\": \"single\",\n      \"id\": \"858aa7c0-b765-838d-43de-f601bb682417\"\n    },\n    {\n      \"answers\": [\n        {\n          \"value\": \"string\",\n          \"id\": \"0de138b4-e926-bb24-17c3-af0ee8a3d025\"\n        },\n        {\n          \"value\": \"string\",\n          \"id\": \"9724a5cf-522b-860f-6ad4-459215d18ae6\"\n        }\n      ],\n      \"title\": \"string\",\n      \"type\": \"multiple\",\n      \"id\": \"acdd32b2-816a-b8bf-e84b-1b2aa994b47c\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"researcher_id\": \"string\",\n  \"title\": \"string\",\n  \"_id\": \"string\",\n  \"date_created\": \"2020-10-27T14:52:29.366Z\",\n  \"date_modified\": \"1988-12-30T01:02:45.770Z\",\n  \"sections\": [\n    {\n      \"questions\": [\n        {\n          \"answers\": [\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"string\",\n          \"type\": \"single\",\n          \"id\": \"8216f251-9f3d-b52f-0559-496ae77abb4f\"\n        },\n        {\n          \"answers\": [\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"string\",\n          \"type\": \"single\",\n          \"id\": \"1b1e7503-e8e7-d2bb-9c5c-525e63e244e3\"\n        }\n      ],\n      \"title\": \"string\",\n      \"id\": \"875bf5d5-fea9-05a9-5af8-e97ca3ce4491\"\n    },\n    {\n      \"questions\": [\n        {\n          \"answers\": [\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"string\",\n          \"type\": \"multiple\",\n          \"id\": \"3f7eed7d-7154-b47b-1f79-dab332c57ac4\"\n        },\n        {\n          \"answers\": [\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"string\",\n          \"type\": \"single\",\n          \"id\": \"b2b210fb-74ce-7f60-492e-72885c0eca29\"\n        }\n      ],\n      \"title\": \"string\",\n      \"id\": \"3ad8e5cf-4fe7-f46f-fd78-6621689a792e\"\n    }\n  ],\n  \"questions\": [\n    {\n      \"answers\": [\n        {\n          \"value\": \"string\",\n          \"id\": \"a48c90f8-c1e5-f342-c24d-fc66a9451a55\"\n        },\n        {\n          \"value\": \"string\",\n          \"id\": \"b4a59037-0176-7697-24c3-9d0297db9245\"\n        }\n      ],\n      \"title\": \"string\",\n      \"type\": \"single\",\n      \"id\": \"1a652844-2da1-52ba-877b-3f0348d0bae8\"\n    },\n    {\n      \"answers\": [\n        {\n          \"value\": \"string\",\n          \"id\": \"9367ed69-ba0a-b016-bea0-89b16422ae43\"\n        },\n        {\n          \"value\": \"string\",\n          \"id\": \"9ceffe83-cc73-c5bd-d081-b2755efda1c0\"\n        }\n      ],\n      \"title\": \"string\",\n      \"type\": \"multiple\",\n      \"id\": \"376716e9-e790-053a-2dc2-b6f83bbb3882\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "93499b7e-f9bb-42ea-ac6c-a635e7a9337e",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "surveys",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"researcher_id\": \"<string>\",\n  \"title\": \"<string>\",\n  \"sections\": [\n    {\n      \"questions\": [\n        {\n          \"answers\": [\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"string\",\n          \"type\": \"single\",\n          \"id\": \"774e9857-1884-f071-50ae-222f5177f456\"\n        },\n        {\n          \"answers\": [\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"string\",\n          \"type\": \"multiple\",\n          \"id\": \"bab379e0-0d9e-d73d-df1f-ece62553a2ae\"\n        }\n      ],\n      \"title\": \"string\",\n      \"id\": \"30c125d2-914d-8c64-5db3-f4df51bff20b\"\n    },\n    {\n      \"questions\": [\n        {\n          \"answers\": [\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"string\",\n          \"type\": \"multiple\",\n          \"id\": \"487ba360-36ab-e4c1-f30a-0d2a58c89ac0\"\n        },\n        {\n          \"answers\": [\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"string\",\n          \"type\": \"multiple\",\n          \"id\": \"8b57d49c-a29a-6f65-7042-11d848a9d643\"\n        }\n      ],\n      \"title\": \"string\",\n      \"id\": \"be10dfd7-e227-9abc-9493-a5cb3dfa9268\"\n    }\n  ],\n  \"questions\": [\n    {\n      \"answers\": [\n        {\n          \"value\": \"string\",\n          \"id\": \"c0410c50-38be-5e80-692b-994df348d742\"\n        },\n        {\n          \"value\": \"string\",\n          \"id\": \"32ae0621-94b6-8937-eb1f-b16bf593919a\"\n        }\n      ],\n      \"title\": \"string\",\n      \"type\": \"single\",\n      \"id\": \"858aa7c0-b765-838d-43de-f601bb682417\"\n    },\n    {\n      \"answers\": [\n        {\n          \"value\": \"string\",\n          \"id\": \"0de138b4-e926-bb24-17c3-af0ee8a3d025\"\n        },\n        {\n          \"value\": \"string\",\n          \"id\": \"9724a5cf-522b-860f-6ad4-459215d18ae6\"\n        }\n      ],\n      \"title\": \"string\",\n      \"type\": \"multiple\",\n      \"id\": \"acdd32b2-816a-b8bf-e84b-1b2aa994b47c\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 6320,\n    \"error_code\": 7576,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "58c21e51-c951-4b8c-9278-63490f72932c",
+          "name": "Get survey",
+          "request": {
+            "name": "Get survey",
+            "description": {
+              "content": "Get a single survey given an ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "surveys",
+                ":survey_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "survey_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "dfba9998-df14-47b3-a220-94fd19ec27b2",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "surveys",
+                    ":survey_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "survey_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"researcher_id\": \"string\",\n  \"title\": \"string\",\n  \"_id\": \"string\",\n  \"date_created\": \"2020-10-27T14:52:29.366Z\",\n  \"date_modified\": \"1988-12-30T01:02:45.770Z\",\n  \"sections\": [\n    {\n      \"questions\": [\n        {\n          \"answers\": [\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"string\",\n          \"type\": \"single\",\n          \"id\": \"8216f251-9f3d-b52f-0559-496ae77abb4f\"\n        },\n        {\n          \"answers\": [\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"string\",\n          \"type\": \"single\",\n          \"id\": \"1b1e7503-e8e7-d2bb-9c5c-525e63e244e3\"\n        }\n      ],\n      \"title\": \"string\",\n      \"id\": \"875bf5d5-fea9-05a9-5af8-e97ca3ce4491\"\n    },\n    {\n      \"questions\": [\n        {\n          \"answers\": [\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"string\",\n          \"type\": \"multiple\",\n          \"id\": \"3f7eed7d-7154-b47b-1f79-dab332c57ac4\"\n        },\n        {\n          \"answers\": [\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"title\": \"string\",\n          \"type\": \"single\",\n          \"id\": \"b2b210fb-74ce-7f60-492e-72885c0eca29\"\n        }\n      ],\n      \"title\": \"string\",\n      \"id\": \"3ad8e5cf-4fe7-f46f-fd78-6621689a792e\"\n    }\n  ],\n  \"questions\": [\n    {\n      \"answers\": [\n        {\n          \"value\": \"string\",\n          \"id\": \"a48c90f8-c1e5-f342-c24d-fc66a9451a55\"\n        },\n        {\n          \"value\": \"string\",\n          \"id\": \"b4a59037-0176-7697-24c3-9d0297db9245\"\n        }\n      ],\n      \"title\": \"string\",\n      \"type\": \"single\",\n      \"id\": \"1a652844-2da1-52ba-877b-3f0348d0bae8\"\n    },\n    {\n      \"answers\": [\n        {\n          \"value\": \"string\",\n          \"id\": \"9367ed69-ba0a-b016-bea0-89b16422ae43\"\n        },\n        {\n          \"value\": \"string\",\n          \"id\": \"9ceffe83-cc73-c5bd-d081-b2755efda1c0\"\n        }\n      ],\n      \"title\": \"string\",\n      \"type\": \"multiple\",\n      \"id\": \"376716e9-e790-053a-2dc2-b6f83bbb3882\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6cd8340e-c67e-40bb-85c1-dd4e7ebe972b",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "surveys",
+                    ":survey_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "survey_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 6320,\n    \"error_code\": 7576,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "15a88950-e2a9-4913-9b1f-1c5a937c58b0",
+          "name": "Delete survey",
+          "request": {
+            "name": "Delete survey",
+            "description": {
+              "content": "Delete a single Survey.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "surveys",
+                ":survey_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "survey_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9a670a93-6324-460c-bbff-e4e1ec332b47",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "surveys",
+                    ":survey_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "survey_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9a4e2524-30d7-4967-8d1a-2234ccf3f68b",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "surveys",
+                    ":survey_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "survey_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 6320,\n    \"error_code\": 7576,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "24cf7ea2-2b80-462d-95fa-97439f856c8f",
+          "name": "Get all responses",
+          "request": {
+            "name": "Get all responses",
+            "description": {
+              "content": "Get all the responses for a given Survey.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "surveys",
+                ":survey_id",
+                "responses",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "survey_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6aa5c7b3-5461-4b50-97f3-cefa33305976",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "surveys",
+                    ":survey_id",
+                    "responses",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "survey_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7d21ce09-c6c8-4263-a6db-67230dd297ed",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "surveys",
+                    ":survey_id",
+                    "responses",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "survey_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 6320,\n    \"error_code\": 7576,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "017696b0-02c5-4feb-81da-461bc3a88427",
+          "name": "Create response",
+          "request": {
+            "name": "Create response",
+            "description": {
+              "content": "Create a Response for a survey.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "surveys",
+                ":survey_id",
+                "responses",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "survey_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"participant_id\": \"<string>\",\n  \"submission_id\": \"<string>\",\n  \"sections\": [\n    {\n      \"questions\": [\n        {\n          \"answers\": [\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"question_id\": \"<uuid>\",\n          \"question_title\": \"<string>\"\n        },\n        {\n          \"answers\": [\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"question_id\": \"<uuid>\",\n          \"question_title\": \"<string>\"\n        }\n      ],\n      \"section_id\": \"<uuid>\"\n    },\n    {\n      \"questions\": [\n        {\n          \"answers\": [\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"question_id\": \"<uuid>\",\n          \"question_title\": \"<string>\"\n        },\n        {\n          \"answers\": [\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"question_id\": \"<uuid>\",\n          \"question_title\": \"<string>\"\n        }\n      ],\n      \"section_id\": \"<uuid>\"\n    }\n  ],\n  \"questions\": [\n    {\n      \"answers\": [\n        {\n          \"answer_id\": \"<uuid>\",\n          \"value\": \"<string>\"\n        },\n        {\n          \"answer_id\": \"<uuid>\",\n          \"value\": \"<string>\"\n        }\n      ],\n      \"question_id\": \"<uuid>\",\n      \"question_title\": \"<string>\"\n    },\n    {\n      \"answers\": [\n        {\n          \"answer_id\": \"<uuid>\",\n          \"value\": \"<string>\"\n        },\n        {\n          \"answer_id\": \"<uuid>\",\n          \"value\": \"<string>\"\n        }\n      ],\n      \"question_id\": \"<uuid>\",\n      \"question_title\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4aaf44d0-3fae-4ae3-b1c5-b284e5a5132b",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "surveys",
+                    ":survey_id",
+                    "responses",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "survey_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"participant_id\": \"<string>\",\n  \"submission_id\": \"<string>\",\n  \"sections\": [\n    {\n      \"questions\": [\n        {\n          \"answers\": [\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"question_id\": \"165adf4b-2ec8-447e-8067-306c97a2038e\",\n          \"question_title\": \"string\"\n        },\n        {\n          \"answers\": [\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"question_id\": \"feb15267-e0a2-045a-0655-e2d2c137373b\",\n          \"question_title\": \"string\"\n        }\n      ],\n      \"section_id\": \"a024ed9d-7761-79af-31e5-11e8bbad9eb7\"\n    },\n    {\n      \"questions\": [\n        {\n          \"answers\": [\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"question_id\": \"6e848e6a-ac7c-d216-1e93-ccc01d6aa5cd\",\n          \"question_title\": \"string\"\n        },\n        {\n          \"answers\": [\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"question_id\": \"870b957c-9f16-ecd3-36b1-7b73ae18be30\",\n          \"question_title\": \"string\"\n        }\n      ],\n      \"section_id\": \"0e0a4ce7-5979-e3aa-c442-02b1d9e7a4ae\"\n    }\n  ],\n  \"questions\": [\n    {\n      \"answers\": [\n        {\n          \"answer_id\": \"cfd44d80-a16c-b124-3e23-e62c5d42c2df\",\n          \"value\": \"string\"\n        },\n        {\n          \"answer_id\": \"5e07538c-27a9-dc52-2b02-fdb425b74dd9\",\n          \"value\": \"string\"\n        }\n      ],\n      \"question_id\": \"679805de-d869-8f28-5324-02ddd8ada984\",\n      \"question_title\": \"string\"\n    },\n    {\n      \"answers\": [\n        {\n          \"answer_id\": \"ade4064f-4ef7-399f-aea9-ebcfc2e39c0f\",\n          \"value\": \"string\"\n        },\n        {\n          \"answer_id\": \"d376fc4d-6eec-d77c-9edb-4378b6388364\",\n          \"value\": \"string\"\n        }\n      ],\n      \"question_id\": \"bfdd4952-2326-924b-9e9d-a608d109f582\",\n      \"question_title\": \"string\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"participant_id\": \"string\",\n  \"submission_id\": \"string\",\n  \"_id\": \"string\",\n  \"date_created\": \"1974-01-19T12:39:34.899Z\",\n  \"date_modified\": \"2001-06-23T22:26:12.646Z\",\n  \"sections\": [\n    {\n      \"questions\": [\n        {\n          \"answers\": [\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"question_id\": \"1674aa89-23e5-9fb9-656b-a830ff9e9cec\",\n          \"question_title\": \"string\"\n        },\n        {\n          \"answers\": [\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"question_id\": \"a8d56fa6-ab68-ecd0-f2d6-2f1f2a2c07af\",\n          \"question_title\": \"string\"\n        }\n      ],\n      \"section_id\": \"39514813-04fb-48ba-ec87-d32821a93839\"\n    },\n    {\n      \"questions\": [\n        {\n          \"answers\": [\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"question_id\": \"1e2ab87a-dbf7-2145-d092-4127a29af843\",\n          \"question_title\": \"string\"\n        },\n        {\n          \"answers\": [\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"question_id\": \"29390877-ac4e-cfc4-6949-2e458e9e06a5\",\n          \"question_title\": \"string\"\n        }\n      ],\n      \"section_id\": \"30a3d764-670e-c174-ae80-d3e54a8a2349\"\n    }\n  ],\n  \"questions\": [\n    {\n      \"answers\": [\n        {\n          \"answer_id\": \"e2d11819-f7a8-312e-25bf-280a0f7a6d44\",\n          \"value\": \"string\"\n        },\n        {\n          \"answer_id\": \"b67c0696-1861-22a5-50b0-e63e6e6b6659\",\n          \"value\": \"string\"\n        }\n      ],\n      \"question_id\": \"7a7ea963-ecac-fa8e-c6fd-dde11df3d665\",\n      \"question_title\": \"string\"\n    },\n    {\n      \"answers\": [\n        {\n          \"answer_id\": \"cecc0c17-4047-010e-5cde-6e1c4b1c4fc7\",\n          \"value\": \"string\"\n        },\n        {\n          \"answer_id\": \"82e74d60-46bd-5c1e-e398-1dc81937c2ef\",\n          \"value\": \"string\"\n        }\n      ],\n      \"question_id\": \"76a23aa1-f857-744a-4942-443e93a64f58\",\n      \"question_title\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "57959363-729d-4344-a143-946ba53aed97",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "surveys",
+                    ":survey_id",
+                    "responses",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "survey_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"participant_id\": \"<string>\",\n  \"submission_id\": \"<string>\",\n  \"sections\": [\n    {\n      \"questions\": [\n        {\n          \"answers\": [\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"question_id\": \"165adf4b-2ec8-447e-8067-306c97a2038e\",\n          \"question_title\": \"string\"\n        },\n        {\n          \"answers\": [\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"question_id\": \"feb15267-e0a2-045a-0655-e2d2c137373b\",\n          \"question_title\": \"string\"\n        }\n      ],\n      \"section_id\": \"a024ed9d-7761-79af-31e5-11e8bbad9eb7\"\n    },\n    {\n      \"questions\": [\n        {\n          \"answers\": [\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"question_id\": \"6e848e6a-ac7c-d216-1e93-ccc01d6aa5cd\",\n          \"question_title\": \"string\"\n        },\n        {\n          \"answers\": [\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"question_id\": \"870b957c-9f16-ecd3-36b1-7b73ae18be30\",\n          \"question_title\": \"string\"\n        }\n      ],\n      \"section_id\": \"0e0a4ce7-5979-e3aa-c442-02b1d9e7a4ae\"\n    }\n  ],\n  \"questions\": [\n    {\n      \"answers\": [\n        {\n          \"answer_id\": \"cfd44d80-a16c-b124-3e23-e62c5d42c2df\",\n          \"value\": \"string\"\n        },\n        {\n          \"answer_id\": \"5e07538c-27a9-dc52-2b02-fdb425b74dd9\",\n          \"value\": \"string\"\n        }\n      ],\n      \"question_id\": \"679805de-d869-8f28-5324-02ddd8ada984\",\n      \"question_title\": \"string\"\n    },\n    {\n      \"answers\": [\n        {\n          \"answer_id\": \"ade4064f-4ef7-399f-aea9-ebcfc2e39c0f\",\n          \"value\": \"string\"\n        },\n        {\n          \"answer_id\": \"d376fc4d-6eec-d77c-9edb-4378b6388364\",\n          \"value\": \"string\"\n        }\n      ],\n      \"question_id\": \"bfdd4952-2326-924b-9e9d-a608d109f582\",\n      \"question_title\": \"string\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 6320,\n    \"error_code\": 7576,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "92260b87-dcea-441b-a831-a39e28d8b12d",
+          "name": "Delete all responses",
+          "request": {
+            "name": "Delete all responses",
+            "description": {
+              "content": "Delete all the responses for a given Survey.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "surveys",
+                ":survey_id",
+                "responses",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "survey_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1be3a92e-7db0-42a4-a8ef-80f830bab22e",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "surveys",
+                    ":survey_id",
+                    "responses",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "survey_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "719d7d26-ff7c-4a2b-bd8f-4ce8c27b4a5c",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "surveys",
+                    ":survey_id",
+                    "responses",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "survey_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 6320,\n    \"error_code\": 7576,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6477ae45-b841-4eec-a844-5600dd20ac0e",
+          "name": "Get summary of responses",
+          "request": {
+            "name": "Get summary of responses",
+            "description": {
+              "content": "Get an aggregated summary of responses for a given survey.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "surveys",
+                ":survey_id",
+                "responses",
+                "summary",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "survey_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9e3b5c31-5f26-41bf-bdf8-f3162a04071e",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "surveys",
+                    ":survey_id",
+                    "responses",
+                    "summary",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "survey_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"survey_id\": \"string\",\n  \"questions\": [\n    {\n      \"question\": \"string\",\n      \"question_id\": \"0c360633-b264-c278-43fc-8cc8e5458379\",\n      \"total_answers\": 0,\n      \"answers\": [\n        {\n          \"answer\": \"string\",\n          \"answer_id\": \"2735f209-acae-951f-b1e6-a9caf36b0514\",\n          \"count\": 0\n        },\n        {\n          \"answer\": \"string\",\n          \"answer_id\": \"c0a0eaa3-590e-3c60-1cea-d6ee53b14fc0\",\n          \"count\": 0\n        }\n      ]\n    },\n    {\n      \"question\": \"string\",\n      \"question_id\": \"b2261f42-eed4-f924-8e22-457af25ce35e\",\n      \"total_answers\": 0,\n      \"answers\": [\n        {\n          \"answer\": \"string\",\n          \"answer_id\": \"a4ba04c6-7887-86cc-33c6-67e301083245\",\n          \"count\": 0\n        },\n        {\n          \"answer\": \"string\",\n          \"answer_id\": \"208965fd-2abc-2b1c-cf9e-fcbee4827233\",\n          \"count\": 0\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c72dac87-08de-49fa-88c8-6433e872739d",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "surveys",
+                    ":survey_id",
+                    "responses",
+                    "summary",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "survey_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 6320,\n    \"error_code\": 7576,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4a0890e8-4d79-4671-80bd-a4831feffd80",
+          "name": "Get response",
+          "request": {
+            "name": "Get response",
+            "description": {
+              "content": "Get a single response for a survey.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "surveys",
+                ":survey_id",
+                "responses",
+                ":response_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "survey_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "response_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "eba988ed-3604-4b6a-95f7-2ad3e344be96",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "surveys",
+                    ":survey_id",
+                    "responses",
+                    ":response_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "survey_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "response_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"participant_id\": \"string\",\n  \"submission_id\": \"string\",\n  \"_id\": \"string\",\n  \"date_created\": \"1974-01-19T12:39:34.899Z\",\n  \"date_modified\": \"2001-06-23T22:26:12.646Z\",\n  \"sections\": [\n    {\n      \"questions\": [\n        {\n          \"answers\": [\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"question_id\": \"1674aa89-23e5-9fb9-656b-a830ff9e9cec\",\n          \"question_title\": \"string\"\n        },\n        {\n          \"answers\": [\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"question_id\": \"a8d56fa6-ab68-ecd0-f2d6-2f1f2a2c07af\",\n          \"question_title\": \"string\"\n        }\n      ],\n      \"section_id\": \"39514813-04fb-48ba-ec87-d32821a93839\"\n    },\n    {\n      \"questions\": [\n        {\n          \"answers\": [\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"question_id\": \"1e2ab87a-dbf7-2145-d092-4127a29af843\",\n          \"question_title\": \"string\"\n        },\n        {\n          \"answers\": [\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"answer_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"question_id\": \"29390877-ac4e-cfc4-6949-2e458e9e06a5\",\n          \"question_title\": \"string\"\n        }\n      ],\n      \"section_id\": \"30a3d764-670e-c174-ae80-d3e54a8a2349\"\n    }\n  ],\n  \"questions\": [\n    {\n      \"answers\": [\n        {\n          \"answer_id\": \"e2d11819-f7a8-312e-25bf-280a0f7a6d44\",\n          \"value\": \"string\"\n        },\n        {\n          \"answer_id\": \"b67c0696-1861-22a5-50b0-e63e6e6b6659\",\n          \"value\": \"string\"\n        }\n      ],\n      \"question_id\": \"7a7ea963-ecac-fa8e-c6fd-dde11df3d665\",\n      \"question_title\": \"string\"\n    },\n    {\n      \"answers\": [\n        {\n          \"answer_id\": \"cecc0c17-4047-010e-5cde-6e1c4b1c4fc7\",\n          \"value\": \"string\"\n        },\n        {\n          \"answer_id\": \"82e74d60-46bd-5c1e-e398-1dc81937c2ef\",\n          \"value\": \"string\"\n        }\n      ],\n      \"question_id\": \"76a23aa1-f857-744a-4942-443e93a64f58\",\n      \"question_title\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "09e4eb48-6226-4ec8-9920-c0306cf8e15b",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "surveys",
+                    ":survey_id",
+                    "responses",
+                    ":response_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "survey_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "response_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 6320,\n    \"error_code\": 7576,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f089642c-8a21-486d-9c5a-a5f1ed05f43b",
+          "name": "Delete a response",
+          "request": {
+            "name": "Delete a response",
+            "description": {
+              "content": "Delete a single Response.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "surveys",
+                ":survey_id",
+                "responses",
+                ":response_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "survey_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "response_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cac6fa25-4c6b-4d06-9ee0-6ce907fba693",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "surveys",
+                    ":survey_id",
+                    "responses",
+                    ":response_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "survey_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "response_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2aed6340-be7b-49c5-b7b0-be5f1034151a",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "surveys",
+                    ":survey_id",
+                    "responses",
+                    ":response_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "survey_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "response_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 6320,\n    \"error_code\": 7576,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.prolific.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "979d5283-dea7-48e6-ac20-2fb2cc941f5b",
+    "name": "API Reference aiTaskBuilder surveys API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

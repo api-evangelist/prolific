@@ -1,0 +1,126 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference aiTaskBuilder projects API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "projects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all projects in a workspace",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/workspaces/:workspace_id/projects/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "Workspace id"
+              }
+            ]
+          },
+          "docs": "Gets a list of all the projects within the workspace."
+        },
+        {
+          "info": {
+            "name": "Create a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/workspaces/:workspace_id/projects/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "Workspace id"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new project within the workspace.\nWhen this project is created, it adds the user as a Project Editor.\nSet `type` to `PUBLIC` to create a public project."
+        },
+        {
+          "info": {
+            "name": "Get project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/projects/:project_id/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "Project id"
+              }
+            ]
+          },
+          "docs": "Gets a project's details"
+        },
+        {
+          "info": {
+            "name": "Update a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.prolific.com/api/v1/projects/:project_id/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "Project id"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a project's details.\nPublic projects support partial updates to `public_details`.\nOnce a public project has published studies, `public_details.title` can no longer be changed."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

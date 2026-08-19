@@ -1,0 +1,237 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference aiTaskBuilder submissions API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "submissions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List submissions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/submissions/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "study",
+                "value": "",
+                "type": "query",
+                "description": "Filter by study ID (required). This is the ID we pass to the survey platform using %STUDY_ID%"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by submission status (case-insensitive). Valid values include ACTIVE, AWAITING_REVIEW, APPROVED, REJECTED, RETURNED, SCREENED_OUT, TIMED-OUT"
+              },
+              {
+                "name": "completed",
+                "value": "",
+                "type": "query",
+                "description": "Filter by completion status. Accepts 1/true/yes/t for completed, 0/false/no/f for incomplete (case-insensitive)"
+              },
+              {
+                "name": "returned",
+                "value": "",
+                "type": "query",
+                "description": "Filter by returned status. Accepts 1/true/yes/t for returned, 0/false/no/f for not returned (case-insensitive)"
+              },
+              {
+                "name": "awaiting_review",
+                "value": "",
+                "type": "query",
+                "description": "Filter by awaiting review status. Accepts 1/true/yes/t for awaiting review, 0/false/no/f for not awaiting review (case-insensitive)"
+              },
+              {
+                "name": "approved",
+                "value": "",
+                "type": "query",
+                "description": "Filter by approved status. Accepts 1/true/yes/t for approved, 0/false/no/f for not approved (case-insensitive)"
+              },
+              {
+                "name": "active",
+                "value": "",
+                "type": "query",
+                "description": "Filter by active status. Accepts 1/true/yes/t for active, 0/false/no/f for not active (case-insensitive)"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "Filter by timed out status. Accepts 1/true/yes/t for timed out, 0/false/no/f for not timed out (case-insensitive)"
+              },
+              {
+                "name": "rejected",
+                "value": "",
+                "type": "query",
+                "description": "Filter by rejected status. Accepts 1/true/yes/t for rejected, 0/false/no/f for not rejected (case-insensitive)"
+              },
+              {
+                "name": "screened_out",
+                "value": "",
+                "type": "query",
+                "description": "Filter by screened out status. Accepts 1/true/yes/t for screened out, 0/false/no/f for not screened out (case-insensitive)"
+              },
+              {
+                "name": "completeoractive",
+                "value": "",
+                "type": "query",
+                "description": "Filter for submissions that are either completed or active. Accepts 1/true/yes/t to include, 0/false/no/f to exclude (case-insensitive)"
+              },
+              {
+                "name": "submitted_from",
+                "value": "",
+                "type": "query",
+                "description": "Filter submissions completed after the given date. Format DD/MM/YYYY (e.g., 01/01/2024)"
+              },
+              {
+                "name": "submitted_before",
+                "value": "",
+                "type": "query",
+                "description": "Filter submissions completed before the given date. Format DD/MM/YYYY (e.g., 31/12/2024)"
+              },
+              {
+                "name": "ordering",
+                "value": "",
+                "type": "query",
+                "description": "Order results by field. Prefix with '-' for descending order. Supported values are started_at, submission_reward, study_name"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return per page (Default 20)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number to retrieve (Default 1)"
+              }
+            ]
+          },
+          "docs": "Returns basic information of submissions, including study id, participant id, status and start timestamp.\n\n**Filtering and Ordering:**\n- Filter by status, completion state, dates, and study\n- Order by start time, reward amount, or study name\n- Paginate by page_size and page (Default page_size is 20)\n- Boolean parameters accept multiple formats: 1/0, true/false, yes/no, t/f (case-insensitive)\n- Date parameters use DD/MM/YYYY format\n- Status parameters are case-insensitive with underscore normaliz"
+        },
+        {
+          "info": {
+            "name": "Retrieve a submission",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/submissions/:id/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Submission id. This is the ID we pass to the survey platform\nusing %SESSION_ID%"
+              }
+            ]
+          },
+          "docs": "Returns the detailed information of a submission, including the\nstudy id, participant id, status and start timestamp"
+        },
+        {
+          "info": {
+            "name": "Approve or reject a submission",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/submissions/:id/transition/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Submission id. This is the ID we pass to the survey platform\nusing %SESSION_ID%"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Transition a submission to `APPROVED`, `REJECTED`, `PARTIALLY APPROVED`, `AWAITING REVIEW` or `SCREENED OUT`. Once the status is changed, it can not be restored to its previous value.\n\nYou can only transition a submission to PARTIALLY APPROVED or SCREENED OUT by:\n  - setting up the study with the appropriate completion codes (only some workspaces have access to these features)\n  - providing the correct completion code in the request body\n  - providing the necessary data in the request body (to P"
+        },
+        {
+          "info": {
+            "name": "Request the participant who submitted the response to return their response",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/submissions/:id/request-return/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The submission id"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**This is an experimental feature that may be subject to change in the future.** <br/>\nIt offers researchers the ability to ask a participant to return a submission. The return reason must be provided in the request and can be any free text string. <br/> The Prolific UI allows users to select any of the following options:\n* Didn't finish the study\n* Encountered technical problems\n* Withdrew consent\n* Other ( uses the free text input)\n\nThis constructs a message around the reasons provided so ther"
+        },
+        {
+          "info": {
+            "name": "Bulk approve submissions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/submissions/bulk-approve/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Bulk approve study submissions to pay participants after they have\ncompleted your survey or experiment. There are two variant payloads to\nthis request.\n\n- You can supply a Study ID, and a list of participant IDs, or\n- You can provide a list of submission IDs\n\nWe strongly recommend that you provide a list of submission IDs. These submissions do not need to be from the same study.\n\nWe recommend a maximum of 1,000 submission or participant IDs per request."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

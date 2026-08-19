@@ -1,0 +1,287 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference aiTaskBuilder webhooks API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "webhooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all subscribable event types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/hooks/event-types/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "You can subscribe to any of the event types defined in this response."
+        },
+        {
+          "info": {
+            "name": "List all secrets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/hooks/secrets/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "A view of all the secrets for the workspaces you belong to."
+        },
+        {
+          "info": {
+            "name": "Create/replace a secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/hooks/secrets/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generate a secret for verifying the request signature header of the subscription payload. If a secret already exists, this call will delete the old secret and create a new one."
+        },
+        {
+          "info": {
+            "name": "List all subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/hooks/subscriptions/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "is_enabled",
+                "value": "",
+                "type": "query",
+                "description": "A filter to only pull back enabled subscriptions. Default true."
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "query",
+                "description": "The Workspace ID we want to get the subscriptions for. If not given, the subscriptions for all of your workspaces will be returned."
+              }
+            ]
+          },
+          "docs": "A view of all subscriptions you have created."
+        },
+        {
+          "info": {
+            "name": "Create a subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/hooks/subscriptions/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a subscription for an event type. When an event is triggered in the Prolific system, the hook will automatically notify the specified target URL.\n\nBefore creating a subscription, you must ensure that you have created a secret for your workspace."
+        },
+        {
+          "info": {
+            "name": "Retrieve a subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/hooks/subscriptions/:subscription_id/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "subscription_id",
+                "value": "",
+                "type": "path",
+                "description": "Subscription id"
+              }
+            ]
+          },
+          "docs": "Get a single subscription"
+        },
+        {
+          "info": {
+            "name": "Confirm a subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/hooks/subscriptions/:subscription_id/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "subscription_id",
+                "value": "",
+                "type": "path",
+                "description": "Subscription id"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Confirm a subscription to an event type"
+        },
+        {
+          "info": {
+            "name": "Update a subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.prolific.com/api/v1/hooks/subscriptions/:subscription_id/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "subscription_id",
+                "value": "",
+                "type": "path",
+                "description": "Subscription id"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This allows you to update a subscription. For example you can temporarily disable or enable a subscription if you wish."
+        },
+        {
+          "info": {
+            "name": "Delete a subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.prolific.com/api/v1/hooks/subscriptions/:subscription_id/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "subscription_id",
+                "value": "",
+                "type": "path",
+                "description": "Subscription id"
+              }
+            ]
+          },
+          "docs": "If you no longer require to be notified of a certain event type, you can delete a subscription. If you want to temporarily pause notifications, you can use the PATCH request documented."
+        },
+        {
+          "info": {
+            "name": "Get subscription events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/hooks/subscriptions/:subscription_id/events/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "subscription_id",
+                "value": "",
+                "type": "path",
+                "description": "Subscription id"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter events by status. Accepts a single status or a JSON array of statuses as a string."
+              },
+              {
+                "name": "resource_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter events by the ID of the resource for which the event was sent."
+              }
+            ]
+          },
+          "docs": "Get all of the events that have triggered for the given subscription."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

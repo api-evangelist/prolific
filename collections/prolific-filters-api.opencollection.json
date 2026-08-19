@@ -1,0 +1,113 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference aiTaskBuilder filters API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "filters",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all filters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/filters/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "detailed",
+                "value": "",
+                "type": "query",
+                "description": "Include extra information required to sort and categorise filters in the Prolific app. This is not required for API use. Default false."
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "query",
+                "description": "The workspace ID for the workspace you are creating a study or filterset in. This is used to get contextual data such as previous studies and participant groups."
+              },
+              {
+                "name": "filter_tag",
+                "value": "",
+                "type": "query",
+                "description": "Can be used to return only Custom Group filters."
+              }
+            ]
+          },
+          "docs": "List all filters that can be applied to your filter sets or studies."
+        },
+        {
+          "info": {
+            "name": "Get filter distribution",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/filters/:id/distribution/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the filter to get distribution for. Only filters tagged with \"custom-group\" are supported."
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "query",
+                "description": "ID of your current workspace."
+              },
+              {
+                "name": "distribution_filters",
+                "value": "",
+                "type": "query",
+                "description": "Filters to get distributions for. This should be a comma-separated list of filter IDs. Only filters tagged with \"allow-distribution\" are supported."
+              }
+            ]
+          },
+          "docs": "Get the distribution of a filter."
+        },
+        {
+          "info": {
+            "name": "Count participants",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/eligibility-count/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Count how many participants meet all the given filters.\nOnly participants that pass **every one** of the filters are counted.\nZero means that there are less than 25 participants. We do not show lower numbers to protect the privacy of the participants.\n\nTo see a list of filters that may be passed to this endpoint, see the documentation for filters."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

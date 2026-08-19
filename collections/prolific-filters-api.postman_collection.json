@@ -1,0 +1,545 @@
+{
+  "item": [
+    {
+      "id": "c0780e5a-65d4-43d1-bfa3-25ec43601991",
+      "name": "filters",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a7650fb8-aa80-417c-b58f-7a95f7d0ac5f",
+          "name": "List all filters",
+          "request": {
+            "name": "List all filters",
+            "description": {
+              "content": "List all filters that can be applied to your filter sets or studies.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "filters",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "detailed",
+                  "value": "<string>",
+                  "description": "Include extra information required to sort and categorise filters in the Prolific app. This is not required for API use. Default false."
+                },
+                {
+                  "disabled": false,
+                  "key": "workspace_id",
+                  "value": "<string>",
+                  "description": "The workspace ID for the workspace you are creating a study or filterset in. This is used to get contextual data such as previous studies and participant groups."
+                },
+                {
+                  "disabled": false,
+                  "key": "filter_tag",
+                  "value": "<string>",
+                  "description": "Can be used to return only Custom Group filters."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6a19fa1a-511c-437a-a6ee-9220ed7eb181",
+              "name": "List of filters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "filters",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "detailed",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "workspace_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter_tag",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"filter_id\": \"string\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"type\": \"range\",\n      \"question\": \"string\",\n      \"choices\": {\n        \"key_0\": {}\n      },\n      \"data_type\": \"ChoiceID\"\n    },\n    {\n      \"filter_id\": \"string\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"type\": \"select\",\n      \"question\": \"string\",\n      \"choices\": {\n        \"key_0\": {},\n        \"key_1\": {}\n      },\n      \"data_type\": \"ParticipantGroupID\"\n    }\n  ],\n  \"_links\": {\n    \"key_0\": {},\n    \"key_1\": {}\n  },\n  \"meta\": {\n    \"key_0\": {},\n    \"key_1\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5a9240bc-7a42-4407-a22a-f60c4e6e6585",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "filters",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "detailed",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "workspace_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter_tag",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 6112,\n    \"error_code\": 4850,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8aa4d635-01c6-4931-957f-36eabe7842b6",
+          "name": "Get filter distribution",
+          "request": {
+            "name": "Get filter distribution",
+            "description": {
+              "content": "Get the distribution of a filter.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "filters",
+                ":id",
+                "distribution",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "workspace_id",
+                  "value": "<string>",
+                  "description": "(Required) ID of your current workspace."
+                },
+                {
+                  "disabled": false,
+                  "key": "distribution_filters",
+                  "value": "<string>",
+                  "description": "(Required) Filters to get distributions for. This should be a comma-separated list of filter IDs. Only filters tagged with \"allow-distribution\" are supported."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) ID of the filter to get distribution for. Only filters tagged with \"custom-group\" are supported."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ab93a983-a072-4b39-b11b-8bb8689c1dac",
+              "name": "Filter distribution",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "filters",
+                    ":id",
+                    "distribution",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "workspace_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "distribution_filters",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the filter to get distribution for. Only filters tagged with \"custom-group\" are supported."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"distribution\": {\n    \"key_0\": {\n      \"key_0\": 853,\n      \"key_1\": 3227\n    },\n    \"key_1\": {\n      \"key_0\": 3221\n    },\n    \"key_2\": {\n      \"key_0\": 9295\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "46d17017-c043-4c3e-9b09-56034b99dcb6",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "filters",
+                    ":id",
+                    "distribution",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "workspace_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "distribution_filters",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the filter to get distribution for. Only filters tagged with \"custom-group\" are supported."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 6112,\n    \"error_code\": 4850,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7d42fdc7-a21b-4706-8c9b-d9a3e789595e",
+          "name": "Count participants",
+          "request": {
+            "name": "Count participants",
+            "description": {
+              "content": "Count how many participants meet all the given filters.\nOnly participants that pass **every one** of the filters are counted.\nZero means that there are less than 25 participants. We do not show lower numbers to protect the privacy of the participants.\n\nTo see a list of filters that may be passed to this endpoint, see the documentation for filters.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "eligibility-count",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filters\": [\n    {\n      \"filter_id\": \"<string>\",\n      \"selected_values\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"weightings\": {\n        \"key_0\": \"<double>\",\n        \"key_1\": \"<double>\"\n      }\n    },\n    {\n      \"filter_id\": \"<string>\",\n      \"selected_values\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"weightings\": {\n        \"key_0\": \"<double>\",\n        \"key_1\": \"<double>\",\n        \"key_2\": \"<double>\"\n      }\n    }\n  ],\n  \"workspace_id\": \"<string>\",\n  \"organisation_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "57a03b42-d1f5-4896-a4a1-8597b6ccc45f",
+              "name": "Count",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "eligibility-count",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filters\": [\n    {\n      \"filter_id\": \"string\",\n      \"selected_values\": [\n        \"string\",\n        \"string\"\n      ],\n      \"weightings\": {\n        \"key_0\": 6233.600373590021,\n        \"key_1\": 2722.487387285194,\n        \"key_2\": 4095.4757125445817\n      }\n    },\n    {\n      \"filter_id\": \"string\",\n      \"selected_values\": [\n        \"string\",\n        \"string\"\n      ],\n      \"weightings\": {\n        \"key_0\": 6127.889640900202,\n        \"key_1\": 8307.366052849677\n      }\n    }\n  ],\n  \"workspace_id\": \"<string>\",\n  \"organisation_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 8187.441091603456\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "48ed2a69-1941-4f7b-9822-28f219a3fddf",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "eligibility-count",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filters\": [\n    {\n      \"filter_id\": \"string\",\n      \"selected_values\": [\n        \"string\",\n        \"string\"\n      ],\n      \"weightings\": {\n        \"key_0\": 6233.600373590021,\n        \"key_1\": 2722.487387285194,\n        \"key_2\": 4095.4757125445817\n      }\n    },\n    {\n      \"filter_id\": \"string\",\n      \"selected_values\": [\n        \"string\",\n        \"string\"\n      ],\n      \"weightings\": {\n        \"key_0\": 6127.889640900202,\n        \"key_1\": 8307.366052849677\n      }\n    }\n  ],\n  \"workspace_id\": \"<string>\",\n  \"organisation_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 6112,\n    \"error_code\": 4850,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.prolific.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e973a054-26f9-4094-9078-663a3c9a2965",
+    "name": "API Reference aiTaskBuilder filters API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

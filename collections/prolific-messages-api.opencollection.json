@@ -1,0 +1,135 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference aiTaskBuilder messages API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "messages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve messages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/messages/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "Another user ID, must be provided if no created_after date is provided."
+              },
+              {
+                "name": "created_after",
+                "value": "",
+                "type": "query",
+                "description": "Only fetch messages created after timestamp. Datetime in ISO8601 format. Must be provided if no user_id is provided. You can only fetch up to the last 30 days of messages."
+              },
+              {
+                "name": "excluded_sender_ids",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list of sender IDs whose messages should be excluded from the response. Maximum 10 IDs.\n\ne.g. `excluded_sender_ids=abc,def`.\n"
+              }
+            ]
+          },
+          "docs": "Get messages between you and another user or your messages with all users."
+        },
+        {
+          "info": {
+            "name": "Send a message",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/messages/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Send a message to a participant or another researcher"
+        },
+        {
+          "info": {
+            "name": "Send a message to multiple participants",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/messages/bulk/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Send a message to multiple participants."
+        },
+        {
+          "info": {
+            "name": "Send a message to a participant group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/messages/participant-group/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Send a message to a participant group."
+        },
+        {
+          "info": {
+            "name": "Retrieve unread messages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/messages/unread/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Get all unread messages.\nThe messages you have sent are never returned, only messages you have received and not read.\nIt does not mark those messages as read."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

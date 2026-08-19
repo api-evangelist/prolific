@@ -1,0 +1,803 @@
+{
+  "item": [
+    {
+      "id": "7643d763-5fa3-4794-8386-173b9dd7fd93",
+      "name": "messages",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "92230e75-d4d8-44a9-a3eb-92e668f2a108",
+          "name": "Retrieve messages",
+          "request": {
+            "name": "Retrieve messages",
+            "description": {
+              "content": "Get messages between you and another user or your messages with all users.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "messages",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "user_id",
+                  "value": "<string>",
+                  "description": "Another user ID, must be provided if no created_after date is provided."
+                },
+                {
+                  "disabled": false,
+                  "key": "created_after",
+                  "value": "<string>",
+                  "description": "Only fetch messages created after timestamp. Datetime in ISO8601 format. Must be provided if no user_id is provided. You can only fetch up to the last 30 days of messages."
+                },
+                {
+                  "disabled": false,
+                  "key": "excluded_sender_ids",
+                  "value": "<string>",
+                  "description": "A comma-separated list of sender IDs whose messages should be excluded from the response. Maximum 10 IDs.\n\ne.g. `excluded_sender_ids=abc,def`.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1dfd8ac2-b500-4c88-9e1f-8159bd59ae67",
+              "name": "Messages",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "messages",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "user_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "created_after",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "excluded_sender_ids",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"id\": \"string\",\n      \"sender_id\": \"string\",\n      \"body\": \"string\",\n      \"sent_at\": \"1958-12-15T10:37:18.571Z\",\n      \"channel_id\": \"string\",\n      \"type\": \"string\",\n      \"data\": {\n        \"study_id\": \"string\",\n        \"category\": \"payment-issues\"\n      }\n    },\n    {\n      \"id\": \"string\",\n      \"sender_id\": \"string\",\n      \"body\": \"string\",\n      \"sent_at\": \"1956-11-26T03:42:18.606Z\",\n      \"channel_id\": \"string\",\n      \"type\": \"string\",\n      \"data\": {\n        \"study_id\": \"string\",\n        \"category\": \"payment-timing\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b0ad795f-3f9e-4f96-a60d-0a67635df6cd",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "messages",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "user_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "created_after",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "excluded_sender_ids",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 1206,\n  \"error_code\": 9568,\n  \"title\": \"string\",\n  \"detail\": \"string\",\n  \"additional_information\": \"string\",\n  \"traceback\": \"string\",\n  \"interactive\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4f3977a9-ba58-4038-a716-a12770331494",
+          "name": "Send a message",
+          "request": {
+            "name": "Send a message",
+            "description": {
+              "content": "Send a message to a participant or another researcher",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "messages",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"recipient_id\": \"<string>\",\n  \"body\": \"<string>\",\n  \"study_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "734ff46e-4e71-470a-a150-bf720d1c85a3",
+              "name": "The message has been sent",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "messages",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"recipient_id\": \"<string>\",\n  \"body\": \"<string>\",\n  \"study_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d2e4ec67-9fd0-46c2-bf89-3e7ce833e688",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "messages",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"recipient_id\": \"<string>\",\n  \"body\": \"<string>\",\n  \"study_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 1206,\n  \"error_code\": 9568,\n  \"title\": \"string\",\n  \"detail\": \"string\",\n  \"additional_information\": \"string\",\n  \"traceback\": \"string\",\n  \"interactive\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5b0aeb21-3693-459a-9c75-d02f7d0e04a3",
+          "name": "Send a message to multiple participants",
+          "request": {
+            "name": "Send a message to multiple participants",
+            "description": {
+              "content": "Send a message to multiple participants.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "messages",
+                "bulk",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"body\": \"<string>\",\n  \"study_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a194014e-68a9-4057-8a32-d0b02b2e0af7",
+              "name": "The message has been sent",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "messages",
+                    "bulk",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"body\": \"<string>\",\n  \"study_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "80962fb0-4625-4a14-826b-6467ffb590ff",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "messages",
+                    "bulk",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"body\": \"<string>\",\n  \"study_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 1206,\n  \"error_code\": 9568,\n  \"title\": \"string\",\n  \"detail\": \"string\",\n  \"additional_information\": \"string\",\n  \"traceback\": \"string\",\n  \"interactive\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b1244e21-1e54-40e2-8762-9a8f5b23b844",
+          "name": "Send a message to a participant group",
+          "request": {
+            "name": "Send a message to a participant group",
+            "description": {
+              "content": "Send a message to a participant group.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "messages",
+                "participant-group",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"participant_group_id\": \"<string>\",\n  \"body\": \"<string>\",\n  \"study_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4c515307-7ffd-449c-ad80-ddab9a21ef19",
+              "name": "The message has been sent",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "messages",
+                    "participant-group",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"participant_group_id\": \"<string>\",\n  \"body\": \"<string>\",\n  \"study_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "60d323a1-1f4f-402b-97ad-87afb5c4f124",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "messages",
+                    "participant-group",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"participant_group_id\": \"<string>\",\n  \"body\": \"<string>\",\n  \"study_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 1206,\n  \"error_code\": 9568,\n  \"title\": \"string\",\n  \"detail\": \"string\",\n  \"additional_information\": \"string\",\n  \"traceback\": \"string\",\n  \"interactive\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9d3e212c-c1b3-4d60-8498-dbc99b9a2ef8",
+          "name": "Retrieve unread messages",
+          "request": {
+            "name": "Retrieve unread messages",
+            "description": {
+              "content": "Get all unread messages.\nThe messages you have sent are never returned, only messages you have received and not read.\nIt does not mark those messages as read.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "messages",
+                "unread",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "44ab0c28-996b-475c-a6cc-a1848cedad70",
+              "name": "Messages",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "messages",
+                    "unread",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"id\": \"string\",\n      \"sender_id\": \"string\",\n      \"body\": \"string\",\n      \"sent_at\": \"1958-12-15T10:37:18.571Z\",\n      \"channel_id\": \"string\",\n      \"type\": \"string\",\n      \"data\": {\n        \"study_id\": \"string\",\n        \"category\": \"payment-issues\"\n      }\n    },\n    {\n      \"id\": \"string\",\n      \"sender_id\": \"string\",\n      \"body\": \"string\",\n      \"sent_at\": \"1956-11-26T03:42:18.606Z\",\n      \"channel_id\": \"string\",\n      \"type\": \"string\",\n      \"data\": {\n        \"study_id\": \"string\",\n        \"category\": \"payment-timing\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a668c2bf-377c-46d4-a355-f0abf9cfa079",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "messages",
+                    "unread",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 1206,\n  \"error_code\": 9568,\n  \"title\": \"string\",\n  \"detail\": \"string\",\n  \"additional_information\": \"string\",\n  \"traceback\": \"string\",\n  \"interactive\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.prolific.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "52f487aa-3a4f-497c-8e73-4d9361137272",
+    "name": "API Reference aiTaskBuilder messages API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

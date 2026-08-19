@@ -1,0 +1,804 @@
+{
+  "item": [
+    {
+      "id": "99592497-24fc-471c-a69b-db58c6898bac",
+      "name": "workspaces",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b062467e-700a-4508-a971-2dc857d8e7e4",
+          "name": "Get all a user's workspaces",
+          "request": {
+            "name": "Get all a user's workspaces",
+            "description": {
+              "content": "Gets a list of all workspaces that the user is a member of.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "workspaces",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8f9aa801-826f-4d45-aa5a-e848e7185552",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workspaces",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"id\": \"string\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"owner\": \"string\",\n      \"users\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"naivety_distribution_rate\": 1510.7768173361046\n    },\n    {\n      \"id\": \"string\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"owner\": \"string\",\n      \"users\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"naivety_distribution_rate\": 780.7536112594937\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1a3f5995-f472-488b-8109-d5c8b02d0597",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workspaces",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 5821,\n    \"error_code\": 3408,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "db4bfd8f-6156-4642-94df-3264c067ce71",
+          "name": "Create a workspace",
+          "request": {
+            "name": "Create a workspace",
+            "description": {
+              "content": "Creates a new workspace and adds the user as a Workspace Admin.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "workspaces",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"<string>\",\n  \"naivety_distribution_rate\": \"<number,null-double>\",\n  \"currency_code\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "88886c64-a5bf-4b6e-b91f-678d5997eab2",
+              "name": "Created workspace",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workspaces",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"<string>\",\n  \"naivety_distribution_rate\": \"<number,null-double>\",\n  \"currency_code\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"owner\": \"string\",\n  \"users\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"email\": \"string\",\n      \"roles\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"email\": \"string\",\n      \"roles\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"projects\": [\n    {\n      \"id\": \"string\",\n      \"title\": \"string\",\n      \"type\": \"PRIVATE\",\n      \"description\": \"string\",\n      \"owner\": \"string\",\n      \"public_details\": {\n        \"status\": \"DISABLED\",\n        \"title\": \"string\",\n        \"short_description\": \"string\",\n        \"description\": \"string\"\n      },\n      \"users\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"naivety_distribution_rate\": 2510.4173750160576\n    },\n    {\n      \"id\": \"string\",\n      \"title\": \"string\",\n      \"type\": \"PUBLIC\",\n      \"description\": \"string\",\n      \"owner\": \"string\",\n      \"public_details\": {\n        \"status\": \"ENABLED\",\n        \"title\": \"string\",\n        \"short_description\": \"string\",\n        \"description\": \"string\"\n      },\n      \"users\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"naivety_distribution_rate\": 5979.801423398918\n    }\n  ],\n  \"wallet\": \"string\",\n  \"naivety_distribution_rate\": 1061.5165735178355\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ec80de87-4e9e-4c76-9915-3b643de34544",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workspaces",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"<string>\",\n  \"naivety_distribution_rate\": \"<number,null-double>\",\n  \"currency_code\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 5821,\n    \"error_code\": 3408,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0a8b9033-9bc1-4fb8-85b9-990a49f30cbb",
+          "name": "Get workspace",
+          "request": {
+            "name": "Get workspace",
+            "description": {
+              "content": "Gets a workspace's details",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "workspaces",
+                ":workspace_id",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "workspace_id",
+                  "description": "(Required) Workspace id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "384e6f60-0170-4862-bf80-4cf030679d89",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workspaces",
+                    ":workspace_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workspace_id",
+                      "description": "(Required) Workspace id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"owner\": \"string\",\n  \"users\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"email\": \"string\",\n      \"roles\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"email\": \"string\",\n      \"roles\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"projects\": [\n    {\n      \"id\": \"string\",\n      \"title\": \"string\",\n      \"type\": \"PRIVATE\",\n      \"description\": \"string\",\n      \"owner\": \"string\",\n      \"public_details\": {\n        \"status\": \"DISABLED\",\n        \"title\": \"string\",\n        \"short_description\": \"string\",\n        \"description\": \"string\"\n      },\n      \"users\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"naivety_distribution_rate\": 2510.4173750160576\n    },\n    {\n      \"id\": \"string\",\n      \"title\": \"string\",\n      \"type\": \"PUBLIC\",\n      \"description\": \"string\",\n      \"owner\": \"string\",\n      \"public_details\": {\n        \"status\": \"ENABLED\",\n        \"title\": \"string\",\n        \"short_description\": \"string\",\n        \"description\": \"string\"\n      },\n      \"users\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"naivety_distribution_rate\": 5979.801423398918\n    }\n  ],\n  \"wallet\": \"string\",\n  \"naivety_distribution_rate\": 1061.5165735178355\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "02151998-a871-4d39-993b-d21085ee1e2b",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workspaces",
+                    ":workspace_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workspace_id",
+                      "description": "(Required) Workspace id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 5821,\n    \"error_code\": 3408,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fb5b2843-2b2f-4959-a3dd-adb721890431",
+          "name": "Update a workspace",
+          "request": {
+            "name": "Update a workspace",
+            "description": {
+              "content": "Updates a workspace's details.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "workspaces",
+                ":workspace_id",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "workspace_id",
+                  "description": "(Required) Workspace id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"owner\": \"<string>\",\n  \"users\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"email\": \"<string>\",\n      \"roles\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"email\": \"<string>\",\n      \"roles\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ],\n  \"projects\": [\n    {\n      \"id\": \"<string>\",\n      \"title\": \"<string>\",\n      \"type\": \"<string>\",\n      \"description\": \"<string>\",\n      \"owner\": \"<string>\",\n      \"public_details\": {\n        \"status\": \"<string>\",\n        \"title\": \"<string>\",\n        \"short_description\": \"<string>\",\n        \"description\": \"<string>\"\n      },\n      \"users\": [\n        {\n          \"id\": \"<string>\",\n          \"name\": \"<string>\",\n          \"email\": \"<string>\",\n          \"roles\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        },\n        {\n          \"id\": \"<string>\",\n          \"name\": \"<string>\",\n          \"email\": \"<string>\",\n          \"roles\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      ],\n      \"naivety_distribution_rate\": \"<number,null-double>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"title\": \"<string>\",\n      \"type\": \"<string>\",\n      \"description\": \"<string>\",\n      \"owner\": \"<string>\",\n      \"public_details\": {\n        \"status\": \"<string>\",\n        \"title\": \"<string>\",\n        \"short_description\": \"<string>\",\n        \"description\": \"<string>\"\n      },\n      \"users\": [\n        {\n          \"id\": \"<string>\",\n          \"name\": \"<string>\",\n          \"email\": \"<string>\",\n          \"roles\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        },\n        {\n          \"id\": \"<string>\",\n          \"name\": \"<string>\",\n          \"email\": \"<string>\",\n          \"roles\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      ],\n      \"naivety_distribution_rate\": \"<number,null-double>\"\n    }\n  ],\n  \"wallet\": \"<string>\",\n  \"naivety_distribution_rate\": \"<number,null-double>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e82ce712-1938-48ac-8002-c6f64ee7067c",
+              "name": "Updated workspace redirect link",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workspaces",
+                    ":workspace_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workspace_id",
+                      "description": "(Required) Workspace id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"owner\": \"<string>\",\n  \"users\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"email\": \"string\",\n      \"roles\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"email\": \"string\",\n      \"roles\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"projects\": [\n    {\n      \"id\": \"string\",\n      \"title\": \"string\",\n      \"type\": \"PRIVATE\",\n      \"description\": \"string\",\n      \"owner\": \"string\",\n      \"public_details\": {\n        \"status\": \"ENABLED\",\n        \"title\": \"string\",\n        \"short_description\": \"string\",\n        \"description\": \"string\"\n      },\n      \"users\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"naivety_distribution_rate\": 611.8768106168848\n    },\n    {\n      \"id\": \"string\",\n      \"title\": \"string\",\n      \"type\": \"PRIVATE\",\n      \"description\": \"string\",\n      \"owner\": \"string\",\n      \"public_details\": {\n        \"status\": \"ENABLED\",\n        \"title\": \"string\",\n        \"short_description\": \"string\",\n        \"description\": \"string\"\n      },\n      \"users\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"naivety_distribution_rate\": 6159.152540943893\n    }\n  ],\n  \"wallet\": \"<string>\",\n  \"naivety_distribution_rate\": \"<number,null-double>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"owner\": \"string\",\n  \"users\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"email\": \"string\",\n      \"roles\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"email\": \"string\",\n      \"roles\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"projects\": [\n    {\n      \"id\": \"string\",\n      \"title\": \"string\",\n      \"type\": \"PRIVATE\",\n      \"description\": \"string\",\n      \"owner\": \"string\",\n      \"public_details\": {\n        \"status\": \"DISABLED\",\n        \"title\": \"string\",\n        \"short_description\": \"string\",\n        \"description\": \"string\"\n      },\n      \"users\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"naivety_distribution_rate\": 2510.4173750160576\n    },\n    {\n      \"id\": \"string\",\n      \"title\": \"string\",\n      \"type\": \"PUBLIC\",\n      \"description\": \"string\",\n      \"owner\": \"string\",\n      \"public_details\": {\n        \"status\": \"ENABLED\",\n        \"title\": \"string\",\n        \"short_description\": \"string\",\n        \"description\": \"string\"\n      },\n      \"users\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"naivety_distribution_rate\": 5979.801423398918\n    }\n  ],\n  \"wallet\": \"string\",\n  \"naivety_distribution_rate\": 1061.5165735178355\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d16143ad-9a6d-46a6-a24c-63dd4282d01c",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workspaces",
+                    ":workspace_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workspace_id",
+                      "description": "(Required) Workspace id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"owner\": \"<string>\",\n  \"users\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"email\": \"string\",\n      \"roles\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"email\": \"string\",\n      \"roles\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"projects\": [\n    {\n      \"id\": \"string\",\n      \"title\": \"string\",\n      \"type\": \"PRIVATE\",\n      \"description\": \"string\",\n      \"owner\": \"string\",\n      \"public_details\": {\n        \"status\": \"ENABLED\",\n        \"title\": \"string\",\n        \"short_description\": \"string\",\n        \"description\": \"string\"\n      },\n      \"users\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"naivety_distribution_rate\": 611.8768106168848\n    },\n    {\n      \"id\": \"string\",\n      \"title\": \"string\",\n      \"type\": \"PRIVATE\",\n      \"description\": \"string\",\n      \"owner\": \"string\",\n      \"public_details\": {\n        \"status\": \"ENABLED\",\n        \"title\": \"string\",\n        \"short_description\": \"string\",\n        \"description\": \"string\"\n      },\n      \"users\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"email\": \"string\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"naivety_distribution_rate\": 6159.152540943893\n    }\n  ],\n  \"wallet\": \"<string>\",\n  \"naivety_distribution_rate\": \"<number,null-double>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 5821,\n    \"error_code\": 3408,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bdee55d6-c639-4861-b3ad-c4a13bca80d1",
+          "name": "Get the balance of a workspace",
+          "request": {
+            "name": "Get the balance of a workspace",
+            "description": {
+              "content": "Provides details of the funds available in the workspace.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "workspaces",
+                ":workspace_id",
+                "balance",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "workspace_id",
+                  "description": "(Required) Workspace id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5571e43d-499c-4906-a3fd-5b8da4166c96",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workspaces",
+                    ":workspace_id",
+                    "balance",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workspace_id",
+                      "description": "(Required) Workspace id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"currency_code\": \"string\",\n  \"total_balance\": 26,\n  \"balance_breakdown\": {},\n  \"available_balance\": 6425,\n  \"available_balance_breakdown\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "760aa27c-3874-41df-9f81-a5ae04d25b33",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workspaces",
+                    ":workspace_id",
+                    "balance",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workspace_id",
+                      "description": "(Required) Workspace id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 5821,\n    \"error_code\": 3408,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.prolific.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "ca73d373-b5d4-43fc-a803-00284c60669b",
+    "name": "API Reference aiTaskBuilder workspaces API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

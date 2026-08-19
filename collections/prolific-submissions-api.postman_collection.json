@@ -1,0 +1,1066 @@
+{
+  "item": [
+    {
+      "id": "948c6037-4def-46dc-b49c-4804ee29e174",
+      "name": "submissions",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "729a08ef-9727-4cb0-9583-2ec17f7b15f7",
+          "name": "List submissions",
+          "request": {
+            "name": "List submissions",
+            "description": {
+              "content": "Returns basic information of submissions, including study id, participant id, status and start timestamp.\n\n**Filtering and Ordering:**\n- Filter by status, completion state, dates, and study\n- Order by start time, reward amount, or study name\n- Paginate by page_size and page (Default page_size is 20)\n- Boolean parameters accept multiple formats: 1/0, true/false, yes/no, t/f (case-insensitive)\n- Date parameters use DD/MM/YYYY format\n- Status parameters are case-insensitive with underscore normalization",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "submissions",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "study",
+                  "value": "<string>",
+                  "description": "(Required) Filter by study ID (required). This is the ID we pass to the survey platform using %STUDY_ID%"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Filter by submission status (case-insensitive). Valid values include ACTIVE, AWAITING_REVIEW, APPROVED, REJECTED, RETURNED, SCREENED_OUT, TIMED-OUT"
+                },
+                {
+                  "disabled": false,
+                  "key": "completed",
+                  "value": "<string>",
+                  "description": "Filter by completion status. Accepts 1/true/yes/t for completed, 0/false/no/f for incomplete (case-insensitive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "returned",
+                  "value": "<string>",
+                  "description": "Filter by returned status. Accepts 1/true/yes/t for returned, 0/false/no/f for not returned (case-insensitive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "awaiting_review",
+                  "value": "<string>",
+                  "description": "Filter by awaiting review status. Accepts 1/true/yes/t for awaiting review, 0/false/no/f for not awaiting review (case-insensitive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "approved",
+                  "value": "<string>",
+                  "description": "Filter by approved status. Accepts 1/true/yes/t for approved, 0/false/no/f for not approved (case-insensitive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "active",
+                  "value": "<string>",
+                  "description": "Filter by active status. Accepts 1/true/yes/t for active, 0/false/no/f for not active (case-insensitive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "timeout",
+                  "value": "<string>",
+                  "description": "Filter by timed out status. Accepts 1/true/yes/t for timed out, 0/false/no/f for not timed out (case-insensitive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "rejected",
+                  "value": "<string>",
+                  "description": "Filter by rejected status. Accepts 1/true/yes/t for rejected, 0/false/no/f for not rejected (case-insensitive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "screened_out",
+                  "value": "<string>",
+                  "description": "Filter by screened out status. Accepts 1/true/yes/t for screened out, 0/false/no/f for not screened out (case-insensitive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "completeoractive",
+                  "value": "<string>",
+                  "description": "Filter for submissions that are either completed or active. Accepts 1/true/yes/t to include, 0/false/no/f to exclude (case-insensitive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "submitted_from",
+                  "value": "<string>",
+                  "description": "Filter submissions completed after the given date. Format DD/MM/YYYY (e.g., 01/01/2024)"
+                },
+                {
+                  "disabled": false,
+                  "key": "submitted_before",
+                  "value": "<string>",
+                  "description": "Filter submissions completed before the given date. Format DD/MM/YYYY (e.g., 31/12/2024)"
+                },
+                {
+                  "disabled": false,
+                  "key": "ordering",
+                  "value": "<string>",
+                  "description": "Order results by field. Prefix with '-' for descending order. Supported values are started_at, submission_reward, study_name"
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>",
+                  "description": "Number of items to return per page (Default 20)"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "Page number to retrieve (Default 1)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b4e0529e-6d9e-4c2c-b65b-898a646af396",
+              "name": "List submissions",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "submissions",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "study",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "SCREENED_OUT"
+                    },
+                    {
+                      "key": "completed",
+                      "value": "1"
+                    },
+                    {
+                      "key": "returned",
+                      "value": "true"
+                    },
+                    {
+                      "key": "awaiting_review",
+                      "value": "no"
+                    },
+                    {
+                      "key": "approved",
+                      "value": "0"
+                    },
+                    {
+                      "key": "active",
+                      "value": "no"
+                    },
+                    {
+                      "key": "timeout",
+                      "value": "t"
+                    },
+                    {
+                      "key": "rejected",
+                      "value": "f"
+                    },
+                    {
+                      "key": "screened_out",
+                      "value": "no"
+                    },
+                    {
+                      "key": "completeoractive",
+                      "value": "yes"
+                    },
+                    {
+                      "key": "submitted_from",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "submitted_before",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ordering",
+                      "value": "-study_name"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"id\": \"string\",\n      \"participant_id\": \"string\",\n      \"status\": \"AWAITING REVIEW\",\n      \"started_at\": \"1996-09-24T03:00:14.670Z\",\n      \"has_siblings\": false,\n      \"completed_at\": \"1998-03-06T09:08:28.265Z\",\n      \"study_code\": \"string\",\n      \"return_requested\": \"2003-03-23T05:20:45.420Z\"\n    },\n    {\n      \"id\": \"string\",\n      \"participant_id\": \"string\",\n      \"status\": \"RETURNED\",\n      \"started_at\": \"2000-11-18T18:56:00.396Z\",\n      \"has_siblings\": true,\n      \"completed_at\": \"1949-04-15T16:16:06.950Z\",\n      \"study_code\": \"string\",\n      \"return_requested\": \"2002-01-08T23:51:13.548Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0df2fbb4-6955-4fa9-841e-5da9cba54c53",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "submissions",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "study",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "SCREENED_OUT"
+                    },
+                    {
+                      "key": "completed",
+                      "value": "1"
+                    },
+                    {
+                      "key": "returned",
+                      "value": "true"
+                    },
+                    {
+                      "key": "awaiting_review",
+                      "value": "no"
+                    },
+                    {
+                      "key": "approved",
+                      "value": "0"
+                    },
+                    {
+                      "key": "active",
+                      "value": "no"
+                    },
+                    {
+                      "key": "timeout",
+                      "value": "t"
+                    },
+                    {
+                      "key": "rejected",
+                      "value": "f"
+                    },
+                    {
+                      "key": "screened_out",
+                      "value": "no"
+                    },
+                    {
+                      "key": "completeoractive",
+                      "value": "yes"
+                    },
+                    {
+                      "key": "submitted_from",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "submitted_before",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ordering",
+                      "value": "-study_name"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 3144,\n  \"error_code\": 7373,\n  \"title\": \"string\",\n  \"detail\": \"string\",\n  \"additional_information\": \"string\",\n  \"traceback\": \"string\",\n  \"interactive\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bef7ea99-06fb-4fa9-973e-132157e1b793",
+          "name": "Retrieve a submission",
+          "request": {
+            "name": "Retrieve a submission",
+            "description": {
+              "content": "Returns the detailed information of a submission, including the\nstudy id, participant id, status and start timestamp",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "submissions",
+                ":id",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Submission id. This is the ID we pass to the survey platform\nusing %SESSION_ID%"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "37e3edd6-6deb-440d-a5ab-1a3fdc1a8151",
+              "name": "Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "submissions",
+                    ":id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Submission id. This is the ID we pass to the survey platform\nusing %SESSION_ID%"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"started_at\": \"string\",\n  \"status\": \"ACTIVE\",\n  \"study_id\": \"string\",\n  \"completed_at\": \"string\",\n  \"entered_code\": \"string\",\n  \"participant\": \"string\",\n  \"parent_study_id\": \"string\",\n  \"bonus_payments\": [\n    3722.737112615232,\n    9422.12864510624\n  ],\n  \"return_requested\": \"1967-07-30T13:44:39.780Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dd302648-1e24-44e5-ad8c-1997ec660bf9",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "submissions",
+                    ":id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Submission id. This is the ID we pass to the survey platform\nusing %SESSION_ID%"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 1787,\n    \"error_code\": 2275,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fd434c7d-0e79-43f2-ae46-24b9a4d56163",
+          "name": "Approve or reject a submission",
+          "request": {
+            "name": "Approve or reject a submission",
+            "description": {
+              "content": "Transition a submission to `APPROVED`, `REJECTED`, `PARTIALLY APPROVED`, `AWAITING REVIEW` or `SCREENED OUT`. Once the status is changed, it can not be restored to its previous value.\n\nYou can only transition a submission to PARTIALLY APPROVED or SCREENED OUT by:\n  - setting up the study with the appropriate completion codes (only some workspaces have access to these features)\n  - providing the correct completion code in the request body\n  - providing the necessary data in the request body (to PARTIALLY APPROVE a submission)\n\nNote this endpoint is idempotent, so if you make the same request twice, the second request will be ignored.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "submissions",
+                ":id",
+                "transition",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Submission id. This is the ID we pass to the survey platform\nusing %SESSION_ID%"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"<string>\",\n  \"message\": \"<string>\",\n  \"rejection_category\": \"<string>\",\n  \"completion_code\": \"<string>\",\n  \"completion_code_data\": {\n    \"percentage_of_reward\": \"<double>\",\n    \"message_to_participant\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5d7404d2-f7ca-4903-9653-d2317cb0f627",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "submissions",
+                    ":id",
+                    "transition",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Submission id. This is the ID we pass to the survey platform\nusing %SESSION_ID%"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"REJECT\",\n  \"message\": \"<string>\",\n  \"rejection_category\": \"LOW_EFFORT\",\n  \"completion_code\": \"<string>\",\n  \"completion_code_data\": {\n    \"percentage_of_reward\": 3459.5594755432726,\n    \"message_to_participant\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"started_at\": \"string\",\n  \"status\": \"ACTIVE\",\n  \"study_id\": \"string\",\n  \"completed_at\": \"string\",\n  \"entered_code\": \"string\",\n  \"participant\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "927fbcc2-f2f2-4af9-a434-dca59fc1c993",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "submissions",
+                    ":id",
+                    "transition",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Submission id. This is the ID we pass to the survey platform\nusing %SESSION_ID%"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"REJECT\",\n  \"message\": \"<string>\",\n  \"rejection_category\": \"LOW_EFFORT\",\n  \"completion_code\": \"<string>\",\n  \"completion_code_data\": {\n    \"percentage_of_reward\": 3459.5594755432726,\n    \"message_to_participant\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 1787,\n    \"error_code\": 2275,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "78990a11-0552-4e7a-9742-c0d0d5f0d612",
+          "name": "Request the participant who submitted the response to return their response",
+          "request": {
+            "name": "Request the participant who submitted the response to return their response",
+            "description": {
+              "content": "**This is an experimental feature that may be subject to change in the future.** <br/>\nIt offers researchers the ability to ask a participant to return a submission. The return reason must be provided in the request and can be any free text string. <br/> The Prolific UI allows users to select any of the following options:\n* Didn't finish the study\n* Encountered technical problems\n* Withdrew consent\n* Other ( uses the free text input)\n\nThis constructs a message around the reasons provided so there is no need to provide additional text beyond the reasons.\n<img alt=\"Example\" src=\"/assets/img/api/message.png\" />\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "submissions",
+                ":id",
+                "request-return",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The submission id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"request_return_reasons\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "50505af1-01f7-4003-a099-896b37564e18",
+              "name": "A message is sent to the participant belonging to the submission asking them to return.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "submissions",
+                    ":id",
+                    "request-return",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The submission id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"request_return_reasons\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"status\": \"APPROVED\",\n  \"participant\": \"string\",\n  \"return_requested\": \"1988-06-22T03:10:36.192Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b642b5f0-0e2b-4f5f-9f68-927e1851df2d",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "submissions",
+                    ":id",
+                    "request-return",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The submission id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"request_return_reasons\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 1787,\n    \"error_code\": 2275,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d45fa301-f4a3-4158-af26-dd41b581cdbc",
+          "name": "Bulk approve submissions",
+          "request": {
+            "name": "Bulk approve submissions",
+            "description": {
+              "content": "Bulk approve study submissions to pay participants after they have\ncompleted your survey or experiment. There are two variant payloads to\nthis request.\n\n- You can supply a Study ID, and a list of participant IDs, or\n- You can provide a list of submission IDs\n\nWe strongly recommend that you provide a list of submission IDs. These submissions do not need to be from the same study.\n\nWe recommend a maximum of 1,000 submission or participant IDs per request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "submissions",
+                "bulk-approve",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"study_id\": \"<string>\",\n  \"participant_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "576d6761-cd3f-42e6-a413-eb64e01e87c6",
+              "name": "Bulk approve in progress",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "submissions",
+                    "bulk-approve",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"study_id\": \"string\",\n  \"participant_ids\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3a993a32-6e48-481e-a631-f2abd7163ec1",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "submissions",
+                    "bulk-approve",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"study_id\": \"string\",\n  \"participant_ids\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 3144,\n  \"error_code\": 7373,\n  \"title\": \"string\",\n  \"detail\": \"string\",\n  \"additional_information\": \"string\",\n  \"traceback\": \"string\",\n  \"interactive\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.prolific.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "f946ecb1-d392-407c-b5a0-3c5e6f41601b",
+    "name": "API Reference aiTaskBuilder submissions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

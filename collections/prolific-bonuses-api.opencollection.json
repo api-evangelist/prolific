@@ -1,0 +1,64 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference aiTaskBuilder bonuses API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "bonuses",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Set up bonuses",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/submissions/bonus-payments/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set up bonus payments to one or more participants/submissions in a study.\n\nYou need the study id, the participant|submission ids and the request in CSV format.\n\nThe csv_bonuses field needs to be structured in the format of either:\n\n- `<participant_id>,<amount>\\n`.\n- `<submission_id>,<amount>\\n`.\n\n**Note: The amount will be in the study currency. The amount should be a decimal value, e.g. 1.50 for £1.50.**\nWarning: An amount of 30 will pay £/$30.00.\n\nAs an example, `60ffe5c8371090c7041d43f8,4.25`"
+        },
+        {
+          "info": {
+            "name": "Pay bonuses",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/bulk-bonus-payments/:id/pay/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Bulk bonus payment id"
+              }
+            ]
+          },
+          "docs": "Bonus payments are made asynchronously.\nThe payment will be done in the following minutes and your balance will be updated accordingly.\n\n<Warning>\nThis endpoint is **not idempotent**. Sending multiple requests with the same bulk bonus payment ID will result in participants being paid multiple times. Ensure you send this request only once per bulk payment.\n</Warning>"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

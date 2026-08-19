@@ -1,0 +1,203 @@
+{
+  "item": [
+    {
+      "id": "b44b28e6-31fa-4989-9703-3dead1bd12e2",
+      "name": "rewardRecommendations",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "061125c5-98d9-428f-897e-b4a74d4337c7",
+          "name": "Calculate reward recommendations",
+          "request": {
+            "name": "Calculate reward recommendations",
+            "description": {
+              "content": "Calculate the recommended participant reward rates for a data collection, optionally based upon a given set of filters",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "reward-recommendations",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "workspace_id",
+                  "value": "<string>",
+                  "description": "(Required) The ID of the workspace in which you'll be creating the study"
+                },
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "<string>",
+                  "description": "(Required) An ISO 4217 currency code. Note that we only support a selection of currency codes as per the enum values."
+                },
+                {
+                  "disabled": false,
+                  "key": "screener_ids",
+                  "value": "<string>",
+                  "description": "A URL-encoded, comma-delimited list of filter IDs (e.g. custom group filter IDs) that you plan to apply to your study.\n\nThere are various methods of converting an array of filter IDs to a URL-encoded, comma delimited array e.g:\n\nJavaScript:\n\n```js\nconst screenerIDs = [\"mandarin\", \"spanish\"];\nconst encodedScreenerIDs = encodeURIComponent(screenerIDs.join(\",\"));\nconst url = `https://api.prolific.com/api/v1/reward-recommendations?screener_ids=${encodedScreenerIDs}&workspace_id=<workspace ID>&currency=GBP`\n```\n\nPython:\n\n```python\nimport urllib.parse\n\nscreener_ids = [\"mandarin\", \"spanish\"]\nencoded_screener_ids = urllib.parse.quote(\",\".join(screener_ids))\nurl = f\"https://api.prolific.com/api/v1/reward-recommendations?screener_ids={encoded_screener_ids}&workspace_id=<workspace ID>&currency=GBP\"\n```"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a86d9e1d-325a-4791-97ee-db780abb28ab",
+              "name": "A list of reward recommendations. We suggest using the first recommendation in the list as this is guaranteed to be the most recent set of reward rates.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "reward-recommendations",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "workspace_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "GBP"
+                    },
+                    {
+                      "key": "screener_ids",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"currency\": \"USD\",\n    \"min_reward_per_hour\": 4,\n    \"recommended_reward_per_hour\": 2340\n  },\n  {\n    \"currency\": \"USD\",\n    \"min_reward_per_hour\": 2550,\n    \"recommended_reward_per_hour\": 6445\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b7a854b4-4b18-4943-ac85-39a18da52250",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "reward-recommendations",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "workspace_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "GBP"
+                    },
+                    {
+                      "key": "screener_ids",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 481,\n  \"error_code\": 996,\n  \"title\": \"string\",\n  \"detail\": \"string\",\n  \"additional_information\": \"string\",\n  \"traceback\": \"string\",\n  \"interactive\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.prolific.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "222bffa4-5ff0-4e00-9d49-ab5c7a2fbdcb",
+    "name": "API Reference aiTaskBuilder rewardRecommendations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

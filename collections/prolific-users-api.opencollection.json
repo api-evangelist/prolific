@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference aiTaskBuilder users API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/users/me/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Use this endpoint to test your token and retrieve the basic information of your account.\n\nAdd an `Authorization` header with the value `Token <your token>`."
+        },
+        {
+          "info": {
+            "name": "Create a test participant for a researcher",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/researchers/participants/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "### Overview\nCreates a test participant with the same details as the researcher and the supplied email. This participant will\nbypass any fraud checks and on-boarding steps.\n\n### Enabling the feature\nThis endpoint is only enabled for select workspaces and will need enabling before the endpoint can be used.\n\n### Participant Limitations\n- The participant will be limited to take studies only in the workspaces associated to the researcher and where\nthe feature is enabled.\n- The participant will not b"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

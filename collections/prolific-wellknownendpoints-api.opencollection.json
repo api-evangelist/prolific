@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference aiTaskBuilder wellKnownEndpoints API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "wellKnownEndpoints",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve JSON Web Key Set (JWKS)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/.well-known/study/jwks.json"
+          },
+          "docs": "Fetches the public keys that can be used to verify JWTs signed by Prolific. Clients should cache these keys and update them at least daily.\n\nTo verify the signature of a JWT you must verify the following:\n* The JWT signature is authentic by verifying it with the public key from Prolific that correlates with the KID.\n* The JWT hasn't expired, by checking the `exp` claim.\n* The `aud` claim is the correct domain for your tool.\n* The `prolific` claim matches your expected payload as set in the `exte"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

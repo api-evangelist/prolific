@@ -1,0 +1,279 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference aiTaskBuilder surveys API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "surveys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all surveys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/surveys/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "researcher_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get all the surveys for a researcher."
+        },
+        {
+          "info": {
+            "name": "Create survey",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/surveys/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "You can create a survey with either `sections -> questions` or just `questions`. This allows you to decide\nhow much flexibility you want in your survey design. However, if you want to render the survey in the Prolific Application, you must use `sections`."
+        },
+        {
+          "info": {
+            "name": "Get survey",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/surveys/:survey_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "survey_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a single survey given an ID."
+        },
+        {
+          "info": {
+            "name": "Delete survey",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.prolific.com/api/v1/surveys/:survey_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "survey_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a single Survey."
+        },
+        {
+          "info": {
+            "name": "Get all responses",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/surveys/:survey_id/responses/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "survey_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get all the responses for a given Survey."
+        },
+        {
+          "info": {
+            "name": "Create response",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/surveys/:survey_id/responses/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "survey_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Response for a survey."
+        },
+        {
+          "info": {
+            "name": "Delete all responses",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.prolific.com/api/v1/surveys/:survey_id/responses/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "survey_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete all the responses for a given Survey."
+        },
+        {
+          "info": {
+            "name": "Get summary of responses",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/surveys/:survey_id/responses/summary/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "survey_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an aggregated summary of responses for a given survey."
+        },
+        {
+          "info": {
+            "name": "Get response",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/surveys/:survey_id/responses/:response_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "survey_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "response_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a single response for a survey."
+        },
+        {
+          "info": {
+            "name": "Delete a response",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.prolific.com/api/v1/surveys/:survey_id/responses/:response_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "survey_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "response_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a single Response."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

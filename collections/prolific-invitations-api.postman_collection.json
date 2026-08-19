@@ -1,0 +1,187 @@
+{
+  "item": [
+    {
+      "id": "f1910cc0-19e0-41c5-881b-9e7f6d22678b",
+      "name": "invitations",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "934846dd-86ca-4edf-8170-569037a17cf1",
+          "name": "Create a new invitation",
+          "request": {
+            "name": "Create a new invitation",
+            "description": {
+              "content": "Initiate a new invitation process for adding users to a Workspace.\n\nThis operation can be performed only by authenticated users who are admins for the specified workspace. Invitations will be sent to the email addresses provided in the request.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "invitations",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"association\": \"<objectId>\",\n  \"emails\": [\n    \"<email>\",\n    \"<email>\"\n  ],\n  \"role\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "37daa510-9174-443b-8fb4-3a2414c5a56b",
+              "name": "Invitation created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "invitations",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"association\": \"<objectId>\",\n  \"emails\": [\n    \"<email>\",\n    \"<email>\"\n  ],\n  \"role\": \"WORKSPACE_COLLABORATOR\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"invitations\": [\n    {\n      \"association\": \"string\",\n      \"invitee\": {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"email\": \"n8yrGWGE79gT@MEZtHMMeXDgjwXdbFgRutRBJROurnhvn.apz\"\n      },\n      \"invited_by\": \"string\",\n      \"status\": \"INVITED\",\n      \"invite_link\": \"https://MGnAdKEqYbhFgZvdeMRFjQVWahFFFgED.pykpEzCHHe,eErwySUFU3GTHDGqe2m4xRUupC42D4jwlaY3xg6Ifv-HIUk9T.7IMkKJ4\",\n      \"role\": \"WORKSPACE_ADMIN\"\n    },\n    {\n      \"association\": \"string\",\n      \"invitee\": {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"email\": \"qFZM@dPYIWsYzRnZfGRK.qpx\"\n      },\n      \"invited_by\": \"string\",\n      \"status\": \"ACCEPTED\",\n      \"invite_link\": \"https://KtOCHgWPJDVkMReoheAtsyNiZlxms.clntJ-esFEPsnEk\",\n      \"role\": \"WORKSPACE_ADMIN\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "09ce4cad-343a-4a0a-a25f-bc5a90efefc9",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "invitations",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Prolific API uses API token to authenticate requests. You can create an API token directly from your settings.\n\nYour API token does not have an expiry date and carries full permission, so be sure to keep them secure.\n\nIf your token is leaked, delete it and create a new one directly in the app.\n\nIn your requests add `Authorization` header with the value `Token <your token>`.",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"association\": \"<objectId>\",\n  \"emails\": [\n    \"<email>\",\n    \"<email>\"\n  ],\n  \"role\": \"WORKSPACE_COLLABORATOR\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"status\": 400,\n    \"error_code\": 6853,\n    \"title\": \"string\",\n    \"detail\": \"string\",\n    \"additional_information\": \"string\",\n    \"traceback\": \"string\",\n    \"interactive\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.prolific.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "175f0232-0595-41a6-9ab1-eee3aad9c3b9",
+    "name": "API Reference aiTaskBuilder invitations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

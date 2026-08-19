@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference aiTaskBuilder invitations API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "invitations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a new invitation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/invitations/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Initiate a new invitation process for adding users to a Workspace.\n\nThis operation can be performed only by authenticated users who are admins for the specified workspace. Invitations will be sent to the email addresses provided in the request.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

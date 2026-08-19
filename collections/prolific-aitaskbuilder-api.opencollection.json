@@ -1,0 +1,838 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference aiTaskBuilder API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "aiTaskBuilder",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Batches",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/data-collection/batches",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "query",
+                "description": "The unique identifier of the workspace"
+              }
+            ]
+          },
+          "docs": "Get all AI Task Builder batches by workspace id"
+        },
+        {
+          "info": {
+            "name": "Create a Batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/data-collection/batches",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new AI Task Builder batch. The dataset does not need to be in READY status at creation time.\n\n### Configurable task layouts via `batch_items`\n\nYou can configure a custom task layout using `batch_items` which also stores instructions and content as part of batch creation. It replaces the deprecated `POST /api/v1/data-collection/batches/{batch_id}/instructions` endpoint, which will reject requests on batches that were created with `batch_items`.\n\n`batch_items` is a nested layout describin"
+        },
+        {
+          "info": {
+            "name": "Get a Batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/data-collection/batches/:batch_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "batch_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the AI Task Builder batch"
+              }
+            ]
+          },
+          "docs": "Get a specific AI Task Builder batch by its unique identifier."
+        },
+        {
+          "info": {
+            "name": "Update a Batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.prolific.com/api/v1/data-collection/batches/:batch_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "batch_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the batch"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing AI Task Builder batch. You can update the name, task details, associated dataset, and/or `batch_items`. The dataset does not need to be in READY status for updates.\n\nWhen updating `batch_items`, include the `id` of any existing pages, rows, columns, or items you want to preserve — items without an `id` are treated as new and assigned one server-side. Omitting an existing `id` removes that entry. The same validation rules as on create apply, and validation failures return **`42"
+        },
+        {
+          "info": {
+            "name": "Sync a Batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/data-collection/batches/:batch_id/sync",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "batch_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the batch to sync"
+              }
+            ]
+          },
+          "docs": "Triggers an asynchronous sync job that materialises tasks for any datapoints appended to the\nbatch's attached dataset since it was set up (or since the last sync). Returns immediately\nwith a `sync_id`; the work is performed by a background worker.\n\nThe batch must be in `READY` status and have an attached dataset. Syncs for the same batch are\nserialised, so a new sync picks up wherever the previous one left off.\n\nPoll `GET /batches/{batch_id}/syncs/{sync_id}` until the returned job reaches a term"
+        },
+        {
+          "info": {
+            "name": "Get Batch Sync Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/data-collection/batches/:batch_id/syncs/:sync_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "batch_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the batch"
+              },
+              {
+                "name": "sync_id",
+                "value": "",
+                "type": "path",
+                "description": "The sync job ID returned by `POST /batches/{batch_id}/sync`"
+              }
+            ]
+          },
+          "docs": "Returns the current status of a batch sync job created by `POST /batches/{batch_id}/sync`.\n\nA sync job transitions through the following statuses:\n- `queued` — sync accepted, awaiting the background worker.\n- `processing` — the worker is materialising tasks.\n\n**Terminal statuses:**\n- `complete` — the sync finished. `tasks_created`, `datapoints_processed`, `groups_created`, and `groups_expanded` are populated.\n- `failed` — the sync failed. `reason` is populated.\n\nContinue polling while the status"
+        },
+        {
+          "info": {
+            "name": "Get Batch Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/data-collection/batches/:batch_id/status",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "batch_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the AI Task Builder batch"
+              }
+            ]
+          },
+          "docs": "Get the current status of an AI Task Builder batch."
+        },
+        {
+          "info": {
+            "name": "Setup a Batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/data-collection/batches/:batch_id/setup",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "batch_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the AI Task Builder batch"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "The setup process creates all of the **tasks** within the batch according to your configuration.\nEach datapoint in the dataset is paired with all instructions to create a task. Tasks are then organized into task groups.\n\n**V3 datasets:** The dataset must be in a **READY** status before setup can be initiated.\n\n**V4 datasets:** The dataset must have at least one import job with status **complete**. V4 datasets do not have a `READY` status — readiness is determined per import job via `GET /dataset"
+        },
+        {
+          "info": {
+            "name": "Get Batch Responses",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/data-collection/batches/:batch_id/responses",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "batch_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get responses for an AI Task Builder batch as JSON. Returns individual response records for programmatic processing."
+        },
+        {
+          "info": {
+            "name": "Get Batch Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/data-collection/batches/:batch_id/report/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "batch_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a presigned URL to download the batch responses as a CSV report. The CSV contains your original dataset with additional columns for participant responses."
+        },
+        {
+          "info": {
+            "name": "Duplicate a Batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/data-collection/batches/:batch_id/duplicate",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "batch_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the batch to duplicate"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a duplicate of an existing AI Task Builder batch. The dataset does not need to be in READY status for duplication. Supports two modes:\n- Duplicate with dataset (default): Creates a copy with the same dataset (the dataset is shared between both batches, not duplicated)\n- Duplicate without dataset: Creates a copy that requires a new dataset upload (set upload_new_dataset to true)\n\nYou can optionally provide a new name for the duplicated batch. If no name is provided, the duplicate will be n"
+        },
+        {
+          "info": {
+            "name": "Request a Batch Export",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/data-collection/batches/:batch_id/export",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "batch_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Initiates an asynchronous export of all participant responses and uploaded files for a batch as a ZIP archive.\n\nThe export is generated out-of-band to handle large batches without hitting API timeout limits. The endpoint returns immediately with one of two outcomes:\n\n- **202 Accepted** — a new export job has been enqueued. Use the returned `export_id` to poll `GET /batches/{batch_id}/export/{export_id}` for status.\n- **200 OK** — a recent export already exists and is ready to download immediatel"
+        },
+        {
+          "info": {
+            "name": "Get Batch Export Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/data-collection/batches/:batch_id/export/:export_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "batch_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "export_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Polls the status of an asynchronous batch export job initiated by `POST /batches/{batch_id}/export`.\n\nReturns the current status of the export:\n\n- **generating** — the export is still being built; continue polling.\n- **complete** — the export is ready; a presigned HTTPS download URL is included. URLs are valid for 1 hour and are automatically refreshed if expired.\n- **failed** — generation failed (e.g. the archive was deleted from storage). Re-send `POST /batches/{batch_id}/export` to retry."
+        },
+        {
+          "info": {
+            "name": "Create a Dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/data-collection/datasets",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new AI Task Builder dataset.\n\nPass an optional `schema` to create a **V4 dataset** with a structured schema. V4 datasets accept JSONL and CSV uploads, track each upload as an import job, and allow `dataset_field` items in `batch_items` to reference named schema fields. Without a `schema`, a V3 dataset is created (CSV/ZIP only, legacy flow).\n\nV4 dataset creation requires the feature to be enabled for the workspace."
+        },
+        {
+          "info": {
+            "name": "Get a Dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/data-collection/datasets/:dataset_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the AI Task Builder dataset"
+              }
+            ]
+          },
+          "docs": "Get a specific AI Task Builder dataset by its unique identifier.\n\nFor **V4 datasets**, the response includes the dataset `schema` (if one has been set) and an `imports` array listing all import jobs for this dataset.\n\nFor **V3 datasets**, the response includes `status`, `filename`, and `has_predetermined_grouping_id` instead."
+        },
+        {
+          "info": {
+            "name": "Update a Dataset Schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.prolific.com/api/v1/data-collection/datasets/:dataset_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the V4 dataset to update"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the schema of an existing **V4 dataset**. Each successful update writes a new schema\nversion.\n\n**Schema migration.** If the dataset already had a schema, changing it starts an asynchronous\n**schema migration** that re-normalises the dataset's existing datapoints against the new\nversion. In that case the response includes a `migration_job_id`; poll\n`GET /datasets/{dataset_id}/schema-migrations/{job_id}` with it until the job reaches a\nterminal status. When this is the dataset's **first** "
+        },
+        {
+          "info": {
+            "name": "Get Dataset Upload URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/data-collection/datasets/:dataset_id/upload-url/:filename",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the dataset to upload files to"
+              },
+              {
+                "name": "filename",
+                "value": "",
+                "type": "path",
+                "description": "The name of the file to upload (e.g. `data.jsonl`)"
+              }
+            ]
+          },
+          "docs": "Generates a presigned S3 URL for uploading a file to the dataset. Use the returned URL to PUT the file directly to S3.\n\n**V3 datasets** (CSV/ZIP): returns `upload_url` and `http_method`. After the upload completes, poll `GET /datasets/{dataset_id}/status` for processing status.\n\n**V4 datasets** (JSONL/CSV): additionally returns `import_id`. After the upload completes, poll `GET /datasets/{dataset_id}/imports/{import_id}` for per-upload status. Multiple upload URLs can be requested before any upl"
+        },
+        {
+          "info": {
+            "name": "Get Dataset Import Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/data-collection/datasets/:dataset_id/imports/:import_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the dataset"
+              },
+              {
+                "name": "import_id",
+                "value": "",
+                "type": "path",
+                "description": "The import job ID returned by `GET /datasets/{dataset_id}/upload-url/{filename}`"
+              }
+            ]
+          },
+          "docs": "Returns the current status of a V4 dataset import job. Each import job represents one ingestion operation and transitions through the following statuses:\n- `uninitialised` — Presigned url requested, but not yet used\n- `processing` — Datapoints received for ingestion, work underway\n- `queued` — Datapoints received for ingestion, awaiting a previous import job to complete before processing can commence\n\n**Terminal statuses:**\n- `complete` — all records were accepted. `accepted_count` is populated."
+        },
+        {
+          "info": {
+            "name": "Append Datapoints to a Dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/data-collection/datasets/:dataset_id/datapoints",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the V4 dataset to append to"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Synchronously appends one or more JSONL records to an existing **V4 dataset**. Unlike the\nfile-upload flow, this endpoint processes the whole payload within the request and returns the\naccepted/rejected counts directly — there is no async import job to poll.\n\n**Request body:** JSONL — one JSON object per line — sent with a JSONL content type\n(e.g. `application/x-ndjson`). Blank lines are skipped. CSV is not supported on this endpoint.\n\nEach record is validated against the dataset's current schem"
+        },
+        {
+          "info": {
+            "name": "Get Schema Migration Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/data-collection/datasets/:dataset_id/schema-migrations/:job_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the dataset"
+              },
+              {
+                "name": "job_id",
+                "value": "",
+                "type": "path",
+                "description": "The schema migration job ID"
+              }
+            ]
+          },
+          "docs": "Returns the current status of a schema migration job, which reprocesses a V4 dataset's\ndatapoints against a newer schema version.\n\nA migration job has these statuses:\n- `processing` — the migration is underway.\n\n**Terminal statuses:**\n- `complete` — all datapoints were reprocessed. `reprocessed_count` is populated.\n- `partial` — some datapoints were reprocessed and some fields could not be re-normalised (and\n  were nulled). `reprocessed_count`, `failed_count`, and `errors` are populated.\n- `fail"
+        },
+        {
+          "info": {
+            "name": "Get Dataset Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/data-collection/datasets/:dataset_id/status",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the AI Task Builder dataset"
+              }
+            ]
+          },
+          "docs": "Get status for AI Task Builder dataset."
+        },
+        {
+          "info": {
+            "name": "Get Batch Instructions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/data-collection/batches/:batch_id/instructions",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "batch_id",
+                "value": "",
+                "type": "path",
+                "description": "Batch ID"
+              }
+            ]
+          },
+          "docs": "Get the instructions for an AI Task Builder batch.\n\n<Error title=\"Important\">\n\n**Deprecated.**\n\nAll responses include the [RFC 8594](https://www.rfc-editor.org/rfc/rfc8594) headers `Deprecation: true` and `Sunset: Tue, 01 Sep 2026 23:59:59 GMT`. Migrate to the `batch_items` flow before the sunset date.\n\n</Error>"
+        },
+        {
+          "info": {
+            "name": "Create Batch Instructions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/data-collection/batches/:batch_id/instructions",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "batch_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the AI Task Builder batch"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create instructions for a Task Builder batch.\n\n<Error title=\"Important\">\n\n**Deprecated for batches that use `batch_items`.**\n\nAll responses include the [RFC 8594](https://www.rfc-editor.org/rfc/rfc8594) headers `Deprecation: true` and `Sunset: Tue, 01 Sep 2026 23:59:59 GMT`.\n\nIf the target batch was created with `batch_items` (the per-item instructions flow), this endpoint will respond with **`422 Unprocessable Entity`** and an error message directing you to manage instructions via the `batch_it"
+        },
+        {
+          "info": {
+            "name": "Update Batch Instructions",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.prolific.com/api/v1/data-collection/batches/:batch_id/instructions",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "batch_id",
+                "value": "",
+                "type": "path",
+                "description": "Batch ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the instructions for a task builder batch. This is a full replacement - all instructions must be included in the request.\n\nInclude the `id` field for existing instructions you want to preserve. Instructions without an `id` will be created as new.\n\n<Error title=\"Important\">\n\n**Deprecated for batches that use `batch_items`.**\n\nIf the target batch was created with `batch_items` (the per-item instructions flow), this endpoint will respond with **`422 Unprocessable Entity`** and an error mess"
+        },
+        {
+          "info": {
+            "name": "List Collections",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/data-collection/collections",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "query",
+                "description": "The unique identifier of the workspace"
+              }
+            ]
+          },
+          "docs": "Get all AI Task Builder Collections for a workspace."
+        },
+        {
+          "info": {
+            "name": "Create a Collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/data-collection/collections",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new AI Task Builder Collection. Collections allow you to define static content and instructions without requiring a dataset upload.\n\nUnlike Batches, Collections do not require a dataset or setup step — they can be published to a study immediately after creation."
+        },
+        {
+          "info": {
+            "name": "Get a Collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/data-collection/collections/:collection_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "collection_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a specific AI Task Builder Collection by its unique identifier."
+        },
+        {
+          "info": {
+            "name": "Update a Collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.prolific.com/api/v1/data-collection/collections/:collection_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "collection_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing AI Task Builder Collection. This is a full replacement — all fields must be provided.\n\nTo preserve existing entities (collection items, page items) when updating, include their `id` fields in the request. Entities without IDs will be created as new, and existing entities not included in the request will be deleted."
+        },
+        {
+          "info": {
+            "name": "Get Collection Responses",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/data-collection/collections/:collection_id/responses",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "collection_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get responses for an AI Task Builder Collection.\n\n**Note:** This endpoint is coming soon and is not yet available."
+        },
+        {
+          "info": {
+            "name": "Request a Collection Export",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/data-collection/collections/:collection_id/export",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "collection_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Initiates an asynchronous export of all participant responses and uploaded files for a collection as a ZIP archive.\n\nThe export is generated out-of-band to handle large collections without hitting API timeout limits. The endpoint returns immediately with one of two outcomes:\n\n- **202 Accepted** — a new export job has been enqueued. Use the returned `export_id` to poll `GET /collections/{collection_id}/export/{export_id}` for status.\n- **200 OK** — a recent export already exists and is ready to d"
+        },
+        {
+          "info": {
+            "name": "Get Collection Export Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/data-collection/collections/:collection_id/export/:export_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "collection_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "export_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Polls the status of an asynchronous collection export job initiated by `POST /collections/{collection_id}/export`.\n\nReturns the current status of the export:\n\n- **generating** — the export is still being built; continue polling.\n- **complete** — the export is ready; a presigned HTTPS download URL is included. URLs are valid for 1 hour and are automatically refreshed if expired.\n- **failed** — generation failed (e.g. the archive was deleted from storage). Re-send `POST /collections/{collection_id"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

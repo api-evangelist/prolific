@@ -1,0 +1,234 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference aiTaskBuilder filterSets API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "filterSets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all filter sets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/filter-sets/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "query",
+                "description": "ID of the workspace to get filter sets for."
+              },
+              {
+                "name": "organisation_id",
+                "value": "",
+                "type": "query",
+                "description": "ID of the organisation to get filter sets for."
+              }
+            ]
+          },
+          "docs": "List of all filter sets in the specified workspace."
+        },
+        {
+          "info": {
+            "name": "Create filter set",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/filter-sets/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a filter set from a list of filters"
+        },
+        {
+          "info": {
+            "name": "Get filter set",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prolific.com/api/v1/filter-sets/:id/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the filter set."
+              },
+              {
+                "name": "version_number",
+                "value": "",
+                "type": "query",
+                "description": "Allows you to specify a specific version of the filter set to retrieve."
+              }
+            ]
+          },
+          "docs": "Get details of a filter set."
+        },
+        {
+          "info": {
+            "name": "Update filter set",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.prolific.com/api/v1/filter-sets/:id/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the filter set."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the details of a filter set."
+        },
+        {
+          "info": {
+            "name": "Delete filter set",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.prolific.com/api/v1/filter-sets/:id/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the filter set."
+              }
+            ]
+          },
+          "docs": "Delete a filter set."
+        },
+        {
+          "info": {
+            "name": "Clone filter set",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/filter-sets/:id/clone/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the filter set."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a copy of a filter set."
+        },
+        {
+          "info": {
+            "name": "Lock filter set for editing",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/filter-sets/:id/lock/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the filter set."
+              }
+            ]
+          },
+          "docs": "Lock the filter set for editing."
+        },
+        {
+          "info": {
+            "name": "Unlock filter set for editing",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prolific.com/api/v1/filter-sets/:id/unlock/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the filter set."
+              }
+            ]
+          },
+          "docs": "Unlock the filter set for editing."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
