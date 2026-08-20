@@ -35,6 +35,16 @@ created: '2026-07-17'
 modified: '2026-07-20'
 tags:
 - Company
+- Ai Ml
+- Human Data
+- Research
+- Participant Recruitment
+- Surveys
+- Human Feedback
+- RLHF
+- Data Collection
+tags_raw:
+- Company
 - Ai/Ml
 - Human Data
 - Research
@@ -72,6 +82,8 @@ apis:
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
   tags:
+  - Bonuses
+  tags_raw:
   - bonuses
   properties:
   - type: OpenAPI
@@ -88,6 +100,8 @@ apis:
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
   tags:
+  - Credentials
+  tags_raw:
   - credentials
   properties:
   - type: OpenAPI
@@ -104,6 +118,8 @@ apis:
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
   tags:
+  - Filters
+  tags_raw:
   - filters
   properties:
   - type: OpenAPI
@@ -120,6 +136,8 @@ apis:
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
   tags:
+  - Filter Sets
+  tags_raw:
   - filterSets
   properties:
   - type: OpenAPI
@@ -136,6 +154,8 @@ apis:
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
   tags:
+  - Invitations
+  tags_raw:
   - invitations
   properties:
   - type: OpenAPI
@@ -152,6 +172,8 @@ apis:
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
   tags:
+  - Message
+  tags_raw:
   - messages
   properties:
   - type: OpenAPI
@@ -168,6 +190,8 @@ apis:
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
   tags:
+  - Participant Groups
+  tags_raw:
   - participantGroups
   properties:
   - type: OpenAPI
@@ -184,6 +208,8 @@ apis:
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
   tags:
+  - Project
+  tags_raw:
   - projects
   properties:
   - type: OpenAPI
@@ -199,7 +225,8 @@ apis:
   description: The rewardRecommendations API from Prolific — 1 operation(s) for rewardrecommendations.
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
-  tags:
+  tags: []
+  tags_raw:
   - rewardRecommendations
   properties:
   - type: OpenAPI
@@ -216,6 +243,8 @@ apis:
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
   tags:
+  - Studies
+  tags_raw:
   - studies
   properties:
   - type: OpenAPI
@@ -232,7 +261,8 @@ apis:
     The submissionFeedbackUpload API from Prolific — 1 operation(s) for submissionfeedbackupload.
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
-  tags:
+  tags: []
+  tags_raw:
   - submissionFeedbackUpload
   properties:
   - type: OpenAPI
@@ -249,6 +279,8 @@ apis:
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
   tags:
+  - Submissions
+  tags_raw:
   - submissions
   properties:
   - type: OpenAPI
@@ -265,6 +297,8 @@ apis:
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
   tags:
+  - Surveys
+  tags_raw:
   - surveys
   properties:
   - type: OpenAPI
@@ -281,6 +315,8 @@ apis:
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
   tags:
+  - User
+  tags_raw:
   - users
   properties:
   - type: OpenAPI
@@ -297,6 +333,8 @@ apis:
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
   tags:
+  - Webhook
+  tags_raw:
   - webhooks
   properties:
   - type: OpenAPI
@@ -312,7 +350,8 @@ apis:
   description: The wellKnownEndpoints API from Prolific — 1 operation(s) for wellknownendpoints.
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
-  tags:
+  tags: []
+  tags_raw:
   - wellKnownEndpoints
   properties:
   - type: OpenAPI
@@ -329,6 +368,8 @@ apis:
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
   tags:
+  - Workspaces
+  tags_raw:
   - workspaces
   properties:
   - type: OpenAPI
