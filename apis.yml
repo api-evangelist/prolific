@@ -393,6 +393,9 @@ apis:
   - type: DataModel
     url: data-model/prolific-data-model.yml
 common:
+  - type: CapabilityMap
+    url: capabilities/prolific-capability-edges.yml
+    name: Prolific Business Capability Map
 # --- identity / links ---
 - type: Website
   url: https://www.prolific.com/
