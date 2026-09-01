@@ -47,7 +47,7 @@ created: '2026-07-17'
 modified: '2026-07-20'
 tags:
 - Company
-- Ai/Ml
+- Ai Ml
 - Human Data
 - Research
 - Participant Recruitment
@@ -94,7 +94,7 @@ apis:
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
   tags:
-  - bonuses
+  - Bonuses
   tags_raw:
   - bonuses
   properties:
@@ -112,7 +112,7 @@ apis:
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
   tags:
-  - credentials
+  - Credentials
   tags_raw:
   - credentials
   properties:
@@ -130,7 +130,7 @@ apis:
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
   tags:
-  - filters
+  - Filters
   tags_raw:
   - filters
   properties:
@@ -147,7 +147,8 @@ apis:
   description: The filterSets API from Prolific — 5 operation(s) for filtersets.
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
-  tags: []
+  tags:
+  - Filter Sets
   tags_raw:
   - filterSets
   properties:
@@ -200,7 +201,8 @@ apis:
   description: The participantGroups API from Prolific — 3 operation(s) for participantgroups.
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
-  tags: []
+  tags:
+  - Participant Groups
   tags_raw:
   - participantGroups
   properties:
@@ -253,7 +255,7 @@ apis:
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
   tags:
-  - studies
+  - Studies
   tags_raw:
   - studies
   properties:
@@ -289,7 +291,7 @@ apis:
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
   tags:
-  - submissions
+  - Submissions
   tags_raw:
   - submissions
   properties:
@@ -307,7 +309,7 @@ apis:
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
   tags:
-  - surveys
+  - Surveys
   tags_raw:
   - surveys
   properties:
