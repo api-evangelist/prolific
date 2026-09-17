@@ -141,24 +141,6 @@ apis:
     url: errors/prolific-problem-types.yml
   - type: DataModel
     url: data-model/prolific-data-model.yml
-- aid: prolific:prolific-filtersets-api
-  name: Prolific filterSets API
-  description: The filterSets API from Prolific — 5 operation(s) for filtersets.
-  humanURL: https://docs.prolific.com/documentation/get-started/overview
-  baseURL: https://api.prolific.com
-  tags:
-  - Filter Sets
-  tags_raw:
-  - filterSets
-  properties:
-  - type: OpenAPI
-    url: openapi/prolific-filtersets-api-openapi.yml
-  - type: Authentication
-    url: authentication/prolific-authentication.yml
-  - type: ErrorCatalog
-    url: errors/prolific-problem-types.yml
-  - type: DataModel
-    url: data-model/prolific-data-model.yml
 - aid: prolific:prolific-invitations-api
   name: Prolific invitations API
   description: The invitations API from Prolific — 1 operation(s) for invitations.
@@ -385,6 +367,22 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/prolific-workspaces-api-openapi.yml
+  - type: Authentication
+    url: authentication/prolific-authentication.yml
+  - type: ErrorCatalog
+    url: errors/prolific-problem-types.yml
+  - type: DataModel
+    url: data-model/prolific-data-model.yml
+- aid: prolific:prolific-filter-sets-api
+  name: Prolific Filter Sets API
+  description: The Filter Sets API from Prolific — 5 operation(s) for filter sets.
+  humanURL: https://docs.prolific.com/documentation/get-started/overview
+  baseURL: https://api.prolific.com
+  tags:
+  - Filter Sets
+  properties:
+  - type: OpenAPI
+    url: openapi/prolific-filter-sets-api-openapi.yml
   - type: Authentication
     url: authentication/prolific-authentication.yml
   - type: ErrorCatalog
