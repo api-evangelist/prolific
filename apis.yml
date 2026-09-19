@@ -361,7 +361,7 @@ apis:
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
   tags:
-  - Workspaces
+  - Workspace
   tags_raw:
   - workspaces
   properties:
