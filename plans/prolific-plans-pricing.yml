@@ -1,0 +1,41 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-09-20'
+method: searched
+source: https://www.prolific.com/pricing
+sources:
+- https://www.prolific.com/pricing
+provenance:
+  tool: planning/api-economics/harvest_pricing.py
+  run: 20260920T120546
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: ad-valorem
+published: true
+note: Page states platform fee percentages in FAQ (42.8% corporate, 33.3% academic/non-profit) plus recommended
+  participant pay of at least £9.00 / $12.00 per hour with minimum £6.00 / $8.00 per hour; managed services
+  priced by custom quote.
+plan_count: 4
+plans:
+- name: Platform
+  price_text: Pay as you go
+  period: per-use
+  unit: participant reward plus platform fee
+  included_quota: 300,000+ active participants; AI Taskers and Domain Experts; 300+ audience filters;
+    Representative and quota samples; Custom screening; API and no-code integrations; Unlimited users;
+    Workspaces; Direct participant messaging; Email support
+- name: Platform fee (corporate)
+  price_text: 42.8%
+  price: 42.8
+  period: per-use
+  unit: platform fee on participant reward
+- name: Platform fee (academic or non-profit)
+  price_text: 33.3%
+  price: 33.3
+  period: per-use
+  unit: discounted platform fee
+- name: Managed services
+  price_text: Custom
+  period: none
+  included_quota: Complete datasets; Expert curation and verification; Custom sourcing campaigns; Participant
+    training and onboarding; Ongoing pool optimization; Multi-stage quality assurance; Dedicated project
+    team; Shared Slack channels; Data analysis and reporting
