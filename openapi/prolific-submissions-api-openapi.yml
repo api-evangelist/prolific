@@ -1,12 +1,12 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: API Reference aiTaskBuilder submissions API
+  title: Reference Submissions API
   version: 1.0.0
 servers:
 - url: https://api.prolific.com
   description: Production
 tags:
-- name: submissions
+- name: Submissions
 paths:
   /api/v1/submissions/:
     get:
@@ -29,7 +29,7 @@ paths:
 
         - Status parameters are case-insensitive with underscore normalization'
       tags:
-      - submissions
+      - Submissions
       parameters:
       - name: study
         in: query
@@ -163,7 +163,7 @@ paths:
 
         study id, participant id, status and start timestamp'
       tags:
-      - submissions
+      - Submissions
       parameters:
       - name: id
         in: path
@@ -205,9 +205,21 @@ paths:
     post:
       operationId: transition-submission
       summary: Approve or reject a submission
-      description: "Transition a submission to `APPROVED`, `REJECTED`, `PARTIALLY APPROVED`, `AWAITING REVIEW` or `SCREENED OUT`. Once the status is changed, it can not be restored to its previous value.\n\nYou can only transition a submission to PARTIALLY APPROVED or SCREENED OUT by:\n  - setting up the study with the appropriate completion codes (only some workspaces have access to these features)\n  - providing the correct completion code in the request body\n  - providing the necessary data in the request body (to PARTIALLY APPROVE a submission)\n\nNote this endpoint is idempotent, so if you make the same request twice, the second request will be ignored."
+      description: 'Transition a submission to `APPROVED`, `REJECTED`, `PARTIALLY APPROVED`, `AWAITING REVIEW` or `SCREENED OUT`. Once the status is changed, it can not be restored to its previous value.
+
+
+        You can only transition a submission to PARTIALLY APPROVED or SCREENED OUT by:
+
+        - setting up the study with the appropriate completion codes (only some workspaces have access to these features)
+
+        - providing the correct completion code in the request body
+
+        - providing the necessary data in the request body (to PARTIALLY APPROVE a submission)
+
+
+        Note this endpoint is idempotent, so if you make the same request twice, the second request will be ignored.'
       tags:
-      - submissions
+      - Submissions
       parameters:
       - name: id
         in: path
@@ -254,9 +266,12 @@ paths:
     post:
       operationId: request-submission-return
       summary: Request the participant who submitted the response to return their response
-      description: '**This is an experimental feature that may be subject to change in the future.** <br/>
+      description: '**This is an experimental feature that may be subject to change in the future.**
 
-        It offers researchers the ability to ask a participant to return a submission. The return reason must be provided in the request and can be any free text string. <br/> The Prolific UI allows users to select any of the following options:
+
+        It offers researchers the ability to ask a participant to return a submission. The return reason must be provided in the request and can be any free text string.
+
+        The Prolific UI allows users to select any of the following options:
 
         * Didn''t finish the study
 
@@ -267,13 +282,9 @@ paths:
         * Other ( uses the free text input)
 
 
-        This constructs a message around the reasons provided so there is no need to provide additional text beyond the reasons.
-
-        <img alt="Example" src="/assets/img/api/message.png" />
-
-        '
+        This constructs a message around the reasons provided so there is no need to provide additional text beyond the reasons.'
       tags:
-      - submissions
+      - Submissions
       parameters:
       - name: id
         in: path
@@ -344,7 +355,7 @@ paths:
 
         We recommend a maximum of 1,000 submission or participant IDs per request.'
       tags:
-      - submissions
+      - Submissions
       parameters:
       - name: Authorization
         in: header
@@ -381,6 +392,171 @@ paths:
               $ref: '#/components/schemas/Submissions_BulkApproveSubmissions_Request'
 components:
   schemas:
+    SubmissionsBulkApproveSubmissionsRequest1:
+      type: object
+      properties:
+        submission_ids:
+          type: array
+          items:
+            type: string
+      required:
+      - submission_ids
+      title: SubmissionsBulkApproveSubmissionsRequest1
+    ApiV1SubmissionsGetParametersApproved:
+      type: string
+      enum:
+      - '0'
+      - '1'
+      - 'true'
+      - 'false'
+      - 'yes'
+      - 'no'
+      - t
+      - f
+      title: ApiV1SubmissionsGetParametersApproved
+    ApiV1SubmissionsGetParametersTimeout:
+      type: string
+      enum:
+      - '0'
+      - '1'
+      - 'true'
+      - 'false'
+      - 'yes'
+      - 'no'
+      - t
+      - f
+      title: ApiV1SubmissionsGetParametersTimeout
+    Error:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
+      required:
+      - error
+      title: Error
+    ApiV1SubmissionsGetParametersCompleteoractive:
+      type: string
+      enum:
+      - '0'
+      - '1'
+      - 'true'
+      - 'false'
+      - 'yes'
+      - 'no'
+      - t
+      - f
+      title: ApiV1SubmissionsGetParametersCompleteoractive
+    SubmissionTransitionAction:
+      type: string
+      enum:
+      - APPROVE
+      - COMPLETE
+      - REJECT
+      - RETURN
+      - START
+      - SCREEN_OUT
+      - UNREJECT
+      - UNRETURN
+      description: The action that should be performed on the submission.
+      title: SubmissionTransitionAction
+    SubmissionDetailStatus:
+      type: string
+      enum:
+      - ACTIVE
+      - APPROVED
+      - PARTIALLY APPROVED
+      - AWAITING REVIEW
+      - REJECTED
+      - RESERVED
+      - RETURNED
+      - TIMED-OUT
+      - SCREENED OUT
+      - UNKNOWN
+      description: The current status of the submission
+      title: SubmissionDetailStatus
+    ReturnRequestedResponseStatus:
+      type: string
+      enum:
+      - ACTIVE
+      - APPROVED
+      - AWAITING REVIEW
+      - SCREENED OUT
+      - REJECTED
+      - RESERVED
+      - RETURNED
+      - TIMED-OUT
+      - UNKNOWN
+      description: The current status of the submission
+      title: ReturnRequestedResponseStatus
+    ApiV1SubmissionsGetParametersRejected:
+      type: string
+      enum:
+      - '0'
+      - '1'
+      - 'true'
+      - 'false'
+      - 'yes'
+      - 'no'
+      - t
+      - f
+      title: ApiV1SubmissionsGetParametersRejected
+    Submission:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The id of the submission
+        completed_at:
+          type:
+          - string
+          - 'null'
+          description: The time the submission was completed at.
+        entered_code:
+          type:
+          - string
+          - 'null'
+          description: The completion code used by the participant to complete the study.
+        participant:
+          type: string
+          description: Participant id.
+        started_at:
+          type: string
+          description: The date and time that the user started the submission (UTC)
+        status:
+          $ref: '#/components/schemas/SubmissionStatus'
+          description: The current status of the submission
+        study_id:
+          type: string
+          description: Study id.
+      required:
+      - id
+      - started_at
+      - status
+      - study_id
+      title: Submission
+    SubmissionsBulkApproveSubmissionsRequest0:
+      type: object
+      properties:
+        study_id:
+          type: string
+        participant_ids:
+          type: array
+          items:
+            type: string
+      required:
+      - study_id
+      - participant_ids
+      title: SubmissionsBulkApproveSubmissionsRequest0
+    ApiV1SubmissionsGetParametersOrdering:
+      type: string
+      enum:
+      - started_at
+      - -started_at
+      - submission_reward
+      - -submission_reward
+      - study_name
+      - -study_name
+      title: ApiV1SubmissionsGetParametersOrdering
     ApiV1SubmissionsGetParametersScreenedOut:
       type: string
       enum:
@@ -393,6 +569,37 @@ components:
       - t
       - f
       title: ApiV1SubmissionsGetParametersScreenedOut
+    SubmissionTransitionRejectionCategory:
+      type: string
+      enum:
+      - TOO_QUICKLY
+      - TOO_SLOWLY
+      - FAILED_INSTRUCTIONS
+      - INCOMP_LONGITUDINAL
+      - FAILED_CHECK
+      - LOW_EFFORT
+      - MALINGERING
+      - NO_CODE
+      - BAD_CODE
+      - NO_DATA
+      - UNSUPP_DEVICE
+      - OTHER
+      description: 'Required if action is ''REJECT'', it sums as the category of
+
+        the rejection.'
+      title: SubmissionTransitionRejectionCategory
+    ApiV1SubmissionsGetParametersAwaitingReview:
+      type: string
+      enum:
+      - '0'
+      - '1'
+      - 'true'
+      - 'false'
+      - 'yes'
+      - 'no'
+      - t
+      - f
+      title: ApiV1SubmissionsGetParametersAwaitingReview
     ErrorDetail:
       type: object
       properties:
@@ -441,173 +648,11 @@ components:
           format: date-time
           description: The date and time when a return request for the submission was made.
       title: ReturnRequestedResponse
-    ApiV1SubmissionsGetParametersCompleted:
-      type: string
-      enum:
-      - '0'
-      - '1'
-      - 'true'
-      - 'false'
-      - 'yes'
-      - 'no'
-      - t
-      - f
-      title: ApiV1SubmissionsGetParametersCompleted
-    Error:
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/ErrorDetail'
-      required:
-      - error
-      title: Error
-    SubmissionTransitionCompletionCodeData:
-      type: object
-      properties:
-        percentage_of_reward:
-          type: number
-          format: double
-          description: Required if the code is for a DYNAMIC_PAYMENT action. Must be between 8 - 99 (inclusive).
-        message_to_participant:
-          type: string
-          description: Optional message to the participant to be sent alongside a dynamic payment.
-      description: Required if the action is 'COMPLETE' and the code has the action "DYNAMIC_PAYMENT" associated with it.
-      title: SubmissionTransitionCompletionCodeData
-    ApiV1SubmissionsGetParametersCompleteoractive:
-      type: string
-      enum:
-      - '0'
-      - '1'
-      - 'true'
-      - 'false'
-      - 'yes'
-      - 'no'
-      - t
-      - f
-      title: ApiV1SubmissionsGetParametersCompleteoractive
-    ApiV1SubmissionsGetParametersRejected:
-      type: string
-      enum:
-      - '0'
-      - '1'
-      - 'true'
-      - 'false'
-      - 'yes'
-      - 'no'
-      - t
-      - f
-      title: ApiV1SubmissionsGetParametersRejected
-    SubmissionListResponse:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/SubmissionShort'
-          description: List of all submissions matching the criteria.
-      required:
-      - results
-      title: SubmissionListResponse
-    ApiV1SubmissionsGetParametersReturned:
-      type: string
-      enum:
-      - '0'
-      - '1'
-      - 'true'
-      - 'false'
-      - 'yes'
-      - 'no'
-      - t
-      - f
-      title: ApiV1SubmissionsGetParametersReturned
-    ReturnRequestedResponseStatus:
-      type: string
-      enum:
-      - ACTIVE
-      - APPROVED
-      - AWAITING REVIEW
-      - SCREENED OUT
-      - REJECTED
-      - RESERVED
-      - RETURNED
-      - TIMED-OUT
-      - UNKNOWN
-      description: The current status of the submission
-      title: ReturnRequestedResponseStatus
-    ErrorDetailDetail:
+    Submissions_BulkApproveSubmissions_Request:
       oneOf:
-      - type: string
-      - type: array
-        items:
-          type: string
-      - $ref: '#/components/schemas/ErrorDetailDetail2'
-      description: Error detail
-      title: ErrorDetailDetail
-    Submission:
-      type: object
-      properties:
-        id:
-          type: string
-          description: The id of the submission
-        completed_at:
-          type:
-          - string
-          - 'null'
-          description: The time the submission was completed at.
-        entered_code:
-          type:
-          - string
-          - 'null'
-          description: The completion code used by the participant to complete the study.
-        participant:
-          type: string
-          description: Participant id.
-        started_at:
-          type: string
-          description: The date and time that the user started the submission (UTC)
-        status:
-          $ref: '#/components/schemas/SubmissionStatus'
-          description: The current status of the submission
-        study_id:
-          type: string
-          description: Study id.
-      required:
-      - id
-      - started_at
-      - status
-      - study_id
-      title: Submission
-    ApiV1SubmissionsGetParametersApproved:
-      type: string
-      enum:
-      - '0'
-      - '1'
-      - 'true'
-      - 'false'
-      - 'yes'
-      - 'no'
-      - t
-      - f
-      title: ApiV1SubmissionsGetParametersApproved
-    SubmissionTransitionRejectionCategory:
-      type: string
-      enum:
-      - TOO_QUICKLY
-      - TOO_SLOWLY
-      - FAILED_INSTRUCTIONS
-      - INCOMP_LONGITUDINAL
-      - FAILED_CHECK
-      - LOW_EFFORT
-      - MALINGERING
-      - NO_CODE
-      - BAD_CODE
-      - NO_DATA
-      - UNSUPP_DEVICE
-      - OTHER
-      description: 'Required if action is ''REJECT'', it sums as the category of
-
-        the rejection.'
-      title: SubmissionTransitionRejectionCategory
+      - $ref: '#/components/schemas/SubmissionsBulkApproveSubmissionsRequest0'
+      - $ref: '#/components/schemas/SubmissionsBulkApproveSubmissionsRequest1'
+      title: Submissions_BulkApproveSubmissions_Request
     SubmissionShort:
       type: object
       properties:
@@ -651,33 +696,18 @@ components:
       - started_at
       - has_siblings
       title: SubmissionShort
-    SubmissionTransition:
-      type: object
-      properties:
-        action:
-          $ref: '#/components/schemas/SubmissionTransitionAction'
-          description: The action that should be performed on the submission.
-        message:
-          type: string
-          description: 'Required if action is ''REJECT''. Message sent to the participant
-
-            explaining the reason for the rejection.
-
-            It must be at least 100 chars long.'
-        rejection_category:
-          $ref: '#/components/schemas/SubmissionTransitionRejectionCategory'
-          description: 'Required if action is ''REJECT'', it sums as the category of
-
-            the rejection.'
-        completion_code:
-          type: string
-          description: Required if the action is 'COMPLETE'. The completion code must match a value provided when creating the study, and the actor must have been set to `researcher`. Any actions that were provided during the set up of the completion code (e.g. automatically approve) will then be carried out.
-        completion_code_data:
-          $ref: '#/components/schemas/SubmissionTransitionCompletionCodeData'
-          description: Required if the action is 'COMPLETE' and the code has the action "DYNAMIC_PAYMENT" associated with it.
-      required:
-      - action
-      title: SubmissionTransition
+    ApiV1SubmissionsGetParametersActive:
+      type: string
+      enum:
+      - '0'
+      - '1'
+      - 'true'
+      - 'false'
+      - 'yes'
+      - 'no'
+      - t
+      - f
+      title: ApiV1SubmissionsGetParametersActive
     SubmissionDetail:
       type: object
       properties:
@@ -729,24 +759,37 @@ components:
       - status
       - study_id
       title: SubmissionDetail
-    SubmissionShortStatus:
-      type: string
-      enum:
-      - RESERVED
-      - ACTIVE
-      - TIMED-OUT
-      - AWAITING REVIEW
-      - APPROVED
-      - RETURNED
-      - REJECTED
-      - SCREENED OUT
-      description: Status of the submission.
-      title: SubmissionShortStatus
-    Submissions_BulkApproveSubmissions_Request:
+    SubmissionTransitionCompletionCodeData:
+      type: object
+      properties:
+        percentage_of_reward:
+          type: number
+          format: double
+          description: Required if the code is for a DYNAMIC_PAYMENT action. Must be between 8 - 99 (inclusive).
+        message_to_participant:
+          type: string
+          description: Optional message to the participant to be sent alongside a dynamic payment.
+      description: Required if the action is 'COMPLETE' and the code has the action "DYNAMIC_PAYMENT" associated with it.
+      title: SubmissionTransitionCompletionCodeData
+    ErrorDetailDetail:
       oneOf:
-      - $ref: '#/components/schemas/SubmissionsBulkApproveSubmissionsRequest0'
-      - $ref: '#/components/schemas/SubmissionsBulkApproveSubmissionsRequest1'
-      title: Submissions_BulkApproveSubmissions_Request
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
+    ErrorDetailDetail2:
+      type: object
+      properties:
+        any_field:
+          type: array
+          items:
+            type: string
+          description: Name of the field with a validation error and as a value an array with the error descriptions
+      description: All fields with validation errors
+      title: ErrorDetailDetail2
     SubmissionStatus:
       type: string
       enum:
@@ -761,19 +804,45 @@ components:
       - UNKNOWN
       description: The current status of the submission
       title: SubmissionStatus
-    SubmissionTransitionAction:
+    ApiV1SubmissionsGetParametersReturned:
       type: string
       enum:
-      - APPROVE
-      - COMPLETE
-      - REJECT
-      - RETURN
-      - START
-      - SCREEN_OUT
-      - UNREJECT
-      - UNRETURN
-      description: The action that should be performed on the submission.
-      title: SubmissionTransitionAction
+      - '0'
+      - '1'
+      - 'true'
+      - 'false'
+      - 'yes'
+      - 'no'
+      - t
+      - f
+      title: ApiV1SubmissionsGetParametersReturned
+    SubmissionTransition:
+      type: object
+      properties:
+        action:
+          $ref: '#/components/schemas/SubmissionTransitionAction'
+          description: The action that should be performed on the submission.
+        message:
+          type: string
+          description: 'Required if action is ''REJECT''. Message sent to the participant
+
+            explaining the reason for the rejection.
+
+            It must be at least 100 chars long.'
+        rejection_category:
+          $ref: '#/components/schemas/SubmissionTransitionRejectionCategory'
+          description: 'Required if action is ''REJECT'', it sums as the category of
+
+            the rejection.'
+        completion_code:
+          type: string
+          description: Required if the action is 'COMPLETE'. The completion code must match a value provided when creating the study, and the actor must have been set to `researcher`. Any actions that were provided during the set up of the completion code (e.g. automatically approve) will then be carried out.
+        completion_code_data:
+          $ref: '#/components/schemas/SubmissionTransitionCompletionCodeData'
+          description: Required if the action is 'COMPLETE' and the code has the action "DYNAMIC_PAYMENT" associated with it.
+      required:
+      - action
+      title: SubmissionTransition
     ApiV1SubmissionsGetParametersStatus:
       type: string
       enum:
@@ -787,20 +856,7 @@ components:
       - TIMED-OUT
       - UNKNOWN
       title: ApiV1SubmissionsGetParametersStatus
-    SubmissionsBulkApproveSubmissionsRequest0:
-      type: object
-      properties:
-        study_id:
-          type: string
-        participant_ids:
-          type: array
-          items:
-            type: string
-      required:
-      - study_id
-      - participant_ids
-      title: SubmissionsBulkApproveSubmissionsRequest0
-    ApiV1SubmissionsGetParametersActive:
+    ApiV1SubmissionsGetParametersCompleted:
       type: string
       enum:
       - '0'
@@ -811,76 +867,31 @@ components:
       - 'no'
       - t
       - f
-      title: ApiV1SubmissionsGetParametersActive
-    ApiV1SubmissionsGetParametersAwaitingReview:
+      title: ApiV1SubmissionsGetParametersCompleted
+    SubmissionShortStatus:
       type: string
       enum:
-      - '0'
-      - '1'
-      - 'true'
-      - 'false'
-      - 'yes'
-      - 'no'
-      - t
-      - f
-      title: ApiV1SubmissionsGetParametersAwaitingReview
-    SubmissionsBulkApproveSubmissionsRequest1:
-      type: object
-      properties:
-        submission_ids:
-          type: array
-          items:
-            type: string
-      required:
-      - submission_ids
-      title: SubmissionsBulkApproveSubmissionsRequest1
-    SubmissionDetailStatus:
-      type: string
-      enum:
-      - ACTIVE
-      - APPROVED
-      - PARTIALLY APPROVED
-      - AWAITING REVIEW
-      - REJECTED
       - RESERVED
-      - RETURNED
+      - ACTIVE
       - TIMED-OUT
+      - AWAITING REVIEW
+      - APPROVED
+      - RETURNED
+      - REJECTED
       - SCREENED OUT
-      - UNKNOWN
-      description: The current status of the submission
-      title: SubmissionDetailStatus
-    ApiV1SubmissionsGetParametersOrdering:
-      type: string
-      enum:
-      - started_at
-      - -started_at
-      - submission_reward
-      - -submission_reward
-      - study_name
-      - -study_name
-      title: ApiV1SubmissionsGetParametersOrdering
-    ApiV1SubmissionsGetParametersTimeout:
-      type: string
-      enum:
-      - '0'
-      - '1'
-      - 'true'
-      - 'false'
-      - 'yes'
-      - 'no'
-      - t
-      - f
-      title: ApiV1SubmissionsGetParametersTimeout
-    ErrorDetailDetail2:
+      description: Status of the submission.
+      title: SubmissionShortStatus
+    SubmissionListResponse:
       type: object
       properties:
-        any_field:
+        results:
           type: array
           items:
-            type: string
-          description: Name of the field with a validation error and as a value an array with the error descriptions
-      description: All fields with validation errors
-      title: ErrorDetailDetail2
+            $ref: '#/components/schemas/SubmissionShort'
+          description: List of all submissions matching the criteria.
+      required:
+      - results
+      title: SubmissionListResponse
   securitySchemes:
     token:
       type: apiKey

@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: API Reference aiTaskBuilder participantGroups API
+  title: Reference Participant Groups API
   version: 1.0.0
 servers:
 - url: https://api.prolific.com
@@ -284,9 +284,7 @@ paths:
     post:
       operationId: add-to-participant-group
       summary: Add participants to a participant group
-      description: 'Append participants to a participant group if they are not already members. If a participant is already a member of the group, they will be ignored.
-
-        '
+      description: Append participants to a participant group if they are not already members. If a participant is already a member of the group, they will be ignored.
       tags:
       - participantGroups
       parameters:
@@ -332,9 +330,7 @@ paths:
     delete:
       operationId: remove-from-participant-group
       summary: Remove participants from a participant group
-      description: 'Remove specified participants from a participant group if they are members. If a participant is not a member of the group, they will be ignored.
-
-        '
+      description: Remove specified participants from a participant group if they are members. If a participant is not a member of the group, they will be ignored.
       tags:
       - participantGroups
       parameters:
@@ -379,48 +375,44 @@ paths:
               $ref: '#/components/schemas/ParticipantIDList'
 components:
   schemas:
-    ErrorDetail:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: Status code as in the http standards
-        error_code:
-          type: integer
-          description: Internal error code
-        title:
-          type: string
-          description: Error title
-        detail:
-          $ref: '#/components/schemas/ErrorDetailDetail'
-          description: Error detail
-        additional_information:
-          type: string
-          description: Optional extra information
-        traceback:
-          type: string
-          description: Optional debug information
-        interactive:
-          type: boolean
-      required:
-      - status
-      - error_code
-      - title
-      - detail
-      title: ErrorDetail
     ApiV1ParticipantGroupsGetParametersFilter:
       oneOf:
       - $ref: '#/components/schemas/ApiV1ParticipantGroupsGetParametersFilter0'
       - $ref: '#/components/schemas/ApiV1ParticipantGroupsGetParametersFilter1'
       title: ApiV1ParticipantGroupsGetParametersFilter
-    ParticipantIDList:
+    ParticipantGroupMembershipListResponse:
       type: object
       properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParticipantGroupMembership'
+      title: ParticipantGroupMembershipListResponse
+    ParticipantGroupMembership:
+      type: object
+      properties:
+        participant_id:
+          type: string
+          description: The id of the participant
+        datetime_created:
+          type: string
+          description: The date and time the participant was added to the Participant Group
+      title: ParticipantGroupMembership
+    ParticipantGroupUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the participant group
         participant_ids:
           type: array
           items:
             type: string
-      title: ParticipantIDList
+          description: 'The ids of participants to be included in the group.
+
+
+            Note, this overwrites any existing participants in the group; use the participant group membership endpoints to [append](#tag/Participant-Groups/operation/AddToParticipantGroup) or [remove](#tag/Participant-Groups/operation/RemoveFromParticipantGroup) participants from the group.'
+      title: ParticipantGroupUpdate
     ParticipantGroup:
       type: object
       properties:
@@ -462,117 +454,20 @@ components:
             $ref: '#/components/schemas/ParticipantGroupFeederStudiesItems'
           description: Details of all studies which are configured to modify the participants in this group through completion codes.
       title: ParticipantGroup
-    ParticipantGroupMembershipListResponse:
+    ApiV1ParticipantGroupsGetParametersActive:
+      type: string
+      enum:
+      - 'true'
+      - 'false'
+      title: ApiV1ParticipantGroupsGetParametersActive
+    ParticipantIDList:
       type: object
       properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ParticipantGroupMembership'
-      title: ParticipantGroupMembershipListResponse
-    ApiV1ParticipantGroupsGetParametersFilter1:
-      type: object
-      properties:
-        project_id:
-          type: string
-          description: The id of the project to get participant groups for
-      required:
-      - project_id
-      title: ApiV1ParticipantGroupsGetParametersFilter1
-    ErrorDetailDetail:
-      oneOf:
-      - type: string
-      - type: array
-        items:
-          type: string
-      - $ref: '#/components/schemas/ErrorDetailDetail2'
-      description: Error detail
-      title: ErrorDetailDetail
-    ParticipantGroupUpdate:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the participant group
         participant_ids:
           type: array
           items:
             type: string
-          description: 'The ids of participants to be included in the group.
-
-
-            Note, this overwrites any existing participants in the group; use the participant group membership endpoints to [append](#tag/Participant-Groups/operation/AddToParticipantGroup) or [remove](#tag/Participant-Groups/operation/RemoveFromParticipantGroup) participants from the group.'
-      title: ParticipantGroupUpdate
-    ParticipantGroupMembership:
-      type: object
-      properties:
-        participant_id:
-          type: string
-          description: The id of the participant
-        datetime_created:
-          type: string
-          description: The date and time the participant was added to the Participant Group
-      title: ParticipantGroupMembership
-    ApiV1ParticipantGroupsGetParametersFilter0:
-      type: object
-      properties:
-        workspace_id:
-          type: string
-          description: The id of the workspace to get participant groups for
-      required:
-      - workspace_id
-      title: ApiV1ParticipantGroupsGetParametersFilter0
-    ParticipantGroupFeederStudiesItems:
-      type: object
-      properties:
-        id:
-          type: string
-          description: The id of the study.
-        name:
-          type: string
-          description: The name of the study.
-        internal_name:
-          type: string
-          description: The internal name of the study.
-        status:
-          type: string
-          description: The current status of the study.
-        feeder_completion_codes:
-          type: array
-          items:
-            $ref: '#/components/schemas/ParticipantGroupFeederStudiesItemsFeederCompletionCodesItems'
-          description: The completion codes which will modify the participants in this group.
-      title: ParticipantGroupFeederStudiesItems
-    ParticipantGroupFeederStudiesItemsFeederCompletionCodesItems:
-      type: object
-      properties:
-        code:
-          type: string
-          description: The code that will modify the participants in this group.
-        code_type:
-          type: string
-          description: The label or code type given to this code within the context of the study.
-        action:
-          $ref: '#/components/schemas/ParticipantGroupFeederStudiesItemsFeederCompletionCodesItemsAction'
-          description: The action that will be taken when this code is used.
-      description: The code within this study that interacts with the participant group.
-      title: ParticipantGroupFeederStudiesItemsFeederCompletionCodesItems
-    ParticipantGroupListResponse:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ParticipantGroup'
-      title: ParticipantGroupListResponse
-    Error:
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/ErrorDetail'
-      required:
-      - error
-      title: Error
+      title: ParticipantIDList
     ParticipantGroupResponse:
       type: object
       properties:
@@ -614,12 +509,60 @@ components:
             $ref: '#/components/schemas/ParticipantGroupFeederStudiesItems'
           description: Details of all studies which are configured to modify the participants in this group through completion codes.
       title: ParticipantGroupResponse
-    ApiV1ParticipantGroupsGetParametersActive:
-      type: string
-      enum:
-      - 'true'
-      - 'false'
-      title: ApiV1ParticipantGroupsGetParametersActive
+    ParticipantGroupListResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParticipantGroup'
+      title: ParticipantGroupListResponse
+    ErrorDetail:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: Status code as in the http standards
+        error_code:
+          type: integer
+          description: Internal error code
+        title:
+          type: string
+          description: Error title
+        detail:
+          $ref: '#/components/schemas/ErrorDetailDetail'
+          description: Error detail
+        additional_information:
+          type: string
+          description: Optional extra information
+        traceback:
+          type: string
+          description: Optional debug information
+        interactive:
+          type: boolean
+      required:
+      - status
+      - error_code
+      - title
+      - detail
+      title: ErrorDetail
+    Error:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
+      required:
+      - error
+      title: Error
+    ApiV1ParticipantGroupsGetParametersFilter1:
+      type: object
+      properties:
+        project_id:
+          type: string
+          description: The id of the project to get participant groups for
+      required:
+      - project_id
+      title: ApiV1ParticipantGroupsGetParametersFilter1
     ParticipantGroupFeederStudiesItemsFeederCompletionCodesItemsAction:
       type: string
       enum:
@@ -627,6 +570,36 @@ components:
       - REMOVE_FROM_PARTICIPANT_GROUP
       description: The action that will be taken when this code is used.
       title: ParticipantGroupFeederStudiesItemsFeederCompletionCodesItemsAction
+    ApiV1ParticipantGroupsGetParametersFilter0:
+      type: object
+      properties:
+        workspace_id:
+          type: string
+          description: The id of the workspace to get participant groups for
+      required:
+      - workspace_id
+      title: ApiV1ParticipantGroupsGetParametersFilter0
+    ParticipantGroupFeederStudiesItems:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The id of the study.
+        name:
+          type: string
+          description: The name of the study.
+        internal_name:
+          type: string
+          description: The internal name of the study.
+        status:
+          type: string
+          description: The current status of the study.
+        feeder_completion_codes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParticipantGroupFeederStudiesItemsFeederCompletionCodesItems'
+          description: The completion codes which will modify the participants in this group.
+      title: ParticipantGroupFeederStudiesItems
     ErrorDetailDetail2:
       type: object
       properties:
@@ -637,6 +610,29 @@ components:
           description: Name of the field with a validation error and as a value an array with the error descriptions
       description: All fields with validation errors
       title: ErrorDetailDetail2
+    ParticipantGroupFeederStudiesItemsFeederCompletionCodesItems:
+      type: object
+      properties:
+        code:
+          type: string
+          description: The code that will modify the participants in this group.
+        code_type:
+          type: string
+          description: The label or code type given to this code within the context of the study.
+        action:
+          $ref: '#/components/schemas/ParticipantGroupFeederStudiesItemsFeederCompletionCodesItemsAction'
+          description: The action that will be taken when this code is used.
+      description: The code within this study that interacts with the participant group.
+      title: ParticipantGroupFeederStudiesItemsFeederCompletionCodesItems
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
   securitySchemes:
     token:
       type: apiKey

@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: API Reference aiTaskBuilder wellKnownEndpoints API
+  title: Reference Well Known Endpoints API
   version: 1.0.0
 servers:
 - url: https://api.prolific.com
@@ -23,9 +23,7 @@ paths:
 
         * The `aud` claim is the correct domain for your tool.
 
-        * The `prolific` claim matches your expected payload as set in the `external_study_url` property. It always includes `workspace_id`. When the workspace is linked to an organisation, it also includes `organisation_id`.
-
-        '
+        * The `prolific` claim matches your expected payload as set in the `external_study_url` property. It always includes `workspace_id`. When the workspace is linked to an organisation, it also includes `organisation_id`.'
       tags:
       - wellKnownEndpoints
       responses:
@@ -77,14 +75,6 @@ components:
       enum:
       - verify
       title: JwkKeyOpsItems
-    JWKSResponse:
-      type: object
-      properties:
-        keys:
-          type: array
-          items:
-            $ref: '#/components/schemas/JWK'
-      title: JWKSResponse
     JwkAlg:
       type: string
       enum:
@@ -97,6 +87,14 @@ components:
       - sig
       description: The intended use of the public key.
       title: JwkUse
+    JWKSResponse:
+      type: object
+      properties:
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/JWK'
+      title: JWKSResponse
     JwkKty:
       type: string
       enum:

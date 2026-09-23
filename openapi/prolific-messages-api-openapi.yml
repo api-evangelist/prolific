@@ -1,12 +1,12 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: API Reference aiTaskBuilder messages API
+  title: Reference Messages API
   version: 1.0.0
 servers:
 - url: https://api.prolific.com
   description: Production
 tags:
-- name: messages
+- name: Messages
 paths:
   /api/v1/messages/:
     get:
@@ -14,7 +14,7 @@ paths:
       summary: Retrieve messages
       description: Get messages between you and another user or your messages with all users.
       tags:
-      - messages
+      - Messages
       parameters:
       - name: user_id
         in: query
@@ -72,7 +72,7 @@ paths:
       summary: Send a message
       description: Send a message to a participant or another researcher
       tags:
-      - messages
+      - Messages
       parameters:
       - name: Authorization
         in: header
@@ -114,7 +114,7 @@ paths:
       summary: Send a message to multiple participants
       description: Send a message to multiple participants.
       tags:
-      - messages
+      - Messages
       parameters:
       - name: Authorization
         in: header
@@ -156,7 +156,7 @@ paths:
       summary: Send a message to a participant group
       description: Send a message to a participant group.
       tags:
-      - messages
+      - Messages
       parameters:
       - name: Authorization
         in: header
@@ -202,7 +202,7 @@ paths:
 
         It does not mark those messages as read.'
       tags:
-      - messages
+      - Messages
       parameters:
       - name: Authorization
         in: header
@@ -234,6 +234,22 @@ paths:
                 $ref: '#/components/schemas/ErrorDetail'
 components:
   schemas:
+    MessageParticipantGroup:
+      type: object
+      properties:
+        participant_group_id:
+          type: string
+          description: A participant group ID
+        body:
+          type: string
+          description: Message Body. Text is sanitised for safe storage and display.
+        study_id:
+          type: string
+          description: A study ID
+      required:
+      - participant_group_id
+      - body
+      title: MessageParticipantGroup
     ErrorDetail:
       type: object
       properties:
@@ -263,107 +279,6 @@ components:
       - title
       - detail
       title: ErrorDetail
-    MessageData:
-      type: object
-      properties:
-        study_id:
-          type: string
-          description: What study the message relates to. In case this is not automatically filled for the participant, they can choose which study their message relates to.
-        category:
-          $ref: '#/components/schemas/MessageDataCategory'
-          description: Participants can self-categorise their message before sending it.
-      description: Metadata for a message
-      title: MessageData
-    SendMessage:
-      type: object
-      properties:
-        recipient_id:
-          type: string
-          description: Recipient user's id
-        body:
-          type: string
-          description: Message Body. Text is sanitised for safe storage and display.
-        study_id:
-          type: string
-          description: This study is the reason for this message
-      required:
-      - recipient_id
-      - body
-      - study_id
-      title: SendMessage
-    MessageParticipantGroup:
-      type: object
-      properties:
-        participant_group_id:
-          type: string
-          description: A participant group ID
-        body:
-          type: string
-          description: Message Body. Text is sanitised for safe storage and display.
-        study_id:
-          type: string
-          description: A study ID
-      required:
-      - participant_group_id
-      - body
-      title: MessageParticipantGroup
-    Messages:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-      title: Messages
-    ErrorDetailDetail:
-      oneOf:
-      - type: string
-      - type: array
-        items:
-          type: string
-      - $ref: '#/components/schemas/ErrorDetailDetail2'
-      description: Error detail
-      title: ErrorDetailDetail
-    SendBulkMessage:
-      type: object
-      properties:
-        ids:
-          type: array
-          items:
-            type: string
-          description: A list of participant ID's
-        body:
-          type: string
-          description: Message Body. Text is sanitised for safe storage and display.
-        study_id:
-          type: string
-          description: A study ID
-      required:
-      - ids
-      - body
-      - study_id
-      title: SendBulkMessage
-    MessageDataCategory:
-      type: string
-      enum:
-      - payment-timing
-      - payment-issues
-      - technical-issues
-      - feedback
-      - rejections
-      - other
-      description: Participants can self-categorise their message before sending it.
-      title: MessageDataCategory
-    ErrorDetailDetail2:
-      type: object
-      properties:
-        any_field:
-          type: array
-          items:
-            type: string
-          description: Name of the field with a validation error and as a value an array with the error descriptions
-      description: All fields with validation errors
-      title: ErrorDetailDetail2
     Message:
       type: object
       properties:
@@ -396,6 +311,91 @@ components:
       - sent_at
       - channel_id
       title: Message
+    SendMessage:
+      type: object
+      properties:
+        recipient_id:
+          type: string
+          description: Recipient user's id
+        body:
+          type: string
+          description: Message Body. Text is sanitised for safe storage and display.
+        study_id:
+          type: string
+          description: This study is the reason for this message
+      required:
+      - recipient_id
+      - body
+      - study_id
+      title: SendMessage
+    MessageDataCategory:
+      type: string
+      enum:
+      - payment-timing
+      - payment-issues
+      - technical-issues
+      - feedback
+      - rejections
+      - other
+      description: Participants can self-categorise their message before sending it.
+      title: MessageDataCategory
+    SendBulkMessage:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+          description: A list of participant ID's
+        body:
+          type: string
+          description: Message Body. Text is sanitised for safe storage and display.
+        study_id:
+          type: string
+          description: A study ID
+      required:
+      - ids
+      - body
+      - study_id
+      title: SendBulkMessage
+    ErrorDetailDetail2:
+      type: object
+      properties:
+        any_field:
+          type: array
+          items:
+            type: string
+          description: Name of the field with a validation error and as a value an array with the error descriptions
+      description: All fields with validation errors
+      title: ErrorDetailDetail2
+    MessageData:
+      type: object
+      properties:
+        study_id:
+          type: string
+          description: What study the message relates to. In case this is not automatically filled for the participant, they can choose which study their message relates to.
+        category:
+          $ref: '#/components/schemas/MessageDataCategory'
+          description: Participants can self-categorise their message before sending it.
+      description: Metadata for a message
+      title: MessageData
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
+    Messages:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+      title: Messages
   securitySchemes:
     token:
       type: apiKey

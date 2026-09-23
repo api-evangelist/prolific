@@ -1,12 +1,12 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: API Reference aiTaskBuilder users API
+  title: Reference Users API
   version: 1.0.0
 servers:
 - url: https://api.prolific.com
   description: Production
 tags:
-- name: users
+- name: Users
 paths:
   /api/v1/users/me/:
     get:
@@ -15,9 +15,9 @@ paths:
       description: 'Use this endpoint to test your token and retrieve the basic information of your account.
 
 
-        Add an `Authorization` header with the value `Token <your token>`.'
+        Add an `Authorization` header with the value `Token `.'
       tags:
-      - users
+      - Users
       parameters:
       - name: Authorization
         in: header
@@ -80,11 +80,9 @@ paths:
 
         - A randomly generated password is assigned to the participant account. We recommend that you request to reset
 
-        the password, and use this new password to login to the participant account.
-
-        '
+        the password, and use this new password to login to the participant account.'
       tags:
-      - users
+      - Users
       parameters:
       - name: Authorization
         in: header
@@ -121,17 +119,20 @@ paths:
               $ref: '#/components/schemas/CreateTestParticipantForResearcher'
 components:
   schemas:
-    User:
+    CreateTestParticipantForResearcher:
       type: object
       properties:
-        id:
-          type: string
         email:
           type: string
+          format: email
+          description: '- The email of the test participant.
+
+            - This cannot be an email that has been registered with Prolific already.
+
+            '
       required:
-      - id
       - email
-      title: User
+      title: CreateTestParticipantForResearcher
     ErrorDetail:
       type: object
       properties:
@@ -161,23 +162,6 @@ components:
       - title
       - detail
       title: ErrorDetail
-    ErrorDetailDetail:
-      oneOf:
-      - type: string
-      - type: array
-        items:
-          type: string
-      - $ref: '#/components/schemas/ErrorDetailDetail2'
-      description: Error detail
-      title: ErrorDetailDetail
-    CreateTestParticipantForResearcherResponse:
-      type: object
-      properties:
-        participant_id:
-          type: string
-          format: objectId
-          description: The ID of the test participant
-      title: CreateTestParticipantForResearcherResponse
     Error:
       type: object
       properties:
@@ -186,6 +170,25 @@ components:
       required:
       - error
       title: Error
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+      required:
+      - id
+      - email
+      title: User
+    CreateTestParticipantForResearcherResponse:
+      type: object
+      properties:
+        participant_id:
+          type: string
+          format: objectId
+          description: The ID of the test participant
+      title: CreateTestParticipantForResearcherResponse
     ErrorDetailDetail2:
       type: object
       properties:
@@ -196,20 +199,15 @@ components:
           description: Name of the field with a validation error and as a value an array with the error descriptions
       description: All fields with validation errors
       title: ErrorDetailDetail2
-    CreateTestParticipantForResearcher:
-      type: object
-      properties:
-        email:
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
           type: string
-          format: email
-          description: '- The email of the test participant.
-
-            - This cannot be an email that has been registered with Prolific already.
-
-            '
-      required:
-      - email
-      title: CreateTestParticipantForResearcher
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
   securitySchemes:
     token:
       type: apiKey

@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: API Reference aiTaskBuilder submissionFeedbackUpload API
+  title: Reference Submission Feedback Upload API
   version: 1.0.0
 servers:
 - url: https://api.prolific.com
@@ -12,7 +12,17 @@ paths:
     get:
       operationId: get-submission-feedback-upload-url
       summary: Request a feedback upload URL
-      description: "Request a temporary, pre-signed URL to upload a feedback file for your completed studies.\n\nThis is the first step of a two-step upload process:\n  1. Call this endpoint to receive a pre-signed `upload_url`.\n  2. Upload your file directly to that URL with an HTTP `PUT` request before it expires.\n\n<Note>\n  Supported file formats are CSV, XLS, XLSX, JSON, TXT and PDF. The maximum file size is 5GB. Please check the [supported file formats](/api-reference/submission-feedback-upload#supported-file-formats) section for more details.\n</Note>"
+      description: 'Request a temporary, pre-signed URL to upload a feedback file for your completed studies.
+
+
+        This is the first step of a two-step upload process:
+
+        1. Call this endpoint to receive a pre-signed `upload_url`.
+
+        2. Upload your file directly to that URL with an HTTP `PUT` request before it expires.
+
+
+        Supported file formats are CSV, XLS, XLSX, JSON, TXT and PDF. The maximum file size is 5GB. Please check the supported file formats section for more details.'
       tags:
       - submissionFeedbackUpload
       parameters:
@@ -49,7 +59,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Submission Feedback Upload_GetSubmissionFeedbackUploadUrl_Response_201'
+                $ref: '#/components/schemas/Submission_Feedback_Upload_GetSubmissionFeedbackUploadUrl_Response_201'
         '400':
           description: Error
           content:
@@ -87,21 +97,6 @@ components:
       - title
       - detail
       title: ErrorDetail
-    ErrorDetailDetail:
-      oneOf:
-      - type: string
-      - type: array
-        items:
-          type: string
-      - $ref: '#/components/schemas/ErrorDetailDetail2'
-      description: Error detail
-      title: ErrorDetailDetail
-    ApiV1SubmissionsSignalsUploadUrlFilenameGetResponsesContentApplicationJsonSchemaHttpMethod:
-      type: string
-      enum:
-      - PUT
-      description: The HTTP method to use when uploading to `upload_url`.
-      title: ApiV1SubmissionsSignalsUploadUrlFilenameGetResponsesContentApplicationJsonSchemaHttpMethod
     Error:
       type: object
       properties:
@@ -110,7 +105,23 @@ components:
       required:
       - error
       title: Error
-    Submission Feedback Upload_GetSubmissionFeedbackUploadUrl_Response_201:
+    ApiV1SubmissionsSignalsUploadUrlFilenameGetResponsesContentApplicationJsonSchemaHttpMethod:
+      type: string
+      enum:
+      - PUT
+      description: The HTTP method to use when uploading to `upload_url`.
+      title: ApiV1SubmissionsSignalsUploadUrlFilenameGetResponsesContentApplicationJsonSchemaHttpMethod
+    ErrorDetailDetail2:
+      type: object
+      properties:
+        any_field:
+          type: array
+          items:
+            type: string
+          description: Name of the field with a validation error and as a value an array with the error descriptions
+      description: All fields with validation errors
+      title: ErrorDetailDetail2
+    Submission_Feedback_Upload_GetSubmissionFeedbackUploadUrl_Response_201:
       type: object
       properties:
         upload_url:
@@ -124,16 +135,15 @@ components:
           format: date-time
           description: The time at which the pre-signed `upload_url` expires.
       title: Submission Feedback Upload_GetSubmissionFeedbackUploadUrl_Response_201
-    ErrorDetailDetail2:
-      type: object
-      properties:
-        any_field:
-          type: array
-          items:
-            type: string
-          description: Name of the field with a validation error and as a value an array with the error descriptions
-      description: All fields with validation errors
-      title: ErrorDetailDetail2
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
   securitySchemes:
     token:
       type: apiKey

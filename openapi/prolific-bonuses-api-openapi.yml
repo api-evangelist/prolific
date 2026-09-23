@@ -1,12 +1,12 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: API Reference aiTaskBuilder bonuses API
+  title: Reference Bonuses API
   version: 1.0.0
 servers:
 - url: https://api.prolific.com
   description: Production
 tags:
-- name: bonuses
+- name: Bonuses
 paths:
   /api/v1/submissions/bonus-payments/:
     post:
@@ -21,9 +21,9 @@ paths:
         The csv_bonuses field needs to be structured in the format of either:
 
 
-        - `<participant_id>,<amount>\n`.
+        - `,\n`.
 
-        - `<submission_id>,<amount>\n`.
+        - `,\n`.
 
 
         **Note: The amount will be in the study currency. The amount should be a decimal value, e.g. 1.50 for £1.50.**
@@ -34,7 +34,7 @@ paths:
         As an example, `60ffe5c8371090c7041d43f8,4.25` would be a bonus of £4.25 for participant 60ffe5c8371090c7041d43f8 in a study with GBP currency.
 
 
-        Setting up a bonus payment does not actually pay them, to do so check [/api/v1/bulk-bonus-payments/{id}/pay/](#tag/Bonuses/paths/~1api~1v1~1bulk-bonus-payments~1%7Bid%7D~1pay~1/post)
+        Setting up a bonus payment does not actually pay them, to do so check /api/v1/bulk-bonus-payments/{id}/pay/
 
 
         The submission and participant IDs need to have taken part in the study in order for this call to be successful.
@@ -44,7 +44,7 @@ paths:
 
         We recommend a maximum of 200 participant or submission IDs per request.'
       tags:
-      - bonuses
+      - Bonuses
       parameters:
       - name: Authorization
         in: header
@@ -93,13 +93,9 @@ paths:
         The payment will be done in the following minutes and your balance will be updated accordingly.
 
 
-        <Warning>
-
-        This endpoint is **not idempotent**. Sending multiple requests with the same bulk bonus payment ID will result in participants being paid multiple times. Ensure you send this request only once per bulk payment.
-
-        </Warning>'
+        This endpoint is **not idempotent**. Sending multiple requests with the same bulk bonus payment ID will result in participants being paid multiple times. Ensure you send this request only once per bulk payment.'
       tags:
-      - bonuses
+      - Bonuses
       parameters:
       - name: id
         in: path
@@ -166,15 +162,6 @@ components:
       - title
       - detail
       title: ErrorDetail
-    ErrorDetailDetail:
-      oneOf:
-      - type: string
-      - type: array
-        items:
-          type: string
-      - $ref: '#/components/schemas/ErrorDetailDetail2'
-      description: Error detail
-      title: ErrorDetailDetail
     Error:
       type: object
       properties:
@@ -183,6 +170,16 @@ components:
       required:
       - error
       title: Error
+    ErrorDetailDetail2:
+      type: object
+      properties:
+        any_field:
+          type: array
+          items:
+            type: string
+          description: Name of the field with a validation error and as a value an array with the error descriptions
+      description: All fields with validation errors
+      title: ErrorDetailDetail2
     BulkBonus:
       type: object
       properties:
@@ -212,16 +209,15 @@ components:
       - id
       - total_amount
       title: BulkBonus
-    ErrorDetailDetail2:
-      type: object
-      properties:
-        any_field:
-          type: array
-          items:
-            type: string
-          description: Name of the field with a validation error and as a value an array with the error descriptions
-      description: All fields with validation errors
-      title: ErrorDetailDetail2
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
   securitySchemes:
     token:
       type: apiKey
