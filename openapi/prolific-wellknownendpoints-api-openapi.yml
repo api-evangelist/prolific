@@ -35,6 +35,31 @@ paths:
                 $ref: '#/components/schemas/JWKSResponse'
 components:
   schemas:
+    JwkKeyOpsItems:
+      type: string
+      enum:
+      - verify
+      title: JwkKeyOpsItems
+    JwkUse:
+      type: string
+      enum:
+      - sig
+      description: The intended use of the public key.
+      title: JwkUse
+    JwkAlg:
+      type: string
+      enum:
+      - RS256
+      description: Algorithm used, always "RS256".
+      title: JwkAlg
+    JWKSResponse:
+      type: object
+      properties:
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/JWK'
+      title: JWKSResponse
     JWK:
       type: object
       properties:
@@ -70,31 +95,6 @@ components:
       - use
       - key_ops
       title: JWK
-    JwkKeyOpsItems:
-      type: string
-      enum:
-      - verify
-      title: JwkKeyOpsItems
-    JwkAlg:
-      type: string
-      enum:
-      - RS256
-      description: Algorithm used, always "RS256".
-      title: JwkAlg
-    JwkUse:
-      type: string
-      enum:
-      - sig
-      description: The intended use of the public key.
-      title: JwkUse
-    JWKSResponse:
-      type: object
-      properties:
-        keys:
-          type: array
-          items:
-            $ref: '#/components/schemas/JWK'
-      title: JWKSResponse
     JwkKty:
       type: string
       enum:

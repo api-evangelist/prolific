@@ -119,20 +119,44 @@ paths:
               $ref: '#/components/schemas/CreateTestParticipantForResearcher'
 components:
   schemas:
-    CreateTestParticipantForResearcher:
+    ErrorDetailDetail2:
       type: object
       properties:
+        any_field:
+          type: array
+          items:
+            type: string
+          description: Name of the field with a validation error and as a value an array with the error descriptions
+      description: All fields with validation errors
+      title: ErrorDetailDetail2
+    Error:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
+      required:
+      - error
+      title: Error
+    User:
+      type: object
+      properties:
+        id:
+          type: string
         email:
           type: string
-          format: email
-          description: '- The email of the test participant.
-
-            - This cannot be an email that has been registered with Prolific already.
-
-            '
       required:
+      - id
       - email
-      title: CreateTestParticipantForResearcher
+      title: User
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
     ErrorDetail:
       type: object
       properties:
@@ -162,25 +186,20 @@ components:
       - title
       - detail
       title: ErrorDetail
-    Error:
+    CreateTestParticipantForResearcher:
       type: object
       properties:
-        error:
-          $ref: '#/components/schemas/ErrorDetail'
-      required:
-      - error
-      title: Error
-    User:
-      type: object
-      properties:
-        id:
-          type: string
         email:
           type: string
+          format: email
+          description: '- The email of the test participant.
+
+            - This cannot be an email that has been registered with Prolific already.
+
+            '
       required:
-      - id
       - email
-      title: User
+      title: CreateTestParticipantForResearcher
     CreateTestParticipantForResearcherResponse:
       type: object
       properties:
@@ -189,25 +208,6 @@ components:
           format: objectId
           description: The ID of the test participant
       title: CreateTestParticipantForResearcherResponse
-    ErrorDetailDetail2:
-      type: object
-      properties:
-        any_field:
-          type: array
-          items:
-            type: string
-          description: Name of the field with a validation error and as a value an array with the error descriptions
-      description: All fields with validation errors
-      title: ErrorDetailDetail2
-    ErrorDetailDetail:
-      oneOf:
-      - type: string
-      - type: array
-        items:
-          type: string
-      - $ref: '#/components/schemas/ErrorDetailDetail2'
-      description: Error detail
-      title: ErrorDetailDetail
   securitySchemes:
     token:
       type: apiKey

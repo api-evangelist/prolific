@@ -88,7 +88,7 @@ apis:
   - type: DataModel
     url: data-model/prolific-data-model.yml
 - aid: prolific:prolific-bonuses-api
-  name: Prolific bonuses API
+  name: Prolific Bonuses API
   description: The bonuses API from Prolific — 2 operation(s) for bonuses.
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
@@ -106,7 +106,7 @@ apis:
   - type: DataModel
     url: data-model/prolific-data-model.yml
 - aid: prolific:prolific-credentials-api
-  name: Prolific credentials API
+  name: Prolific Credentials API
   description: The credentials API from Prolific — 2 operation(s) for credentials.
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
@@ -124,7 +124,7 @@ apis:
   - type: DataModel
     url: data-model/prolific-data-model.yml
 - aid: prolific:prolific-filters-api
-  name: Prolific filters API
+  name: Prolific Filters API
   description: The filters API from Prolific — 3 operation(s) for filters.
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
@@ -142,7 +142,7 @@ apis:
   - type: DataModel
     url: data-model/prolific-data-model.yml
 - aid: prolific:prolific-invitations-api
-  name: Prolific invitations API
+  name: Prolific Invitations API
   description: The invitations API from Prolific — 1 operation(s) for invitations.
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
@@ -160,7 +160,7 @@ apis:
   - type: DataModel
     url: data-model/prolific-data-model.yml
 - aid: prolific:prolific-messages-api
-  name: Prolific messages API
+  name: Prolific Messages API
   description: The messages API from Prolific — 4 operation(s) for messages.
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
@@ -178,7 +178,7 @@ apis:
   - type: DataModel
     url: data-model/prolific-data-model.yml
 - aid: prolific:prolific-participantgroups-api
-  name: Prolific participantGroups API
+  name: Prolific Participant Groups API
   description: The participantGroups API from Prolific — 3 operation(s) for participantgroups.
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
@@ -196,7 +196,7 @@ apis:
   - type: DataModel
     url: data-model/prolific-data-model.yml
 - aid: prolific:prolific-projects-api
-  name: Prolific projects API
+  name: Prolific Projects API
   description: The projects API from Prolific — 2 operation(s) for projects.
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
@@ -214,7 +214,7 @@ apis:
   - type: DataModel
     url: data-model/prolific-data-model.yml
 - aid: prolific:prolific-rewardrecommendations-api
-  name: Prolific rewardRecommendations API
+  name: Prolific Reward Recommendations API
   description: The rewardRecommendations API from Prolific — 1 operation(s) for rewardrecommendations.
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
@@ -231,7 +231,7 @@ apis:
   - type: DataModel
     url: data-model/prolific-data-model.yml
 - aid: prolific:prolific-studies-api
-  name: Prolific studies API
+  name: Prolific Studies API
   description: The studies API from Prolific — 18 operation(s) for studies.
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
@@ -249,7 +249,7 @@ apis:
   - type: DataModel
     url: data-model/prolific-data-model.yml
 - aid: prolific:prolific-submissionfeedbackupload-api
-  name: Prolific submissionFeedbackUpload API
+  name: Prolific Submission Feedback Upload API
   description: >-
     The submissionFeedbackUpload API from Prolific — 1 operation(s) for submissionfeedbackupload.
   humanURL: https://docs.prolific.com/documentation/get-started/overview
@@ -267,7 +267,7 @@ apis:
   - type: DataModel
     url: data-model/prolific-data-model.yml
 - aid: prolific:prolific-submissions-api
-  name: Prolific submissions API
+  name: Prolific Submissions API
   description: The submissions API from Prolific — 5 operation(s) for submissions.
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
@@ -285,7 +285,7 @@ apis:
   - type: DataModel
     url: data-model/prolific-data-model.yml
 - aid: prolific:prolific-surveys-api
-  name: Prolific surveys API
+  name: Prolific Surveys API
   description: The surveys API from Prolific — 5 operation(s) for surveys.
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
@@ -303,7 +303,7 @@ apis:
   - type: DataModel
     url: data-model/prolific-data-model.yml
 - aid: prolific:prolific-users-api
-  name: Prolific users API
+  name: Prolific Users API
   description: The users API from Prolific — 2 operation(s) for users.
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
@@ -321,7 +321,7 @@ apis:
   - type: DataModel
     url: data-model/prolific-data-model.yml
 - aid: prolific:prolific-webhooks-api
-  name: Prolific webhooks API
+  name: Prolific Webhooks API
   description: The webhooks API from Prolific — 5 operation(s) for webhooks.
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
@@ -339,7 +339,7 @@ apis:
   - type: DataModel
     url: data-model/prolific-data-model.yml
 - aid: prolific:prolific-wellknownendpoints-api
-  name: Prolific wellKnownEndpoints API
+  name: Prolific Well Known Endpoints API
   description: The wellKnownEndpoints API from Prolific — 1 operation(s) for wellknownendpoints.
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com
@@ -356,7 +356,7 @@ apis:
   - type: DataModel
     url: data-model/prolific-data-model.yml
 - aid: prolific:prolific-workspaces-api
-  name: Prolific workspaces API
+  name: Prolific Workspaces API
   description: The workspaces API from Prolific — 3 operation(s) for workspaces.
   humanURL: https://docs.prolific.com/documentation/get-started/overview
   baseURL: https://api.prolific.com

@@ -460,11 +460,171 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    SubscriptionEventStatus:
+      type: string
+      enum:
+      - PENDING
+      - SUCCEEDED
+      - FAILED
+      description: The status of the event. Will be `FAILED` if the `target_url` response is not 2xx.
+      title: SubscriptionEventStatus
+    EventTypeList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventType'
+      title: EventTypeList
+    SubscriptionList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubscriptionDetail'
+          description: List of all subscriptions.
+      required:
+      - results
+      title: SubscriptionList
+    EventType:
+      type: object
+      properties:
+        event_type:
+          type: string
+        description:
+          type: string
+      title: EventType
+    SubscriptionUpdateDetail:
+      type: object
+      properties:
+        event_type:
+          type: string
+          description: The name of the event type associated to the subscription.
+        target_url:
+          type: string
+          description: The URL that the subscription will notify when your event type is triggered.
+        is_enabled:
+          type: boolean
+          description: Whether the subscription is enabled or not.
+      title: SubscriptionUpdateDetail
+    SecretList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SecretDetail'
+          description: A list of secrets.
+      title: SecretList
+    ErrorDetailDetail2:
+      type: object
+      properties:
+        any_field:
+          type: array
+          items:
+            type: string
+          description: Name of the field with a validation error and as a value an array with the error descriptions
+      description: All fields with validation errors
+      title: ErrorDetailDetail2
+    SecretDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the secret.
+        value:
+          type: string
+          description: The secret value.
+        workspace_id:
+          type: string
+          description: The ID of the workspace that the secret belongs to.
+      title: SecretDetail
+    Error:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
+      required:
+      - error
+      title: Error
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
     SubscriptionEventPayload:
       type: object
       properties: {}
       description: The event payload that was sent to the target url.
       title: SubscriptionEventPayload
+    ErrorDetail:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: Status code as in the http standards
+        error_code:
+          type: integer
+          description: Internal error code
+        title:
+          type: string
+          description: Error title
+        detail:
+          $ref: '#/components/schemas/ErrorDetailDetail'
+          description: Error detail
+        additional_information:
+          type: string
+          description: Optional extra information
+        traceback:
+          type: string
+          description: Optional debug information
+        interactive:
+          type: boolean
+      required:
+      - status
+      - error_code
+      - title
+      - detail
+      title: ErrorDetail
+    SubscriptionDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the subscription.
+        event_type:
+          type: string
+          description: The name of the event type associated to the subscription.
+        target_url:
+          type: string
+          description: The URL that the subscription will notify when your event type is triggered.
+        is_enabled:
+          type: boolean
+          description: Whether the subscription is enabled or not.
+        workspace_id:
+          type: string
+          description: The ID of the workspace we will create the subscription in.
+      required:
+      - event_type
+      - target_url
+      - workspace_id
+      title: SubscriptionDetail
+    SubscriptionEventList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubscriptionEvent'
+          description: All the events triggered for the subscription
+      required:
+      - results
+      title: SubscriptionEventList
     SubscriptionEvent:
       type: object
       properties:
@@ -495,27 +655,6 @@ components:
           - type: 'null'
           description: The event payload that was sent to the target url.
       title: SubscriptionEvent
-    EventType:
-      type: object
-      properties:
-        event_type:
-          type: string
-        description:
-          type: string
-      title: EventType
-    SecretDetail:
-      type: object
-      properties:
-        id:
-          type: string
-          description: The ID of the secret.
-        value:
-          type: string
-          description: The secret value.
-        workspace_id:
-          type: string
-          description: The ID of the workspace that the secret belongs to.
-      title: SecretDetail
     SubscriptionConfirmation:
       type: object
       properties:
@@ -525,63 +664,6 @@ components:
       required:
       - secret
       title: SubscriptionConfirmation
-    ErrorDetail:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: Status code as in the http standards
-        error_code:
-          type: integer
-          description: Internal error code
-        title:
-          type: string
-          description: Error title
-        detail:
-          $ref: '#/components/schemas/ErrorDetailDetail'
-          description: Error detail
-        additional_information:
-          type: string
-          description: Optional extra information
-        traceback:
-          type: string
-          description: Optional debug information
-        interactive:
-          type: boolean
-      required:
-      - status
-      - error_code
-      - title
-      - detail
-      title: ErrorDetail
-    SubscriptionList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/SubscriptionDetail'
-          description: List of all subscriptions.
-      required:
-      - results
-      title: SubscriptionList
-    Error:
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/ErrorDetail'
-      required:
-      - error
-      title: Error
-    SecretList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/SecretDetail'
-          description: A list of secrets.
-      title: SecretList
     CreateSecret:
       type: object
       properties:
@@ -589,88 +671,6 @@ components:
           type: string
           description: The ID of the workspace you are creating the secret in
       title: CreateSecret
-    SubscriptionEventStatus:
-      type: string
-      enum:
-      - PENDING
-      - SUCCEEDED
-      - FAILED
-      description: The status of the event. Will be `FAILED` if the `target_url` response is not 2xx.
-      title: SubscriptionEventStatus
-    EventTypeList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventType'
-      title: EventTypeList
-    SubscriptionDetail:
-      type: object
-      properties:
-        id:
-          type: string
-          description: The ID of the subscription.
-        event_type:
-          type: string
-          description: The name of the event type associated to the subscription.
-        target_url:
-          type: string
-          description: The URL that the subscription will notify when your event type is triggered.
-        is_enabled:
-          type: boolean
-          description: Whether the subscription is enabled or not.
-        workspace_id:
-          type: string
-          description: The ID of the workspace we will create the subscription in.
-      required:
-      - event_type
-      - target_url
-      - workspace_id
-      title: SubscriptionDetail
-    ErrorDetailDetail2:
-      type: object
-      properties:
-        any_field:
-          type: array
-          items:
-            type: string
-          description: Name of the field with a validation error and as a value an array with the error descriptions
-      description: All fields with validation errors
-      title: ErrorDetailDetail2
-    SubscriptionEventList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/SubscriptionEvent'
-          description: All the events triggered for the subscription
-      required:
-      - results
-      title: SubscriptionEventList
-    SubscriptionUpdateDetail:
-      type: object
-      properties:
-        event_type:
-          type: string
-          description: The name of the event type associated to the subscription.
-        target_url:
-          type: string
-          description: The URL that the subscription will notify when your event type is triggered.
-        is_enabled:
-          type: boolean
-          description: Whether the subscription is enabled or not.
-      title: SubscriptionUpdateDetail
-    ErrorDetailDetail:
-      oneOf:
-      - type: string
-      - type: array
-        items:
-          type: string
-      - $ref: '#/components/schemas/ErrorDetailDetail2'
-      description: Error detail
-      title: ErrorDetailDetail
   securitySchemes:
     token:
       type: apiKey

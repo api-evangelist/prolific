@@ -194,6 +194,12 @@ paths:
               $ref: '#/components/schemas/UpdateProject'
 components:
   schemas:
+    LongitudinalConfigFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: LongitudinalConfigFiltersItems
     PublicDetails:
       type: object
       properties:
@@ -210,135 +216,32 @@ components:
           type: string
           description: Additional participant-facing information shown to participants for the public project.
       title: PublicDetails
-    RangeFilterSelectedRangeLower:
-      oneOf:
-      - type: integer
-      - type: string
-      - type: number
-        format: double
-      description: Your selected lower bound for the range.
-      title: RangeFilterSelectedRangeLower
-    CompositeFilterSelectedFiltersItems:
-      oneOf:
-      - $ref: '#/components/schemas/SelectFilter'
-      - $ref: '#/components/schemas/RangeFilter'
-      - $ref: '#/components/schemas/CompositeFilter'
-      title: CompositeFilterSelectedFiltersItems
-    CompositeFilterFilterId:
-      type: string
-      enum:
-      - and
-      - or
-      description: Composite filter group operator. Use `and` when every child filter must match, or `or` when at least one child filter must match.
-      title: CompositeFilterFilterId
     ProjectLongitudinalRetention:
       type: object
       properties: {}
       description: Computed retention projections and actuals, keyed by wave study id.
       title: ProjectLongitudinalRetention
-    Error:
+    PublicProjectStatus:
+      type: string
+      enum:
+      - ENABLED
+      - DISABLED
+      description: Participant-facing publication status for a public project.
+      title: PublicProjectStatus
+    CreateProjectLongitudinal:
       type: object
       properties:
-        error:
-          $ref: '#/components/schemas/ErrorDetail'
-      required:
-      - error
-      title: Error
-    WorkspaceUser:
+        config:
+          $ref: '#/components/schemas/LongitudinalConfig'
+      description: 'Longitudinal configuration. Only used when `is_longitudinal` is true.
+
+        `waves` may not be set at creation — add studies via
+
+        `POST /api/v1/projects/{project_id}/studies/` after creation.'
+      title: CreateProjectLongitudinal
+    UpdateProject:
       type: object
       properties:
-        id:
-          type: string
-          description: Id of user
-        name:
-          type: string
-          description: Name of user
-        email:
-          type: string
-          description: email of user
-        roles:
-          type: array
-          items:
-            type: string
-          description: User roles in workspace
-      required:
-      - id
-      title: WorkspaceUser
-    RangeFilterWeightingsSelectedRangeLower:
-      oneOf:
-      - type: integer
-      - type: string
-      - type: number
-        format: double
-      title: RangeFilterWeightingsSelectedRangeLower
-    CompositeFilter:
-      type: object
-      properties:
-        filter_id:
-          $ref: '#/components/schemas/CompositeFilterFilterId'
-          description: Composite filter group operator. Use `and` when every child filter must match, or `or` when at least one child filter must match.
-        selected_filters:
-          type: array
-          items:
-            $ref: '#/components/schemas/CompositeFilterSelectedFiltersItems'
-          description: Child filters in this group. Children can be select filters, range filters, or supported nested composite groups.
-      required:
-      - filter_id
-      - selected_filters
-      title: CompositeFilter
-    ProjectShortListResponse:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProjectShort'
-          description: List of all projects for a user
-      required:
-      - results
-      title: ProjectShortListResponse
-    RangeFilterWeightingsSelectedRangeUpper:
-      oneOf:
-      - type: integer
-      - type: string
-      - type: number
-        format: double
-      title: RangeFilterWeightingsSelectedRangeUpper
-    ErrorDetail:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: Status code as in the http standards
-        error_code:
-          type: integer
-          description: Internal error code
-        title:
-          type: string
-          description: Error title
-        detail:
-          $ref: '#/components/schemas/ErrorDetailDetail'
-          description: Error detail
-        additional_information:
-          type: string
-          description: Optional extra information
-        traceback:
-          type: string
-          description: Optional debug information
-        interactive:
-          type: boolean
-      required:
-      - status
-      - error_code
-      - title
-      - detail
-      title: ErrorDetail
-    ProjectShort:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Project id. It is created by Prolific.
         title:
           type: string
           description: Name of project
@@ -347,36 +250,108 @@ components:
           description: What is this project used for
         owner:
           type: string
-          description: User id of the creator of the project. It is created by Prolific.
+          description: User id of the creator of the project.
+        position:
+          type: integer
+          description: Position of the project within a workspace.
+        hidden:
+          type: boolean
+          description: Whether the project is hidden in workspace listings.
         type:
           $ref: '#/components/schemas/ProjectType'
         public_details:
+          $ref: '#/components/schemas/PublicDetails'
+          description: Public metadata for `PUBLIC` projects. Omit to leave unchanged.
+        is_sequential:
+          type: boolean
+          description: Whether the project is configured as sequential.
+      description: Partial update payload for a project. All fields are optional.
+      title: UpdateProject
+    ProjectLongitudinal:
+      type: object
+      properties:
+        config:
           oneOf:
-          - $ref: '#/components/schemas/PublicDetails'
+          - $ref: '#/components/schemas/LongitudinalConfig'
           - type: 'null'
-          description: Public metadata for `PUBLIC` projects. `null` for `PRIVATE` projects.
-        users:
-          type: array
-          items:
-            $ref: '#/components/schemas/WorkspaceUser'
-          description: Data for all users who have access to this project
-        naivety_distribution_rate:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: The rate at which the studies within this project are distributed.
+        retention:
+          $ref: '#/components/schemas/ProjectLongitudinalRetention'
+          description: Computed retention projections and actuals, keyed by wave study id.
+      description: Only present when `is_longitudinal` is true.
+      title: ProjectLongitudinal
+    Error:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
       required:
-      - id
-      - title
-      - type
-      title: ProjectShort
-    LongitudinalConfigFiltersItems:
+      - error
+      title: Error
+    RangeFilterSelectedRangeUpper:
+      oneOf:
+      - type: integer
+      - type: string
+      - type: number
+        format: double
+      description: Your selected upper bound for the range.
+      title: RangeFilterSelectedRangeUpper
+    CompositeFilterSelectedFiltersItems:
       oneOf:
       - $ref: '#/components/schemas/SelectFilter'
       - $ref: '#/components/schemas/RangeFilter'
       - $ref: '#/components/schemas/CompositeFilter'
-      title: LongitudinalConfigFiltersItems
+      title: CompositeFilterSelectedFiltersItems
+    RangeFilterSelectedRange:
+      type: object
+      properties:
+        lower:
+          $ref: '#/components/schemas/RangeFilterSelectedRangeLower'
+          description: Your selected lower bound for the range.
+        upper:
+          $ref: '#/components/schemas/RangeFilterSelectedRangeUpper'
+          description: Your selected upper bound for the range.
+      description: 'This schema applies for filters of the `range` type, as defined in the [filter list response](\#tag/Filters/paths/~1api~1v1~1filters~1/get).
+
+
+        A dictionary with two possible objects, ''lower'' and ''upper''. At least one must be present and a non-null value.
+
+
+        The expected data type for these values is defined by the `range` filter''s `data_type` (see response linked above).
+
+
+        If the data_type is a date, string format should be a parseable ISO8601 date string. Date values should be provided as a string in ISO 8601 format.
+
+
+        Leaving a value as null will result in that bound being set to the lowest or highest possible value, depending on whether it is the upper or lower bound.'
+      title: RangeFilterSelectedRange
+    CompositeFilterFilterId:
+      type: string
+      enum:
+      - and
+      - or
+      description: Composite filter group operator. Use `and` when every child filter must match, or `or` when at least one child filter must match.
+      title: CompositeFilterFilterId
+    LongitudinalConfig:
+      type: object
+      properties:
+        target_completions:
+          type: integer
+          description: Target number of completions for the final wave.
+        retention_rate:
+          type: number
+          format: double
+          description: Expected retention rate between waves.
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/LongitudinalConfigFiltersItems'
+          description: 'Recruitment filters applied to participants entering the first wave.
+
+            Uses the same filter shapes as study creation.'
+      required:
+      - target_completions
+      - retention_rate
+      title: LongitudinalConfig
     SelectFilter:
       type: object
       properties:
@@ -407,74 +382,6 @@ components:
       - filter_id
       - selected_values
       title: SelectFilter
-    ProjectLongitudinal:
-      type: object
-      properties:
-        config:
-          oneOf:
-          - $ref: '#/components/schemas/LongitudinalConfig'
-          - type: 'null'
-        retention:
-          $ref: '#/components/schemas/ProjectLongitudinalRetention'
-          description: Computed retention projections and actuals, keyed by wave study id.
-      description: Only present when `is_longitudinal` is true.
-      title: ProjectLongitudinal
-    LongitudinalConfig:
-      type: object
-      properties:
-        target_completions:
-          type: integer
-          description: Target number of completions for the final wave.
-        retention_rate:
-          type: number
-          format: double
-          description: Expected retention rate between waves.
-        filters:
-          type: array
-          items:
-            $ref: '#/components/schemas/LongitudinalConfigFiltersItems'
-          description: 'Recruitment filters applied to participants entering the first wave.
-
-            Uses the same filter shapes as study creation.'
-      required:
-      - target_completions
-      - retention_rate
-      title: LongitudinalConfig
-    CreateProjectLongitudinal:
-      type: object
-      properties:
-        config:
-          $ref: '#/components/schemas/LongitudinalConfig'
-      description: 'Longitudinal configuration. Only used when `is_longitudinal` is true.
-
-        `waves` may not be set at creation — add studies via
-
-        `POST /api/v1/projects/{project_id}/studies/` after creation.'
-      title: CreateProjectLongitudinal
-    ProjectType:
-      type: string
-      enum:
-      - PRIVATE
-      - PUBLIC
-      description: Project visibility type.
-      title: ProjectType
-    RangeFilterSelectedRangeUpper:
-      oneOf:
-      - type: integer
-      - type: string
-      - type: number
-        format: double
-      description: Your selected upper bound for the range.
-      title: RangeFilterSelectedRangeUpper
-    ErrorDetailDetail:
-      oneOf:
-      - type: string
-      - type: array
-        items:
-          type: string
-      - $ref: '#/components/schemas/ErrorDetailDetail2'
-      description: Error detail
-      title: ErrorDetailDetail
     ErrorDetailDetail2:
       type: object
       properties:
@@ -485,91 +392,6 @@ components:
           description: Name of the field with a validation error and as a value an array with the error descriptions
       description: All fields with validation errors
       title: ErrorDetailDetail2
-    UpdateProject:
-      type: object
-      properties:
-        title:
-          type: string
-          description: Name of project
-        description:
-          type: string
-          description: What is this project used for
-        owner:
-          type: string
-          description: User id of the creator of the project.
-        position:
-          type: integer
-          description: Position of the project within a workspace.
-        hidden:
-          type: boolean
-          description: Whether the project is hidden in workspace listings.
-        type:
-          $ref: '#/components/schemas/ProjectType'
-        public_details:
-          $ref: '#/components/schemas/PublicDetails'
-          description: Public metadata for `PUBLIC` projects. Omit to leave unchanged.
-        is_sequential:
-          type: boolean
-          description: Whether the project is configured as sequential.
-      description: Partial update payload for a project. All fields are optional.
-      title: UpdateProject
-    Project:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Project id. It is created by Prolific.
-        title:
-          type: string
-          description: Name of project
-        description:
-          type: string
-          description: What is this project used for
-        owner:
-          type: string
-          description: User id of the creator of the project. It is created by Prolific.
-        type:
-          $ref: '#/components/schemas/ProjectType'
-        public_details:
-          oneOf:
-          - $ref: '#/components/schemas/PublicDetails'
-          - type: 'null'
-          description: Public metadata for `PUBLIC` projects. `null` for `PRIVATE` projects.
-        users:
-          type: array
-          items:
-            $ref: '#/components/schemas/WorkspaceUser'
-          description: Data for all users who have access to this project
-        workspace:
-          type: string
-          description: Id of the workspace this project is in. This is created by Prolific.
-        naivety_distribution_rate:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: The rate at which the studies within this project are distributed.
-        is_longitudinal:
-          type: boolean
-          description: Whether this is a longitudinal (multi-wave) project.
-        longitudinal:
-          oneOf:
-          - $ref: '#/components/schemas/ProjectLongitudinal'
-          - type: 'null'
-          description: Only present when `is_longitudinal` is true.
-      required:
-      - id
-      - title
-      - type
-      title: Project
-    RangeFilterWeightingsSelectedRange:
-      type: object
-      properties:
-        lower:
-          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRangeLower'
-        upper:
-          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRangeUpper'
-      title: RangeFilterWeightingsSelectedRange
     CreateProject:
       type: object
       properties:
@@ -629,6 +451,63 @@ components:
       required:
       - title
       title: CreateProject
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
+    RangeFilterWeightings:
+      type: object
+      properties:
+        selected_range:
+          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRange'
+        weighting:
+          type: number
+          format: double
+      required:
+      - selected_range
+      - weighting
+      title: RangeFilterWeightings
+    ProjectType:
+      type: string
+      enum:
+      - PRIVATE
+      - PUBLIC
+      description: Project visibility type.
+      title: ProjectType
+    ErrorDetail:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: Status code as in the http standards
+        error_code:
+          type: integer
+          description: Internal error code
+        title:
+          type: string
+          description: Error title
+        detail:
+          $ref: '#/components/schemas/ErrorDetailDetail'
+          description: Error detail
+        additional_information:
+          type: string
+          description: Optional extra information
+        traceback:
+          type: string
+          description: Optional debug information
+        interactive:
+          type: boolean
+      required:
+      - status
+      - error_code
+      - title
+      - detail
+      title: ErrorDetail
     RangeFilter:
       type: object
       properties:
@@ -662,48 +541,169 @@ components:
       - filter_id
       - selected_range
       title: RangeFilter
-    RangeFilterWeightings:
+    WorkspaceUser:
       type: object
       properties:
-        selected_range:
-          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRange'
-        weighting:
-          type: number
-          format: double
+        id:
+          type: string
+          description: Id of user
+        name:
+          type: string
+          description: Name of user
+        email:
+          type: string
+          description: email of user
+        roles:
+          type: array
+          items:
+            type: string
+          description: User roles in workspace
       required:
-      - selected_range
-      - weighting
-      title: RangeFilterWeightings
-    PublicProjectStatus:
-      type: string
-      enum:
-      - ENABLED
-      - DISABLED
-      description: Participant-facing publication status for a public project.
-      title: PublicProjectStatus
-    RangeFilterSelectedRange:
+      - id
+      title: WorkspaceUser
+    RangeFilterWeightingsSelectedRange:
       type: object
       properties:
         lower:
-          $ref: '#/components/schemas/RangeFilterSelectedRangeLower'
-          description: Your selected lower bound for the range.
+          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRangeLower'
         upper:
-          $ref: '#/components/schemas/RangeFilterSelectedRangeUpper'
-          description: Your selected upper bound for the range.
-      description: 'This schema applies for filters of the `range` type, as defined in the [filter list response](\#tag/Filters/paths/~1api~1v1~1filters~1/get).
-
-
-        A dictionary with two possible objects, ''lower'' and ''upper''. At least one must be present and a non-null value.
-
-
-        The expected data type for these values is defined by the `range` filter''s `data_type` (see response linked above).
-
-
-        If the data_type is a date, string format should be a parseable ISO8601 date string. Date values should be provided as a string in ISO 8601 format.
-
-
-        Leaving a value as null will result in that bound being set to the lowest or highest possible value, depending on whether it is the upper or lower bound.'
-      title: RangeFilterSelectedRange
+          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRangeUpper'
+      title: RangeFilterWeightingsSelectedRange
+    ProjectShortListResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectShort'
+          description: List of all projects for a user
+      required:
+      - results
+      title: ProjectShortListResponse
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Project id. It is created by Prolific.
+        title:
+          type: string
+          description: Name of project
+        description:
+          type: string
+          description: What is this project used for
+        owner:
+          type: string
+          description: User id of the creator of the project. It is created by Prolific.
+        type:
+          $ref: '#/components/schemas/ProjectType'
+        public_details:
+          oneOf:
+          - $ref: '#/components/schemas/PublicDetails'
+          - type: 'null'
+          description: Public metadata for `PUBLIC` projects. `null` for `PRIVATE` projects.
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceUser'
+          description: Data for all users who have access to this project
+        workspace:
+          type: string
+          description: Id of the workspace this project is in. This is created by Prolific.
+        naivety_distribution_rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The rate at which the studies within this project are distributed.
+        is_longitudinal:
+          type: boolean
+          description: Whether this is a longitudinal (multi-wave) project.
+        longitudinal:
+          oneOf:
+          - $ref: '#/components/schemas/ProjectLongitudinal'
+          - type: 'null'
+          description: Only present when `is_longitudinal` is true.
+      required:
+      - id
+      - title
+      - type
+      title: Project
+    RangeFilterWeightingsSelectedRangeUpper:
+      oneOf:
+      - type: integer
+      - type: string
+      - type: number
+        format: double
+      title: RangeFilterWeightingsSelectedRangeUpper
+    RangeFilterWeightingsSelectedRangeLower:
+      oneOf:
+      - type: integer
+      - type: string
+      - type: number
+        format: double
+      title: RangeFilterWeightingsSelectedRangeLower
+    ProjectShort:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Project id. It is created by Prolific.
+        title:
+          type: string
+          description: Name of project
+        description:
+          type: string
+          description: What is this project used for
+        owner:
+          type: string
+          description: User id of the creator of the project. It is created by Prolific.
+        type:
+          $ref: '#/components/schemas/ProjectType'
+        public_details:
+          oneOf:
+          - $ref: '#/components/schemas/PublicDetails'
+          - type: 'null'
+          description: Public metadata for `PUBLIC` projects. `null` for `PRIVATE` projects.
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceUser'
+          description: Data for all users who have access to this project
+        naivety_distribution_rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The rate at which the studies within this project are distributed.
+      required:
+      - id
+      - title
+      - type
+      title: ProjectShort
+    RangeFilterSelectedRangeLower:
+      oneOf:
+      - type: integer
+      - type: string
+      - type: number
+        format: double
+      description: Your selected lower bound for the range.
+      title: RangeFilterSelectedRangeLower
+    CompositeFilter:
+      type: object
+      properties:
+        filter_id:
+          $ref: '#/components/schemas/CompositeFilterFilterId'
+          description: Composite filter group operator. Use `and` when every child filter must match, or `or` when at least one child filter must match.
+        selected_filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompositeFilterSelectedFiltersItems'
+          description: Child filters in this group. Children can be select filters, range filters, or supported nested composite groups.
+      required:
+      - filter_id
+      - selected_filters
+      title: CompositeFilter
   securitySchemes:
     token:
       type: apiKey
