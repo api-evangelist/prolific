@@ -216,180 +216,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    PublicDetails:
-      type: object
-      properties:
-        status:
-          $ref: '#/components/schemas/PublicProjectStatus'
-          description: Status of the public project metadata. Defaults to `ENABLED`.
-        title:
-          type: string
-          description: Participant-facing title for the public project.
-        short_description:
-          type: string
-          description: Short participant-facing summary shown to participants for the public project.
-        description:
-          type: string
-          description: Additional participant-facing information shown to participants for the public project.
-      title: PublicDetails
-    WorkspacesListResponse:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/WorkspaceShort'
-          description: List of all workspaces for user
-      required:
-      - results
-      title: WorkspacesListResponse
-    PublicProjectStatus:
-      type: string
-      enum:
-      - ENABLED
-      - DISABLED
-      description: Participant-facing publication status for a public project.
-      title: PublicProjectStatus
-    Workspace:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Workspace id. It is created by Prolific.
-        title:
-          type: string
-          description: Name of workspace
-        description:
-          type: string
-          description: What is this workspace used for
-        owner:
-          type: string
-          description: Workspace id. It is created by Prolific.
-        users:
-          type: array
-          items:
-            $ref: '#/components/schemas/WorkspaceUser'
-          description: Data for a user related to a workspace
-        projects:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProjectShort'
-          description: Data for a project related to a workspace
-        wallet:
-          type: string
-          description: Wallet tied to workspace
-        naivety_distribution_rate:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: The rate at which the studies within this workspace are distributed.
-      required:
-      - id
-      - title
-      title: Workspace
-    CreateWorkspace:
-      type: object
-      properties:
-        title:
-          type: string
-          description: Name of workspace
-        naivety_distribution_rate:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: 'Control the balance between speed of your studies and the naivety of the participants.
-
-
-            If not defined, by default Prolific calculates the best rate for most studies
-
-            taking into account the `filters` and the `total_available_places` needed for this study.
-
-
-            Use 0 if your priority is speed. When this property is set to 0 all eligible participants will have access
-
-            to your study at the same time, without any prioritization.
-
-
-            You can also set this at a project and study level.'
-        currency_code:
-          type: string
-          description: Currency used for all transactions within the workspace. Must be GBP or USD.
-      required:
-      - title
-      title: CreateWorkspace
-    WorkspaceBalanceBalanceBreakdown:
-      type: object
-      properties: {}
-      description: 'A breakdown of the total balance of the workspace into:
-
-        - Funds available to pay to participants
-
-        - Funds pre-paid to Prolific for our services
-
-        - Funds for any VAT applied to our Platform fees'
-      title: WorkspaceBalanceBalanceBreakdown
-    WorkspaceShort:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Workspace id. It is created by Prolific.
-        title:
-          type: string
-          description: Name of workspace
-        description:
-          type: string
-          description: What is this workspace used for
-        owner:
-          type: string
-          description: User id of the creator of the workspace. It is created by Prolific.
-        users:
-          type: array
-          items:
-            $ref: '#/components/schemas/WorkspaceUser'
-          description: Data for all users who have access to this workspace
-        naivety_distribution_rate:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: The rate at which the studies within this project are distributed.
-      required:
-      - id
-      - title
-      title: WorkspaceShort
-    ErrorDetailDetail2:
-      type: object
-      properties:
-        any_field:
-          type: array
-          items:
-            type: string
-          description: Name of the field with a validation error and as a value an array with the error descriptions
-      description: All fields with validation errors
-      title: ErrorDetailDetail2
-    WorkspaceUser:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Id of user
-        name:
-          type: string
-          description: Name of user
-        email:
-          type: string
-          description: email of user
-        roles:
-          type: array
-          items:
-            type: string
-          description: User roles in workspace
-      required:
-      - id
-      title: WorkspaceUser
     Error:
       type: object
       properties:
@@ -398,62 +224,6 @@ components:
       required:
       - error
       title: Error
-    ErrorDetailDetail:
-      oneOf:
-      - type: string
-      - type: array
-        items:
-          type: string
-      - $ref: '#/components/schemas/ErrorDetailDetail2'
-      description: Error detail
-      title: ErrorDetailDetail
-    ProjectType:
-      type: string
-      enum:
-      - PRIVATE
-      - PUBLIC
-      description: Project visibility type.
-      title: ProjectType
-    ErrorDetail:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: Status code as in the http standards
-        error_code:
-          type: integer
-          description: Internal error code
-        title:
-          type: string
-          description: Error title
-        detail:
-          $ref: '#/components/schemas/ErrorDetailDetail'
-          description: Error detail
-        additional_information:
-          type: string
-          description: Optional extra information
-        traceback:
-          type: string
-          description: Optional debug information
-        interactive:
-          type: boolean
-      required:
-      - status
-      - error_code
-      - title
-      - detail
-      title: ErrorDetail
-    WorkspaceBalanceAvailableBalanceBreakdown:
-      type: object
-      properties: {}
-      description: 'A breakdown of the available balance of the workspace into:
-
-        - Funds available to pay to participants
-
-        - Funds pre-paid to Prolific for our services
-
-        - Funds for any VAT applied to our Platform fees'
-      title: WorkspaceBalanceAvailableBalanceBreakdown
     ProjectShort:
       type: object
       properties:
@@ -492,6 +262,65 @@ components:
       - title
       - type
       title: ProjectShort
+    ErrorDetailDetail2:
+      type: object
+      properties:
+        any_field:
+          type: array
+          items:
+            type: string
+          description: Name of the field with a validation error and as a value an array with the error descriptions
+      description: All fields with validation errors
+      title: ErrorDetailDetail2
+    ErrorDetail:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: Status code as in the http standards
+        error_code:
+          type: integer
+          description: Internal error code
+        title:
+          type: string
+          description: Error title
+        detail:
+          $ref: '#/components/schemas/ErrorDetailDetail'
+          description: Error detail
+        additional_information:
+          type: string
+          description: Optional extra information
+        traceback:
+          type: string
+          description: Optional debug information
+        interactive:
+          type: boolean
+      required:
+      - status
+      - error_code
+      - title
+      - detail
+      title: ErrorDetail
+    WorkspaceBalanceBalanceBreakdown:
+      type: object
+      properties: {}
+      description: 'A breakdown of the total balance of the workspace into:
+
+        - Funds available to pay to participants
+
+        - Funds pre-paid to Prolific for our services
+
+        - Funds for any VAT applied to our Platform fees'
+      title: WorkspaceBalanceBalanceBreakdown
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
     WorkspaceBalance:
       type: object
       properties:
@@ -526,6 +355,177 @@ components:
 
             - Funds for any VAT applied to our Platform fees'
       title: WorkspaceBalance
+    WorkspacesListResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceShort'
+          description: List of all workspaces for user
+      required:
+      - results
+      title: WorkspacesListResponse
+    WorkspaceShort:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Workspace id. It is created by Prolific.
+        title:
+          type: string
+          description: Name of workspace
+        description:
+          type: string
+          description: What is this workspace used for
+        owner:
+          type: string
+          description: User id of the creator of the workspace. It is created by Prolific.
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceUser'
+          description: Data for all users who have access to this workspace
+        naivety_distribution_rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The rate at which the studies within this project are distributed.
+      required:
+      - id
+      - title
+      title: WorkspaceShort
+    WorkspaceBalanceAvailableBalanceBreakdown:
+      type: object
+      properties: {}
+      description: 'A breakdown of the available balance of the workspace into:
+
+        - Funds available to pay to participants
+
+        - Funds pre-paid to Prolific for our services
+
+        - Funds for any VAT applied to our Platform fees'
+      title: WorkspaceBalanceAvailableBalanceBreakdown
+    ProjectType:
+      type: string
+      enum:
+      - PRIVATE
+      - PUBLIC
+      description: Project visibility type.
+      title: ProjectType
+    WorkspaceUser:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id of user
+        name:
+          type: string
+          description: Name of user
+        email:
+          type: string
+          description: email of user
+        roles:
+          type: array
+          items:
+            type: string
+          description: User roles in workspace
+      required:
+      - id
+      title: WorkspaceUser
+    PublicDetails:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/PublicProjectStatus'
+          description: Status of the public project metadata. Defaults to `ENABLED`.
+        title:
+          type: string
+          description: Participant-facing title for the public project.
+        short_description:
+          type: string
+          description: Short participant-facing summary shown to participants for the public project.
+        description:
+          type: string
+          description: Additional participant-facing information shown to participants for the public project.
+      title: PublicDetails
+    CreateWorkspace:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Name of workspace
+        naivety_distribution_rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: 'Control the balance between speed of your studies and the naivety of the participants.
+
+
+            If not defined, by default Prolific calculates the best rate for most studies
+
+            taking into account the `filters` and the `total_available_places` needed for this study.
+
+
+            Use 0 if your priority is speed. When this property is set to 0 all eligible participants will have access
+
+            to your study at the same time, without any prioritization.
+
+
+            You can also set this at a project and study level.'
+        currency_code:
+          type: string
+          description: Currency used for all transactions within the workspace. Must be GBP or USD.
+      required:
+      - title
+      title: CreateWorkspace
+    Workspace:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Workspace id. It is created by Prolific.
+        title:
+          type: string
+          description: Name of workspace
+        description:
+          type: string
+          description: What is this workspace used for
+        owner:
+          type: string
+          description: Workspace id. It is created by Prolific.
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceUser'
+          description: Data for a user related to a workspace
+        projects:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectShort'
+          description: Data for a project related to a workspace
+        wallet:
+          type: string
+          description: Wallet tied to workspace
+        naivety_distribution_rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The rate at which the studies within this workspace are distributed.
+      required:
+      - id
+      - title
+      title: Workspace
+    PublicProjectStatus:
+      type: string
+      enum:
+      - ENABLED
+      - DISABLED
+      description: Participant-facing publication status for a public project.
+      title: PublicProjectStatus
   securitySchemes:
     token:
       type: apiKey

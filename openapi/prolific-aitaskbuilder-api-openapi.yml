@@ -1893,347 +1893,579 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    AI_Task_Builder_GetTaskBuilderInstructions_Response_200:
+    Error:
       type: object
       properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/AITaskBuilderInstruction'
-        meta:
-          $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdInstructionsGetResponsesContentApplicationJsonSchemaMeta'
-      title: AI Task Builder_GetTaskBuilderInstructions_Response_200
-    AiTaskBuilderMultipleChoiceInstructionOptionsItems:
-      type: object
-      properties:
-        label:
-          type: string
-          description: Display text shown to participants
-        value:
-          $ref: '#/components/schemas/AiTaskBuilderMultipleChoiceInstructionOptionsItemsValue'
-          description: Value returned in responses
-        exclusive:
-          type: boolean
-          description: When true, selecting this option deselects all other options. Useful for "None of the above" style options.
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
       required:
-      - label
-      - value
-      title: AiTaskBuilderMultipleChoiceInstructionOptionsItems
-    ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItems:
+      - error
+      title: Error
+    DatasetSchema:
+      type: object
+      properties:
+        strict:
+          type: boolean
+          description: When `true`, records that are missing any field defined in the schema are rejected during import. When `false`, missing fields are allowed and treated as absent.
+        fields:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/DatasetSchemaField'
+          description: A map of field key to field descriptor. The key is used to reference the field in `batch_items` (`dataset_field` items) and in JSONL records.
+      required:
+      - strict
+      - fields
+      description: 'A researcher-defined schema that specifies the fields in a V4 dataset. Each field has a type that determines how it is rendered to participants and how it can be referenced in `batch_items`.
+
+
+        Constraints:
+
+        - Maximum 200 fields per schema.
+
+        - Field keys: 1–128 characters.
+
+        - Field labels: maximum 255 characters.'
+      title: DatasetSchema
+    ApiV1DataCollectionBatchesBatchIdStatusGetResponsesContentApplicationJsonSchemaStatus:
+      type: string
+      enum:
+      - UNINITIALISED
+      - PROCESSING
+      - READY
+      - ERROR
+      description: The status of the Batch - one of 'UNINITIALISED', 'PROCESSING', 'READY', 'ERROR'
+      title: ApiV1DataCollectionBatchesBatchIdStatusGetResponsesContentApplicationJsonSchemaStatus
+    ErrorDetail:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: Status code as in the http standards
+        error_code:
+          type: integer
+          description: Internal error code
+        title:
+          type: string
+          description: Error title
+        detail:
+          $ref: '#/components/schemas/ErrorDetailDetail'
+          description: Error detail
+        additional_information:
+          type: string
+          description: Optional extra information
+        traceback:
+          type: string
+          description: Optional debug information
+        interactive:
+          type: boolean
+      required:
+      - status
+      - error_code
+      - title
+      - detail
+      title: ErrorDetail
+    ValidationRule:
       type: object
       properties:
         type:
-          $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsType'
-          description: The type of instruction.
-        description:
-          type: string
-          description: The question or prompt displayed to participants.
-        helper_text:
-          type: string
-          description: Additional guidance text displayed below the question.
-        placeholder_text_input:
-          type: string
-          description: Placeholder text displayed in the input field.
-        answer_limit:
-          type: integer
-          description: Number of options that can be selected (required for multiple_choice and multiple_choice_with_free_text). Use 1 for single-select, -1 for unlimited.
-        disable_dropdown:
-          type: boolean
-          default: false
-          description: When true, always renders checkbox/radio elements instead of a dropdown select. By default, a dropdown is used when there are 5 or more options.
-        options:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsOptionsItems'
-          description: The options (required for multiple_choice and multiple_choice_with_free_text).
-        unit_options:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitOptionsItems'
-          description: The unit options (required for free_text_with_unit). List of available units that participants can select from.
-        default_unit:
-          type: string
-          description: For free_text_with_unit. Default selected unit (must match a value from unit_options).
-        unit_position:
-          $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitPosition'
-          description: Required for free_text_with_unit. Position of the unit selector relative to the text input. Use 'prefix' for units before the input (e.g., currency symbols) or 'suffix' for units after the input (e.g., measurements).
-        validation:
-          $ref: '#/components/schemas/ValidationRule'
-          description: Optional validation constraints for the input value (for free_text).
+          $ref: '#/components/schemas/ValidationRuleType'
+          description: The expected input type. When "number", the input must be numeric and min/max constrain the numeric value. When "string", the input is treated as text and min/max constrain the character count.
+        min:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Minimum value (for type "number") or minimum character count (for type "string"). Null means unbounded. When type is "string", must be a non-negative integer. If both min and max are provided, min must be less than or equal to max.
+        max:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Maximum value (for type "number") or maximum character count (for type "string"). Null means unbounded. When type is "string", must be a non-negative integer. If both min and max are provided, max must be greater than or equal to min.
       required:
       - type
-      - description
-      title: ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItems
-    ImageContentBlockSchemaVersion:
+      description: Optional validation constraints for input values
+      title: ValidationRule
+    AiTaskBuilderBatchStatus:
       type: string
       enum:
-      - '1'
-      title: ImageContentBlockSchemaVersion
-    AITaskBuilderInstruction:
-      oneOf:
-      - type: object
-        properties:
-          type:
-            $ref: '#/components/schemas/AiTaskBuilderMultipleChoiceInstructionType'
-          id:
-            type: string
-            format: uuid
-          created_at:
-            type: string
-            format: date-time
-          parent_id:
-            type: string
-            format: uuid
-            description: ID of the parent batch or collection
-          parent_type:
-            $ref: '#/components/schemas/AiTaskBuilderMultipleChoiceInstructionParentType'
-          created_by:
-            type: string
-          description:
-            type: string
-            description: The question or prompt displayed to participants
-          helper_text:
-            type: string
-            description: Additional guidance text displayed below the question
-          placeholder_text_input:
-            type: string
-            description: Placeholder text displayed in the input field
-          answer_limit:
-            type: integer
-            description: Number of options that can be selected. Use 1 for single-select, -1 for unlimited, or any number up to the total options.
-          disable_dropdown:
-            type: boolean
-            default: false
-            description: When true, always renders checkbox/radio elements instead of a dropdown select, regardless of option count. By default, a dropdown is used when there are 5 or more options.
-          options:
-            type: array
-            items:
-              $ref: '#/components/schemas/AiTaskBuilderMultipleChoiceInstructionOptionsItems'
-        required:
-        - type
-        - id
-        - created_at
-        - parent_id
-        - parent_type
-        - created_by
-        - description
-        - answer_limit
-        - options
-        description: multiple_choice variant
-      - type: object
-        properties:
-          type:
-            $ref: '#/components/schemas/AiTaskBuilderFreeTextInputInstructionType'
-          id:
-            type: string
-            format: uuid
-          created_at:
-            type: string
-            format: date-time
-          parent_id:
-            type: string
-            format: uuid
-            description: ID of the parent batch or collection
-          parent_type:
-            $ref: '#/components/schemas/AiTaskBuilderFreeTextInputInstructionParentType'
-          created_by:
-            type: string
-          description:
-            type: string
-            description: The question or prompt displayed to participants
-          helper_text:
-            type: string
-            description: Additional guidance text displayed below the question
-          placeholder_text_input:
-            type: string
-            description: Placeholder text displayed in the input field
-          validation:
-            $ref: '#/components/schemas/ValidationRule'
-            description: Optional validation constraints for the input value
-        required:
-        - type
-        - id
-        - created_at
-        - parent_id
-        - parent_type
-        - created_by
-        - description
-        description: free_text variant
-      - type: object
-        properties:
-          type:
-            $ref: '#/components/schemas/AiTaskBuilderFreeTextWithUnitInstructionType'
-          id:
-            type: string
-            format: uuid
-          created_at:
-            type: string
-            format: date-time
-          parent_id:
-            type: string
-            format: uuid
-            description: ID of the parent batch or collection
-          parent_type:
-            $ref: '#/components/schemas/AiTaskBuilderFreeTextWithUnitInstructionParentType'
-          created_by:
-            type: string
-          description:
-            type: string
-            description: The question or prompt displayed to participants
-          helper_text:
-            type: string
-            description: Additional guidance text displayed below the question
-          placeholder_text_input:
-            type: string
-            description: Placeholder text displayed in the input field
-          unit_options:
-            type: array
-            items:
-              $ref: '#/components/schemas/AiTaskBuilderFreeTextWithUnitInstructionUnitOptionsItems'
-            description: List of available units that participants can select from
-          default_unit:
-            type: string
-            description: Default selected unit (must match a value from unit_options)
-          unit_position:
-            $ref: '#/components/schemas/AiTaskBuilderFreeTextWithUnitInstructionUnitPosition'
-            description: Position of the unit selector relative to the text input. Use 'prefix' for units before the input (e.g., currency symbols) or 'suffix' for units after the input (e.g., measurements).
-        required:
-        - type
-        - id
-        - created_at
-        - parent_id
-        - parent_type
-        - created_by
-        - description
-        - unit_options
-        - unit_position
-        description: free_text_with_unit variant
-      - type: object
-        properties:
-          type:
-            $ref: '#/components/schemas/AiTaskBuilderMultipleChoiceWithFreeTextInstructionType'
-          id:
-            type: string
-            format: uuid
-          created_at:
-            type: string
-            format: date-time
-          parent_id:
-            type: string
-            format: uuid
-            description: ID of the parent batch or collection
-          parent_type:
-            $ref: '#/components/schemas/AiTaskBuilderMultipleChoiceWithFreeTextInstructionParentType'
-          created_by:
-            type: string
-          description:
-            type: string
-            description: The question or prompt displayed to participants
-          helper_text:
-            type: string
-            description: Additional guidance text displayed below the question
-          placeholder_text_input:
-            type: string
-            description: Placeholder text displayed in the input field
-          answer_limit:
-            type: integer
-            description: Number of options that can be selected. Use 1 for single-select, -1 for unlimited, or any number up to the total options.
-          disable_dropdown:
-            type: boolean
-            default: false
-            description: When true, always renders checkbox/radio elements instead of a dropdown select, regardless of option count. By default, a dropdown is used when there are 5 or more options.
-          options:
-            type: array
-            items:
-              $ref: '#/components/schemas/AiTaskBuilderMultipleChoiceWithFreeTextInstructionOptionsItems'
-        required:
-        - type
-        - id
-        - created_at
-        - parent_id
-        - parent_type
-        - created_by
-        - description
-        - answer_limit
-        - options
-        description: multiple_choice_with_free_text variant
-      - type: object
-        properties:
-          type:
-            $ref: '#/components/schemas/AiTaskBuilderFileUploadInstructionType'
-          id:
-            type: string
-            format: uuid
-          created_at:
-            type: string
-            format: date-time
-          parent_id:
-            type: string
-            format: uuid
-            description: ID of the parent batch or collection
-          parent_type:
-            $ref: '#/components/schemas/AiTaskBuilderFileUploadInstructionParentType'
-          created_by:
-            type: string
-          description:
-            type: string
-            description: The prompt describing what to upload
-          helper_text:
-            type: string
-            description: Additional guidance text displayed below the question
-          placeholder_text_input:
-            type: string
-            description: Placeholder text displayed in the input field
-          accepted_file_types:
-            type: array
-            items:
-              type: string
-            description: File extensions to accept (e.g., [".jpg", ".png", ".pdf"]). Each extension must start with a dot. Defaults to [".jpg", ".jpeg", ".png", ".heic", ".heif"] if not specified.
-          max_file_size_mb:
-            type: number
-            format: double
-            description: Maximum file size in megabytes per file. Must be a positive number. Defaults to 25.
-          min_file_count:
-            type: integer
-            description: Minimum number of files required. Must be at least 1. Defaults to 1.
-          max_file_count:
-            type: integer
-            description: Maximum number of files allowed. Must be at least 1 and greater than or equal to min_file_count. Defaults to 10.
-        required:
-        - type
-        - id
-        - created_at
-        - parent_id
-        - parent_type
-        - created_by
-        - description
-        description: file_upload variant
-      discriminator:
-        propertyName: type
-      title: AITaskBuilderInstruction
-    PageItemInput:
-      oneOf:
-      - $ref: '#/components/schemas/CollectionInstructionInput'
-      - $ref: '#/components/schemas/ContentBlockInput'
-      description: An instruction or content block input. Include `id` to preserve an existing item when updating.
-      title: PageItemInput
+      - UNINITIALISED
+      - PROCESSING
+      - READY
+      - ERROR
+      title: AiTaskBuilderBatchStatus
+    ApiV1DataCollectionBatchesPostRequestBodyContentApplicationJsonSchemaTaskDetails:
+      type: object
+      properties:
+        task_name:
+          type: string
+          description: The title displayed to participants
+        task_introduction:
+          type: string
+          description: HTML formatted introduction shown at the start of the task
+        task_steps:
+          type: string
+          description: HTML formatted step-by-step instructions
+      required:
+      - task_name
+      - task_introduction
+      - task_steps
+      description: Task metadata displayed to participants
+      title: ApiV1DataCollectionBatchesPostRequestBodyContentApplicationJsonSchemaTaskDetails
+    BatchExportStatusOneOf2Status:
+      type: string
+      enum:
+      - failed
+      title: BatchExportStatusOneOf2Status
+    CollectionExportStatusOneOf2Status:
+      type: string
+      enum:
+      - failed
+      title: CollectionExportStatusOneOf2Status
     DatasetImportJobType:
       type: string
       enum:
       - file_upload
       description: The type of import. Currently always `file_upload`.
       title: DatasetImportJobType
-    AiTaskBuilderFreeTextWithUnitInstructionType:
+    CollectionExportStatusOneOf0Status:
       type: string
       enum:
-      - free_text_with_unit
-      title: AiTaskBuilderFreeTextWithUnitInstructionType
+      - generating
+      title: CollectionExportStatusOneOf0Status
+    CollectionInstructionInputUnitOptionsItems:
+      type: object
+      properties:
+        label:
+          type: string
+        value:
+          $ref: '#/components/schemas/CollectionInstructionInputUnitOptionsItemsValue'
+        validation:
+          $ref: '#/components/schemas/ValidationRule'
+          description: Optional validation constraints for this unit option.
+      required:
+      - label
+      - value
+      title: CollectionInstructionInputUnitOptionsItems
+    BatchItemsFreeTextWithUnitInstructionUnitOptionsItemsValue:
+      oneOf:
+      - type: string
+      - type: number
+        format: double
+      - type: boolean
+      title: BatchItemsFreeTextWithUnitInstructionUnitOptionsItemsValue
+    ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitOptionsItems:
+      type: object
+      properties:
+        label:
+          type: string
+          description: The display label for the unit.
+        value:
+          $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitOptionsItemsValue'
+          description: The value associated with the unit.
+        validation:
+          $ref: '#/components/schemas/ValidationRule'
+          description: Optional validation constraints for this unit option.
+      required:
+      - label
+      - value
+      title: ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitOptionsItems
+    DatasetAppendError:
+      type: object
+      properties:
+        record_index:
+          type: integer
+          description: One-based index of the rejected non-blank JSONL record in the append request body.
+        field:
+          type: string
+          description: 'The schema field key that caused the rejection. The special value `_raw` indicates a
+
+            whole-record parse failure (for example malformed JSON) rather than a field-level error.'
+        reason:
+          type: string
+          description: Human-readable description of why the record was rejected.
+      required:
+      - record_index
+      - field
+      - reason
+      description: A record-level validation error from a synchronous JSONL append request.
+      title: DatasetAppendError
+    CollectionMultipleChoiceInstructionParentType:
+      type: string
+      enum:
+      - batch
+      - collection
+      title: CollectionMultipleChoiceInstructionParentType
+    TaskDetails:
+      type: object
+      properties:
+        task_name:
+          type: string
+          description: The title displayed to participants
+        task_introduction:
+          type: string
+          description: HTML formatted introduction shown at the start of the task
+        task_steps:
+          type: string
+          description: HTML formatted step-by-step instructions
+      required:
+      - task_name
+      - task_introduction
+      - task_steps
+      description: Task metadata displayed to participants
+      title: TaskDetails
+    AiTaskBuilderBatchTaskDetails:
+      type: object
+      properties:
+        task_name:
+          type: string
+        task_introduction:
+          type: string
+          description: HTML formatted task introduction
+        task_steps:
+          type: string
+          description: HTML formatted task steps
+      required:
+      - task_name
+      - task_introduction
+      - task_steps
+      title: AiTaskBuilderBatchTaskDetails
+    SchemaMigrationJobStatus:
+      type: string
+      enum:
+      - processing
+      - complete
+      - partial
+      - failed
+      description: Current status of the migration job.
+      title: SchemaMigrationJobStatus
+    ImageContentBlockSchemaVersion:
+      type: string
+      enum:
+      - '1'
+      title: ImageContentBlockSchemaVersion
+    AITaskBuilderTaskResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+        batch_id:
+          type: string
+        participant_id:
+          type: string
+        submission_id:
+          type: string
+          description: The Prolific submission ID
+        correlation_id:
+          type: string
+          description: Correlation ID for tracking
+        response:
+          $ref: '#/components/schemas/AiTaskBuilderTaskResponseResponse'
+        task_id:
+          type: string
+        metadata:
+          type: object
+          additionalProperties:
+            description: Any type
+        schema_version:
+          type: integer
+        no_submission:
+          type: boolean
+      required:
+      - id
+      - created_at
+      - batch_id
+      - participant_id
+      - response
+      - task_id
+      title: AITaskBuilderTaskResponse
+    AI_Task_Builder_getDatasetUploadUrl_Response_201:
+      type: object
+      properties:
+        dataset_id:
+          type: string
+          format: uuid
+          description: The ID of the dataset the upload URL was requested for.
+        upload_url:
+          type: string
+          description: Presigned S3 URL. Make a PUT request to this URL with your file as the body.
+        http_method:
+          $ref: '#/components/schemas/ApiV1DataCollectionDatasetsDatasetIdUploadUrlFilenameGetResponsesContentApplicationJsonSchemaHttpMethod'
+          description: HTTP method to use with the presigned URL.
+        content_type:
+          type: string
+          description: 'The `Content-Type` header value to use when making the S3 PUT request.
+
+            Use this value exactly — e.g. `application/x-ndjson` for JSONL files.'
+        expires_at:
+          type: string
+          format: date-time
+          description: When the presigned URL expires (ISO 8601, UTC). The URL cannot be used after this time.
+        file_key:
+          type: string
+          description: The S3 object key for the uploaded file. Provided for reference only.
+        import_id:
+          type: string
+          format: uuid
+          description: Import job ID. **V4 datasets only.** Use with `GET /datasets/{dataset_id}/imports/{import_id}` to poll for upload and processing status.
+      required:
+      - dataset_id
+      - upload_url
+      - http_method
+      - content_type
+      - expires_at
+      title: AI Task Builder_getDatasetUploadUrl_Response_201
+    AiTaskBuilderFreeTextWithUnitInstructionParentType:
+      type: string
+      enum:
+      - batch
+      - collection
+      title: AiTaskBuilderFreeTextWithUnitInstructionParentType
+    CollectionMultipleChoiceInstructionOptionsItemsValue:
+      oneOf:
+      - type: string
+      - type: number
+        format: double
+      - type: boolean
+      title: CollectionMultipleChoiceInstructionOptionsItemsValue
+    PageItemInput:
+      oneOf:
+      - $ref: '#/components/schemas/CollectionInstructionInput'
+      - $ref: '#/components/schemas/ContentBlockInput'
+      description: An instruction or content block input. Include `id` to preserve an existing item when updating.
+      title: PageItemInput
+    CollectionFreeTextWithUnitInstructionUnitOptionsItemsValue:
+      oneOf:
+      - type: string
+      - type: number
+        format: double
+      - type: boolean
+      description: Value returned in responses
+      title: CollectionFreeTextWithUnitInstructionUnitOptionsItemsValue
+    ImageContentBlockParentType:
+      type: string
+      enum:
+      - collection
+      - batch
+      title: ImageContentBlockParentType
+    AITaskBuilderBatch:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+          description: An ISO-8601 formatted string representing the batch creation time, in UTC.
+        created_by:
+          type: string
+          description: User ID of the Prolific user that created the resource.
+        datasets:
+          type: array
+          items:
+            $ref: '#/components/schemas/AiTaskBuilderBatchDatasetsItems'
+        name:
+          type: string
+        status:
+          $ref: '#/components/schemas/AiTaskBuilderBatchStatus'
+        total_task_count:
+          type: integer
+        total_instruction_count:
+          type: integer
+        workspace_id:
+          type: string
+        schema_version:
+          type: integer
+        task_details:
+          $ref: '#/components/schemas/AiTaskBuilderBatchTaskDetails'
+        total_task_groups:
+          type: integer
+        batch_items:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/BatchItemsPage'
+          description: 'The persisted `batch_items` layout, populated when the batch was created with
+
+            `batch_items`. `null` for legacy batches authored via the standalone instructions
+
+            endpoint. Every page, row, column, and item carries a server-assigned `id`.'
+        auto_sync_enabled:
+          type: boolean
+          description: 'When `true`, datapoints appended to the batch''s attached dataset automatically trigger a
+
+            sync that materialises tasks for them. Optional — absent on batches that have never
+
+            enabled auto-sync. Absent or `false` mean auto-sync is off.'
+      required:
+      - id
+      - created_at
+      - created_by
+      - datasets
+      - name
+      - status
+      - total_task_count
+      - total_instruction_count
+      - workspace_id
+      - schema_version
+      - task_details
+      - total_task_groups
+      title: AITaskBuilderBatch
+    ApiV1DataCollectionBatchesBatchIdPatchRequestBodyContentApplicationJsonSchemaTaskDetails:
+      type: object
+      properties:
+        task_name:
+          type: string
+        task_introduction:
+          type: string
+          description: HTML formatted task introduction
+        task_steps:
+          type: string
+          description: HTML formatted task steps
+      required:
+      - task_name
+      - task_introduction
+      - task_steps
+      title: ApiV1DataCollectionBatchesBatchIdPatchRequestBodyContentApplicationJsonSchemaTaskDetails
+    BatchItemsMultipleChoiceInstructionOptionsItemsValue:
+      oneOf:
+      - type: string
+      - type: number
+        format: double
+      - type: boolean
+      title: BatchItemsMultipleChoiceInstructionOptionsItemsValue
+    BatchItemsMultipleChoiceWithFreeTextInstructionType:
+      type: string
+      enum:
+      - multiple_choice_with_free_text
+      title: BatchItemsMultipleChoiceWithFreeTextInstructionType
+    ? ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitOptionsItemsValue
+    : oneOf:
+      - type: string
+      - type: number
+        format: double
+      - type: boolean
+      description: The value associated with the unit.
+      title: ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitOptionsItemsValue
+    BatchItemsRichTextBlockType:
+      type: string
+      enum:
+      - rich_text
+      title: BatchItemsRichTextBlockType
+    CollectionExportStatus2:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/CollectionExportStatusOneOf2Status'
+      required:
+      - status
+      description: An export job that failed to generate, or whose archive has since been deleted. Re-send `POST /collections/{collection_id}/export` to retry.
+      title: CollectionExportStatus2
+    ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitPosition:
+      type: string
+      enum:
+      - prefix
+      - suffix
+      description: Required for free_text_with_unit. Position of the unit selector relative to the text input. Use 'prefix' for units before the input (e.g., currency symbols) or 'suffix' for units after the input (e.g., measurements).
+      title: ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitPosition
+    BatchItemsValidationErrorIssuesItems:
+      type: object
+      properties:
+        page:
+          type: integer
+          description: Zero-based index of the page containing the invalid item.
+        row:
+          type: integer
+          description: Zero-based index of the row within the page.
+        column:
+          type: integer
+          description: Zero-based index of the column within the row.
+        item:
+          type: integer
+          description: Zero-based index of the item within the column.
+        type:
+          type: string
+          description: The item `type` that failed validation (e.g. `dataset_field`, `multiple_choice`, `file_upload`).
+        field:
+          type: string
+          description: Dataset field name. Present only for `dataset_field` validation issues.
+        message:
+          type: string
+          description: Human-readable validation error message.
+      required:
+      - page
+      - row
+      - column
+      - item
+      - type
+      - message
+      title: BatchItemsValidationErrorIssuesItems
+    ApiV1DataCollectionBatchesBatchIdReportGetResponsesContentApplicationJsonSchemaHttpMethod:
+      type: string
+      enum:
+      - GET
+      description: HTTP method to use with the presigned URL
+      title: ApiV1DataCollectionBatchesBatchIdReportGetResponsesContentApplicationJsonSchemaHttpMethod
     CollectionMultipleChoiceWithFreeTextInstructionParentType:
       type: string
       enum:
       - batch
       - collection
       title: CollectionMultipleChoiceWithFreeTextInstructionParentType
+    AiTaskBuilderMultipleChoiceInstructionType:
+      type: string
+      enum:
+      - multiple_choice
+      title: AiTaskBuilderMultipleChoiceInstructionType
+    CollectionInstructionInputOptionsItemsValue:
+      oneOf:
+      - type: string
+      - type: number
+        format: double
+      - type: boolean
+      title: CollectionInstructionInputOptionsItemsValue
+    AiTaskBuilderMultipleChoiceInstructionParentType:
+      type: string
+      enum:
+      - batch
+      - collection
+      title: AiTaskBuilderMultipleChoiceInstructionParentType
+    ? ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitOptionsItemsValue
+    : oneOf:
+      - type: string
+      - type: number
+        format: double
+      - type: boolean
+      description: The value associated with the unit.
+      title: ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitOptionsItemsValue
+    ImportJobError:
+      type: object
+      properties:
+        record_index:
+          type:
+          - integer
+          - 'null'
+          description: Zero-based index of the rejected record in the uploaded file.
+        field:
+          type:
+          - string
+          - 'null'
+          description: 'The schema field key that caused the rejection, or `null` if no specific field is implicated.
+
+            The special value `_raw` indicates a whole-record parse failure (e.g. malformed JSON) rather than a field-level error.'
+        reason:
+          type:
+          - string
+          - 'null'
+          description: Human-readable description of why the record was rejected.
+      description: A record-level validation error from a partial import.
+      title: ImportJobError
     CollectionFreeTextWithUnitInstructionUnitOptionsItems:
       type: object
       properties:
@@ -2250,99 +2482,229 @@ components:
       - label
       - value
       title: CollectionFreeTextWithUnitInstructionUnitOptionsItems
-    CollectionExportStatus2:
+    CollectionResponse:
       type: object
       properties:
-        status:
-          $ref: '#/components/schemas/CollectionExportStatusOneOf2Status'
+        id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+        collection_id:
+          type: string
+          format: uuid
+        participant_id:
+          type: string
+        submission_id:
+          type: string
+        response:
+          $ref: '#/components/schemas/CollectionResponseResponse'
       required:
-      - status
-      description: An export job that failed to generate, or whose archive has since been deleted. Re-send `POST /collections/{collection_id}/export` to retry.
-      title: CollectionExportStatus2
-    CollectionFileUploadInstructionType:
+      - id
+      - created_at
+      - collection_id
+      - participant_id
+      - response
+      description: A participant's response to a collection
+      title: CollectionResponse
+    AiTaskBuilderTaskResponseResponseType:
       type: string
       enum:
+      - multiple_choice
+      - free_text
+      - free_text_with_unit
+      - multiple_choice_with_free_text
       - file_upload
-      title: CollectionFileUploadInstructionType
-    CollectionSchemaVersion:
+      title: AiTaskBuilderTaskResponseResponseType
+    AiTaskBuilderFreeTextInputInstructionType:
       type: string
       enum:
-      - '1'
-      title: CollectionSchemaVersion
-    BatchExportComplete:
+      - free_text
+      title: AiTaskBuilderFreeTextInputInstructionType
+    BatchExportStatusOneOf0Status:
+      type: string
+      enum:
+      - generating
+      title: BatchExportStatusOneOf0Status
+    CollectionItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+        created_by:
+          type: string
+        schema_version:
+          $ref: '#/components/schemas/CollectionItemSchemaVersion'
+        page_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PageItem'
+          description: Instructions and content blocks on this page
+      required:
+      - id
+      - created_at
+      - created_by
+      - schema_version
+      - page_items
+      description: A page within a collection containing instructions and content blocks
+      title: CollectionItem
+    AiTaskBuilderBatchCreateStatus:
+      type: string
+      enum:
+      - UNINITIALISED
+      - PROCESSING
+      - READY
+      - ERROR
+      title: AiTaskBuilderBatchCreateStatus
+    AI_Task_Builder_GetTaskBuilderDatasetStatus_Response_200:
       type: object
       properties:
         status:
-          $ref: '#/components/schemas/BatchExportCompleteStatus'
-        url:
-          type: string
-          format: uri
-          description: Presigned HTTPS URL for downloading the ZIP archive. Valid for 1 hour. Re-poll to get a refreshed URL if expired.
-        expires_at:
-          type: string
-          format: date-time
-          description: ISO 8601 timestamp indicating when the presigned URL expires.
-      required:
-      - status
-      - url
-      - expires_at
-      description: An export job that has completed successfully. The ZIP archive is ready to download.
-      title: BatchExportComplete
-    CollectionExportStatus1:
-      type: object
-      properties:
-        status:
-          $ref: '#/components/schemas/CollectionExportStatusOneOf1Status'
-        url:
-          type: string
-          format: uri
-          description: Presigned HTTPS URL for downloading the ZIP archive. Valid for 1 hour. Re-poll to get a refreshed URL if expired.
-        expires_at:
-          type: string
-          format: date-time
-          description: ISO 8601 timestamp indicating when the presigned URL expires.
-      required:
-      - status
-      - url
-      - expires_at
-      description: An export job that has completed successfully. The ZIP archive is ready to download.
-      title: CollectionExportStatus1
-    BatchItemsDatasetFieldRefType:
+          $ref: '#/components/schemas/ApiV1DataCollectionDatasetsDatasetIdStatusGetResponsesContentApplicationJsonSchemaStatus'
+          description: The status of the Dataset - one of 'UNINITIALISED', 'PROCESSING', 'READY', 'ERROR'
+      title: AI Task Builder_GetTaskBuilderDatasetStatus_Response_200
+    ApiV1DataCollectionDatasetsDatasetIdPatchResponsesContentApplicationJsonSchemaStatus:
       type: string
       enum:
-      - dataset_field
-      title: BatchItemsDatasetFieldRefType
-    ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitPosition:
+      - ERROR
+      - PROCESSING
+      - READY
+      - UNINITIALISED
+      description: Processing status. **V3 datasets only.** V4 datasets track status per import job via `imports`.
+      title: ApiV1DataCollectionDatasetsDatasetIdPatchResponsesContentApplicationJsonSchemaStatus
+    ContentBlockInputType:
+      type: string
+      enum:
+      - image
+      - rich_text
+      title: ContentBlockInputType
+    BatchItemsRichTextBlockContentFormat:
+      type: string
+      enum:
+      - html
+      - markdown
+      default: html
+      description: Format of the `content` field. Defaults to `html`.
+      title: BatchItemsRichTextBlockContentFormat
+    ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitPosition:
       type: string
       enum:
       - prefix
       - suffix
       description: Required for free_text_with_unit. Position of the unit selector relative to the text input. Use 'prefix' for units before the input (e.g., currency symbols) or 'suffix' for units after the input (e.g., measurements).
-      title: ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitPosition
-    CollectionMultipleChoiceInstructionType:
+      title: ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitPosition
+    SyncJobStatus:
+      type: string
+      enum:
+      - queued
+      - processing
+      - complete
+      - failed
+      description: Current status of the sync job.
+      title: SyncJobStatus
+    CollectionFreeTextWithUnitInstructionParentType:
+      type: string
+      enum:
+      - batch
+      - collection
+      title: CollectionFreeTextWithUnitInstructionParentType
+    ImageContentBlockType:
+      type: string
+      enum:
+      - image
+      title: ImageContentBlockType
+    AiTaskBuilderFreeTextWithUnitInstructionType:
+      type: string
+      enum:
+      - free_text_with_unit
+      title: AiTaskBuilderFreeTextWithUnitInstructionType
+    ApiV1DataCollectionBatchesGetResponsesContentApplicationJsonSchemaMeta:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Total number of batches
+      title: ApiV1DataCollectionBatchesGetResponsesContentApplicationJsonSchemaMeta
+    AI_Task_Builder_GetTaskBuilderBatchTaskResponses_Response_200:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AITaskBuilderTaskResponse'
+        meta:
+          $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdResponsesGetResponsesContentApplicationJsonSchemaMeta'
+      title: AI Task Builder_GetTaskBuilderBatchTaskResponses_Response_200
+    CollectionExportStatusOneOf1Status:
+      type: string
+      enum:
+      - complete
+      title: CollectionExportStatusOneOf1Status
+    ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsType:
       type: string
       enum:
       - multiple_choice
-      title: CollectionMultipleChoiceInstructionType
-    SchemaMigrationError:
+      - free_text
+      - free_text_with_unit
+      - multiple_choice_with_free_text
+      - file_upload
+      description: The type of instruction.
+      title: ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsType
+    BatchExportStatus0:
       type: object
       properties:
-        datapoint_id:
+        status:
+          $ref: '#/components/schemas/BatchExportStatusOneOf0Status'
+        export_id:
           type: string
           format: uuid
-          description: The datapoint whose field could not be re-normalised.
-        field:
-          type: string
-          description: The schema field key that was nulled.
-        reason:
-          type: string
-          description: Human-readable description of why the field was nulled.
+          description: The export job ID. Use this with `GET /batches/{batch_id}/export/{export_id}` to poll for status.
       required:
-      - datapoint_id
-      - field
-      - reason
-      description: A single record-level failure — a field that was invalid under the new schema and so was nulled.
-      title: SchemaMigrationError
+      - status
+      - export_id
+      description: An export job that has been enqueued and is currently being generated.
+      title: BatchExportStatus0
+    CollectionUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the collection
+        task_details:
+          $ref: '#/components/schemas/TaskDetails'
+        collection_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CollectionItemInput'
+          description: Pages within the collection. Include `id` to preserve existing items.
+      required:
+      - name
+      - task_details
+      - collection_items
+      title: CollectionUpdateRequest
+    BatchItemsFreeTextWithUnitInstructionUnitOptionsItems:
+      type: object
+      properties:
+        label:
+          type: string
+        value:
+          $ref: '#/components/schemas/BatchItemsFreeTextWithUnitInstructionUnitOptionsItemsValue'
+        validation:
+          $ref: '#/components/schemas/ValidationRule'
+      required:
+      - label
+      - value
+      title: BatchItemsFreeTextWithUnitInstructionUnitOptionsItems
+    CollectionSchemaVersion:
+      type: string
+      enum:
+      - '1'
+      title: CollectionSchemaVersion
     CollectionInstructionInputUnitOptionsItemsValue:
       oneOf:
       - type: string
@@ -2350,15 +2712,39 @@ components:
         format: double
       - type: boolean
       title: CollectionInstructionInputUnitOptionsItemsValue
-    BatchExportStatus2:
+    CollectionMultipleChoiceInstructionOptionsItems:
       type: object
       properties:
-        status:
-          $ref: '#/components/schemas/BatchExportStatusOneOf2Status'
+        label:
+          type: string
+        value:
+          $ref: '#/components/schemas/CollectionMultipleChoiceInstructionOptionsItemsValue'
+        exclusive:
+          type: boolean
+          description: When true, selecting this option deselects all other options. Useful for "None of the above" style options.
       required:
-      - status
-      description: An export job that failed to generate, or whose archive has since been deleted. Re-send `POST /batches/{batch_id}/export` to retry.
-      title: BatchExportStatus2
+      - label
+      - value
+      title: CollectionMultipleChoiceInstructionOptionsItems
+    BatchExportCompleteStatus:
+      type: string
+      enum:
+      - complete
+      title: BatchExportCompleteStatus
+    AiTaskBuilderDatasetStatus:
+      type: string
+      enum:
+      - ERROR
+      - PROCESSING
+      - READY
+      - UNINITIALISED
+      description: Processing status. **V3 datasets only.** V4 datasets track status per import job via `imports`.
+      title: AiTaskBuilderDatasetStatus
+    BatchItemsDatasetFieldRefType:
+      type: string
+      enum:
+      - dataset_field
+      title: BatchItemsDatasetFieldRefType
     DatasetAppendResult:
       type: object
       properties:
@@ -2383,11 +2769,114 @@ components:
 
         `rejected` counts records that failed parsing or schema validation, each detailed in `errors`.'
       title: DatasetAppendResult
-    BatchItemsRichTextBlockType:
+    CollectionFreeTextWithUnitInstructionType:
       type: string
       enum:
-      - rich_text
-      title: BatchItemsRichTextBlockType
+      - free_text_with_unit
+      title: CollectionFreeTextWithUnitInstructionType
+    Collection:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        schema_version:
+          $ref: '#/components/schemas/CollectionSchemaVersion'
+        created_at:
+          type: string
+          format: date-time
+          description: ISO-8601 formatted creation timestamp in UTC
+        created_by:
+          type: string
+          description: User ID of the Prolific user that created the collection
+        workspace_id:
+          type: string
+          description: The ID of the Prolific workspace
+        name:
+          type: string
+          description: The name of the collection
+        task_details:
+          $ref: '#/components/schemas/TaskDetails'
+        collection_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CollectionItem'
+          description: Pages within the collection. Each collection item represents a page.
+        last_modified_at:
+          type: string
+          format: date-time
+          description: ISO-8601 formatted last modification timestamp in UTC
+        last_modified_by:
+          type: string
+          description: User ID of the Prolific user that last modified the collection
+      required:
+      - id
+      - schema_version
+      - created_at
+      - created_by
+      - workspace_id
+      - name
+      - task_details
+      - collection_items
+      title: Collection
+    BatchItemsFreeTextWithUnitInstructionType:
+      type: string
+      enum:
+      - free_text_with_unit
+      title: BatchItemsFreeTextWithUnitInstructionType
+    ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsOptionsItems:
+      type: object
+      properties:
+        label:
+          type: string
+          description: The display text for the option.
+        value:
+          type: string
+          description: The value associated with the option.
+        heading:
+          type: string
+          description: The heading for the option (required for multiple_choice_with_free_text).
+      required:
+      - label
+      - value
+      title: ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsOptionsItems
+    ApiV1DataCollectionBatchesBatchIdResponsesGetResponsesContentApplicationJsonSchemaMeta:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Total number of responses
+      title: ApiV1DataCollectionBatchesBatchIdResponsesGetResponsesContentApplicationJsonSchemaMeta
+    BatchExportStatus:
+      oneOf:
+      - $ref: '#/components/schemas/BatchExportStatus0'
+      - $ref: '#/components/schemas/BatchExportStatus1'
+      - $ref: '#/components/schemas/BatchExportStatus2'
+      description: The current status of a batch export job.
+      title: BatchExportStatus
+    AiTaskBuilderFileUploadInstructionParentType:
+      type: string
+      enum:
+      - batch
+      - collection
+      title: AiTaskBuilderFileUploadInstructionParentType
+    CollectionMultipleChoiceWithFreeTextInstructionOptionsItems:
+      type: object
+      properties:
+        label:
+          type: string
+        value:
+          $ref: '#/components/schemas/CollectionMultipleChoiceWithFreeTextInstructionOptionsItemsValue'
+        heading:
+          type: string
+        exclusive:
+          type: boolean
+          description: When true, selecting this option deselects all other options. Useful for "None of the above" style options.
+      required:
+      - label
+      - value
+      - heading
+      title: CollectionMultipleChoiceWithFreeTextInstructionOptionsItems
     ErrorDetailDetail2:
       type: object
       properties:
@@ -2398,25 +2887,6 @@ components:
           description: Name of the field with a validation error and as a value an array with the error descriptions
       description: All fields with validation errors
       title: ErrorDetailDetail2
-    BatchItemsMultipleChoiceInstructionOptionsItems:
-      type: object
-      properties:
-        label:
-          type: string
-        value:
-          $ref: '#/components/schemas/BatchItemsMultipleChoiceInstructionOptionsItemsValue'
-        exclusive:
-          type: boolean
-          description: When true, selecting this option deselects all other options. Useful for "None of the above" style options. Not allowed when `answer_limit` is 1, and at least one non-exclusive option must remain if any option is exclusive.
-      required:
-      - label
-      - value
-      title: BatchItemsMultipleChoiceInstructionOptionsItems
-    BatchItemsImageBlockType:
-      type: string
-      enum:
-      - image
-      title: BatchItemsImageBlockType
     DatasetImportJob:
       type: object
       properties:
@@ -2495,361 +2965,87 @@ components:
 
         Poll `GET /datasets/{dataset_id}/imports/{import_id}` until a terminal status is reached (`complete`, `partial`, `failed`, or `pending_schema`).'
       title: DatasetImportJob
-    CollectionMultipleChoiceInstructionParentType:
-      type: string
-      enum:
-      - batch
-      - collection
-      title: CollectionMultipleChoiceInstructionParentType
-    AITaskBuilderBatch:
+    BatchExportComplete:
       type: object
       properties:
-        id:
+        status:
+          $ref: '#/components/schemas/BatchExportCompleteStatus'
+        url:
           type: string
-          format: uuid
-        created_at:
+          format: uri
+          description: Presigned HTTPS URL for downloading the ZIP archive. Valid for 1 hour. Re-poll to get a refreshed URL if expired.
+        expires_at:
           type: string
           format: date-time
-          description: An ISO-8601 formatted string representing the batch creation time, in UTC.
-        created_by:
-          type: string
-          description: User ID of the Prolific user that created the resource.
-        datasets:
-          type: array
-          items:
-            $ref: '#/components/schemas/AiTaskBuilderBatchDatasetsItems'
-        name:
-          type: string
-        status:
-          $ref: '#/components/schemas/AiTaskBuilderBatchStatus'
-        total_task_count:
-          type: integer
-        total_instruction_count:
-          type: integer
-        workspace_id:
-          type: string
-        schema_version:
-          type: integer
-        task_details:
-          $ref: '#/components/schemas/AiTaskBuilderBatchTaskDetails'
-        total_task_groups:
-          type: integer
-        batch_items:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/BatchItemsPage'
-          description: 'The persisted `batch_items` layout, populated when the batch was created with
-
-            `batch_items`. `null` for legacy batches authored via the standalone instructions
-
-            endpoint. Every page, row, column, and item carries a server-assigned `id`.'
-        auto_sync_enabled:
-          type: boolean
-          description: 'When `true`, datapoints appended to the batch''s attached dataset automatically trigger a
-
-            sync that materialises tasks for them. Optional — absent on batches that have never
-
-            enabled auto-sync. Absent or `false` mean auto-sync is off.'
+          description: ISO 8601 timestamp indicating when the presigned URL expires.
       required:
-      - id
-      - created_at
-      - created_by
-      - datasets
-      - name
       - status
-      - total_task_count
-      - total_instruction_count
-      - workspace_id
-      - schema_version
-      - task_details
-      - total_task_groups
-      title: AITaskBuilderBatch
-    ApiV1DataCollectionCollectionsCollectionIdResponsesGetResponsesContentApplicationJsonSchemaMeta:
+      - url
+      - expires_at
+      description: An export job that has completed successfully. The ZIP archive is ready to download.
+      title: BatchExportComplete
+    BatchItemsImageBlockType:
+      type: string
+      enum:
+      - image
+      title: BatchItemsImageBlockType
+    BatchItemsFreeTextInstructionType:
+      type: string
+      enum:
+      - free_text
+      title: BatchItemsFreeTextInstructionType
+    AiTaskBuilderTaskResponseResponseAnswerItemsValue:
+      oneOf:
+      - type: string
+      - type: number
+        format: double
+      - type: boolean
+      title: AiTaskBuilderTaskResponseResponseAnswerItemsValue
+    ContentBlockInputContentFormat:
+      type: string
+      enum:
+      - html
+      - markdown
+      default: html
+      description: Format of the content field. When set to "markdown", content is converted to HTML server-side before storage. Defaults to "html".
+      title: ContentBlockInputContentFormat
+    BatchItemsValidationErrorType:
+      type: string
+      enum:
+      - INVALID_BATCH_ITEMS
+      title: BatchItemsValidationErrorType
+    RichTextContentBlockParentType:
+      type: string
+      enum:
+      - collection
+      - batch
+      title: RichTextContentBlockParentType
+    AI_Task_Builder_GetTaskBuilderBatchReport_Response_200:
+      type: object
+      properties:
+        url:
+          type: string
+          description: Presigned URL to download the CSV report
+        expires_at:
+          type: string
+          format: date-time
+          description: When the presigned URL expires
+        http_method:
+          $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdReportGetResponsesContentApplicationJsonSchemaHttpMethod'
+          description: HTTP method to use with the presigned URL
+      title: AI Task Builder_GetTaskBuilderBatchReport_Response_200
+    ApiV1DataCollectionBatchesBatchIdInstructionsGetResponsesContentApplicationJsonSchemaMeta:
       type: object
       properties:
         count:
           type: integer
-          description: Total number of responses
-      title: ApiV1DataCollectionCollectionsCollectionIdResponsesGetResponsesContentApplicationJsonSchemaMeta
-    AI_Task_Builder_GetCollectionResponses_Response_200:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/CollectionResponse'
-        meta:
-          $ref: '#/components/schemas/ApiV1DataCollectionCollectionsCollectionIdResponsesGetResponsesContentApplicationJsonSchemaMeta'
-      title: AI Task Builder_GetCollectionResponses_Response_200
-    AiTaskBuilderFreeTextInputInstructionParentType:
+          description: Total number of instructions
+      title: ApiV1DataCollectionBatchesBatchIdInstructionsGetResponsesContentApplicationJsonSchemaMeta
+    CollectionFileUploadInstructionType:
       type: string
       enum:
-      - batch
-      - collection
-      title: AiTaskBuilderFreeTextInputInstructionParentType
-    AI_Task_Builder_UpdateTaskBuilderDataset_Response_200:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-        created_by:
-          type: string
-        workspace_id:
-          type: string
-        total_datapoint_count:
-          type: integer
-        schema_version:
-          $ref: '#/components/schemas/ApiV1DataCollectionDatasetsDatasetIdPatchResponsesContentApplicationJsonSchemaSchemaVersion'
-          description: Internal dataset version. 3 = legacy CSV/ZIP; 4 = structured schema with JSONL/CSV import tracking.
-        status:
-          $ref: '#/components/schemas/ApiV1DataCollectionDatasetsDatasetIdPatchResponsesContentApplicationJsonSchemaStatus'
-          description: Processing status. **V3 datasets only.** V4 datasets track status per import job via `imports`.
-        filename:
-          type:
-          - string
-          - 'null'
-          description: Filename of the uploaded data file. **V3 datasets only.**
-        has_predetermined_grouping_id:
-          type:
-          - boolean
-          - 'null'
-          description: Whether the dataset contains a `META_TASK_GROUP_ID` column. **V3 datasets only.**
-        schema:
-          oneOf:
-          - $ref: '#/components/schemas/DatasetSchema'
-          - type: 'null'
-          description: 'The researcher-defined field schema for this dataset. **V4 datasets only.**
-
-            `null` if no schema has been set yet.'
-        imports:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/DatasetImportJob'
-          description: Import jobs for this dataset, most recent first. **V4 datasets only.** `null` for V3 datasets.
-        migration_job_id:
-          type: string
-          format: uuid
-          description: 'The schema migration job started by this update. Present only when the
-
-            dataset already had a schema (i.e. the schema was changed, not set for the
-
-            first time). Use with `GET /datasets/{dataset_id}/schema-migrations/{job_id}`.'
-      required:
-      - id
-      - name
-      - created_at
-      - created_by
-      - workspace_id
-      - total_datapoint_count
-      - schema_version
-      description: 'An AI Task Builder dataset. The shape of the response varies by `schema_version`:
-
-
-        - **V3 datasets** include `status`, `filename`, and `has_predetermined_grouping_id`.
-
-        - **V4 datasets** include `schema` (the researcher-defined field schema, or `null` if not yet set) and `imports` (the list of import jobs for this dataset). V4 datasets do not include `status` or `filename`.'
-      title: AI Task Builder_UpdateTaskBuilderDataset_Response_200
-    ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItems:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Include to preserve an existing instruction.
-        type:
-          $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsType'
-          description: The type of instruction.
-        description:
-          type: string
-          description: The question or prompt displayed to participants.
-        helper_text:
-          type: string
-          description: Additional guidance text displayed below the question.
-        placeholder_text_input:
-          type: string
-          description: Placeholder text displayed in the input field.
-        answer_limit:
-          type: integer
-          description: Number of options that can be selected (required for multiple_choice and multiple_choice_with_free_text). Use 1 for single-select, -1 for unlimited.
-        disable_dropdown:
-          type: boolean
-          default: false
-          description: When true, always renders checkbox/radio elements instead of a dropdown select.
-        options:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsOptionsItems'
-          description: The options (required for multiple_choice and multiple_choice_with_free_text).
-        unit_options:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitOptionsItems'
-          description: The unit options (required for free_text_with_unit). List of available units that participants can select from.
-        default_unit:
-          type: string
-          description: For free_text_with_unit. Default selected unit (must match a value from unit_options).
-        unit_position:
-          $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitPosition'
-          description: Required for free_text_with_unit. Position of the unit selector relative to the text input. Use 'prefix' for units before the input (e.g., currency symbols) or 'suffix' for units after the input (e.g., measurements).
-        validation:
-          $ref: '#/components/schemas/ValidationRule'
-          description: Optional validation constraints for the input value (for free_text).
-      required:
-      - type
-      - description
-      title: ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItems
-    AI_Task_Builder_SetupTaskBuilderBatch_Response_202:
-      type: object
-      properties: {}
-      description: Empty response body
-      title: AI Task Builder_SetupTaskBuilderBatch_Response_202
-    BatchExportStatusOneOf1Status:
-      type: string
-      enum:
-      - complete
-      title: BatchExportStatusOneOf1Status
-    ApiV1DataCollectionDatasetsDatasetIdPatchResponsesContentApplicationJsonSchemaSchemaVersion:
-      type: string
-      enum:
-      - '3'
-      - '4'
-      description: Internal dataset version. 3 = legacy CSV/ZIP; 4 = structured schema with JSONL/CSV import tracking.
-      title: ApiV1DataCollectionDatasetsDatasetIdPatchResponsesContentApplicationJsonSchemaSchemaVersion
-    SchemaMigrationJob:
-      type: object
-      properties:
-        dataset_id:
-          type: string
-          format: uuid
-          description: The dataset being migrated.
-        job_id:
-          type: string
-          format: uuid
-          description: The unique identifier of the schema migration job.
-        schema_version:
-          type: integer
-          description: The schema version this job reprocesses datapoints up to.
-        created_at:
-          type: string
-          format: date-time
-          description: When the migration job was created (ISO 8601, UTC).
-        updated_at:
-          type: string
-          format: date-time
-          description: When the migration job was last updated (ISO 8601, UTC).
-        status:
-          $ref: '#/components/schemas/SchemaMigrationJobStatus'
-          description: Current status of the migration job.
-        reprocessed_count:
-          type: integer
-          description: Number of datapoints reprocessed. Present when status is `complete` or `partial`.
-        failed_count:
-          type: integer
-          description: Number of datapoints with at least one field that could not be re-normalised. Present when status is `partial`.
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/SchemaMigrationError'
-          description: Record-level failures — fields nulled because they were invalid under the new schema. Present when status is `partial`.
-        reason:
-          type: string
-          description: Human-readable reason for failure. Present when status is `failed`.
-      required:
-      - dataset_id
-      - job_id
-      - schema_version
-      - created_at
-      - updated_at
-      - status
-      description: 'Tracks the asynchronous re-normalisation of a V4 dataset''s datapoints against a newer schema
-
-        version. Poll `GET /datasets/{dataset_id}/schema-migrations/{job_id}` until a terminal
-
-        status (`complete`, `partial`, or `failed`).
-
-
-        The shape depends on `status`: the fields below marked as terminal-only are present only for
-
-        the corresponding status.'
-      title: SchemaMigrationJob
-    DatasetSchemaField:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/DatasetSchemaFieldType'
-          description: 'Field type:
-
-            - `text` — a text value shown to participants. Can be referenced by `dataset_field` items in `batch_items`.
-
-            - `image_url` — a URL pointing to an image shown to participants. Can be referenced by `dataset_field` items in `batch_items`.
-
-            - `metadata` — an internal value included in exports but not shown to participants (equivalent to the `META_` prefix in V3 CSV datasets).
-
-            - `task_group_id` — groups datapoints into task groups. Rows with the same `task_group_id` value are assigned to the same participant. Equivalent to `META_TASK_GROUP_ID` in V3 CSV datasets. At most one field per schema may have this type.'
-        label:
-          type: string
-          description: Optional human-readable label for the field, used in the participant interface.
-      required:
-      - type
-      description: Descriptor for a single field in a dataset schema.
-      title: DatasetSchemaField
-    AiTaskBuilderMultipleChoiceWithFreeTextInstructionParentType:
-      type: string
-      enum:
-      - batch
-      - collection
-      title: AiTaskBuilderMultipleChoiceWithFreeTextInstructionParentType
-    BatchItemsMultipleChoiceInstructionType:
-      type: string
-      enum:
-      - multiple_choice
-      title: BatchItemsMultipleChoiceInstructionType
-    ContentBlockInput:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Include to preserve an existing content block when updating
-        type:
-          $ref: '#/components/schemas/ContentBlockInputType'
-        url:
-          type: string
-          format: uri
-          description: HTTPS URL for image content blocks
-        alt_text:
-          type: string
-          description: Alt text for image content blocks (required for accessibility)
-        caption:
-          type: string
-          description: Optional caption for image content blocks
-        content:
-          type: string
-          description: Content for rich_text content blocks. Interpreted as HTML by default, or Markdown if content_format is set to "markdown".
-        content_format:
-          $ref: '#/components/schemas/ContentBlockInputContentFormat'
-          default: html
-          description: Format of the content field. When set to "markdown", content is converted to HTML server-side before storage. Defaults to "html".
-      required:
-      - type
-      description: Content block input for a collection page
-      title: ContentBlockInput
-    ApiV1DataCollectionBatchesBatchIdReportGetResponsesContentApplicationJsonSchemaHttpMethod:
-      type: string
-      enum:
-      - GET
-      description: HTTP method to use with the presigned URL
-      title: ApiV1DataCollectionBatchesBatchIdReportGetResponsesContentApplicationJsonSchemaHttpMethod
+      - file_upload
+      title: CollectionFileUploadInstructionType
     CollectionInstructionInput:
       type: object
       properties:
@@ -2902,687 +3098,16 @@ components:
       - order
       description: Instruction input for a collection page
       title: CollectionInstructionInput
-    AiTaskBuilderFreeTextWithUnitInstructionParentType:
-      type: string
-      enum:
-      - batch
-      - collection
-      title: AiTaskBuilderFreeTextWithUnitInstructionParentType
-    CollectionFreeTextWithUnitInstructionUnitPosition:
-      type: string
-      enum:
-      - prefix
-      - suffix
-      description: Position of the unit selector relative to the text input. Use 'prefix' for units before the input (e.g., currency symbols) or 'suffix' for units after the input (e.g., measurements).
-      title: CollectionFreeTextWithUnitInstructionUnitPosition
-    BatchItemsMultipleChoiceInstructionOptionsItemsValue:
-      oneOf:
-      - type: string
-      - type: number
-        format: double
-      - type: boolean
-      title: BatchItemsMultipleChoiceInstructionOptionsItemsValue
-    AiTaskBuilderFreeTextWithUnitInstructionUnitOptionsItemsValue:
-      oneOf:
-      - type: string
-      - type: number
-        format: double
-      - type: boolean
-      description: Value returned in responses
-      title: AiTaskBuilderFreeTextWithUnitInstructionUnitOptionsItemsValue
-    AITaskBuilderDataset:
+    AI_Task_Builder_GetCollectionResponses_Response_200:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-        created_by:
-          type: string
-        workspace_id:
-          type: string
-        total_datapoint_count:
-          type: integer
-        schema_version:
-          $ref: '#/components/schemas/AiTaskBuilderDatasetSchemaVersion'
-          description: Internal dataset version. 3 = legacy CSV/ZIP; 4 = structured schema with JSONL/CSV import tracking.
-        status:
-          $ref: '#/components/schemas/AiTaskBuilderDatasetStatus'
-          description: Processing status. **V3 datasets only.** V4 datasets track status per import job via `imports`.
-        filename:
-          type:
-          - string
-          - 'null'
-          description: Filename of the uploaded data file. **V3 datasets only.**
-        has_predetermined_grouping_id:
-          type:
-          - boolean
-          - 'null'
-          description: Whether the dataset contains a `META_TASK_GROUP_ID` column. **V3 datasets only.**
-        schema:
-          oneOf:
-          - $ref: '#/components/schemas/DatasetSchema'
-          - type: 'null'
-          description: 'The researcher-defined field schema for this dataset. **V4 datasets only.**
-
-            `null` if no schema has been set yet.'
-        imports:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/DatasetImportJob'
-          description: Import jobs for this dataset, most recent first. **V4 datasets only.** `null` for V3 datasets.
-      required:
-      - id
-      - name
-      - created_at
-      - created_by
-      - workspace_id
-      - total_datapoint_count
-      - schema_version
-      description: 'An AI Task Builder dataset. The shape of the response varies by `schema_version`:
-
-
-        - **V3 datasets** include `status`, `filename`, and `has_predetermined_grouping_id`.
-
-        - **V4 datasets** include `schema` (the researcher-defined field schema, or `null` if not yet set) and `imports` (the list of import jobs for this dataset). V4 datasets do not include `status` or `filename`.'
-      title: AITaskBuilderDataset
-    AiTaskBuilderDatasetStatus:
-      type: string
-      enum:
-      - ERROR
-      - PROCESSING
-      - READY
-      - UNINITIALISED
-      description: Processing status. **V3 datasets only.** V4 datasets track status per import job via `imports`.
-      title: AiTaskBuilderDatasetStatus
-    BatchItemsMultipleChoiceWithFreeTextInstructionType:
-      type: string
-      enum:
-      - multiple_choice_with_free_text
-      title: BatchItemsMultipleChoiceWithFreeTextInstructionType
-    CollectionMultipleChoiceWithFreeTextInstructionType:
-      type: string
-      enum:
-      - multiple_choice_with_free_text
-      title: CollectionMultipleChoiceWithFreeTextInstructionType
-    CollectionUpdateRequest:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the collection
-        task_details:
-          $ref: '#/components/schemas/TaskDetails'
-        collection_items:
+        results:
           type: array
           items:
-            $ref: '#/components/schemas/CollectionItemInput'
-          description: Pages within the collection. Include `id` to preserve existing items.
-      required:
-      - name
-      - task_details
-      - collection_items
-      title: CollectionUpdateRequest
-    AiTaskBuilderTaskResponseResponseAnswerItemsValue:
-      oneOf:
-      - type: string
-      - type: number
-        format: double
-      - type: boolean
-      title: AiTaskBuilderTaskResponseResponseAnswerItemsValue
-    CollectionExportComplete:
-      type: object
-      properties:
-        status:
-          $ref: '#/components/schemas/CollectionExportCompleteStatus'
-        url:
-          type: string
-          format: uri
-          description: Presigned HTTPS URL for downloading the ZIP archive. Valid for 1 hour. Re-poll to get a refreshed URL if expired.
-        expires_at:
-          type: string
-          format: date-time
-          description: ISO 8601 timestamp indicating when the presigned URL expires.
-      required:
-      - status
-      - url
-      - expires_at
-      description: An export job that has completed successfully. The ZIP archive is ready to download.
-      title: CollectionExportComplete
-    AI_Task_Builder_GetTaskBuilderBatchReport_Response_200:
-      type: object
-      properties:
-        url:
-          type: string
-          description: Presigned URL to download the CSV report
-        expires_at:
-          type: string
-          format: date-time
-          description: When the presigned URL expires
-        http_method:
-          $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdReportGetResponsesContentApplicationJsonSchemaHttpMethod'
-          description: HTTP method to use with the presigned URL
-      title: AI Task Builder_GetTaskBuilderBatchReport_Response_200
-    BatchExportStatusOneOf0Status:
-      type: string
-      enum:
-      - generating
-      title: BatchExportStatusOneOf0Status
-    AITaskBuilderTaskResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        created_at:
-          type: string
-          format: date-time
-        batch_id:
-          type: string
-        participant_id:
-          type: string
-        submission_id:
-          type: string
-          description: The Prolific submission ID
-        correlation_id:
-          type: string
-          description: Correlation ID for tracking
-        response:
-          $ref: '#/components/schemas/AiTaskBuilderTaskResponseResponse'
-        task_id:
-          type: string
-        metadata:
-          type: object
-          additionalProperties:
-            description: Any type
-        schema_version:
-          type: integer
-        no_submission:
-          type: boolean
-      required:
-      - id
-      - created_at
-      - batch_id
-      - participant_id
-      - response
-      - task_id
-      title: AITaskBuilderTaskResponse
-    AI_Task_Builder_GetTaskBuilderBatchStatus_Response_200:
-      type: object
-      properties:
-        status:
-          $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdStatusGetResponsesContentApplicationJsonSchemaStatus'
-          description: The status of the Batch - one of 'UNINITIALISED', 'PROCESSING', 'READY', 'ERROR'
-      title: AI Task Builder_GetTaskBuilderBatchStatus_Response_200
-    AITaskBuilderBatchCreate:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        created_at:
-          type: string
-          format: date-time
-          description: An ISO-8601 formatted string representing the batch creation time, in UTC.
-        created_by:
-          type: string
-          description: User ID of the Prolific user that created the resource.
-        datasets:
-          type: array
-          items:
-            $ref: '#/components/schemas/AiTaskBuilderBatchCreateDatasetsItems'
-        name:
-          type: string
-        status:
-          $ref: '#/components/schemas/AiTaskBuilderBatchCreateStatus'
-        total_task_count:
-          type: integer
-        total_instruction_count:
-          type: integer
-        workspace_id:
-          type: string
-        task_details:
-          $ref: '#/components/schemas/AiTaskBuilderBatchCreateTaskDetails'
-        batch_items:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/BatchItemsPage'
-          description: 'The persisted `batch_items` layout, returned only when `batch_items` was supplied on
-
-            create. Every page, row, column, and item is returned with a server-assigned `id`.'
-      required:
-      - id
-      - created_at
-      - created_by
-      - datasets
-      - name
-      - status
-      - total_task_count
-      - total_instruction_count
-      - workspace_id
-      - task_details
-      title: AITaskBuilderBatchCreate
-    CollectionResponseResponseType:
-      type: string
-      enum:
-      - multiple_choice
-      - free_text
-      - free_text_with_unit
-      - multiple_choice_with_free_text
-      - file_upload
-      title: CollectionResponseResponseType
-    ImageContentBlockParentType:
-      type: string
-      enum:
-      - collection
-      - batch
-      title: ImageContentBlockParentType
-    AiTaskBuilderBatchCreateDatasetsItems:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        total_datapoint_count:
-          type: integer
-      required:
-      - id
-      - total_datapoint_count
-      title: AiTaskBuilderBatchCreateDatasetsItems
-    CollectionExportStatus0:
-      type: object
-      properties:
-        status:
-          $ref: '#/components/schemas/CollectionExportStatusOneOf0Status'
-        export_id:
-          type: string
-          format: uuid
-          description: The export job ID. Use this with `GET /collections/{collection_id}/export/{export_id}` to poll for status.
-      required:
-      - status
-      - export_id
-      description: An export job that has been enqueued and is currently being generated.
-      title: CollectionExportStatus0
-    CollectionFreeTextInstructionType:
-      type: string
-      enum:
-      - free_text
-      title: CollectionFreeTextInstructionType
-    SyncJob:
-      type: object
-      properties:
-        batch_id:
-          type: string
-          format: uuid
-          description: The batch this sync job belongs to.
-        dataset_id:
-          type: string
-          format: uuid
-          description: The dataset whose appended datapoints are being synced.
-        sync_id:
-          type: string
-          format: uuid
-          description: The unique identifier of the sync job.
-        created_at:
-          type: string
-          format: date-time
-          description: When the sync job was created (ISO 8601, UTC).
-        updated_at:
-          type: string
-          format: date-time
-          description: When the sync job was last updated (ISO 8601, UTC).
-        status:
-          $ref: '#/components/schemas/SyncJobStatus'
-          description: Current status of the sync job.
-        tasks_created:
-          type: integer
-          description: Number of tasks created this sync. Present when status is `complete`.
-        datapoints_processed:
-          type: integer
-          description: Number of datapoints processed this sync. Present when status is `complete`.
-        groups_created:
-          type: integer
-          description: Number of new task groups created this sync. Present when status is `complete`.
-        groups_expanded:
-          type: integer
-          description: 'Number of existing task groups grown this sync. Non-zero only for predetermined-grouping
-
-            batches; always `0` for tasks-per-group batches. Present when status is `complete`.'
-        reason:
-          type: string
-          description: Human-readable reason for failure. Present when status is `failed`.
-      required:
-      - batch_id
-      - dataset_id
-      - sync_id
-      - created_at
-      - updated_at
-      - status
-      description: 'Tracks the asynchronous materialisation of tasks for datapoints appended to a batch''s dataset
-
-        since setup or the last sync. Created by `POST /batches/{batch_id}/sync`; poll
-
-        `GET /batches/{batch_id}/syncs/{sync_id}` until a terminal status (`complete` or `failed`).
-
-
-        The shape depends on `status`: the fields below marked as terminal-only are present only for
-
-        the corresponding status.'
-      title: SyncJob
-    CollectionResponseResponseAnswerItems:
-      type: object
-      properties:
-        value:
-          $ref: '#/components/schemas/CollectionResponseResponseAnswerItemsValue'
-      title: CollectionResponseResponseAnswerItems
-    ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitOptionsItems:
-      type: object
-      properties:
-        label:
-          type: string
-          description: The display label for the unit.
-        value:
-          $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitOptionsItemsValue'
-          description: The value associated with the unit.
-        validation:
-          $ref: '#/components/schemas/ValidationRule'
-          description: Optional validation constraints for this unit option.
-      required:
-      - label
-      - value
-      title: ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitOptionsItems
-    ApiV1DataCollectionBatchesGetResponsesContentApplicationJsonSchemaMeta:
-      type: object
-      properties:
-        count:
-          type: integer
-          description: Total number of batches
-      title: ApiV1DataCollectionBatchesGetResponsesContentApplicationJsonSchemaMeta
-    ApiV1DataCollectionDatasetsDatasetIdPatchResponsesContentApplicationJsonSchemaStatus:
-      type: string
-      enum:
-      - ERROR
-      - PROCESSING
-      - READY
-      - UNINITIALISED
-      description: Processing status. **V3 datasets only.** V4 datasets track status per import job via `imports`.
-      title: ApiV1DataCollectionDatasetsDatasetIdPatchResponsesContentApplicationJsonSchemaStatus
-    CollectionInstructionInputUnitPosition:
-      type: string
-      enum:
-      - prefix
-      - suffix
-      description: Required for free_text_with_unit. Position of the unit selector relative to the text input.
-      title: CollectionInstructionInputUnitPosition
-    CollectionFreeTextInstructionParentType:
-      type: string
-      enum:
-      - batch
-      - collection
-      title: CollectionFreeTextInstructionParentType
-    ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitOptionsItems:
-      type: object
-      properties:
-        label:
-          type: string
-          description: The display label for the unit.
-        value:
-          $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitOptionsItemsValue'
-          description: The value associated with the unit.
-        validation:
-          $ref: '#/components/schemas/ValidationRule'
-          description: Optional validation constraints for this unit option.
-      required:
-      - label
-      - value
-      title: ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitOptionsItems
-    ValidationRuleType:
-      type: string
-      enum:
-      - number
-      - string
-      description: The expected input type. When "number", the input must be numeric and min/max constrain the numeric value. When "string", the input is treated as text and min/max constrain the character count.
-      title: ValidationRuleType
-    ApiV1DataCollectionDatasetsDatasetIdUploadUrlFilenameGetResponsesContentApplicationJsonSchemaHttpMethod:
-      type: string
-      enum:
-      - PUT
-      description: HTTP method to use with the presigned URL.
-      title: ApiV1DataCollectionDatasetsDatasetIdUploadUrlFilenameGetResponsesContentApplicationJsonSchemaHttpMethod
-    BatchItemsColumn:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Server-assigned identifier; present on responses. Include to preserve an existing column when updating.
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/BatchItemsItem'
-      required:
-      - items
-      description: A column within a row. Contains one or more items rendered top-to-bottom.
-      title: BatchItemsColumn
-    BatchItemsItem:
-      oneOf:
-      - type: object
-        properties:
-          type:
-            $ref: '#/components/schemas/BatchItemsDatasetFieldRefType'
-          field:
-            type: string
-            description: Name of the dataset schema field to reference.
-        required:
-        - type
-        - field
-        description: 'References a field in the batch''s attached dataset. At task time, the dataset value
-
-          for the current datapoint is rendered at this position. Only dataset schema fields of
-
-          type `text` or `image_url` are permitted, and the same field may not be referenced more
-
-          than once on the same page.'
-      - type: object
-        properties:
-          type:
-            $ref: '#/components/schemas/BatchItemsImageBlockType'
-          id:
-            type: string
-            description: Server-assigned identifier; present on responses. Include to preserve an existing item when updating.
-          url:
-            type: string
-            format: uri
-            description: HTTPS URL of the image. Non-HTTPS URLs are rejected.
-          alt_text:
-            type: string
-            description: Alt text shown to screen readers. Required for accessibility.
-          caption:
-            type: string
-            description: Optional caption displayed below the image.
-        required:
-        - type
-        - url
-        - alt_text
-        description: An image content block rendered inline within the batch layout.
-      - type: object
-        properties:
-          type:
-            $ref: '#/components/schemas/BatchItemsRichTextBlockType'
-          id:
-            type: string
-            description: Server-assigned identifier; present on responses. Include to preserve an existing item when updating.
-          content:
-            type: string
-            description: Rich text content. Interpreted as HTML by default, or as Markdown when `content_format` is set to `markdown` (converted to HTML server-side before storage).
-          content_format:
-            $ref: '#/components/schemas/BatchItemsRichTextBlockContentFormat'
-            default: html
-            description: Format of the `content` field. Defaults to `html`.
-        required:
-        - type
-        - content
-        description: A rich-text content block rendered inline within the batch layout.
-      - type: object
-        properties:
-          type:
-            $ref: '#/components/schemas/BatchItemsFreeTextInstructionType'
-          id:
-            type: string
-            description: Server-assigned identifier; present on responses. Include to preserve an existing item when updating.
-          description:
-            type: string
-            description: The question or prompt displayed to participants.
-          helper_text:
-            type: string
-            description: Additional guidance text displayed below the question.
-          placeholder_text_input:
-            type: string
-            description: Placeholder text displayed in the input field.
-          validation:
-            $ref: '#/components/schemas/ValidationRule'
-            description: Optional validation constraints for the input value.
-        required:
-        - type
-        - description
-        description: Free-text input instruction.
-      - type: object
-        properties:
-          type:
-            $ref: '#/components/schemas/BatchItemsFreeTextWithUnitInstructionType'
-          id:
-            type: string
-            description: Server-assigned identifier; present on responses. Include to preserve an existing item when updating.
-          description:
-            type: string
-            description: The question or prompt displayed to participants.
-          helper_text:
-            type: string
-          placeholder_text_input:
-            type: string
-          unit_options:
-            type: array
-            items:
-              $ref: '#/components/schemas/BatchItemsFreeTextWithUnitInstructionUnitOptionsItems'
-            description: Available units the participant can select from.
-          default_unit:
-            type: string
-            description: Default selected unit. Must match the `value` of one of the entries in `unit_options`.
-          unit_position:
-            $ref: '#/components/schemas/BatchItemsFreeTextWithUnitInstructionUnitPosition'
-            description: Position of the unit selector relative to the text input.
-        required:
-        - type
-        - description
-        - unit_options
-        - unit_position
-        description: Free-text input instruction paired with a unit selector.
-      - type: object
-        properties:
-          type:
-            $ref: '#/components/schemas/BatchItemsMultipleChoiceInstructionType'
-          id:
-            type: string
-            description: Server-assigned identifier; present on responses. Include to preserve an existing item when updating.
-          description:
-            type: string
-            description: The question or prompt displayed to participants.
-          helper_text:
-            type: string
-          placeholder_text_input:
-            type: string
-          answer_limit:
-            type: integer
-            description: Number of options that can be selected. Use `1` for single-select, `-1` for unlimited, or any number up to the total options.
-          disable_dropdown:
-            type: boolean
-            default: false
-            description: When true, always renders checkbox/radio elements instead of a dropdown select.
-          options:
-            type: array
-            items:
-              $ref: '#/components/schemas/BatchItemsMultipleChoiceInstructionOptionsItems'
-        required:
-        - type
-        - description
-        - answer_limit
-        - options
-        description: Multiple-choice instruction.
-      - type: object
-        properties:
-          type:
-            $ref: '#/components/schemas/BatchItemsMultipleChoiceWithFreeTextInstructionType'
-          id:
-            type: string
-            description: Server-assigned identifier; present on responses. Include to preserve an existing item when updating.
-          description:
-            type: string
-          helper_text:
-            type: string
-          placeholder_text_input:
-            type: string
-          answer_limit:
-            type: integer
-          disable_dropdown:
-            type: boolean
-            default: false
-          options:
-            type: array
-            items:
-              $ref: '#/components/schemas/BatchItemsMultipleChoiceWithFreeTextInstructionOptionsItems'
-        required:
-        - type
-        - description
-        - answer_limit
-        - options
-        description: Multiple-choice instruction with an additional free-text input per selected option.
-      - type: object
-        properties:
-          type:
-            $ref: '#/components/schemas/BatchItemsFileUploadInstructionType'
-          id:
-            type: string
-            description: Server-assigned identifier; present on responses. Include to preserve an existing item when updating.
-          description:
-            type: string
-          helper_text:
-            type: string
-          accepted_file_types:
-            type: array
-            items:
-              type: string
-            description: File extensions to accept (each must start with a dot, e.g. `.jpg`). Defaults to `[".jpg", ".jpeg", ".png", ".heic", ".heif"]`.
-          max_file_size_mb:
-            type: number
-            format: double
-            description: Maximum size in megabytes per file. Defaults to 25.
-          min_file_count:
-            type: integer
-            description: Minimum number of files required. Defaults to 1.
-          max_file_count:
-            type: integer
-            description: Maximum number of files allowed. Defaults to 10. Must be greater than or equal to `min_file_count`.
-        required:
-        - type
-        - description
-        description: File upload instruction.
-      discriminator:
-        propertyName: type
-      description: 'A single item within a column. One of: a dataset field reference (`dataset_field`),
-
-        a content block (`image`, `rich_text`), or an instruction (`free_text`,
-
-        `free_text_with_unit`, `multiple_choice`, `multiple_choice_with_free_text`, `file_upload`).
-
-        Discriminated on `type`.'
-      title: BatchItemsItem
+            $ref: '#/components/schemas/CollectionResponse'
+        meta:
+          $ref: '#/components/schemas/ApiV1DataCollectionCollectionsCollectionIdResponsesGetResponsesContentApplicationJsonSchemaMeta'
+      title: AI Task Builder_GetCollectionResponses_Response_200
     BatchExportStatus1:
       type: object
       properties:
@@ -3602,525 +3127,25 @@ components:
       - expires_at
       description: An export job that has completed successfully. The ZIP archive is ready to download.
       title: BatchExportStatus1
-    CollectionCreateRequest:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the collection
-        workspace_id:
-          type: string
-          description: The ID of the Prolific workspace
-        task_details:
-          $ref: '#/components/schemas/TaskDetails'
-        collection_items:
-          type: array
-          items:
-            $ref: '#/components/schemas/CollectionItemInput'
-          description: Pages within the collection
-      required:
-      - name
-      - workspace_id
-      - task_details
-      - collection_items
-      title: CollectionCreateRequest
-    AiTaskBuilderFileUploadInstructionParentType:
-      type: string
-      enum:
-      - batch
-      - collection
-      title: AiTaskBuilderFileUploadInstructionParentType
-    CollectionExportCompleteStatus:
-      type: string
-      enum:
-      - complete
-      title: CollectionExportCompleteStatus
-    AI_Task_Builder_GetTaskBuilderBatchTaskResponses_Response_200:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/AITaskBuilderTaskResponse'
-        meta:
-          $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdResponsesGetResponsesContentApplicationJsonSchemaMeta'
-      title: AI Task Builder_GetTaskBuilderBatchTaskResponses_Response_200
-    RichTextContentBlockType:
-      type: string
-      enum:
-      - rich_text
-      title: RichTextContentBlockType
-    ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitPosition:
-      type: string
-      enum:
-      - prefix
-      - suffix
-      description: Required for free_text_with_unit. Position of the unit selector relative to the text input. Use 'prefix' for units before the input (e.g., currency symbols) or 'suffix' for units after the input (e.g., measurements).
-      title: ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitPosition
-    DatasetAppendError:
-      type: object
-      properties:
-        record_index:
-          type: integer
-          description: One-based index of the rejected non-blank JSONL record in the append request body.
-        field:
-          type: string
-          description: 'The schema field key that caused the rejection. The special value `_raw` indicates a
-
-            whole-record parse failure (for example malformed JSON) rather than a field-level error.'
-        reason:
-          type: string
-          description: Human-readable description of why the record was rejected.
-      required:
-      - record_index
-      - field
-      - reason
-      description: A record-level validation error from a synchronous JSONL append request.
-      title: DatasetAppendError
-    CollectionMultipleChoiceInstructionOptionsItemsValue:
-      oneOf:
-      - type: string
-      - type: number
-        format: double
-      - type: boolean
-      title: CollectionMultipleChoiceInstructionOptionsItemsValue
-    AiTaskBuilderDatasetSchemaVersion:
-      type: string
-      enum:
-      - '3'
-      - '4'
-      description: Internal dataset version. 3 = legacy CSV/ZIP; 4 = structured schema with JSONL/CSV import tracking.
-      title: AiTaskBuilderDatasetSchemaVersion
-    AiTaskBuilderMultipleChoiceWithFreeTextInstructionOptionsItemsValue:
-      oneOf:
-      - type: string
-      - type: number
-        format: double
-      - type: boolean
-      description: Value returned in responses
-      title: AiTaskBuilderMultipleChoiceWithFreeTextInstructionOptionsItemsValue
-    AiTaskBuilderFreeTextWithUnitInstructionUnitOptionsItems:
-      type: object
-      properties:
-        label:
-          type: string
-          description: Display text shown to participants
-        value:
-          $ref: '#/components/schemas/AiTaskBuilderFreeTextWithUnitInstructionUnitOptionsItemsValue'
-          description: Value returned in responses
-        validation:
-          $ref: '#/components/schemas/ValidationRule'
-          description: Optional validation constraints for this unit option
-      required:
-      - label
-      - value
-      title: AiTaskBuilderFreeTextWithUnitInstructionUnitOptionsItems
-    ApiV1DataCollectionDatasetsDatasetIdStatusGetResponsesContentApplicationJsonSchemaStatus:
-      type: string
-      enum:
-      - UNINITIALISED
-      - PROCESSING
-      - READY
-      - ERROR
-      description: The status of the Dataset - one of 'UNINITIALISED', 'PROCESSING', 'READY', 'ERROR'
-      title: ApiV1DataCollectionDatasetsDatasetIdStatusGetResponsesContentApplicationJsonSchemaStatus
-    CollectionExportStatus:
-      oneOf:
-      - $ref: '#/components/schemas/CollectionExportStatus0'
-      - $ref: '#/components/schemas/CollectionExportStatus1'
-      - $ref: '#/components/schemas/CollectionExportStatus2'
-      description: The current status of a collection export job.
-      title: CollectionExportStatus
-    AI_Task_Builder_GetTaskBuilderBatches_Response_200:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/AITaskBuilderBatch'
-        meta:
-          $ref: '#/components/schemas/ApiV1DataCollectionBatchesGetResponsesContentApplicationJsonSchemaMeta'
-      title: AI Task Builder_GetTaskBuilderBatches_Response_200
-    CollectionFreeTextWithUnitInstructionType:
-      type: string
-      enum:
-      - free_text_with_unit
-      title: CollectionFreeTextWithUnitInstructionType
-    SyncJobStatus:
-      type: string
-      enum:
-      - queued
-      - processing
-      - complete
-      - failed
-      description: Current status of the sync job.
-      title: SyncJobStatus
-    AiTaskBuilderMultipleChoiceInstructionParentType:
-      type: string
-      enum:
-      - batch
-      - collection
-      title: AiTaskBuilderMultipleChoiceInstructionParentType
-    CollectionFileUploadInstructionParentType:
-      type: string
-      enum:
-      - batch
-      - collection
-      title: CollectionFileUploadInstructionParentType
-    CollectionMultipleChoiceWithFreeTextInstructionOptionsItemsValue:
-      oneOf:
-      - type: string
-      - type: number
-        format: double
-      - type: boolean
-      title: CollectionMultipleChoiceWithFreeTextInstructionOptionsItemsValue
-    AI_Task_Builder_ListCollections_Response_200:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Collection'
-        meta:
-          $ref: '#/components/schemas/ApiV1DataCollectionCollectionsGetResponsesContentApplicationJsonSchemaMeta'
-      title: AI Task Builder_ListCollections_Response_200
-    DatasetSchema:
-      type: object
-      properties:
-        strict:
-          type: boolean
-          description: When `true`, records that are missing any field defined in the schema are rejected during import. When `false`, missing fields are allowed and treated as absent.
-        fields:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/DatasetSchemaField'
-          description: A map of field key to field descriptor. The key is used to reference the field in `batch_items` (`dataset_field` items) and in JSONL records.
-      required:
-      - strict
-      - fields
-      description: 'A researcher-defined schema that specifies the fields in a V4 dataset. Each field has a type that determines how it is rendered to participants and how it can be referenced in `batch_items`.
-
-
-        Constraints:
-
-        - Maximum 200 fields per schema.
-
-        - Field keys: 1–128 characters.
-
-        - Field labels: maximum 255 characters.'
-      title: DatasetSchema
-    BatchItemsValidationErrorIssuesItems:
-      type: object
-      properties:
-        page:
-          type: integer
-          description: Zero-based index of the page containing the invalid item.
-        row:
-          type: integer
-          description: Zero-based index of the row within the page.
-        column:
-          type: integer
-          description: Zero-based index of the column within the row.
-        item:
-          type: integer
-          description: Zero-based index of the item within the column.
-        type:
-          type: string
-          description: The item `type` that failed validation (e.g. `dataset_field`, `multiple_choice`, `file_upload`).
-        field:
-          type: string
-          description: Dataset field name. Present only for `dataset_field` validation issues.
-        message:
-          type: string
-          description: Human-readable validation error message.
-      required:
-      - page
-      - row
-      - column
-      - item
-      - type
-      - message
-      title: BatchItemsValidationErrorIssuesItems
-    BatchItemsFreeTextInstructionType:
-      type: string
-      enum:
-      - free_text
-      title: BatchItemsFreeTextInstructionType
-    CollectionInstructionInputType:
-      type: string
-      enum:
-      - multiple_choice
-      - free_text
-      - free_text_with_unit
-      - multiple_choice_with_free_text
-      - file_upload
-      title: CollectionInstructionInputType
-    ValidationRule:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/ValidationRuleType'
-          description: The expected input type. When "number", the input must be numeric and min/max constrain the numeric value. When "string", the input is treated as text and min/max constrain the character count.
-        min:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Minimum value (for type "number") or minimum character count (for type "string"). Null means unbounded. When type is "string", must be a non-negative integer. If both min and max are provided, min must be less than or equal to max.
-        max:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Maximum value (for type "number") or maximum character count (for type "string"). Null means unbounded. When type is "string", must be a non-negative integer. If both min and max are provided, max must be greater than or equal to min.
-      required:
-      - type
-      description: Optional validation constraints for input values
-      title: ValidationRule
-    RichTextContentBlockParentType:
-      type: string
-      enum:
-      - collection
-      - batch
-      title: RichTextContentBlockParentType
-    BatchItemsFreeTextWithUnitInstructionUnitOptionsItems:
-      type: object
-      properties:
-        label:
-          type: string
-        value:
-          $ref: '#/components/schemas/BatchItemsFreeTextWithUnitInstructionUnitOptionsItemsValue'
-        validation:
-          $ref: '#/components/schemas/ValidationRule'
-      required:
-      - label
-      - value
-      title: BatchItemsFreeTextWithUnitInstructionUnitOptionsItems
-    CollectionInstructionInputUnitOptionsItems:
-      type: object
-      properties:
-        label:
-          type: string
-        value:
-          $ref: '#/components/schemas/CollectionInstructionInputUnitOptionsItemsValue'
-        validation:
-          $ref: '#/components/schemas/ValidationRule'
-          description: Optional validation constraints for this unit option.
-      required:
-      - label
-      - value
-      title: CollectionInstructionInputUnitOptionsItems
-    AiTaskBuilderMultipleChoiceInstructionOptionsItemsValue:
-      oneOf:
-      - type: string
-      - type: number
-        format: double
-      - type: boolean
-      description: Value returned in responses
-      title: AiTaskBuilderMultipleChoiceInstructionOptionsItemsValue
-    AiTaskBuilderTaskResponseResponse:
-      type: object
-      properties:
-        instruction_id:
-          type: string
-        type:
-          $ref: '#/components/schemas/AiTaskBuilderTaskResponseResponseType'
-        answer:
-          type: array
-          items:
-            $ref: '#/components/schemas/AiTaskBuilderTaskResponseResponseAnswerItems'
-      required:
-      - instruction_id
-      - type
-      - answer
-      title: AiTaskBuilderTaskResponseResponse
-    AiTaskBuilderBatchStatus:
-      type: string
-      enum:
-      - UNINITIALISED
-      - PROCESSING
-      - READY
-      - ERROR
-      title: AiTaskBuilderBatchStatus
-    AiTaskBuilderFileUploadInstructionType:
-      type: string
-      enum:
-      - file_upload
-      title: AiTaskBuilderFileUploadInstructionType
-    RichTextContentBlockSchemaVersion:
-      type: string
-      enum:
-      - '1'
-      title: RichTextContentBlockSchemaVersion
-    ApiV1DataCollectionBatchesBatchIdStatusGetResponsesContentApplicationJsonSchemaStatus:
-      type: string
-      enum:
-      - UNINITIALISED
-      - PROCESSING
-      - READY
-      - ERROR
-      description: The status of the Batch - one of 'UNINITIALISED', 'PROCESSING', 'READY', 'ERROR'
-      title: ApiV1DataCollectionBatchesBatchIdStatusGetResponsesContentApplicationJsonSchemaStatus
-    ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsType:
-      type: string
-      enum:
-      - multiple_choice
-      - free_text
-      - free_text_with_unit
-      - multiple_choice_with_free_text
-      - file_upload
-      description: The type of instruction.
-      title: ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsType
-    ErrorDetailDetail:
-      oneOf:
-      - type: string
-      - type: array
-        items:
-          type: string
-      - $ref: '#/components/schemas/ErrorDetailDetail2'
-      description: Error detail
-      title: ErrorDetailDetail
-    BatchItemsFileUploadInstructionType:
-      type: string
-      enum:
-      - file_upload
-      title: BatchItemsFileUploadInstructionType
-    BatchItemsFreeTextWithUnitInstructionUnitPosition:
-      type: string
-      enum:
-      - prefix
-      - suffix
-      description: Position of the unit selector relative to the text input.
-      title: BatchItemsFreeTextWithUnitInstructionUnitPosition
-    BatchItemsRichTextBlockContentFormat:
-      type: string
-      enum:
-      - html
-      - markdown
-      default: html
-      description: Format of the `content` field. Defaults to `html`.
-      title: BatchItemsRichTextBlockContentFormat
-    ImageContentBlockType:
-      type: string
-      enum:
-      - image
-      title: ImageContentBlockType
-    ErrorDetail:
+    CollectionExportStatus0:
       type: object
       properties:
         status:
-          type: integer
-          description: Status code as in the http standards
-        error_code:
-          type: integer
-          description: Internal error code
-        title:
+          $ref: '#/components/schemas/CollectionExportStatusOneOf0Status'
+        export_id:
           type: string
-          description: Error title
-        detail:
-          $ref: '#/components/schemas/ErrorDetailDetail'
-          description: Error detail
-        additional_information:
-          type: string
-          description: Optional extra information
-        traceback:
-          type: string
-          description: Optional debug information
-        interactive:
-          type: boolean
+          format: uuid
+          description: The export job ID. Use this with `GET /collections/{collection_id}/export/{export_id}` to poll for status.
       required:
       - status
-      - error_code
-      - title
-      - detail
-      title: ErrorDetail
-    AI_Task_Builder_GetTaskBuilderDatasetStatus_Response_200:
-      type: object
-      properties:
-        status:
-          $ref: '#/components/schemas/ApiV1DataCollectionDatasetsDatasetIdStatusGetResponsesContentApplicationJsonSchemaStatus'
-          description: The status of the Dataset - one of 'UNINITIALISED', 'PROCESSING', 'READY', 'ERROR'
-      title: AI Task Builder_GetTaskBuilderDatasetStatus_Response_200
-    ContentBlockInputContentFormat:
+      - export_id
+      description: An export job that has been enqueued and is currently being generated.
+      title: CollectionExportStatus0
+    BatchItemsMultipleChoiceInstructionType:
       type: string
       enum:
-      - html
-      - markdown
-      default: html
-      description: Format of the content field. When set to "markdown", content is converted to HTML server-side before storage. Defaults to "html".
-      title: ContentBlockInputContentFormat
-    BatchExportCompleteStatus:
-      type: string
-      enum:
-      - complete
-      title: BatchExportCompleteStatus
-    CollectionResponseResponse:
-      type: object
-      properties:
-        instruction_id:
-          type: string
-        type:
-          $ref: '#/components/schemas/CollectionResponseResponseType'
-        answer:
-          type: array
-          items:
-            $ref: '#/components/schemas/CollectionResponseResponseAnswerItems'
-      required:
-      - instruction_id
-      - type
-      - answer
-      title: CollectionResponseResponse
-    CollectionMultipleChoiceWithFreeTextInstructionOptionsItems:
-      type: object
-      properties:
-        label:
-          type: string
-        value:
-          $ref: '#/components/schemas/CollectionMultipleChoiceWithFreeTextInstructionOptionsItemsValue'
-        heading:
-          type: string
-        exclusive:
-          type: boolean
-          description: When true, selecting this option deselects all other options. Useful for "None of the above" style options.
-      required:
-      - label
-      - value
-      - heading
-      title: CollectionMultipleChoiceWithFreeTextInstructionOptionsItems
-    CollectionFreeTextWithUnitInstructionUnitOptionsItemsValue:
-      oneOf:
-      - type: string
-      - type: number
-        format: double
-      - type: boolean
-      description: Value returned in responses
-      title: CollectionFreeTextWithUnitInstructionUnitOptionsItemsValue
-    TaskDetails:
-      type: object
-      properties:
-        task_name:
-          type: string
-          description: The title displayed to participants
-        task_introduction:
-          type: string
-          description: HTML formatted introduction shown at the start of the task
-        task_steps:
-          type: string
-          description: HTML formatted step-by-step instructions
-      required:
-      - task_name
-      - task_introduction
-      - task_steps
-      description: Task metadata displayed to participants
-      title: TaskDetails
-    ? ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitOptionsItemsValue
-    : oneOf:
-      - type: string
-      - type: number
-        format: double
-      - type: boolean
-      description: The value associated with the unit.
-      title: ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitOptionsItemsValue
+      - multiple_choice
+      title: BatchItemsMultipleChoiceInstructionType
     AiTaskBuilderMultipleChoiceWithFreeTextInstructionOptionsItems:
       type: object
       properties:
@@ -4141,222 +3166,13 @@ components:
       - value
       - heading
       title: AiTaskBuilderMultipleChoiceWithFreeTextInstructionOptionsItems
-    ApiV1DataCollectionBatchesPostRequestBodyContentApplicationJsonSchemaTaskDetails:
-      type: object
-      properties:
-        task_name:
-          type: string
-          description: The title displayed to participants
-        task_introduction:
-          type: string
-          description: HTML formatted introduction shown at the start of the task
-        task_steps:
-          type: string
-          description: HTML formatted step-by-step instructions
-      required:
-      - task_name
-      - task_introduction
-      - task_steps
-      description: Task metadata displayed to participants
-      title: ApiV1DataCollectionBatchesPostRequestBodyContentApplicationJsonSchemaTaskDetails
-    CollectionExportStatusOneOf2Status:
-      type: string
-      enum:
-      - failed
-      title: CollectionExportStatusOneOf2Status
-    ApiV1DataCollectionCollectionsGetResponsesContentApplicationJsonSchemaMeta:
-      type: object
-      properties:
-        count:
-          type: integer
-          description: Total number of collections
-      title: ApiV1DataCollectionCollectionsGetResponsesContentApplicationJsonSchemaMeta
-    BatchExportStatus:
-      oneOf:
-      - $ref: '#/components/schemas/BatchExportStatus0'
-      - $ref: '#/components/schemas/BatchExportStatus1'
-      - $ref: '#/components/schemas/BatchExportStatus2'
-      description: The current status of a batch export job.
-      title: BatchExportStatus
-    ApiV1DataCollectionBatchesBatchIdInstructionsGetResponsesContentApplicationJsonSchemaMeta:
-      type: object
-      properties:
-        count:
-          type: integer
-          description: Total number of instructions
-      title: ApiV1DataCollectionBatchesBatchIdInstructionsGetResponsesContentApplicationJsonSchemaMeta
-    CollectionResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        created_at:
-          type: string
-          format: date-time
-        collection_id:
-          type: string
-          format: uuid
-        participant_id:
-          type: string
-        submission_id:
-          type: string
-        response:
-          $ref: '#/components/schemas/CollectionResponseResponse'
-      required:
-      - id
-      - created_at
-      - collection_id
-      - participant_id
-      - response
-      description: A participant's response to a collection
-      title: CollectionResponse
-    SchemaMigrationJobStatus:
-      type: string
-      enum:
-      - processing
-      - complete
-      - partial
-      - failed
-      description: Current status of the migration job.
-      title: SchemaMigrationJobStatus
-    BatchItemsMultipleChoiceWithFreeTextInstructionOptionsItems:
-      type: object
-      properties:
-        label:
-          type: string
-        value:
-          $ref: '#/components/schemas/BatchItemsMultipleChoiceWithFreeTextInstructionOptionsItemsValue'
-        heading:
-          type: string
-          description: Required. Section heading that groups this option.
-        exclusive:
-          type: boolean
-          description: When true, selecting this option deselects all other options.
-      required:
-      - label
-      - value
-      - heading
-      title: BatchItemsMultipleChoiceWithFreeTextInstructionOptionsItems
-    AiTaskBuilderMultipleChoiceWithFreeTextInstructionType:
-      type: string
-      enum:
-      - multiple_choice_with_free_text
-      title: AiTaskBuilderMultipleChoiceWithFreeTextInstructionType
-    ApiV1DataCollectionBatchesBatchIdResponsesGetResponsesContentApplicationJsonSchemaMeta:
+    ApiV1DataCollectionCollectionsCollectionIdResponsesGetResponsesContentApplicationJsonSchemaMeta:
       type: object
       properties:
         count:
           type: integer
           description: Total number of responses
-      title: ApiV1DataCollectionBatchesBatchIdResponsesGetResponsesContentApplicationJsonSchemaMeta
-    AiTaskBuilderFreeTextInputInstructionType:
-      type: string
-      enum:
-      - free_text
-      title: AiTaskBuilderFreeTextInputInstructionType
-    CollectionInstructionInputOptionsItems:
-      type: object
-      properties:
-        label:
-          type: string
-        value:
-          $ref: '#/components/schemas/CollectionInstructionInputOptionsItemsValue'
-        heading:
-          type: string
-          description: Required for multiple_choice_with_free_text
-        exclusive:
-          type: boolean
-          description: When true, selecting this option deselects all other options. Useful for "None of the above" style options.
-      required:
-      - label
-      - value
-      title: CollectionInstructionInputOptionsItems
-    ? ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitOptionsItemsValue
-    : oneOf:
-      - type: string
-      - type: number
-        format: double
-      - type: boolean
-      description: The value associated with the unit.
-      title: ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitOptionsItemsValue
-    CollectionItemInput:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Include to preserve an existing page when updating
-        page_items:
-          type: array
-          items:
-            $ref: '#/components/schemas/PageItemInput'
-          description: Instructions and content blocks on this page
-      required:
-      - page_items
-      description: A page within a collection. Include `id` to preserve an existing page when updating.
-      title: CollectionItemInput
-    CollectionFreeTextWithUnitInstructionParentType:
-      type: string
-      enum:
-      - batch
-      - collection
-      title: CollectionFreeTextWithUnitInstructionParentType
-    CollectionMultipleChoiceInstructionOptionsItems:
-      type: object
-      properties:
-        label:
-          type: string
-        value:
-          $ref: '#/components/schemas/CollectionMultipleChoiceInstructionOptionsItemsValue'
-        exclusive:
-          type: boolean
-          description: When true, selecting this option deselects all other options. Useful for "None of the above" style options.
-      required:
-      - label
-      - value
-      title: CollectionMultipleChoiceInstructionOptionsItems
-    BatchItemsValidationError:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/BatchItemsValidationErrorType'
-        message:
-          type: string
-        issues:
-          type: array
-          items:
-            $ref: '#/components/schemas/BatchItemsValidationErrorIssuesItems'
-      required:
-      - type
-      - message
-      - issues
-      description: '`422 Unprocessable Entity` payload returned when `batch_items` fails server-side
-
-        validation on create or update. Each entry in `issues` pinpoints the offending item
-
-        using zero-based `page` / `row` / `column` / `item` indices, and describes what was
-
-        wrong (e.g. `dataset_field` used without a v4 dataset and populated schema attached,
-
-        unknown dataset field, the same dataset field referenced more than once on a page,
-
-        `answer_limit` exceeds options, `default_unit` does not match `unit_options`,
-
-        `min_file_count` greater than `max_file_count`).'
-      title: BatchItemsValidationError
-    DatasetImportJobStatus:
-      type: string
-      enum:
-      - uninitialised
-      - queued
-      - processing
-      - complete
-      - partial
-      - failed
-      - pending_schema
-      description: Current status of the import job.
-      title: DatasetImportJobStatus
+      title: ApiV1DataCollectionCollectionsCollectionIdResponsesGetResponsesContentApplicationJsonSchemaMeta
     AiTaskBuilderBatchCreateTaskDetails:
       type: object
       properties:
@@ -4373,171 +3189,81 @@ components:
       - task_introduction
       - task_steps
       title: AiTaskBuilderBatchCreateTaskDetails
-    AiTaskBuilderMultipleChoiceInstructionType:
-      type: string
-      enum:
-      - multiple_choice
-      title: AiTaskBuilderMultipleChoiceInstructionType
-    AI_Task_Builder_getDatasetUploadUrl_Response_201:
+    ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItems:
       type: object
       properties:
-        dataset_id:
+        type:
+          $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsType'
+          description: The type of instruction.
+        description:
           type: string
-          format: uuid
-          description: The ID of the dataset the upload URL was requested for.
-        upload_url:
+          description: The question or prompt displayed to participants.
+        helper_text:
           type: string
-          description: Presigned S3 URL. Make a PUT request to this URL with your file as the body.
-        http_method:
-          $ref: '#/components/schemas/ApiV1DataCollectionDatasetsDatasetIdUploadUrlFilenameGetResponsesContentApplicationJsonSchemaHttpMethod'
-          description: HTTP method to use with the presigned URL.
-        content_type:
+          description: Additional guidance text displayed below the question.
+        placeholder_text_input:
           type: string
-          description: 'The `Content-Type` header value to use when making the S3 PUT request.
-
-            Use this value exactly — e.g. `application/x-ndjson` for JSONL files.'
-        expires_at:
-          type: string
-          format: date-time
-          description: When the presigned URL expires (ISO 8601, UTC). The URL cannot be used after this time.
-        file_key:
-          type: string
-          description: The S3 object key for the uploaded file. Provided for reference only.
-        import_id:
-          type: string
-          format: uuid
-          description: Import job ID. **V4 datasets only.** Use with `GET /datasets/{dataset_id}/imports/{import_id}` to poll for upload and processing status.
-      required:
-      - dataset_id
-      - upload_url
-      - http_method
-      - content_type
-      - expires_at
-      title: AI Task Builder_getDatasetUploadUrl_Response_201
-    AiTaskBuilderFreeTextWithUnitInstructionUnitPosition:
-      type: string
-      enum:
-      - prefix
-      - suffix
-      description: Position of the unit selector relative to the text input. Use 'prefix' for units before the input (e.g., currency symbols) or 'suffix' for units after the input (e.g., measurements).
-      title: AiTaskBuilderFreeTextWithUnitInstructionUnitPosition
-    CollectionResponseResponseAnswerItemsValue:
-      oneOf:
-      - type: string
-      - type: number
-        format: double
-      - type: boolean
-      title: CollectionResponseResponseAnswerItemsValue
-    CollectionExportStatusOneOf0Status:
-      type: string
-      enum:
-      - generating
-      title: CollectionExportStatusOneOf0Status
-    BatchItemsFreeTextWithUnitInstructionUnitOptionsItemsValue:
-      oneOf:
-      - type: string
-      - type: number
-        format: double
-      - type: boolean
-      title: BatchItemsFreeTextWithUnitInstructionUnitOptionsItemsValue
-    CollectionInstructionInputOptionsItemsValue:
-      oneOf:
-      - type: string
-      - type: number
-        format: double
-      - type: boolean
-      title: CollectionInstructionInputOptionsItemsValue
-    BatchExportStatus0:
-      type: object
-      properties:
-        status:
-          $ref: '#/components/schemas/BatchExportStatusOneOf0Status'
-        export_id:
-          type: string
-          format: uuid
-          description: The export job ID. Use this with `GET /batches/{batch_id}/export/{export_id}` to poll for status.
-      required:
-      - status
-      - export_id
-      description: An export job that has been enqueued and is currently being generated.
-      title: BatchExportStatus0
-    CollectionItemSchemaVersion:
-      type: string
-      enum:
-      - '1'
-      title: CollectionItemSchemaVersion
-    BatchItemsRow:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Server-assigned identifier; present on responses. Include to preserve an existing row when updating.
-        columns:
+          description: Placeholder text displayed in the input field.
+        answer_limit:
+          type: integer
+          description: Number of options that can be selected (required for multiple_choice and multiple_choice_with_free_text). Use 1 for single-select, -1 for unlimited.
+        disable_dropdown:
+          type: boolean
+          default: false
+          description: When true, always renders checkbox/radio elements instead of a dropdown select. By default, a dropdown is used when there are 5 or more options.
+        options:
           type: array
           items:
-            $ref: '#/components/schemas/BatchItemsColumn'
+            $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsOptionsItems'
+          description: The options (required for multiple_choice and multiple_choice_with_free_text).
+        unit_options:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitOptionsItems'
+          description: The unit options (required for free_text_with_unit). List of available units that participants can select from.
+        default_unit:
+          type: string
+          description: For free_text_with_unit. Default selected unit (must match a value from unit_options).
+        unit_position:
+          $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitPosition'
+          description: Required for free_text_with_unit. Position of the unit selector relative to the text input. Use 'prefix' for units before the input (e.g., currency symbols) or 'suffix' for units after the input (e.g., measurements).
+        validation:
+          $ref: '#/components/schemas/ValidationRule'
+          description: Optional validation constraints for the input value (for free_text).
       required:
-      - columns
-      description: A row within a page. Renders 1 or 2 columns side-by-side.
-      title: BatchItemsRow
-    BatchExportStatusOneOf2Status:
-      type: string
-      enum:
-      - failed
-      title: BatchExportStatusOneOf2Status
-    Error:
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/ErrorDetail'
-      required:
-      - error
-      title: Error
-    Collection:
+      - type
+      - description
+      title: ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItems
+    ContentBlockInput:
       type: object
       properties:
         id:
           type: string
           format: uuid
-        schema_version:
-          $ref: '#/components/schemas/CollectionSchemaVersion'
-        created_at:
+          description: Include to preserve an existing content block when updating
+        type:
+          $ref: '#/components/schemas/ContentBlockInputType'
+        url:
           type: string
-          format: date-time
-          description: ISO-8601 formatted creation timestamp in UTC
-        created_by:
+          format: uri
+          description: HTTPS URL for image content blocks
+        alt_text:
           type: string
-          description: User ID of the Prolific user that created the collection
-        workspace_id:
+          description: Alt text for image content blocks (required for accessibility)
+        caption:
           type: string
-          description: The ID of the Prolific workspace
-        name:
+          description: Optional caption for image content blocks
+        content:
           type: string
-          description: The name of the collection
-        task_details:
-          $ref: '#/components/schemas/TaskDetails'
-        collection_items:
-          type: array
-          items:
-            $ref: '#/components/schemas/CollectionItem'
-          description: Pages within the collection. Each collection item represents a page.
-        last_modified_at:
-          type: string
-          format: date-time
-          description: ISO-8601 formatted last modification timestamp in UTC
-        last_modified_by:
-          type: string
-          description: User ID of the Prolific user that last modified the collection
+          description: Content for rich_text content blocks. Interpreted as HTML by default, or Markdown if content_format is set to "markdown".
+        content_format:
+          $ref: '#/components/schemas/ContentBlockInputContentFormat'
+          default: html
+          description: Format of the content field. When set to "markdown", content is converted to HTML server-side before storage. Defaults to "html".
       required:
-      - id
-      - schema_version
-      - created_at
-      - created_by
-      - workspace_id
-      - name
-      - task_details
-      - collection_items
-      title: Collection
+      - type
+      description: Content block input for a collection page
+      title: ContentBlockInput
     BatchItemsMultipleChoiceWithFreeTextInstructionOptionsItemsValue:
       oneOf:
       - type: string
@@ -4545,174 +3271,20 @@ components:
         format: double
       - type: boolean
       title: BatchItemsMultipleChoiceWithFreeTextInstructionOptionsItemsValue
-    ApiV1DataCollectionBatchesBatchIdPatchRequestBodyContentApplicationJsonSchemaTaskDetails:
-      type: object
-      properties:
-        task_name:
-          type: string
-        task_introduction:
-          type: string
-          description: HTML formatted task introduction
-        task_steps:
-          type: string
-          description: HTML formatted task steps
-      required:
-      - task_name
-      - task_introduction
-      - task_steps
-      title: ApiV1DataCollectionBatchesBatchIdPatchRequestBodyContentApplicationJsonSchemaTaskDetails
-    ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsType:
-      type: string
-      enum:
-      - multiple_choice
-      - free_text
-      - free_text_with_unit
-      - multiple_choice_with_free_text
-      - file_upload
-      description: The type of instruction.
-      title: ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsType
-    BatchItemsValidationErrorType:
-      type: string
-      enum:
-      - INVALID_BATCH_ITEMS
-      title: BatchItemsValidationErrorType
-    AiTaskBuilderBatchTaskDetails:
-      type: object
-      properties:
-        task_name:
-          type: string
-        task_introduction:
-          type: string
-          description: HTML formatted task introduction
-        task_steps:
-          type: string
-          description: HTML formatted task steps
-      required:
-      - task_name
-      - task_introduction
-      - task_steps
-      title: AiTaskBuilderBatchTaskDetails
-    AiTaskBuilderTaskResponseResponseType:
-      type: string
-      enum:
-      - multiple_choice
-      - free_text
-      - free_text_with_unit
-      - multiple_choice_with_free_text
-      - file_upload
-      title: AiTaskBuilderTaskResponseResponseType
-    CollectionExportStatusOneOf1Status:
-      type: string
-      enum:
-      - complete
-      title: CollectionExportStatusOneOf1Status
-    AiTaskBuilderBatchCreateStatus:
-      type: string
-      enum:
-      - UNINITIALISED
-      - PROCESSING
-      - READY
-      - ERROR
-      title: AiTaskBuilderBatchCreateStatus
-    DatasetSchemaFieldType:
-      type: string
-      enum:
-      - text
-      - image_url
-      - metadata
-      - task_group_id
-      description: 'Field type:
-
-        - `text` — a text value shown to participants. Can be referenced by `dataset_field` items in `batch_items`.
-
-        - `image_url` — a URL pointing to an image shown to participants. Can be referenced by `dataset_field` items in `batch_items`.
-
-        - `metadata` — an internal value included in exports but not shown to participants (equivalent to the `META_` prefix in V3 CSV datasets).
-
-        - `task_group_id` — groups datapoints into task groups. Rows with the same `task_group_id` value are assigned to the same participant. Equivalent to `META_TASK_GROUP_ID` in V3 CSV datasets. At most one field per schema may have this type.'
-      title: DatasetSchemaFieldType
-    BatchItemsFreeTextWithUnitInstructionType:
-      type: string
-      enum:
-      - free_text_with_unit
-      title: BatchItemsFreeTextWithUnitInstructionType
-    AiTaskBuilderTaskResponseResponseAnswerItems:
-      type: object
-      properties:
-        value:
-          $ref: '#/components/schemas/AiTaskBuilderTaskResponseResponseAnswerItemsValue'
-      description: The participant's answer value
-      title: AiTaskBuilderTaskResponseResponseAnswerItems
-    ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsOptionsItems:
+    BatchItemsMultipleChoiceInstructionOptionsItems:
       type: object
       properties:
         label:
           type: string
-          description: The display text for the option.
         value:
-          type: string
-          description: The value associated with the option.
-        heading:
-          type: string
-          description: The heading for the option (required for multiple_choice_with_free_text).
+          $ref: '#/components/schemas/BatchItemsMultipleChoiceInstructionOptionsItemsValue'
+        exclusive:
+          type: boolean
+          description: When true, selecting this option deselects all other options. Useful for "None of the above" style options. Not allowed when `answer_limit` is 1, and at least one non-exclusive option must remain if any option is exclusive.
       required:
       - label
       - value
-      title: ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsOptionsItems
-    ContentBlockInputType:
-      type: string
-      enum:
-      - image
-      - rich_text
-      title: ContentBlockInputType
-    ImportJobError:
-      type: object
-      properties:
-        record_index:
-          type:
-          - integer
-          - 'null'
-          description: Zero-based index of the rejected record in the uploaded file.
-        field:
-          type:
-          - string
-          - 'null'
-          description: 'The schema field key that caused the rejection, or `null` if no specific field is implicated.
-
-            The special value `_raw` indicates a whole-record parse failure (e.g. malformed JSON) rather than a field-level error.'
-        reason:
-          type:
-          - string
-          - 'null'
-          description: Human-readable description of why the record was rejected.
-      description: A record-level validation error from a partial import.
-      title: ImportJobError
-    CollectionItem:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        created_at:
-          type: string
-          format: date-time
-        created_by:
-          type: string
-        schema_version:
-          $ref: '#/components/schemas/CollectionItemSchemaVersion'
-        page_items:
-          type: array
-          items:
-            $ref: '#/components/schemas/PageItem'
-          description: Instructions and content blocks on this page
-      required:
-      - id
-      - created_at
-      - created_by
-      - schema_version
-      - page_items
-      description: A page within a collection containing instructions and content blocks
-      title: CollectionItem
+      title: BatchItemsMultipleChoiceInstructionOptionsItems
     PageItem:
       oneOf:
       - type: object
@@ -5036,6 +3608,1431 @@ components:
         propertyName: type
       description: An instruction or content block within a page
       title: PageItem
+    CollectionMultipleChoiceInstructionType:
+      type: string
+      enum:
+      - multiple_choice
+      title: CollectionMultipleChoiceInstructionType
+    AiTaskBuilderTaskResponseResponseAnswerItems:
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/AiTaskBuilderTaskResponseResponseAnswerItemsValue'
+      description: The participant's answer value
+      title: AiTaskBuilderTaskResponseResponseAnswerItems
+    AiTaskBuilderMultipleChoiceInstructionOptionsItemsValue:
+      oneOf:
+      - type: string
+      - type: number
+        format: double
+      - type: boolean
+      description: Value returned in responses
+      title: AiTaskBuilderMultipleChoiceInstructionOptionsItemsValue
+    CollectionExportCompleteStatus:
+      type: string
+      enum:
+      - complete
+      title: CollectionExportCompleteStatus
+    BatchItemsFreeTextWithUnitInstructionUnitPosition:
+      type: string
+      enum:
+      - prefix
+      - suffix
+      description: Position of the unit selector relative to the text input.
+      title: BatchItemsFreeTextWithUnitInstructionUnitPosition
+    AITaskBuilderDataset:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        created_by:
+          type: string
+        workspace_id:
+          type: string
+        total_datapoint_count:
+          type: integer
+        schema_version:
+          $ref: '#/components/schemas/AiTaskBuilderDatasetSchemaVersion'
+          description: Internal dataset version. 3 = legacy CSV/ZIP; 4 = structured schema with JSONL/CSV import tracking.
+        status:
+          $ref: '#/components/schemas/AiTaskBuilderDatasetStatus'
+          description: Processing status. **V3 datasets only.** V4 datasets track status per import job via `imports`.
+        filename:
+          type:
+          - string
+          - 'null'
+          description: Filename of the uploaded data file. **V3 datasets only.**
+        has_predetermined_grouping_id:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the dataset contains a `META_TASK_GROUP_ID` column. **V3 datasets only.**
+        schema:
+          oneOf:
+          - $ref: '#/components/schemas/DatasetSchema'
+          - type: 'null'
+          description: 'The researcher-defined field schema for this dataset. **V4 datasets only.**
+
+            `null` if no schema has been set yet.'
+        imports:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DatasetImportJob'
+          description: Import jobs for this dataset, most recent first. **V4 datasets only.** `null` for V3 datasets.
+      required:
+      - id
+      - name
+      - created_at
+      - created_by
+      - workspace_id
+      - total_datapoint_count
+      - schema_version
+      description: 'An AI Task Builder dataset. The shape of the response varies by `schema_version`:
+
+
+        - **V3 datasets** include `status`, `filename`, and `has_predetermined_grouping_id`.
+
+        - **V4 datasets** include `schema` (the researcher-defined field schema, or `null` if not yet set) and `imports` (the list of import jobs for this dataset). V4 datasets do not include `status` or `filename`.'
+      title: AITaskBuilderDataset
+    AI_Task_Builder_GetTaskBuilderBatches_Response_200:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AITaskBuilderBatch'
+        meta:
+          $ref: '#/components/schemas/ApiV1DataCollectionBatchesGetResponsesContentApplicationJsonSchemaMeta'
+      title: AI Task Builder_GetTaskBuilderBatches_Response_200
+    BatchItemsItem:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            $ref: '#/components/schemas/BatchItemsDatasetFieldRefType'
+          field:
+            type: string
+            description: Name of the dataset schema field to reference.
+        required:
+        - type
+        - field
+        description: 'References a field in the batch''s attached dataset. At task time, the dataset value
+
+          for the current datapoint is rendered at this position. Only dataset schema fields of
+
+          type `text` or `image_url` are permitted, and the same field may not be referenced more
+
+          than once on the same page.'
+      - type: object
+        properties:
+          type:
+            $ref: '#/components/schemas/BatchItemsImageBlockType'
+          id:
+            type: string
+            description: Server-assigned identifier; present on responses. Include to preserve an existing item when updating.
+          url:
+            type: string
+            format: uri
+            description: HTTPS URL of the image. Non-HTTPS URLs are rejected.
+          alt_text:
+            type: string
+            description: Alt text shown to screen readers. Required for accessibility.
+          caption:
+            type: string
+            description: Optional caption displayed below the image.
+        required:
+        - type
+        - url
+        - alt_text
+        description: An image content block rendered inline within the batch layout.
+      - type: object
+        properties:
+          type:
+            $ref: '#/components/schemas/BatchItemsRichTextBlockType'
+          id:
+            type: string
+            description: Server-assigned identifier; present on responses. Include to preserve an existing item when updating.
+          content:
+            type: string
+            description: Rich text content. Interpreted as HTML by default, or as Markdown when `content_format` is set to `markdown` (converted to HTML server-side before storage).
+          content_format:
+            $ref: '#/components/schemas/BatchItemsRichTextBlockContentFormat'
+            default: html
+            description: Format of the `content` field. Defaults to `html`.
+        required:
+        - type
+        - content
+        description: A rich-text content block rendered inline within the batch layout.
+      - type: object
+        properties:
+          type:
+            $ref: '#/components/schemas/BatchItemsFreeTextInstructionType'
+          id:
+            type: string
+            description: Server-assigned identifier; present on responses. Include to preserve an existing item when updating.
+          description:
+            type: string
+            description: The question or prompt displayed to participants.
+          helper_text:
+            type: string
+            description: Additional guidance text displayed below the question.
+          placeholder_text_input:
+            type: string
+            description: Placeholder text displayed in the input field.
+          validation:
+            $ref: '#/components/schemas/ValidationRule'
+            description: Optional validation constraints for the input value.
+        required:
+        - type
+        - description
+        description: Free-text input instruction.
+      - type: object
+        properties:
+          type:
+            $ref: '#/components/schemas/BatchItemsFreeTextWithUnitInstructionType'
+          id:
+            type: string
+            description: Server-assigned identifier; present on responses. Include to preserve an existing item when updating.
+          description:
+            type: string
+            description: The question or prompt displayed to participants.
+          helper_text:
+            type: string
+          placeholder_text_input:
+            type: string
+          unit_options:
+            type: array
+            items:
+              $ref: '#/components/schemas/BatchItemsFreeTextWithUnitInstructionUnitOptionsItems'
+            description: Available units the participant can select from.
+          default_unit:
+            type: string
+            description: Default selected unit. Must match the `value` of one of the entries in `unit_options`.
+          unit_position:
+            $ref: '#/components/schemas/BatchItemsFreeTextWithUnitInstructionUnitPosition'
+            description: Position of the unit selector relative to the text input.
+        required:
+        - type
+        - description
+        - unit_options
+        - unit_position
+        description: Free-text input instruction paired with a unit selector.
+      - type: object
+        properties:
+          type:
+            $ref: '#/components/schemas/BatchItemsMultipleChoiceInstructionType'
+          id:
+            type: string
+            description: Server-assigned identifier; present on responses. Include to preserve an existing item when updating.
+          description:
+            type: string
+            description: The question or prompt displayed to participants.
+          helper_text:
+            type: string
+          placeholder_text_input:
+            type: string
+          answer_limit:
+            type: integer
+            description: Number of options that can be selected. Use `1` for single-select, `-1` for unlimited, or any number up to the total options.
+          disable_dropdown:
+            type: boolean
+            default: false
+            description: When true, always renders checkbox/radio elements instead of a dropdown select.
+          options:
+            type: array
+            items:
+              $ref: '#/components/schemas/BatchItemsMultipleChoiceInstructionOptionsItems'
+        required:
+        - type
+        - description
+        - answer_limit
+        - options
+        description: Multiple-choice instruction.
+      - type: object
+        properties:
+          type:
+            $ref: '#/components/schemas/BatchItemsMultipleChoiceWithFreeTextInstructionType'
+          id:
+            type: string
+            description: Server-assigned identifier; present on responses. Include to preserve an existing item when updating.
+          description:
+            type: string
+          helper_text:
+            type: string
+          placeholder_text_input:
+            type: string
+          answer_limit:
+            type: integer
+          disable_dropdown:
+            type: boolean
+            default: false
+          options:
+            type: array
+            items:
+              $ref: '#/components/schemas/BatchItemsMultipleChoiceWithFreeTextInstructionOptionsItems'
+        required:
+        - type
+        - description
+        - answer_limit
+        - options
+        description: Multiple-choice instruction with an additional free-text input per selected option.
+      - type: object
+        properties:
+          type:
+            $ref: '#/components/schemas/BatchItemsFileUploadInstructionType'
+          id:
+            type: string
+            description: Server-assigned identifier; present on responses. Include to preserve an existing item when updating.
+          description:
+            type: string
+          helper_text:
+            type: string
+          accepted_file_types:
+            type: array
+            items:
+              type: string
+            description: File extensions to accept (each must start with a dot, e.g. `.jpg`). Defaults to `[".jpg", ".jpeg", ".png", ".heic", ".heif"]`.
+          max_file_size_mb:
+            type: number
+            format: double
+            description: Maximum size in megabytes per file. Defaults to 25.
+          min_file_count:
+            type: integer
+            description: Minimum number of files required. Defaults to 1.
+          max_file_count:
+            type: integer
+            description: Maximum number of files allowed. Defaults to 10. Must be greater than or equal to `min_file_count`.
+        required:
+        - type
+        - description
+        description: File upload instruction.
+      discriminator:
+        propertyName: type
+      description: 'A single item within a column. One of: a dataset field reference (`dataset_field`),
+
+        a content block (`image`, `rich_text`), or an instruction (`free_text`,
+
+        `free_text_with_unit`, `multiple_choice`, `multiple_choice_with_free_text`, `file_upload`).
+
+        Discriminated on `type`.'
+      title: BatchItemsItem
+    BatchItemsRow:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Server-assigned identifier; present on responses. Include to preserve an existing row when updating.
+        columns:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchItemsColumn'
+      required:
+      - columns
+      description: A row within a page. Renders 1 or 2 columns side-by-side.
+      title: BatchItemsRow
+    DatasetSchemaFieldType:
+      type: string
+      enum:
+      - text
+      - image_url
+      - metadata
+      - task_group_id
+      description: 'Field type:
+
+        - `text` — a text value shown to participants. Can be referenced by `dataset_field` items in `batch_items`.
+
+        - `image_url` — a URL pointing to an image shown to participants. Can be referenced by `dataset_field` items in `batch_items`.
+
+        - `metadata` — an internal value included in exports but not shown to participants (equivalent to the `META_` prefix in V3 CSV datasets).
+
+        - `task_group_id` — groups datapoints into task groups. Rows with the same `task_group_id` value are assigned to the same participant. Equivalent to `META_TASK_GROUP_ID` in V3 CSV datasets. At most one field per schema may have this type.'
+      title: DatasetSchemaFieldType
+    CollectionResponseResponseType:
+      type: string
+      enum:
+      - multiple_choice
+      - free_text
+      - free_text_with_unit
+      - multiple_choice_with_free_text
+      - file_upload
+      title: CollectionResponseResponseType
+    CollectionMultipleChoiceWithFreeTextInstructionType:
+      type: string
+      enum:
+      - multiple_choice_with_free_text
+      title: CollectionMultipleChoiceWithFreeTextInstructionType
+    RichTextContentBlockType:
+      type: string
+      enum:
+      - rich_text
+      title: RichTextContentBlockType
+    SyncJob:
+      type: object
+      properties:
+        batch_id:
+          type: string
+          format: uuid
+          description: The batch this sync job belongs to.
+        dataset_id:
+          type: string
+          format: uuid
+          description: The dataset whose appended datapoints are being synced.
+        sync_id:
+          type: string
+          format: uuid
+          description: The unique identifier of the sync job.
+        created_at:
+          type: string
+          format: date-time
+          description: When the sync job was created (ISO 8601, UTC).
+        updated_at:
+          type: string
+          format: date-time
+          description: When the sync job was last updated (ISO 8601, UTC).
+        status:
+          $ref: '#/components/schemas/SyncJobStatus'
+          description: Current status of the sync job.
+        tasks_created:
+          type: integer
+          description: Number of tasks created this sync. Present when status is `complete`.
+        datapoints_processed:
+          type: integer
+          description: Number of datapoints processed this sync. Present when status is `complete`.
+        groups_created:
+          type: integer
+          description: Number of new task groups created this sync. Present when status is `complete`.
+        groups_expanded:
+          type: integer
+          description: 'Number of existing task groups grown this sync. Non-zero only for predetermined-grouping
+
+            batches; always `0` for tasks-per-group batches. Present when status is `complete`.'
+        reason:
+          type: string
+          description: Human-readable reason for failure. Present when status is `failed`.
+      required:
+      - batch_id
+      - dataset_id
+      - sync_id
+      - created_at
+      - updated_at
+      - status
+      description: 'Tracks the asynchronous materialisation of tasks for datapoints appended to a batch''s dataset
+
+        since setup or the last sync. Created by `POST /batches/{batch_id}/sync`; poll
+
+        `GET /batches/{batch_id}/syncs/{sync_id}` until a terminal status (`complete` or `failed`).
+
+
+        The shape depends on `status`: the fields below marked as terminal-only are present only for
+
+        the corresponding status.'
+      title: SyncJob
+    CollectionResponseResponseAnswerItems:
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/CollectionResponseResponseAnswerItemsValue'
+      title: CollectionResponseResponseAnswerItems
+    AiTaskBuilderMultipleChoiceWithFreeTextInstructionParentType:
+      type: string
+      enum:
+      - batch
+      - collection
+      title: AiTaskBuilderMultipleChoiceWithFreeTextInstructionParentType
+    AiTaskBuilderMultipleChoiceWithFreeTextInstructionType:
+      type: string
+      enum:
+      - multiple_choice_with_free_text
+      title: AiTaskBuilderMultipleChoiceWithFreeTextInstructionType
+    BatchItemsColumn:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Server-assigned identifier; present on responses. Include to preserve an existing column when updating.
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchItemsItem'
+      required:
+      - items
+      description: A column within a row. Contains one or more items rendered top-to-bottom.
+      title: BatchItemsColumn
+    ApiV1DataCollectionDatasetsDatasetIdStatusGetResponsesContentApplicationJsonSchemaStatus:
+      type: string
+      enum:
+      - UNINITIALISED
+      - PROCESSING
+      - READY
+      - ERROR
+      description: The status of the Dataset - one of 'UNINITIALISED', 'PROCESSING', 'READY', 'ERROR'
+      title: ApiV1DataCollectionDatasetsDatasetIdStatusGetResponsesContentApplicationJsonSchemaStatus
+    CollectionInstructionInputOptionsItems:
+      type: object
+      properties:
+        label:
+          type: string
+        value:
+          $ref: '#/components/schemas/CollectionInstructionInputOptionsItemsValue'
+        heading:
+          type: string
+          description: Required for multiple_choice_with_free_text
+        exclusive:
+          type: boolean
+          description: When true, selecting this option deselects all other options. Useful for "None of the above" style options.
+      required:
+      - label
+      - value
+      title: CollectionInstructionInputOptionsItems
+    BatchExportStatus2:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/BatchExportStatusOneOf2Status'
+      required:
+      - status
+      description: An export job that failed to generate, or whose archive has since been deleted. Re-send `POST /batches/{batch_id}/export` to retry.
+      title: BatchExportStatus2
+    CollectionInstructionInputType:
+      type: string
+      enum:
+      - multiple_choice
+      - free_text
+      - free_text_with_unit
+      - multiple_choice_with_free_text
+      - file_upload
+      title: CollectionInstructionInputType
+    AiTaskBuilderBatchCreateDatasetsItems:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        total_datapoint_count:
+          type: integer
+      required:
+      - id
+      - total_datapoint_count
+      title: AiTaskBuilderBatchCreateDatasetsItems
+    AiTaskBuilderFreeTextInputInstructionParentType:
+      type: string
+      enum:
+      - batch
+      - collection
+      title: AiTaskBuilderFreeTextInputInstructionParentType
+    CollectionFreeTextWithUnitInstructionUnitPosition:
+      type: string
+      enum:
+      - prefix
+      - suffix
+      description: Position of the unit selector relative to the text input. Use 'prefix' for units before the input (e.g., currency symbols) or 'suffix' for units after the input (e.g., measurements).
+      title: CollectionFreeTextWithUnitInstructionUnitPosition
+    BatchItemsFileUploadInstructionType:
+      type: string
+      enum:
+      - file_upload
+      title: BatchItemsFileUploadInstructionType
+    CollectionCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the collection
+        workspace_id:
+          type: string
+          description: The ID of the Prolific workspace
+        task_details:
+          $ref: '#/components/schemas/TaskDetails'
+        collection_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CollectionItemInput'
+          description: Pages within the collection
+      required:
+      - name
+      - workspace_id
+      - task_details
+      - collection_items
+      title: CollectionCreateRequest
+    RichTextContentBlockSchemaVersion:
+      type: string
+      enum:
+      - '1'
+      title: RichTextContentBlockSchemaVersion
+    AI_Task_Builder_UpdateTaskBuilderDataset_Response_200:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        created_by:
+          type: string
+        workspace_id:
+          type: string
+        total_datapoint_count:
+          type: integer
+        schema_version:
+          $ref: '#/components/schemas/ApiV1DataCollectionDatasetsDatasetIdPatchResponsesContentApplicationJsonSchemaSchemaVersion'
+          description: Internal dataset version. 3 = legacy CSV/ZIP; 4 = structured schema with JSONL/CSV import tracking.
+        status:
+          $ref: '#/components/schemas/ApiV1DataCollectionDatasetsDatasetIdPatchResponsesContentApplicationJsonSchemaStatus'
+          description: Processing status. **V3 datasets only.** V4 datasets track status per import job via `imports`.
+        filename:
+          type:
+          - string
+          - 'null'
+          description: Filename of the uploaded data file. **V3 datasets only.**
+        has_predetermined_grouping_id:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the dataset contains a `META_TASK_GROUP_ID` column. **V3 datasets only.**
+        schema:
+          oneOf:
+          - $ref: '#/components/schemas/DatasetSchema'
+          - type: 'null'
+          description: 'The researcher-defined field schema for this dataset. **V4 datasets only.**
+
+            `null` if no schema has been set yet.'
+        imports:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DatasetImportJob'
+          description: Import jobs for this dataset, most recent first. **V4 datasets only.** `null` for V3 datasets.
+        migration_job_id:
+          type: string
+          format: uuid
+          description: 'The schema migration job started by this update. Present only when the
+
+            dataset already had a schema (i.e. the schema was changed, not set for the
+
+            first time). Use with `GET /datasets/{dataset_id}/schema-migrations/{job_id}`.'
+      required:
+      - id
+      - name
+      - created_at
+      - created_by
+      - workspace_id
+      - total_datapoint_count
+      - schema_version
+      description: 'An AI Task Builder dataset. The shape of the response varies by `schema_version`:
+
+
+        - **V3 datasets** include `status`, `filename`, and `has_predetermined_grouping_id`.
+
+        - **V4 datasets** include `schema` (the researcher-defined field schema, or `null` if not yet set) and `imports` (the list of import jobs for this dataset). V4 datasets do not include `status` or `filename`.'
+      title: AI Task Builder_UpdateTaskBuilderDataset_Response_200
+    AiTaskBuilderBatchDatasetsItems:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        total_datapoint_count:
+          type: integer
+        filename:
+          type: string
+          description: The filename of the dataset
+      required:
+      - id
+      - total_datapoint_count
+      - filename
+      title: AiTaskBuilderBatchDatasetsItems
+    ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsOptionsItems:
+      type: object
+      properties:
+        label:
+          type: string
+          description: The display label for the option.
+        value:
+          type: string
+          description: The value associated with the option.
+        heading:
+          type: string
+          description: The heading for the option (required for multiple_choice_with_free_text).
+      required:
+      - label
+      - value
+      title: ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsOptionsItems
+    AiTaskBuilderMultipleChoiceWithFreeTextInstructionOptionsItemsValue:
+      oneOf:
+      - type: string
+      - type: number
+        format: double
+      - type: boolean
+      description: Value returned in responses
+      title: AiTaskBuilderMultipleChoiceWithFreeTextInstructionOptionsItemsValue
+    AI_Task_Builder_SetupTaskBuilderBatch_Response_202:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: AI Task Builder_SetupTaskBuilderBatch_Response_202
+    CollectionFreeTextInstructionType:
+      type: string
+      enum:
+      - free_text
+      title: CollectionFreeTextInstructionType
+    AiTaskBuilderTaskResponseResponse:
+      type: object
+      properties:
+        instruction_id:
+          type: string
+        type:
+          $ref: '#/components/schemas/AiTaskBuilderTaskResponseResponseType'
+        answer:
+          type: array
+          items:
+            $ref: '#/components/schemas/AiTaskBuilderTaskResponseResponseAnswerItems'
+      required:
+      - instruction_id
+      - type
+      - answer
+      title: AiTaskBuilderTaskResponseResponse
+    AI_Task_Builder_ListCollections_Response_200:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Collection'
+        meta:
+          $ref: '#/components/schemas/ApiV1DataCollectionCollectionsGetResponsesContentApplicationJsonSchemaMeta'
+      title: AI Task Builder_ListCollections_Response_200
+    CollectionItemSchemaVersion:
+      type: string
+      enum:
+      - '1'
+      title: CollectionItemSchemaVersion
+    AiTaskBuilderDatasetSchemaVersion:
+      type: string
+      enum:
+      - '3'
+      - '4'
+      description: Internal dataset version. 3 = legacy CSV/ZIP; 4 = structured schema with JSONL/CSV import tracking.
+      title: AiTaskBuilderDatasetSchemaVersion
+    BatchItemsMultipleChoiceWithFreeTextInstructionOptionsItems:
+      type: object
+      properties:
+        label:
+          type: string
+        value:
+          $ref: '#/components/schemas/BatchItemsMultipleChoiceWithFreeTextInstructionOptionsItemsValue'
+        heading:
+          type: string
+          description: Required. Section heading that groups this option.
+        exclusive:
+          type: boolean
+          description: When true, selecting this option deselects all other options.
+      required:
+      - label
+      - value
+      - heading
+      title: BatchItemsMultipleChoiceWithFreeTextInstructionOptionsItems
+    AiTaskBuilderFreeTextWithUnitInstructionUnitOptionsItemsValue:
+      oneOf:
+      - type: string
+      - type: number
+        format: double
+      - type: boolean
+      description: Value returned in responses
+      title: AiTaskBuilderFreeTextWithUnitInstructionUnitOptionsItemsValue
+    DatasetSchemaField:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/DatasetSchemaFieldType'
+          description: 'Field type:
+
+            - `text` — a text value shown to participants. Can be referenced by `dataset_field` items in `batch_items`.
+
+            - `image_url` — a URL pointing to an image shown to participants. Can be referenced by `dataset_field` items in `batch_items`.
+
+            - `metadata` — an internal value included in exports but not shown to participants (equivalent to the `META_` prefix in V3 CSV datasets).
+
+            - `task_group_id` — groups datapoints into task groups. Rows with the same `task_group_id` value are assigned to the same participant. Equivalent to `META_TASK_GROUP_ID` in V3 CSV datasets. At most one field per schema may have this type.'
+        label:
+          type: string
+          description: Optional human-readable label for the field, used in the participant interface.
+      required:
+      - type
+      description: Descriptor for a single field in a dataset schema.
+      title: DatasetSchemaField
+    CollectionExportStatus:
+      oneOf:
+      - $ref: '#/components/schemas/CollectionExportStatus0'
+      - $ref: '#/components/schemas/CollectionExportStatus1'
+      - $ref: '#/components/schemas/CollectionExportStatus2'
+      description: The current status of a collection export job.
+      title: CollectionExportStatus
+    BatchItemsValidationError:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/BatchItemsValidationErrorType'
+        message:
+          type: string
+        issues:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchItemsValidationErrorIssuesItems'
+      required:
+      - type
+      - message
+      - issues
+      description: '`422 Unprocessable Entity` payload returned when `batch_items` fails server-side
+
+        validation on create or update. Each entry in `issues` pinpoints the offending item
+
+        using zero-based `page` / `row` / `column` / `item` indices, and describes what was
+
+        wrong (e.g. `dataset_field` used without a v4 dataset and populated schema attached,
+
+        unknown dataset field, the same dataset field referenced more than once on a page,
+
+        `answer_limit` exceeds options, `default_unit` does not match `unit_options`,
+
+        `min_file_count` greater than `max_file_count`).'
+      title: BatchItemsValidationError
+    CollectionInstructionInputUnitPosition:
+      type: string
+      enum:
+      - prefix
+      - suffix
+      description: Required for free_text_with_unit. Position of the unit selector relative to the text input.
+      title: CollectionInstructionInputUnitPosition
+    DatasetImportJobStatus:
+      type: string
+      enum:
+      - uninitialised
+      - queued
+      - processing
+      - complete
+      - partial
+      - failed
+      - pending_schema
+      description: Current status of the import job.
+      title: DatasetImportJobStatus
+    ValidationRuleType:
+      type: string
+      enum:
+      - number
+      - string
+      description: The expected input type. When "number", the input must be numeric and min/max constrain the numeric value. When "string", the input is treated as text and min/max constrain the character count.
+      title: ValidationRuleType
+    AI_Task_Builder_GetTaskBuilderInstructions_Response_200:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AITaskBuilderInstruction'
+        meta:
+          $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdInstructionsGetResponsesContentApplicationJsonSchemaMeta'
+      title: AI Task Builder_GetTaskBuilderInstructions_Response_200
+    CollectionItemInput:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Include to preserve an existing page when updating
+        page_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PageItemInput'
+          description: Instructions and content blocks on this page
+      required:
+      - page_items
+      description: A page within a collection. Include `id` to preserve an existing page when updating.
+      title: CollectionItemInput
+    ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitOptionsItems:
+      type: object
+      properties:
+        label:
+          type: string
+          description: The display label for the unit.
+        value:
+          $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitOptionsItemsValue'
+          description: The value associated with the unit.
+        validation:
+          $ref: '#/components/schemas/ValidationRule'
+          description: Optional validation constraints for this unit option.
+      required:
+      - label
+      - value
+      title: ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitOptionsItems
+    CollectionMultipleChoiceWithFreeTextInstructionOptionsItemsValue:
+      oneOf:
+      - type: string
+      - type: number
+        format: double
+      - type: boolean
+      title: CollectionMultipleChoiceWithFreeTextInstructionOptionsItemsValue
+    ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsType:
+      type: string
+      enum:
+      - multiple_choice
+      - free_text
+      - free_text_with_unit
+      - multiple_choice_with_free_text
+      - file_upload
+      description: The type of instruction.
+      title: ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsType
+    AITaskBuilderBatchCreate:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+          description: An ISO-8601 formatted string representing the batch creation time, in UTC.
+        created_by:
+          type: string
+          description: User ID of the Prolific user that created the resource.
+        datasets:
+          type: array
+          items:
+            $ref: '#/components/schemas/AiTaskBuilderBatchCreateDatasetsItems'
+        name:
+          type: string
+        status:
+          $ref: '#/components/schemas/AiTaskBuilderBatchCreateStatus'
+        total_task_count:
+          type: integer
+        total_instruction_count:
+          type: integer
+        workspace_id:
+          type: string
+        task_details:
+          $ref: '#/components/schemas/AiTaskBuilderBatchCreateTaskDetails'
+        batch_items:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/BatchItemsPage'
+          description: 'The persisted `batch_items` layout, returned only when `batch_items` was supplied on
+
+            create. Every page, row, column, and item is returned with a server-assigned `id`.'
+      required:
+      - id
+      - created_at
+      - created_by
+      - datasets
+      - name
+      - status
+      - total_task_count
+      - total_instruction_count
+      - workspace_id
+      - task_details
+      title: AITaskBuilderBatchCreate
+    CollectionExportStatus1:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/CollectionExportStatusOneOf1Status'
+        url:
+          type: string
+          format: uri
+          description: Presigned HTTPS URL for downloading the ZIP archive. Valid for 1 hour. Re-poll to get a refreshed URL if expired.
+        expires_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp indicating when the presigned URL expires.
+      required:
+      - status
+      - url
+      - expires_at
+      description: An export job that has completed successfully. The ZIP archive is ready to download.
+      title: CollectionExportStatus1
+    ApiV1DataCollectionCollectionsGetResponsesContentApplicationJsonSchemaMeta:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Total number of collections
+      title: ApiV1DataCollectionCollectionsGetResponsesContentApplicationJsonSchemaMeta
+    ApiV1DataCollectionDatasetsDatasetIdUploadUrlFilenameGetResponsesContentApplicationJsonSchemaHttpMethod:
+      type: string
+      enum:
+      - PUT
+      description: HTTP method to use with the presigned URL.
+      title: ApiV1DataCollectionDatasetsDatasetIdUploadUrlFilenameGetResponsesContentApplicationJsonSchemaHttpMethod
+    CollectionResponseResponseAnswerItemsValue:
+      oneOf:
+      - type: string
+      - type: number
+        format: double
+      - type: boolean
+      title: CollectionResponseResponseAnswerItemsValue
+    AiTaskBuilderFileUploadInstructionType:
+      type: string
+      enum:
+      - file_upload
+      title: AiTaskBuilderFileUploadInstructionType
+    ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItems:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Include to preserve an existing instruction.
+        type:
+          $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsType'
+          description: The type of instruction.
+        description:
+          type: string
+          description: The question or prompt displayed to participants.
+        helper_text:
+          type: string
+          description: Additional guidance text displayed below the question.
+        placeholder_text_input:
+          type: string
+          description: Placeholder text displayed in the input field.
+        answer_limit:
+          type: integer
+          description: Number of options that can be selected (required for multiple_choice and multiple_choice_with_free_text). Use 1 for single-select, -1 for unlimited.
+        disable_dropdown:
+          type: boolean
+          default: false
+          description: When true, always renders checkbox/radio elements instead of a dropdown select.
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsOptionsItems'
+          description: The options (required for multiple_choice and multiple_choice_with_free_text).
+        unit_options:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitOptionsItems'
+          description: The unit options (required for free_text_with_unit). List of available units that participants can select from.
+        default_unit:
+          type: string
+          description: For free_text_with_unit. Default selected unit (must match a value from unit_options).
+        unit_position:
+          $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItemsUnitPosition'
+          description: Required for free_text_with_unit. Position of the unit selector relative to the text input. Use 'prefix' for units before the input (e.g., currency symbols) or 'suffix' for units after the input (e.g., measurements).
+        validation:
+          $ref: '#/components/schemas/ValidationRule'
+          description: Optional validation constraints for the input value (for free_text).
+      required:
+      - type
+      - description
+      title: ApiV1DataCollectionBatchesBatchIdInstructionsPutRequestBodyContentApplicationJsonSchemaInstructionsItems
+    AiTaskBuilderMultipleChoiceInstructionOptionsItems:
+      type: object
+      properties:
+        label:
+          type: string
+          description: Display text shown to participants
+        value:
+          $ref: '#/components/schemas/AiTaskBuilderMultipleChoiceInstructionOptionsItemsValue'
+          description: Value returned in responses
+        exclusive:
+          type: boolean
+          description: When true, selecting this option deselects all other options. Useful for "None of the above" style options.
+      required:
+      - label
+      - value
+      title: AiTaskBuilderMultipleChoiceInstructionOptionsItems
+    SchemaMigrationError:
+      type: object
+      properties:
+        datapoint_id:
+          type: string
+          format: uuid
+          description: The datapoint whose field could not be re-normalised.
+        field:
+          type: string
+          description: The schema field key that was nulled.
+        reason:
+          type: string
+          description: Human-readable description of why the field was nulled.
+      required:
+      - datapoint_id
+      - field
+      - reason
+      description: A single record-level failure — a field that was invalid under the new schema and so was nulled.
+      title: SchemaMigrationError
+    AiTaskBuilderFreeTextWithUnitInstructionUnitPosition:
+      type: string
+      enum:
+      - prefix
+      - suffix
+      description: Position of the unit selector relative to the text input. Use 'prefix' for units before the input (e.g., currency symbols) or 'suffix' for units after the input (e.g., measurements).
+      title: AiTaskBuilderFreeTextWithUnitInstructionUnitPosition
+    BatchExportStatusOneOf1Status:
+      type: string
+      enum:
+      - complete
+      title: BatchExportStatusOneOf1Status
+    AITaskBuilderInstruction:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            $ref: '#/components/schemas/AiTaskBuilderMultipleChoiceInstructionType'
+          id:
+            type: string
+            format: uuid
+          created_at:
+            type: string
+            format: date-time
+          parent_id:
+            type: string
+            format: uuid
+            description: ID of the parent batch or collection
+          parent_type:
+            $ref: '#/components/schemas/AiTaskBuilderMultipleChoiceInstructionParentType'
+          created_by:
+            type: string
+          description:
+            type: string
+            description: The question or prompt displayed to participants
+          helper_text:
+            type: string
+            description: Additional guidance text displayed below the question
+          placeholder_text_input:
+            type: string
+            description: Placeholder text displayed in the input field
+          answer_limit:
+            type: integer
+            description: Number of options that can be selected. Use 1 for single-select, -1 for unlimited, or any number up to the total options.
+          disable_dropdown:
+            type: boolean
+            default: false
+            description: When true, always renders checkbox/radio elements instead of a dropdown select, regardless of option count. By default, a dropdown is used when there are 5 or more options.
+          options:
+            type: array
+            items:
+              $ref: '#/components/schemas/AiTaskBuilderMultipleChoiceInstructionOptionsItems'
+        required:
+        - type
+        - id
+        - created_at
+        - parent_id
+        - parent_type
+        - created_by
+        - description
+        - answer_limit
+        - options
+        description: multiple_choice variant
+      - type: object
+        properties:
+          type:
+            $ref: '#/components/schemas/AiTaskBuilderFreeTextInputInstructionType'
+          id:
+            type: string
+            format: uuid
+          created_at:
+            type: string
+            format: date-time
+          parent_id:
+            type: string
+            format: uuid
+            description: ID of the parent batch or collection
+          parent_type:
+            $ref: '#/components/schemas/AiTaskBuilderFreeTextInputInstructionParentType'
+          created_by:
+            type: string
+          description:
+            type: string
+            description: The question or prompt displayed to participants
+          helper_text:
+            type: string
+            description: Additional guidance text displayed below the question
+          placeholder_text_input:
+            type: string
+            description: Placeholder text displayed in the input field
+          validation:
+            $ref: '#/components/schemas/ValidationRule'
+            description: Optional validation constraints for the input value
+        required:
+        - type
+        - id
+        - created_at
+        - parent_id
+        - parent_type
+        - created_by
+        - description
+        description: free_text variant
+      - type: object
+        properties:
+          type:
+            $ref: '#/components/schemas/AiTaskBuilderFreeTextWithUnitInstructionType'
+          id:
+            type: string
+            format: uuid
+          created_at:
+            type: string
+            format: date-time
+          parent_id:
+            type: string
+            format: uuid
+            description: ID of the parent batch or collection
+          parent_type:
+            $ref: '#/components/schemas/AiTaskBuilderFreeTextWithUnitInstructionParentType'
+          created_by:
+            type: string
+          description:
+            type: string
+            description: The question or prompt displayed to participants
+          helper_text:
+            type: string
+            description: Additional guidance text displayed below the question
+          placeholder_text_input:
+            type: string
+            description: Placeholder text displayed in the input field
+          unit_options:
+            type: array
+            items:
+              $ref: '#/components/schemas/AiTaskBuilderFreeTextWithUnitInstructionUnitOptionsItems'
+            description: List of available units that participants can select from
+          default_unit:
+            type: string
+            description: Default selected unit (must match a value from unit_options)
+          unit_position:
+            $ref: '#/components/schemas/AiTaskBuilderFreeTextWithUnitInstructionUnitPosition'
+            description: Position of the unit selector relative to the text input. Use 'prefix' for units before the input (e.g., currency symbols) or 'suffix' for units after the input (e.g., measurements).
+        required:
+        - type
+        - id
+        - created_at
+        - parent_id
+        - parent_type
+        - created_by
+        - description
+        - unit_options
+        - unit_position
+        description: free_text_with_unit variant
+      - type: object
+        properties:
+          type:
+            $ref: '#/components/schemas/AiTaskBuilderMultipleChoiceWithFreeTextInstructionType'
+          id:
+            type: string
+            format: uuid
+          created_at:
+            type: string
+            format: date-time
+          parent_id:
+            type: string
+            format: uuid
+            description: ID of the parent batch or collection
+          parent_type:
+            $ref: '#/components/schemas/AiTaskBuilderMultipleChoiceWithFreeTextInstructionParentType'
+          created_by:
+            type: string
+          description:
+            type: string
+            description: The question or prompt displayed to participants
+          helper_text:
+            type: string
+            description: Additional guidance text displayed below the question
+          placeholder_text_input:
+            type: string
+            description: Placeholder text displayed in the input field
+          answer_limit:
+            type: integer
+            description: Number of options that can be selected. Use 1 for single-select, -1 for unlimited, or any number up to the total options.
+          disable_dropdown:
+            type: boolean
+            default: false
+            description: When true, always renders checkbox/radio elements instead of a dropdown select, regardless of option count. By default, a dropdown is used when there are 5 or more options.
+          options:
+            type: array
+            items:
+              $ref: '#/components/schemas/AiTaskBuilderMultipleChoiceWithFreeTextInstructionOptionsItems'
+        required:
+        - type
+        - id
+        - created_at
+        - parent_id
+        - parent_type
+        - created_by
+        - description
+        - answer_limit
+        - options
+        description: multiple_choice_with_free_text variant
+      - type: object
+        properties:
+          type:
+            $ref: '#/components/schemas/AiTaskBuilderFileUploadInstructionType'
+          id:
+            type: string
+            format: uuid
+          created_at:
+            type: string
+            format: date-time
+          parent_id:
+            type: string
+            format: uuid
+            description: ID of the parent batch or collection
+          parent_type:
+            $ref: '#/components/schemas/AiTaskBuilderFileUploadInstructionParentType'
+          created_by:
+            type: string
+          description:
+            type: string
+            description: The prompt describing what to upload
+          helper_text:
+            type: string
+            description: Additional guidance text displayed below the question
+          placeholder_text_input:
+            type: string
+            description: Placeholder text displayed in the input field
+          accepted_file_types:
+            type: array
+            items:
+              type: string
+            description: File extensions to accept (e.g., [".jpg", ".png", ".pdf"]). Each extension must start with a dot. Defaults to [".jpg", ".jpeg", ".png", ".heic", ".heif"] if not specified.
+          max_file_size_mb:
+            type: number
+            format: double
+            description: Maximum file size in megabytes per file. Must be a positive number. Defaults to 25.
+          min_file_count:
+            type: integer
+            description: Minimum number of files required. Must be at least 1. Defaults to 1.
+          max_file_count:
+            type: integer
+            description: Maximum number of files allowed. Must be at least 1 and greater than or equal to min_file_count. Defaults to 10.
+        required:
+        - type
+        - id
+        - created_at
+        - parent_id
+        - parent_type
+        - created_by
+        - description
+        description: file_upload variant
+      discriminator:
+        propertyName: type
+      title: AITaskBuilderInstruction
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
+    CollectionResponseResponse:
+      type: object
+      properties:
+        instruction_id:
+          type: string
+        type:
+          $ref: '#/components/schemas/CollectionResponseResponseType'
+        answer:
+          type: array
+          items:
+            $ref: '#/components/schemas/CollectionResponseResponseAnswerItems'
+      required:
+      - instruction_id
+      - type
+      - answer
+      title: CollectionResponseResponse
+    AI_Task_Builder_GetTaskBuilderBatchStatus_Response_200:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/ApiV1DataCollectionBatchesBatchIdStatusGetResponsesContentApplicationJsonSchemaStatus'
+          description: The status of the Batch - one of 'UNINITIALISED', 'PROCESSING', 'READY', 'ERROR'
+      title: AI Task Builder_GetTaskBuilderBatchStatus_Response_200
+    SchemaMigrationJob:
+      type: object
+      properties:
+        dataset_id:
+          type: string
+          format: uuid
+          description: The dataset being migrated.
+        job_id:
+          type: string
+          format: uuid
+          description: The unique identifier of the schema migration job.
+        schema_version:
+          type: integer
+          description: The schema version this job reprocesses datapoints up to.
+        created_at:
+          type: string
+          format: date-time
+          description: When the migration job was created (ISO 8601, UTC).
+        updated_at:
+          type: string
+          format: date-time
+          description: When the migration job was last updated (ISO 8601, UTC).
+        status:
+          $ref: '#/components/schemas/SchemaMigrationJobStatus'
+          description: Current status of the migration job.
+        reprocessed_count:
+          type: integer
+          description: Number of datapoints reprocessed. Present when status is `complete` or `partial`.
+        failed_count:
+          type: integer
+          description: Number of datapoints with at least one field that could not be re-normalised. Present when status is `partial`.
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/SchemaMigrationError'
+          description: Record-level failures — fields nulled because they were invalid under the new schema. Present when status is `partial`.
+        reason:
+          type: string
+          description: Human-readable reason for failure. Present when status is `failed`.
+      required:
+      - dataset_id
+      - job_id
+      - schema_version
+      - created_at
+      - updated_at
+      - status
+      description: 'Tracks the asynchronous re-normalisation of a V4 dataset''s datapoints against a newer schema
+
+        version. Poll `GET /datasets/{dataset_id}/schema-migrations/{job_id}` until a terminal
+
+        status (`complete`, `partial`, or `failed`).
+
+
+        The shape depends on `status`: the fields below marked as terminal-only are present only for
+
+        the corresponding status.'
+      title: SchemaMigrationJob
+    CollectionFileUploadInstructionParentType:
+      type: string
+      enum:
+      - batch
+      - collection
+      title: CollectionFileUploadInstructionParentType
+    CollectionFreeTextInstructionParentType:
+      type: string
+      enum:
+      - batch
+      - collection
+      title: CollectionFreeTextInstructionParentType
+    ApiV1DataCollectionDatasetsDatasetIdPatchResponsesContentApplicationJsonSchemaSchemaVersion:
+      type: string
+      enum:
+      - '3'
+      - '4'
+      description: Internal dataset version. 3 = legacy CSV/ZIP; 4 = structured schema with JSONL/CSV import tracking.
+      title: ApiV1DataCollectionDatasetsDatasetIdPatchResponsesContentApplicationJsonSchemaSchemaVersion
     BatchItemsPage:
       type: object
       properties:
@@ -5054,38 +5051,41 @@ components:
 
         `id` on create to add a new page.'
       title: BatchItemsPage
-    ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsOptionsItems:
+    AiTaskBuilderFreeTextWithUnitInstructionUnitOptionsItems:
       type: object
       properties:
         label:
           type: string
-          description: The display label for the option.
+          description: Display text shown to participants
         value:
-          type: string
-          description: The value associated with the option.
-        heading:
-          type: string
-          description: The heading for the option (required for multiple_choice_with_free_text).
+          $ref: '#/components/schemas/AiTaskBuilderFreeTextWithUnitInstructionUnitOptionsItemsValue'
+          description: Value returned in responses
+        validation:
+          $ref: '#/components/schemas/ValidationRule'
+          description: Optional validation constraints for this unit option
       required:
       - label
       - value
-      title: ApiV1DataCollectionBatchesBatchIdInstructionsPostRequestBodyContentApplicationJsonSchemaInstructionsItemsOptionsItems
-    AiTaskBuilderBatchDatasetsItems:
+      title: AiTaskBuilderFreeTextWithUnitInstructionUnitOptionsItems
+    CollectionExportComplete:
       type: object
       properties:
-        id:
+        status:
+          $ref: '#/components/schemas/CollectionExportCompleteStatus'
+        url:
           type: string
-          format: uuid
-        total_datapoint_count:
-          type: integer
-        filename:
+          format: uri
+          description: Presigned HTTPS URL for downloading the ZIP archive. Valid for 1 hour. Re-poll to get a refreshed URL if expired.
+        expires_at:
           type: string
-          description: The filename of the dataset
+          format: date-time
+          description: ISO 8601 timestamp indicating when the presigned URL expires.
       required:
-      - id
-      - total_datapoint_count
-      - filename
-      title: AiTaskBuilderBatchDatasetsItems
+      - status
+      - url
+      - expires_at
+      description: An export job that has completed successfully. The ZIP archive is ready to download.
+      title: CollectionExportComplete
   securitySchemes:
     token:
       type: apiKey

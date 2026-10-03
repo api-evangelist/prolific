@@ -369,96 +369,12 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    Filter_Sets_CreateFilterSet_Response_201:
-      type: object
-      properties:
-        id:
-          type: string
-          description: ID of the filter set.
-        version:
-          type: integer
-          description: An incrementing integer indicating the version of the filter set.
-        is_deleted:
-          type: boolean
-          description: Whether the filter set has been deleted.
-        is_locked:
-          type: boolean
-          description: Whether the filter set has been locked.
-        workspace_id:
-          type:
-          - string
-          - 'null'
-          description: ID of the workspace where the filter set can be used.
-        organisation_id:
-          type:
-          - string
-          - 'null'
-          description: ID of the workspace where the filter set can be used.
-        name:
-          type: string
-          description: Name of the filter set.
-        filters:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiV1FilterSetsPostResponsesContentApplicationJsonSchemaFiltersItems'
-          description: List of all filters contained in the filter set.
-        eligible_participant_count:
-          type: integer
-          description: 'The number of participants who match the filter sets filters. Please note that if the number is
-
-            lower than 25 the count will be obscured to prevent identification of participants.'
-      title: Filter Sets_CreateFilterSet_Response_201
-    ApiV1FilterSetsIdGetResponsesContentApplicationJsonSchemaFiltersItems:
+    ApiV1FilterSetsIdClonePostResponsesContentApplicationJsonSchemaFiltersItems:
       oneOf:
       - $ref: '#/components/schemas/SelectFilter'
       - $ref: '#/components/schemas/RangeFilter'
       - $ref: '#/components/schemas/CompositeFilter'
-      title: ApiV1FilterSetsIdGetResponsesContentApplicationJsonSchemaFiltersItems
-    Filter_Sets_UpdateFilterSet_Response_200:
-      type: object
-      properties:
-        id:
-          type: string
-          description: ID of the filter set.
-        version:
-          type: integer
-          description: An incrementing integer indicating the version of the filter set.
-        is_deleted:
-          type: boolean
-          description: Whether the filter set has been deleted.
-        is_locked:
-          type: boolean
-          description: Whether the filter set has been locked.
-        workspace_id:
-          type:
-          - string
-          - 'null'
-          description: ID of the workspace where the filter set can be used.
-        organisation_id:
-          type:
-          - string
-          - 'null'
-          description: ID of the workspace where the filter set can be used.
-        name:
-          type: string
-          description: Name of the filter set.
-        filters:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiV1FilterSetsIdPatchResponsesContentApplicationJsonSchemaFiltersItems'
-          description: List of all filters contained in the filter set.
-        eligible_participant_count:
-          type: integer
-          description: 'The number of participants who match the filter sets filters. Please note that if the number is
-
-            lower than 25 the count will be obscured to prevent identification of participants.'
-      title: Filter Sets_UpdateFilterSet_Response_200
-    ApiV1FilterSetsIdLockPostResponsesContentApplicationJsonSchemaFiltersItems:
-      oneOf:
-      - $ref: '#/components/schemas/SelectFilter'
-      - $ref: '#/components/schemas/RangeFilter'
-      - $ref: '#/components/schemas/CompositeFilter'
-      title: ApiV1FilterSetsIdLockPostResponsesContentApplicationJsonSchemaFiltersItems
+      title: ApiV1FilterSetsIdClonePostResponsesContentApplicationJsonSchemaFiltersItems
     Error:
       type: object
       properties:
@@ -467,232 +383,12 @@ components:
       required:
       - error
       title: Error
-    RangeFilterSelectedRangeUpper:
-      oneOf:
-      - type: integer
-      - type: string
-      - type: number
-        format: double
-      description: Your selected upper bound for the range.
-      title: RangeFilterSelectedRangeUpper
-    ApiV1FilterSetsIdUnlockPostResponsesContentApplicationJsonSchemaFiltersItems:
+    FilterSetFiltersItems:
       oneOf:
       - $ref: '#/components/schemas/SelectFilter'
       - $ref: '#/components/schemas/RangeFilter'
       - $ref: '#/components/schemas/CompositeFilter'
-      title: ApiV1FilterSetsIdUnlockPostResponsesContentApplicationJsonSchemaFiltersItems
-    CompositeFilterSelectedFiltersItems:
-      oneOf:
-      - $ref: '#/components/schemas/SelectFilter'
-      - $ref: '#/components/schemas/RangeFilter'
-      - $ref: '#/components/schemas/CompositeFilter'
-      title: CompositeFilterSelectedFiltersItems
-    CreateFilterSet:
-      type: object
-      properties:
-        workspace_id:
-          type: string
-          description: ID of the workspace where the filter set can be used.
-        organisation_id:
-          type: string
-          description: ID of the organisation where the filter set can be used.
-        name:
-          type: string
-          description: Name of the filter set.
-        filters:
-          type: array
-          items:
-            $ref: '#/components/schemas/CreateFilterSetFiltersItems'
-          description: List of all filters contained in the filter set.
-      title: CreateFilterSet
-    RangeFilterSelectedRange:
-      type: object
-      properties:
-        lower:
-          $ref: '#/components/schemas/RangeFilterSelectedRangeLower'
-          description: Your selected lower bound for the range.
-        upper:
-          $ref: '#/components/schemas/RangeFilterSelectedRangeUpper'
-          description: Your selected upper bound for the range.
-      description: 'This schema applies for filters of the `range` type, as defined in the [filter list response](\#tag/Filters/paths/~1api~1v1~1filters~1/get).
-
-
-        A dictionary with two possible objects, ''lower'' and ''upper''. At least one must be present and a non-null value.
-
-
-        The expected data type for these values is defined by the `range` filter''s `data_type` (see response linked above).
-
-
-        If the data_type is a date, string format should be a parseable ISO8601 date string. Date values should be provided as a string in ISO 8601 format.
-
-
-        Leaving a value as null will result in that bound being set to the lowest or highest possible value, depending on whether it is the upper or lower bound.'
-      title: RangeFilterSelectedRange
-    UpdateFilterSetFiltersItems:
-      oneOf:
-      - $ref: '#/components/schemas/SelectFilter'
-      - $ref: '#/components/schemas/RangeFilter'
-      - $ref: '#/components/schemas/CompositeFilter'
-      title: UpdateFilterSetFiltersItems
-    Filter_Sets_GetFilterSet_Response_200:
-      type: object
-      properties:
-        id:
-          type: string
-          description: ID of the filter set.
-        version:
-          type: integer
-          description: An incrementing integer indicating the version of the filter set.
-        is_deleted:
-          type: boolean
-          description: Whether the filter set has been deleted.
-        is_locked:
-          type: boolean
-          description: Whether the filter set has been locked.
-        workspace_id:
-          type:
-          - string
-          - 'null'
-          description: ID of the workspace where the filter set can be used.
-        organisation_id:
-          type:
-          - string
-          - 'null'
-          description: ID of the workspace where the filter set can be used.
-        name:
-          type: string
-          description: Name of the filter set.
-        filters:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiV1FilterSetsIdGetResponsesContentApplicationJsonSchemaFiltersItems'
-          description: List of all filters contained in the filter set.
-        eligible_participant_count:
-          type: integer
-          description: 'The number of participants who match the filter sets filters. Please note that if the number is
-
-            lower than 25 the count will be obscured to prevent identification of participants.'
-      title: Filter Sets_GetFilterSet_Response_200
-    CompositeFilterFilterId:
-      type: string
-      enum:
-      - and
-      - or
-      description: Composite filter group operator. Use `and` when every child filter must match, or `or` when at least one child filter must match.
-      title: CompositeFilterFilterId
-    ApiV1FilterSetsPostResponsesContentApplicationJsonSchemaFiltersItems:
-      oneOf:
-      - $ref: '#/components/schemas/SelectFilter'
-      - $ref: '#/components/schemas/RangeFilter'
-      - $ref: '#/components/schemas/CompositeFilter'
-      title: ApiV1FilterSetsPostResponsesContentApplicationJsonSchemaFiltersItems
-    SelectFilter:
-      type: object
-      properties:
-        filter_id:
-          type: string
-          description: ID of the "select" type filter.
-        selected_values:
-          type: array
-          items:
-            type: string
-          description: 'This schema applies for filters of the `select` type, as defined in the [filter list response](\#tag/Filters/paths/~1api~1v1~1filters~1/get).
-
-
-            Array of IDs matching the response IDs, from the `select` filter''s `choices` (see response linked above).
-
-
-            String format should match the `data_type` of the `select` filter''s `choices` (see response linked above).'
-        weightings:
-          type: object
-          additionalProperties:
-            type: number
-            format: double
-          description: 'Ratios to control the distribution of participants across the selected values.
-
-
-            Integer percentages, floats, and exact quantities are valid inputs.'
-      required:
-      - filter_id
-      - selected_values
-      title: SelectFilter
-    ErrorDetailDetail2:
-      type: object
-      properties:
-        any_field:
-          type: array
-          items:
-            type: string
-          description: Name of the field with a validation error and as a value an array with the error descriptions
-      description: All fields with validation errors
-      title: ErrorDetailDetail2
-    ErrorDetailDetail:
-      oneOf:
-      - type: string
-      - type: array
-        items:
-          type: string
-      - $ref: '#/components/schemas/ErrorDetailDetail2'
-      description: Error detail
-      title: ErrorDetailDetail
-    FilterSet:
-      type: object
-      properties:
-        id:
-          type: string
-          description: ID of the filter set.
-        version:
-          type: integer
-          description: An incrementing integer indicating the version of the filter set.
-        is_deleted:
-          type: boolean
-          description: Whether the filter set has been deleted.
-        is_locked:
-          type: boolean
-          description: Whether the filter set has been locked.
-        workspace_id:
-          type:
-          - string
-          - 'null'
-          description: ID of the workspace where the filter set can be used.
-        organisation_id:
-          type:
-          - string
-          - 'null'
-          description: ID of the workspace where the filter set can be used.
-        name:
-          type: string
-          description: Name of the filter set.
-        filters:
-          type: array
-          items:
-            $ref: '#/components/schemas/FilterSetFiltersItems'
-          description: List of all filters contained in the filter set.
-      title: FilterSet
-    ApiV1FilterSetsIdClonePostResponsesContentApplicationJsonSchemaFiltersItems:
-      oneOf:
-      - $ref: '#/components/schemas/SelectFilter'
-      - $ref: '#/components/schemas/RangeFilter'
-      - $ref: '#/components/schemas/CompositeFilter'
-      title: ApiV1FilterSetsIdClonePostResponsesContentApplicationJsonSchemaFiltersItems
-    RangeFilterWeightings:
-      type: object
-      properties:
-        selected_range:
-          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRange'
-        weighting:
-          type: number
-          format: double
-      required:
-      - selected_range
-      - weighting
-      title: RangeFilterWeightings
-    CreateFilterSetFiltersItems:
-      oneOf:
-      - $ref: '#/components/schemas/SelectFilter'
-      - $ref: '#/components/schemas/RangeFilter'
-      - $ref: '#/components/schemas/CompositeFilter'
-      title: CreateFilterSetFiltersItems
+      title: FilterSetFiltersItems
     ErrorDetail:
       type: object
       properties:
@@ -722,57 +418,26 @@ components:
       - title
       - detail
       title: ErrorDetail
-    FilterSetFiltersItems:
+    RangeFilterWeightingsSelectedRangeUpper:
+      oneOf:
+      - type: integer
+      - type: string
+      - type: number
+        format: double
+      title: RangeFilterWeightingsSelectedRangeUpper
+    RangeFilterWeightingsSelectedRangeLower:
+      oneOf:
+      - type: integer
+      - type: string
+      - type: number
+        format: double
+      title: RangeFilterWeightingsSelectedRangeLower
+    ApiV1FilterSetsPostResponsesContentApplicationJsonSchemaFiltersItems:
       oneOf:
       - $ref: '#/components/schemas/SelectFilter'
       - $ref: '#/components/schemas/RangeFilter'
       - $ref: '#/components/schemas/CompositeFilter'
-      title: FilterSetFiltersItems
-    UpdateFilterSet:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the filter set.
-        filters:
-          type: array
-          items:
-            $ref: '#/components/schemas/UpdateFilterSetFiltersItems'
-          description: List of all filters contained in the filter set.
-      title: UpdateFilterSet
-    RangeFilter:
-      type: object
-      properties:
-        filter_id:
-          type: string
-          description: ID of the "range" type filter.
-        selected_range:
-          $ref: '#/components/schemas/RangeFilterSelectedRange'
-          description: 'This schema applies for filters of the `range` type, as defined in the [filter list response](\#tag/Filters/paths/~1api~1v1~1filters~1/get).
-
-
-            A dictionary with two possible objects, ''lower'' and ''upper''. At least one must be present and a non-null value.
-
-
-            The expected data type for these values is defined by the `range` filter''s `data_type` (see response linked above).
-
-
-            If the data_type is a date, string format should be a parseable ISO8601 date string. Date values should be provided as a string in ISO 8601 format.
-
-
-            Leaving a value as null will result in that bound being set to the lowest or highest possible value, depending on whether it is the upper or lower bound.'
-        weightings:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/RangeFilterWeightings'
-          description: 'Ratios to control the distribution of participants across the selected values.
-
-
-            Integers and exact quantities are valid inputs.'
-      required:
-      - filter_id
-      - selected_range
-      title: RangeFilter
+      title: ApiV1FilterSetsPostResponsesContentApplicationJsonSchemaFiltersItems
     Filter_Sets_CloneFilterSet_Response_201:
       type: object
       properties:
@@ -812,59 +477,6 @@ components:
 
             lower than 25 the count will be obscured to prevent identification of participants.'
       title: Filter Sets_CloneFilterSet_Response_201
-    RangeFilterWeightingsSelectedRange:
-      type: object
-      properties:
-        lower:
-          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRangeLower'
-        upper:
-          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRangeUpper'
-      title: RangeFilterWeightingsSelectedRange
-    ApiV1FilterSetsIdPatchResponsesContentApplicationJsonSchemaFiltersItems:
-      oneOf:
-      - $ref: '#/components/schemas/SelectFilter'
-      - $ref: '#/components/schemas/RangeFilter'
-      - $ref: '#/components/schemas/CompositeFilter'
-      title: ApiV1FilterSetsIdPatchResponsesContentApplicationJsonSchemaFiltersItems
-    Filter_Sets_UnlockFilterSet_Response_200:
-      type: object
-      properties:
-        id:
-          type: string
-          description: ID of the filter set.
-        version:
-          type: integer
-          description: An incrementing integer indicating the version of the filter set.
-        is_deleted:
-          type: boolean
-          description: Whether the filter set has been deleted.
-        is_locked:
-          type: boolean
-          description: Whether the filter set has been locked.
-        workspace_id:
-          type:
-          - string
-          - 'null'
-          description: ID of the workspace where the filter set can be used.
-        organisation_id:
-          type:
-          - string
-          - 'null'
-          description: ID of the workspace where the filter set can be used.
-        name:
-          type: string
-          description: Name of the filter set.
-        filters:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiV1FilterSetsIdUnlockPostResponsesContentApplicationJsonSchemaFiltersItems'
-          description: List of all filters contained in the filter set.
-        eligible_participant_count:
-          type: integer
-          description: 'The number of participants who match the filter sets filters. Please note that if the number is
-
-            lower than 25 the count will be obscured to prevent identification of participants.'
-      title: Filter Sets_UnlockFilterSet_Response_200
     Filter_Sets_LockFilterSet_Response_200:
       type: object
       properties:
@@ -904,6 +516,19 @@ components:
 
             lower than 25 the count will be obscured to prevent identification of participants.'
       title: Filter Sets_LockFilterSet_Response_200
+    ApiV1FilterSetsIdUnlockPostResponsesContentApplicationJsonSchemaFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: ApiV1FilterSetsIdUnlockPostResponsesContentApplicationJsonSchemaFiltersItems
+    CompositeFilterFilterId:
+      type: string
+      enum:
+      - and
+      - or
+      description: Composite filter group operator. Use `and` when every child filter must match, or `or` when at least one child filter must match.
+      title: CompositeFilterFilterId
     FilterSetList:
       type: object
       properties:
@@ -913,20 +538,6 @@ components:
             $ref: '#/components/schemas/FilterSet'
           description: List of filter sets.
       title: FilterSetList
-    RangeFilterWeightingsSelectedRangeUpper:
-      oneOf:
-      - type: integer
-      - type: string
-      - type: number
-        format: double
-      title: RangeFilterWeightingsSelectedRangeUpper
-    RangeFilterWeightingsSelectedRangeLower:
-      oneOf:
-      - type: integer
-      - type: string
-      - type: number
-        format: double
-      title: RangeFilterWeightingsSelectedRangeLower
     RangeFilterSelectedRangeLower:
       oneOf:
       - type: integer
@@ -950,6 +561,395 @@ components:
       - filter_id
       - selected_filters
       title: CompositeFilter
+    CreateFilterSet:
+      type: object
+      properties:
+        workspace_id:
+          type: string
+          description: ID of the workspace where the filter set can be used.
+        organisation_id:
+          type: string
+          description: ID of the organisation where the filter set can be used.
+        name:
+          type: string
+          description: Name of the filter set.
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateFilterSetFiltersItems'
+          description: List of all filters contained in the filter set.
+      title: CreateFilterSet
+    UpdateFilterSet:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the filter set.
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/UpdateFilterSetFiltersItems'
+          description: List of all filters contained in the filter set.
+      title: UpdateFilterSet
+    ApiV1FilterSetsIdGetResponsesContentApplicationJsonSchemaFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: ApiV1FilterSetsIdGetResponsesContentApplicationJsonSchemaFiltersItems
+    RangeFilterWeightings:
+      type: object
+      properties:
+        selected_range:
+          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRange'
+        weighting:
+          type: number
+          format: double
+      required:
+      - selected_range
+      - weighting
+      title: RangeFilterWeightings
+    CreateFilterSetFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: CreateFilterSetFiltersItems
+    RangeFilterSelectedRange:
+      type: object
+      properties:
+        lower:
+          $ref: '#/components/schemas/RangeFilterSelectedRangeLower'
+          description: Your selected lower bound for the range.
+        upper:
+          $ref: '#/components/schemas/RangeFilterSelectedRangeUpper'
+          description: Your selected upper bound for the range.
+      description: 'This schema applies for filters of the `range` type, as defined in the [filter list response](\#tag/Filters/paths/~1api~1v1~1filters~1/get).
+
+
+        A dictionary with two possible objects, ''lower'' and ''upper''. At least one must be present and a non-null value.
+
+
+        The expected data type for these values is defined by the `range` filter''s `data_type` (see response linked above).
+
+
+        If the data_type is a date, string format should be a parseable ISO8601 date string. Date values should be provided as a string in ISO 8601 format.
+
+
+        Leaving a value as null will result in that bound being set to the lowest or highest possible value, depending on whether it is the upper or lower bound.'
+      title: RangeFilterSelectedRange
+    Filter_Sets_UpdateFilterSet_Response_200:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the filter set.
+        version:
+          type: integer
+          description: An incrementing integer indicating the version of the filter set.
+        is_deleted:
+          type: boolean
+          description: Whether the filter set has been deleted.
+        is_locked:
+          type: boolean
+          description: Whether the filter set has been locked.
+        workspace_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the workspace where the filter set can be used.
+        organisation_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the workspace where the filter set can be used.
+        name:
+          type: string
+          description: Name of the filter set.
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiV1FilterSetsIdPatchResponsesContentApplicationJsonSchemaFiltersItems'
+          description: List of all filters contained in the filter set.
+        eligible_participant_count:
+          type: integer
+          description: 'The number of participants who match the filter sets filters. Please note that if the number is
+
+            lower than 25 the count will be obscured to prevent identification of participants.'
+      title: Filter Sets_UpdateFilterSet_Response_200
+    RangeFilter:
+      type: object
+      properties:
+        filter_id:
+          type: string
+          description: ID of the "range" type filter.
+        selected_range:
+          $ref: '#/components/schemas/RangeFilterSelectedRange'
+          description: 'This schema applies for filters of the `range` type, as defined in the [filter list response](\#tag/Filters/paths/~1api~1v1~1filters~1/get).
+
+
+            A dictionary with two possible objects, ''lower'' and ''upper''. At least one must be present and a non-null value.
+
+
+            The expected data type for these values is defined by the `range` filter''s `data_type` (see response linked above).
+
+
+            If the data_type is a date, string format should be a parseable ISO8601 date string. Date values should be provided as a string in ISO 8601 format.
+
+
+            Leaving a value as null will result in that bound being set to the lowest or highest possible value, depending on whether it is the upper or lower bound.'
+        weightings:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/RangeFilterWeightings'
+          description: 'Ratios to control the distribution of participants across the selected values.
+
+
+            Integers and exact quantities are valid inputs.'
+      required:
+      - filter_id
+      - selected_range
+      title: RangeFilter
+    ApiV1FilterSetsIdPatchResponsesContentApplicationJsonSchemaFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: ApiV1FilterSetsIdPatchResponsesContentApplicationJsonSchemaFiltersItems
+    SelectFilter:
+      type: object
+      properties:
+        filter_id:
+          type: string
+          description: ID of the "select" type filter.
+        selected_values:
+          type: array
+          items:
+            type: string
+          description: 'This schema applies for filters of the `select` type, as defined in the [filter list response](\#tag/Filters/paths/~1api~1v1~1filters~1/get).
+
+
+            Array of IDs matching the response IDs, from the `select` filter''s `choices` (see response linked above).
+
+
+            String format should match the `data_type` of the `select` filter''s `choices` (see response linked above).'
+        weightings:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+          description: 'Ratios to control the distribution of participants across the selected values.
+
+
+            Integer percentages, floats, and exact quantities are valid inputs.'
+      required:
+      - filter_id
+      - selected_values
+      title: SelectFilter
+    RangeFilterSelectedRangeUpper:
+      oneOf:
+      - type: integer
+      - type: string
+      - type: number
+        format: double
+      description: Your selected upper bound for the range.
+      title: RangeFilterSelectedRangeUpper
+    FilterSet:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the filter set.
+        version:
+          type: integer
+          description: An incrementing integer indicating the version of the filter set.
+        is_deleted:
+          type: boolean
+          description: Whether the filter set has been deleted.
+        is_locked:
+          type: boolean
+          description: Whether the filter set has been locked.
+        workspace_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the workspace where the filter set can be used.
+        organisation_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the workspace where the filter set can be used.
+        name:
+          type: string
+          description: Name of the filter set.
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/FilterSetFiltersItems'
+          description: List of all filters contained in the filter set.
+      title: FilterSet
+    ErrorDetailDetail2:
+      type: object
+      properties:
+        any_field:
+          type: array
+          items:
+            type: string
+          description: Name of the field with a validation error and as a value an array with the error descriptions
+      description: All fields with validation errors
+      title: ErrorDetailDetail2
+    ApiV1FilterSetsIdLockPostResponsesContentApplicationJsonSchemaFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: ApiV1FilterSetsIdLockPostResponsesContentApplicationJsonSchemaFiltersItems
+    Filter_Sets_GetFilterSet_Response_200:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the filter set.
+        version:
+          type: integer
+          description: An incrementing integer indicating the version of the filter set.
+        is_deleted:
+          type: boolean
+          description: Whether the filter set has been deleted.
+        is_locked:
+          type: boolean
+          description: Whether the filter set has been locked.
+        workspace_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the workspace where the filter set can be used.
+        organisation_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the workspace where the filter set can be used.
+        name:
+          type: string
+          description: Name of the filter set.
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiV1FilterSetsIdGetResponsesContentApplicationJsonSchemaFiltersItems'
+          description: List of all filters contained in the filter set.
+        eligible_participant_count:
+          type: integer
+          description: 'The number of participants who match the filter sets filters. Please note that if the number is
+
+            lower than 25 the count will be obscured to prevent identification of participants.'
+      title: Filter Sets_GetFilterSet_Response_200
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
+    CompositeFilterSelectedFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: CompositeFilterSelectedFiltersItems
+    UpdateFilterSetFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: UpdateFilterSetFiltersItems
+    Filter_Sets_UnlockFilterSet_Response_200:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the filter set.
+        version:
+          type: integer
+          description: An incrementing integer indicating the version of the filter set.
+        is_deleted:
+          type: boolean
+          description: Whether the filter set has been deleted.
+        is_locked:
+          type: boolean
+          description: Whether the filter set has been locked.
+        workspace_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the workspace where the filter set can be used.
+        organisation_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the workspace where the filter set can be used.
+        name:
+          type: string
+          description: Name of the filter set.
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiV1FilterSetsIdUnlockPostResponsesContentApplicationJsonSchemaFiltersItems'
+          description: List of all filters contained in the filter set.
+        eligible_participant_count:
+          type: integer
+          description: 'The number of participants who match the filter sets filters. Please note that if the number is
+
+            lower than 25 the count will be obscured to prevent identification of participants.'
+      title: Filter Sets_UnlockFilterSet_Response_200
+    Filter_Sets_CreateFilterSet_Response_201:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the filter set.
+        version:
+          type: integer
+          description: An incrementing integer indicating the version of the filter set.
+        is_deleted:
+          type: boolean
+          description: Whether the filter set has been deleted.
+        is_locked:
+          type: boolean
+          description: Whether the filter set has been locked.
+        workspace_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the workspace where the filter set can be used.
+        organisation_id:
+          type:
+          - string
+          - 'null'
+          description: ID of the workspace where the filter set can be used.
+        name:
+          type: string
+          description: Name of the filter set.
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiV1FilterSetsPostResponsesContentApplicationJsonSchemaFiltersItems'
+          description: List of all filters contained in the filter set.
+        eligible_participant_count:
+          type: integer
+          description: 'The number of participants who match the filter sets filters. Please note that if the number is
+
+            lower than 25 the count will be obscured to prevent identification of participants.'
+      title: Filter Sets_CreateFilterSet_Response_201
+    RangeFilterWeightingsSelectedRange:
+      type: object
+      properties:
+        lower:
+          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRangeLower'
+        upper:
+          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRangeUpper'
+      title: RangeFilterWeightingsSelectedRange
   securitySchemes:
     token:
       type: apiKey

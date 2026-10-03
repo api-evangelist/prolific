@@ -166,54 +166,52 @@ paths:
               $ref: '#/components/schemas/RequirementsCountRequest'
 components:
   schemas:
-    SelectFilterListResponseDataType:
-      type: string
-      enum:
-      - ChoiceID
-      - ParticipantID
-      - StudyID
-      - ParticipantGroupID
-      description: 'The format of the keys in the choices object. If the keys are strings representing sequential integers,
-
-        the data format is integer. If the keys are database ObjectIDs, the type of ID is specified.'
-      title: SelectFilterListResponseDataType
-    SelectFilterListDetailedResponseType:
-      type: string
-      enum:
-      - select
-      - range
-      description: The filter type.
-      title: SelectFilterListDetailedResponseType
-    RequirementsCountRequestFiltersItems:
-      oneOf:
-      - $ref: '#/components/schemas/SelectFilter'
-      - $ref: '#/components/schemas/RangeFilter'
-      - $ref: '#/components/schemas/CompositeFilter'
-      title: RequirementsCountRequestFiltersItems
-    RangeFilterListDetailedResponseMin:
+    RangeFilterListDetailedResponseMinMax:
       oneOf:
       - type: integer
       - type: number
         format: double
       - type: string
-      description: The minimum valid value of the range.
-      title: RangeFilterListDetailedResponseMin
-    CompositeFilter:
+      description: Optional maximum allowed value for the selected_range lower bound.
+      title: RangeFilterListDetailedResponseMinMax
+    Error:
       type: object
       properties:
-        filter_id:
-          $ref: '#/components/schemas/CompositeFilterFilterId'
-          description: Composite filter group operator. Use `and` when every child filter must match, or `or` when at least one child filter must match.
-        selected_filters:
-          type: array
-          items:
-            $ref: '#/components/schemas/CompositeFilterSelectedFiltersItems'
-          description: Child filters in this group. Children can be select filters, range filters, or supported nested composite groups.
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
       required:
-      - filter_id
-      - selected_filters
-      title: CompositeFilter
-    RangeFilterListDetailedResponseDataType:
+      - error
+      title: Error
+    ErrorDetail:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: Status code as in the http standards
+        error_code:
+          type: integer
+          description: Internal error code
+        title:
+          type: string
+          description: Error title
+        detail:
+          $ref: '#/components/schemas/ErrorDetailDetail'
+          description: Error detail
+        additional_information:
+          type: string
+          description: Optional extra information
+        traceback:
+          type: string
+          description: Optional debug information
+        interactive:
+          type: boolean
+      required:
+      - status
+      - error_code
+      - title
+      - detail
+      title: ErrorDetail
+    RangeFilterListResponseDataType:
       type: string
       enum:
       - date
@@ -226,7 +224,21 @@ components:
         - If the data type is date, the lower and upper values must be ISO8601 dates. Example: `2025-07-11`.
 
         - If the data type is float, the lower and upper values can be provided as floats or integers. Returned values will be floats. Example: `70.5` or `80.0`.'
-      title: RangeFilterListDetailedResponseDataType
+      title: RangeFilterListResponseDataType
+    RangeFilterWeightingsSelectedRangeUpper:
+      oneOf:
+      - type: integer
+      - type: string
+      - type: number
+        format: double
+      title: RangeFilterWeightingsSelectedRangeUpper
+    RangeFilterWeightingsSelectedRangeLower:
+      oneOf:
+      - type: integer
+      - type: string
+      - type: number
+        format: double
+      title: RangeFilterWeightingsSelectedRangeLower
     RangeFilterListDetailedResponse:
       type: object
       properties:
@@ -299,39 +311,34 @@ components:
             type: string
           description: Some additional tags that can be used to display the filter in a specific way, e.g. recommended, new, expiring.
       title: RangeFilterListDetailedResponse
-    RangeFilterListResponseMax:
-      oneOf:
-      - type: integer
-      - type: number
-        format: double
-      - type: string
-      description: The maximum valid value of the range.
-      title: RangeFilterListResponseMax
-    FilterDistributionDistribution:
-      oneOf:
-      - type: object
-        additionalProperties:
-          type: integer
-      - type: object
-        additionalProperties:
-          type: integer
-      title: FilterDistributionDistribution
-    RangeFilterWeightingsSelectedRangeLower:
-      oneOf:
-      - type: integer
-      - type: string
-      - type: number
-        format: double
-      title: RangeFilterWeightingsSelectedRangeLower
-    RangeFilterListDetailedResponseMinMax:
-      oneOf:
-      - type: integer
-      - type: number
-        format: double
-      - type: string
-      description: Optional maximum allowed value for the selected_range lower bound.
-      title: RangeFilterListDetailedResponseMinMax
-    RangeFilterListResponseDataType:
+    SelectFilterListResponseDataType:
+      type: string
+      enum:
+      - ChoiceID
+      - ParticipantID
+      - StudyID
+      - ParticipantGroupID
+      description: 'The format of the keys in the choices object. If the keys are strings representing sequential integers,
+
+        the data format is integer. If the keys are database ObjectIDs, the type of ID is specified.'
+      title: SelectFilterListResponseDataType
+    FilterDistribution:
+      type: object
+      properties:
+        distribution:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/FilterDistributionDistribution'
+          description: Distribution data for the specified `distribution_filters`
+      title: FilterDistribution
+    CompositeFilterFilterId:
+      type: string
+      enum:
+      - and
+      - or
+      description: Composite filter group operator. Use `and` when every child filter must match, or `or` when at least one child filter must match.
+      title: CompositeFilterFilterId
+    RangeFilterListDetailedResponseDataType:
       type: string
       enum:
       - date
@@ -344,84 +351,7 @@ components:
         - If the data type is date, the lower and upper values must be ISO8601 dates. Example: `2025-07-11`.
 
         - If the data type is float, the lower and upper values can be provided as floats or integers. Returned values will be floats. Example: `70.5` or `80.0`.'
-      title: RangeFilterListResponseDataType
-    FilterDistribution:
-      type: object
-      properties:
-        distribution:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/FilterDistributionDistribution'
-          description: Distribution data for the specified `distribution_filters`
-      title: FilterDistribution
-    RangeFilterListDetailedResponseMax:
-      oneOf:
-      - type: integer
-      - type: number
-        format: double
-      - type: string
-      description: The maximum valid value of the range.
-      title: RangeFilterListDetailedResponseMax
-    Error:
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/ErrorDetail'
-      required:
-      - error
-      title: Error
-    RequirementsCountRequest:
-      type: object
-      properties:
-        filters:
-          type: array
-          items:
-            $ref: '#/components/schemas/RequirementsCountRequestFiltersItems'
-          description: 'List of filters to apply to the count. This parameter uses the new, simplified
-
-            filters schema for interacting with eligibility.'
-        workspace_id:
-          type: string
-          description: 'The ID of the workspace you will be creating a study in.
-
-
-            Due to US tax laws, non US residents may not participate in studies created by US researchers.
-
-            For this reason, we use the country specified in the workspace to determine eligibility.
-
-
-            If you do not specify a workspace ID, we will use the current workspace ID of the user making the request.
-
-            Your eligibility count may not be accurate if you do not specify a workspace ID.'
-        organisation_id:
-          type: string
-          description: The ID of the workspace you will be creating a filterset in.
-      required:
-      - filters
-      title: RequirementsCountRequest
-    FilterListResultsItems:
-      oneOf:
-      - $ref: '#/components/schemas/SelectFilterListResponse'
-      - $ref: '#/components/schemas/SelectFilterListDetailedResponse'
-      - $ref: '#/components/schemas/RangeFilterListResponse'
-      - $ref: '#/components/schemas/RangeFilterListDetailedResponse'
-      title: FilterListResultsItems
-    FilterList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/FilterListResultsItems'
-        _links:
-          type: object
-          additionalProperties:
-            description: Any type
-        meta:
-          type: object
-          additionalProperties:
-            description: Any type
-      title: FilterList
+      title: RangeFilterListDetailedResponseDataType
     RangeFilterListResponseType:
       type: string
       enum:
@@ -429,81 +359,6 @@ components:
       - range
       description: The filter type.
       title: RangeFilterListResponseType
-    RangeFilterSelectedRangeUpper:
-      oneOf:
-      - type: integer
-      - type: string
-      - type: number
-        format: double
-      description: Your selected upper bound for the range.
-      title: RangeFilterSelectedRangeUpper
-    CompositeFilterSelectedFiltersItems:
-      oneOf:
-      - $ref: '#/components/schemas/SelectFilter'
-      - $ref: '#/components/schemas/RangeFilter'
-      - $ref: '#/components/schemas/CompositeFilter'
-      title: CompositeFilterSelectedFiltersItems
-    RangeFilterListDetailedResponseMaxMin:
-      oneOf:
-      - type: integer
-      - type: number
-        format: double
-      - type: string
-      description: Optional minimum allowed value for the selected_range upper bound.
-      title: RangeFilterListDetailedResponseMaxMin
-    RangeFilterListDetailedResponseType:
-      type: string
-      enum:
-      - select
-      - range
-      description: The filter type.
-      title: RangeFilterListDetailedResponseType
-    RangeFilterListResponseMaxMin:
-      oneOf:
-      - type: integer
-      - type: number
-        format: double
-      - type: string
-      description: Optional minimum allowed value for the selected_range upper bound.
-      title: RangeFilterListResponseMaxMin
-    CompositeFilterFilterId:
-      type: string
-      enum:
-      - and
-      - or
-      description: Composite filter group operator. Use `and` when every child filter must match, or `or` when at least one child filter must match.
-      title: CompositeFilterFilterId
-    RangeFilterSelectedRange:
-      type: object
-      properties:
-        lower:
-          $ref: '#/components/schemas/RangeFilterSelectedRangeLower'
-          description: Your selected lower bound for the range.
-        upper:
-          $ref: '#/components/schemas/RangeFilterSelectedRangeUpper'
-          description: Your selected upper bound for the range.
-      description: 'This schema applies for filters of the `range` type, as defined in the [filter list response](\#tag/Filters/paths/~1api~1v1~1filters~1/get).
-
-
-        A dictionary with two possible objects, ''lower'' and ''upper''. At least one must be present and a non-null value.
-
-
-        The expected data type for these values is defined by the `range` filter''s `data_type` (see response linked above).
-
-
-        If the data_type is a date, string format should be a parseable ISO8601 date string. Date values should be provided as a string in ISO 8601 format.
-
-
-        Leaving a value as null will result in that bound being set to the lowest or highest possible value, depending on whether it is the upper or lower bound.'
-      title: RangeFilterSelectedRange
-    RangeFilterListResponseMin:
-      oneOf:
-      - type: integer
-      - type: number
-        format: double
-      - type: string
-      description: The minimum valid value of the range.
-      title: RangeFilterListResponseMin
     SelectFilterListDetailedResponse:
       type: object
       properties:
@@ -565,6 +420,218 @@ components:
             type: string
           description: Some additional tags that can be used to display the filter in a specific way, e.g. recommended, new, expiring.
       title: SelectFilterListDetailedResponse
+    RangeFilterListResponseMin:
+      oneOf:
+      - type: integer
+      - type: number
+        format: double
+      - type: string
+      description: The minimum valid value of the range.
+      title: RangeFilterListResponseMin
+    RangeFilterListResponseMax:
+      oneOf:
+      - type: integer
+      - type: number
+        format: double
+      - type: string
+      description: The maximum valid value of the range.
+      title: RangeFilterListResponseMax
+    SelectFilterListDetailedResponseType:
+      type: string
+      enum:
+      - select
+      - range
+      description: The filter type.
+      title: SelectFilterListDetailedResponseType
+    FilterDistributionDistribution:
+      oneOf:
+      - type: object
+        additionalProperties:
+          type: integer
+      - type: object
+        additionalProperties:
+          type: integer
+      title: FilterDistributionDistribution
+    RangeFilterSelectedRangeLower:
+      oneOf:
+      - type: integer
+      - type: string
+      - type: number
+        format: double
+      description: Your selected lower bound for the range.
+      title: RangeFilterSelectedRangeLower
+    CompositeFilter:
+      type: object
+      properties:
+        filter_id:
+          $ref: '#/components/schemas/CompositeFilterFilterId'
+          description: Composite filter group operator. Use `and` when every child filter must match, or `or` when at least one child filter must match.
+        selected_filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompositeFilterSelectedFiltersItems'
+          description: Child filters in this group. Children can be select filters, range filters, or supported nested composite groups.
+      required:
+      - filter_id
+      - selected_filters
+      title: CompositeFilter
+    RequirementsCountRequest:
+      type: object
+      properties:
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/RequirementsCountRequestFiltersItems'
+          description: 'List of filters to apply to the count. This parameter uses the new, simplified
+
+            filters schema for interacting with eligibility.'
+        workspace_id:
+          type: string
+          description: 'The ID of the workspace you will be creating a study in.
+
+
+            Due to US tax laws, non US residents may not participate in studies created by US researchers.
+
+            For this reason, we use the country specified in the workspace to determine eligibility.
+
+
+            If you do not specify a workspace ID, we will use the current workspace ID of the user making the request.
+
+            Your eligibility count may not be accurate if you do not specify a workspace ID.'
+        organisation_id:
+          type: string
+          description: The ID of the workspace you will be creating a filterset in.
+      required:
+      - filters
+      title: RequirementsCountRequest
+    RangeFilterWeightings:
+      type: object
+      properties:
+        selected_range:
+          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRange'
+        weighting:
+          type: number
+          format: double
+      required:
+      - selected_range
+      - weighting
+      title: RangeFilterWeightings
+    FilterListResultsItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilterListResponse'
+      - $ref: '#/components/schemas/SelectFilterListDetailedResponse'
+      - $ref: '#/components/schemas/RangeFilterListResponse'
+      - $ref: '#/components/schemas/RangeFilterListDetailedResponse'
+      title: FilterListResultsItems
+    RangeFilterListDetailedResponseMaxMin:
+      oneOf:
+      - type: integer
+      - type: number
+        format: double
+      - type: string
+      description: Optional minimum allowed value for the selected_range upper bound.
+      title: RangeFilterListDetailedResponseMaxMin
+    RangeFilterListResponseMinMax:
+      oneOf:
+      - type: integer
+      - type: number
+        format: double
+      - type: string
+      description: Optional maximum allowed value for the selected_range lower bound.
+      title: RangeFilterListResponseMinMax
+    RangeFilterSelectedRange:
+      type: object
+      properties:
+        lower:
+          $ref: '#/components/schemas/RangeFilterSelectedRangeLower'
+          description: Your selected lower bound for the range.
+        upper:
+          $ref: '#/components/schemas/RangeFilterSelectedRangeUpper'
+          description: Your selected upper bound for the range.
+      description: 'This schema applies for filters of the `range` type, as defined in the [filter list response](\#tag/Filters/paths/~1api~1v1~1filters~1/get).
+
+
+        A dictionary with two possible objects, ''lower'' and ''upper''. At least one must be present and a non-null value.
+
+
+        The expected data type for these values is defined by the `range` filter''s `data_type` (see response linked above).
+
+
+        If the data_type is a date, string format should be a parseable ISO8601 date string. Date values should be provided as a string in ISO 8601 format.
+
+
+        Leaving a value as null will result in that bound being set to the lowest or highest possible value, depending on whether it is the upper or lower bound.'
+      title: RangeFilterSelectedRange
+    SelectFilterListResponse:
+      type: object
+      properties:
+        filter_id:
+          type: string
+          description: The ID of the filter, based on a slugified version of the title at the time the filter was created.
+        title:
+          type: string
+          description: The title of the filter.
+        description:
+          type: string
+          description: A description of the filter.
+        type:
+          $ref: '#/components/schemas/SelectFilterListResponseType'
+          description: The filter type.
+        question:
+          type: string
+          description: The question asked of participants to generate this filter.
+        choices:
+          type: object
+          additionalProperties:
+            description: Any type
+          description: An object containing all the filter's possible responses as key-value pairs, with sequential integer IDs or database ObjectIDs as the keys and the text of the response as the values.
+        data_type:
+          $ref: '#/components/schemas/SelectFilterListResponseDataType'
+          description: 'The format of the keys in the choices object. If the keys are strings representing sequential integers,
+
+            the data format is integer. If the keys are database ObjectIDs, the type of ID is specified.'
+      title: SelectFilterListResponse
+    RangeFilter:
+      type: object
+      properties:
+        filter_id:
+          type: string
+          description: ID of the "range" type filter.
+        selected_range:
+          $ref: '#/components/schemas/RangeFilterSelectedRange'
+          description: 'This schema applies for filters of the `range` type, as defined in the [filter list response](\#tag/Filters/paths/~1api~1v1~1filters~1/get).
+
+
+            A dictionary with two possible objects, ''lower'' and ''upper''. At least one must be present and a non-null value.
+
+
+            The expected data type for these values is defined by the `range` filter''s `data_type` (see response linked above).
+
+
+            If the data_type is a date, string format should be a parseable ISO8601 date string. Date values should be provided as a string in ISO 8601 format.
+
+
+            Leaving a value as null will result in that bound being set to the lowest or highest possible value, depending on whether it is the upper or lower bound.'
+        weightings:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/RangeFilterWeightings'
+          description: 'Ratios to control the distribution of participants across the selected values.
+
+
+            Integers and exact quantities are valid inputs.'
+      required:
+      - filter_id
+      - selected_range
+      title: RangeFilter
+    RangeFilterListResponseMaxMin:
+      oneOf:
+      - type: integer
+      - type: number
+        format: double
+      - type: string
+      description: Optional minimum allowed value for the selected_range upper bound.
+      title: RangeFilterListResponseMaxMin
     SelectFilter:
       type: object
       properties:
@@ -595,6 +662,14 @@ components:
       - filter_id
       - selected_values
       title: SelectFilter
+    RangeFilterSelectedRangeUpper:
+      oneOf:
+      - type: integer
+      - type: string
+      - type: number
+        format: double
+      description: Your selected upper bound for the range.
+      title: RangeFilterSelectedRangeUpper
     ErrorDetailDetail2:
       type: object
       properties:
@@ -605,6 +680,52 @@ components:
           description: Name of the field with a validation error and as a value an array with the error descriptions
       description: All fields with validation errors
       title: ErrorDetailDetail2
+    RangeFilterListDetailedResponseMax:
+      oneOf:
+      - type: integer
+      - type: number
+        format: double
+      - type: string
+      description: The maximum valid value of the range.
+      title: RangeFilterListDetailedResponseMax
+    RequirementsCountRequestFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: RequirementsCountRequestFiltersItems
+    SelectFilterListResponseType:
+      type: string
+      enum:
+      - select
+      - range
+      description: The filter type.
+      title: SelectFilterListResponseType
+    RequirementsCount:
+      type: object
+      properties:
+        count:
+          type: number
+          format: double
+          description: Number of participants passing all the requirements
+      required:
+      - count
+      title: RequirementsCount
+    RangeFilterListDetailedResponseType:
+      type: string
+      enum:
+      - select
+      - range
+      description: The filter type.
+      title: RangeFilterListDetailedResponseType
+    RangeFilterListDetailedResponseMin:
+      oneOf:
+      - type: integer
+      - type: number
+        format: double
+      - type: string
+      description: The minimum valid value of the range.
+      title: RangeFilterListDetailedResponseMin
     ErrorDetailDetail:
       oneOf:
       - type: string
@@ -614,54 +735,28 @@ components:
       - $ref: '#/components/schemas/ErrorDetailDetail2'
       description: Error detail
       title: ErrorDetailDetail
-    RangeFilterWeightings:
+    FilterList:
       type: object
       properties:
-        selected_range:
-          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRange'
-        weighting:
-          type: number
-          format: double
-      required:
-      - selected_range
-      - weighting
-      title: RangeFilterWeightings
-    ErrorDetail:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: Status code as in the http standards
-        error_code:
-          type: integer
-          description: Internal error code
-        title:
-          type: string
-          description: Error title
-        detail:
-          $ref: '#/components/schemas/ErrorDetailDetail'
-          description: Error detail
-        additional_information:
-          type: string
-          description: Optional extra information
-        traceback:
-          type: string
-          description: Optional debug information
-        interactive:
-          type: boolean
-      required:
-      - status
-      - error_code
-      - title
-      - detail
-      title: ErrorDetail
-    SelectFilterListResponseType:
-      type: string
-      enum:
-      - select
-      - range
-      description: The filter type.
-      title: SelectFilterListResponseType
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FilterListResultsItems'
+        _links:
+          type: object
+          additionalProperties:
+            description: Any type
+        meta:
+          type: object
+          additionalProperties:
+            description: Any type
+      title: FilterList
+    CompositeFilterSelectedFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: CompositeFilterSelectedFiltersItems
     RangeFilterListResponse:
       type: object
       properties:
@@ -702,109 +797,6 @@ components:
           $ref: '#/components/schemas/RangeFilterListResponseMaxMin'
           description: Optional minimum allowed value for the selected_range upper bound.
       title: RangeFilterListResponse
-    RangeFilter:
-      type: object
-      properties:
-        filter_id:
-          type: string
-          description: ID of the "range" type filter.
-        selected_range:
-          $ref: '#/components/schemas/RangeFilterSelectedRange'
-          description: 'This schema applies for filters of the `range` type, as defined in the [filter list response](\#tag/Filters/paths/~1api~1v1~1filters~1/get).
-
-
-            A dictionary with two possible objects, ''lower'' and ''upper''. At least one must be present and a non-null value.
-
-
-            The expected data type for these values is defined by the `range` filter''s `data_type` (see response linked above).
-
-
-            If the data_type is a date, string format should be a parseable ISO8601 date string. Date values should be provided as a string in ISO 8601 format.
-
-
-            Leaving a value as null will result in that bound being set to the lowest or highest possible value, depending on whether it is the upper or lower bound.'
-        weightings:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/RangeFilterWeightings'
-          description: 'Ratios to control the distribution of participants across the selected values.
-
-
-            Integers and exact quantities are valid inputs.'
-      required:
-      - filter_id
-      - selected_range
-      title: RangeFilter
-    RangeFilterWeightingsSelectedRange:
-      type: object
-      properties:
-        lower:
-          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRangeLower'
-        upper:
-          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRangeUpper'
-      title: RangeFilterWeightingsSelectedRange
-    RequirementsCount:
-      type: object
-      properties:
-        count:
-          type: number
-          format: double
-          description: Number of participants passing all the requirements
-      required:
-      - count
-      title: RequirementsCount
-    SelectFilterListResponse:
-      type: object
-      properties:
-        filter_id:
-          type: string
-          description: The ID of the filter, based on a slugified version of the title at the time the filter was created.
-        title:
-          type: string
-          description: The title of the filter.
-        description:
-          type: string
-          description: A description of the filter.
-        type:
-          $ref: '#/components/schemas/SelectFilterListResponseType'
-          description: The filter type.
-        question:
-          type: string
-          description: The question asked of participants to generate this filter.
-        choices:
-          type: object
-          additionalProperties:
-            description: Any type
-          description: An object containing all the filter's possible responses as key-value pairs, with sequential integer IDs or database ObjectIDs as the keys and the text of the response as the values.
-        data_type:
-          $ref: '#/components/schemas/SelectFilterListResponseDataType'
-          description: 'The format of the keys in the choices object. If the keys are strings representing sequential integers,
-
-            the data format is integer. If the keys are database ObjectIDs, the type of ID is specified.'
-      title: SelectFilterListResponse
-    RangeFilterWeightingsSelectedRangeUpper:
-      oneOf:
-      - type: integer
-      - type: string
-      - type: number
-        format: double
-      title: RangeFilterWeightingsSelectedRangeUpper
-    RangeFilterListResponseMinMax:
-      oneOf:
-      - type: integer
-      - type: number
-        format: double
-      - type: string
-      description: Optional maximum allowed value for the selected_range lower bound.
-      title: RangeFilterListResponseMinMax
-    RangeFilterSelectedRangeLower:
-      oneOf:
-      - type: integer
-      - type: string
-      - type: number
-        format: double
-      description: Your selected lower bound for the range.
-      title: RangeFilterSelectedRangeLower
     SelectFilterListDetailedResponseDataType:
       type: string
       enum:
@@ -816,6 +808,14 @@ components:
 
         the data format is integer. If the keys are database ObjectIDs, the type of ID is specified.'
       title: SelectFilterListDetailedResponseDataType
+    RangeFilterWeightingsSelectedRange:
+      type: object
+      properties:
+        lower:
+          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRangeLower'
+        upper:
+          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRangeUpper'
+      title: RangeFilterWeightingsSelectedRange
   securitySchemes:
     token:
       type: apiKey

@@ -1196,44 +1196,117 @@ paths:
               $ref: '#/components/schemas/StudyCostRequest'
 components:
   schemas:
-    DemographicExportHistoryResponse:
+    Error:
       type: object
       properties:
-        count:
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
+      required:
+      - error
+      title: Error
+    ErrorDetail:
+      type: object
+      properties:
+        status:
           type: integer
-          description: Total number of different filter combinations that have been requested for demographic export
-        filters:
+          description: Status code as in the http standards
+        error_code:
+          type: integer
+          description: Internal error code
+        title:
+          type: string
+          description: Error title
+        detail:
+          $ref: '#/components/schemas/ErrorDetailDetail'
+          description: Error detail
+        additional_information:
+          type: string
+          description: Optional extra information
+        traceback:
+          type: string
+          description: Optional debug information
+        interactive:
+          type: boolean
+      required:
+      - status
+      - error_code
+      - title
+      - detail
+      title: ErrorDetail
+    StudyAccessDetailsProgress:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The access details collection ID for this study's Taskflow configuration.
+        progress:
           type: array
           items:
-            $ref: '#/components/schemas/DemographicExportHistoryResponseFiltersItems'
-          description: 'The filters used in the most recent export request. Returns an empty array if no exports have been requested yet.
-
-
-            This shows you exactly what filter combination was used in your latest request, helping you track your export usage.'
+            $ref: '#/components/schemas/AccessDetailProgress'
+          description: One row per `external_url` configured on the study.
+        _links:
+          type: object
+          additionalProperties:
+            description: Any type
+          description: HAL-style links; typically includes `self` pointing at this endpoint.
       required:
-      - count
-      - filters
-      description: Response containing the latest demographic export request history for a study
-      title: DemographicExportHistoryResponse
-    StudyTransition:
+      - id
+      - progress
+      title: StudyAccessDetailsProgress
+    AccessDetail:
       type: object
       properties:
-        action:
-          $ref: '#/components/schemas/StudyTransitionAction'
-          description: The transition action to execute on the study.
-        publish_at:
+        external_url:
           type: string
-          format: date-time
-          description: ISO 8601 datetime for when the study should be published. Required in the request when action is SCHEDULE_PUBLISH and the study does not already have a publish_at set.
+          description: URL of the task you want to send the participant to. You can pass URL search parameters as in `external_study_url`.
+        total_allocation:
+          type: number
+          format: double
+          description: 'The base number of places you want allocated to this URL. This value is set by you and is used to determine the study''s total available places.
+
+
+            Note: for studies with custom screening (fixed screen-out reward), participants who are screened out generate additional capacity on top of this base value. The `allocated` count in progress responses may therefore exceed `total_allocation` — this is expected behaviour. See `capacity_increments` in the progress response for details.'
       required:
-      - action
-      title: StudyTransition
-    DemographicExportHistoryResponseFiltersItems:
+      - external_url
+      - total_allocation
+      title: AccessDetail
+    StudyCostRequest:
+      type: object
+      properties:
+        reward:
+          type: number
+          format: double
+          description: How much are you going to pay the participants in cents. We use the currency of your account
+        total_available_places:
+          type: number
+          format: double
+          description: How many participants are you looking to recruit
+      required:
+      - reward
+      - total_available_places
+      title: StudyCostRequest
+    CreateStudyCompletionCodesItemsActor:
+      type: string
+      enum:
+      - participant
+      - researcher
+      default: participant
+      description: The actor that can provide this completion code.
+      title: CreateStudyCompletionCodesItemsActor
+    DemographicExportRequestFiltersItems:
       oneOf:
       - $ref: '#/components/schemas/SelectFilter'
       - $ref: '#/components/schemas/RangeFilter'
       - $ref: '#/components/schemas/CompositeFilter'
-      title: DemographicExportHistoryResponseFiltersItems
+      title: DemographicExportRequestFiltersItems
+    StudyPredictedRecruitmentTimeRequestPeripheralRequirementsItems:
+      type: string
+      enum:
+      - audio
+      - camera
+      - download
+      - microphone
+      title: StudyPredictedRecruitmentTimeRequestPeripheralRequirementsItems
     CreateStudyProlificIdOption:
       type: string
       enum:
@@ -1248,104 +1321,47 @@ components:
 
         Use ''not_required'' if you don''t need to record them.'
       title: CreateStudyProlificIdOption
-    StudyPredictedRecruitmentTimeRequest:
+    StudyPredictedRecruitmentTimeRequestFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: StudyPredictedRecruitmentTimeRequestFiltersItems
+    RangeFilterSelectedRange:
       type: object
       properties:
-        filters:
-          type: array
-          items:
-            $ref: '#/components/schemas/StudyPredictedRecruitmentTimeRequestFiltersItems'
-          description: 'List of filters to apply to the count. This parameter uses the new, simplified
+        lower:
+          $ref: '#/components/schemas/RangeFilterSelectedRangeLower'
+          description: Your selected lower bound for the range.
+        upper:
+          $ref: '#/components/schemas/RangeFilterSelectedRangeUpper'
+          description: Your selected upper bound for the range.
+      description: 'This schema applies for filters of the `range` type, as defined in the [filter list response](\#tag/Filters/paths/~1api~1v1~1filters~1/get).
 
-            filters schema for interacting with eligibility.'
-        workspace_id:
-          type: string
-          description: The ID of the workspace the study will be created in.
-        reward:
-          type: number
-          format: double
-          description: How much are you going to pay the participants in cents. We use the currency of the workspace
-        study_type:
-          $ref: '#/components/schemas/StudyPredictedRecruitmentTimeRequestStudyType'
-          description: Type of study.
-        total_available_places:
-          type: number
-          format: double
-          description: How many participants are you looking to recruit
-        estimated_completion_time:
-          type: number
-          format: double
-          description: Estimated duration in minutes of the experiment or survey
-        device_compatibility:
-          type: array
-          items:
-            $ref: '#/components/schemas/StudyPredictedRecruitmentTimeRequestDeviceCompatibilityItems'
-          description: 'Add all devices that participants can use.
 
-            You can include one or more options.'
-        peripheral_requirements:
-          type: array
-          items:
-            $ref: '#/components/schemas/StudyPredictedRecruitmentTimeRequestPeripheralRequirementsItems'
-          description: Add all requirements that participants have to meet.
-        study_labels:
-          $ref: '#/components/schemas/StudyPredictedRecruitmentTimeRequestStudyLabels'
-          description: The field that the study is about to get tagged with.
-      required:
-      - filters
-      - workspace_id
-      - reward
-      - study_type
-      - total_available_places
-      - estimated_completion_time
-      title: StudyPredictedRecruitmentTimeRequest
-    BaseStudyCompletionCodesItemsCodeType:
+        A dictionary with two possible objects, ''lower'' and ''upper''. At least one must be present and a non-null value.
+
+
+        The expected data type for these values is defined by the `range` filter''s `data_type` (see response linked above).
+
+
+        If the data_type is a date, string format should be a parseable ISO8601 date string. Date values should be provided as a string in ISO 8601 format.
+
+
+        Leaving a value as null will result in that bound being set to the lowest or highest possible value, depending on whether it is the upper or lower bound.'
+      title: RangeFilterSelectedRange
+    ApiV1StudiesGetParametersState:
       type: string
       enum:
+      - ACTIVE
+      - PAUSED
+      - UNPUBLISHED
+      - PUBLISHING
       - COMPLETED
-      - FAILED_ATTENTION_CHECK
-      - FOLLOW_UP_STUDY
-      - GIVE_BONUS
-      - INCOMPATIBLE_DEVICE
-      - NO_CONSENT
-      - OTHER
-      - FIXED_SCREENOUT
-      - SCREENED_IN
-      - SCREENED_OUT
-      description: 'A name for your code to make it easier to understand its intention. Either use one of the predefined options or any other free text.
-
-        '
-      title: BaseStudyCompletionCodesItemsCodeType
-    CreateStudyDataCollectionMetadata:
-      type: object
-      properties:
-        annotators_per_task:
-          type: integer
-          description: Number of annotators required per task. Required for AI Task Builder Batch studies to set multiple annotators.
-      description: "**Optional.** Additional metadata for configuring AI Task Builder data annotation behavior. Only used when `data_collection_method` is set to `AI_TASK_BUILDER_BATCH`.\n\n**Properties:**\n\n- `annotators_per_task` (integer): Number of annotators per task. **This field must be provided if you want multiple annotators per task.** Without this field, the default value of 1 will be used.\n  - Minimum: 1\n  - Default: 1 (if not provided)\n\n**Example:**\n```json\n{\n  \"annotators_per_task\": 5\n}\n```\n\n**Important:** You must include `annotators_per_task` to control how many participants annotate each task. After the study is published, this value can only be increased (not decreased), which will increase the total available places on the study."
-      title: CreateStudyDataCollectionMetadata
-    FixedScreenOut:
-      type: object
-      properties:
-        action:
-          $ref: '#/components/schemas/FixedScreenOutAction'
-          description: 'Use this action to set up a fixed screen out reward study. This feature is currently available to select workspaces only.
-
-            - A fixed screen out reward study compensates participants with a predetermined amount when they do not qualify for the study.
-
-            - This feature enables researchers to implement more precise participant screening while ensuring fair compensation for participants'' time.'
-        fixed_screen_out_reward:
-          type: integer
-          description: The amount that you would like to pay for a screen-out submission (in subcurrency). This must be less that the study reward.
-        slots:
-          type: integer
-          description: "The slots field controls how many participants can be screened out of your study before it automatically pauses.\n\n#### What are slots?\n  - Slots set a limit on screen-outs to help you budget upfront, by setting the limit to the maximum number of screen-outs you're comfortable paying for in your study.\n  - When participants don't qualify for your study, they will receive a screen-out payment.\n  - The slots limit prevents unexpected high costs created from too many screen-outs.\n  - **Example**: If you set `slots: 50`, your study will pause after 50 participants are screened out, even if you still need more qualified participants.\n\n#### How slots work\n  1. **Participants are screened out** - When they enter the completion code linked to this action. They will automatically receive the fixed screen out reward.\n  2. **Study pauses automatically** - When the number of participants screened out reaches the slots limit, and there are still unfilled places in the study, the study will automatically pause.\n  3. **You get notified** - Via email and webhook, notifying you that you’ve reached your slot limit, and that your study has been paused.  (Webhook notifications only if they’re enabled for `study.status.change` events)\n\n#### Resuming your study\n  *To continue recruiting after hitting the slot limit:*\n\n  1. **Increase the slot limit** using the [update study](#tag/Studies/operation/UpdateStudy) endpoint.\n     - Update the initial property to your new slot limit.\n     - Refer `update_slots` in the example of the [UpdateStudy](#tag/Studies/operation/UpdateStudy) endpoint.\n     - For example, if you started with 50 slots and want to add another 50 slots, set the `slots` property to 100.\n  ```json\n    {\n      \"completion_codes\": [\n        {\n          \"code\": \"ABC123\",\n          \"actions\": [\n            {\n              \"action\": \"FIXED_SCREEN_OUT_PAYMENT\",\n              \"slots\": 100\n            }\n          ]\n        }\n      ]\n    }\n  ```\n  2. **Resume the study** by transitioning it back to `START` state using the [transition study](#tag/Studies/operation/PublishStudy) endpoint.\n\n  ```json\n  {\n    \"action\": \"START\"\n  }\n  ```"
-      required:
-      - action
-      - fixed_screen_out_reward
-      - slots
-      description: Use this action to set up a fixed screen out reward study.
-      title: FixedScreenOut
+      - AWAITING REVIEW
+      - UNKNOWN
+      - SCHEDULED
+      title: ApiV1StudiesGetParametersState
     StudyPredictedRecruitmentTimeResponse:
       type: object
       properties:
@@ -1375,269 +1391,44 @@ components:
 
             has been done for you in the display_string field.'
       title: StudyPredictedRecruitmentTimeResponse
-    Studies_DeleteStudy_Response_200:
-      type: object
-      properties: {}
-      description: Empty response body
-      title: Studies_DeleteStudy_Response_200
-    CreateStudyDataCollectionMethod:
-      type: string
-      enum:
-      - AI_TASK_BUILDER_BATCH
-      - AI_TASK_BUILDER_COLLECTION
-      description: '**Optional.** Specifies the data collection method for the study.
-
-
-        - `AI_TASK_BUILDER_BATCH`: Use AI Task Builder for data annotation tasks.
-
-        - `AI_TASK_BUILDER_COLLECTION`: Use AI Task Builder for data collection tasks.
-
-
-        **Note:** This field is mutually exclusive with `external_study_url` and `access_details`. If not provided, you must specify one of those fields instead.'
-      title: CreateStudyDataCollectionMethod
-    DynamicPaymentAction:
-      type: string
-      enum:
-      - DYNAMIC_PAYMENT
-      description: Use this action to set up a dynamic payment study. Only certain workspaces have access to this feature. When using this action, the actor must be "researcher".
-      title: DynamicPaymentAction
-    ManuallyReviewAction:
-      type: string
-      enum:
-      - MANUALLY_REVIEW
-      description: Moves submission for the data collector to be manually reviewed.
-      title: ManuallyReviewAction
-    BaseStudyDeviceCompatibilityItems:
-      type: string
-      enum:
-      - desktop
-      - tablet
-      - mobile
-      title: BaseStudyDeviceCompatibilityItems
-    BaseStudyCompletionCodesItemsActionsItems:
-      oneOf:
-      - $ref: '#/components/schemas/AutomaticallyApprove'
-      - $ref: '#/components/schemas/AddToParticipantGroup'
-      - $ref: '#/components/schemas/RemoveFromParticipantGroup'
-      - $ref: '#/components/schemas/ManuallyReview'
-      - $ref: '#/components/schemas/RequestReturn'
-      - $ref: '#/components/schemas/DynamicPayment'
-      - $ref: '#/components/schemas/FixedScreenOut'
-      title: BaseStudyCompletionCodesItemsActionsItems
-    SubmissionShortStatus:
-      type: string
-      enum:
-      - RESERVED
-      - ACTIVE
-      - TIMED-OUT
-      - AWAITING REVIEW
-      - APPROVED
-      - RETURNED
-      - REJECTED
-      - SCREENED OUT
-      description: Status of the submission.
-      title: SubmissionShortStatus
-    SubmissionListResponse:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/SubmissionShort'
-          description: List of all submissions matching the criteria.
-      required:
-      - results
-      title: SubmissionListResponse
-    CompositeFilterFilterId:
-      type: string
-      enum:
-      - and
-      - or
-      description: Composite filter group operator. Use `and` when every child filter must match, or `or` when at least one child filter must match.
-      title: CompositeFilterFilterId
-    CreateStudyCompletionCodesItemsCodeType:
-      type: string
-      enum:
-      - COMPLETED
-      - FAILED_ATTENTION_CHECK
-      - FOLLOW_UP_STUDY
-      - GIVE_BONUS
-      - INCOMPATIBLE_DEVICE
-      - NO_CONSENT
-      - OTHER
-      - FIXED_SCREENOUT
-      - SCREENED_IN
-      - SCREENED_OUT
-      description: 'A name for your code to make it easier to understand its intention. Either use one of the predefined options or any other free text.
-
-        '
-      title: CreateStudyCompletionCodesItemsCodeType
-    AutomaticallyApproveAction:
-      type: string
-      enum:
-      - AUTOMATICALLY_APPROVE
-      description: Automatically approves submission with payment being processed immediately
-      title: AutomaticallyApproveAction
-    BaseStudyAccessDetailsItems:
-      oneOf:
-      - $ref: '#/components/schemas/AccessDetail'
-      title: BaseStudyAccessDetailsItems
-    ErrorDetailDetail2:
-      type: object
-      properties:
-        any_field:
-          type: array
-          items:
-            type: string
-          description: Name of the field with a validation error and as a value an array with the error descriptions
-      description: All fields with validation errors
-      title: ErrorDetailDetail2
     BaseStudyFiltersItems:
       oneOf:
       - $ref: '#/components/schemas/SelectFilter'
       - $ref: '#/components/schemas/RangeFilter'
       - $ref: '#/components/schemas/CompositeFilter'
       title: BaseStudyFiltersItems
-    StudyTotalCost:
+    CreateStudyPeripheralRequirementsItems:
+      type: string
+      enum:
+      - audio
+      - camera
+      - download
+      - microphone
+      title: CreateStudyPeripheralRequirementsItems
+    BaseStudyDataCollectionMetadata:
+      type: object
+      properties:
+        annotators_per_task:
+          type: integer
+          description: Number of annotators required per task. Required for AI Task Builder Batch studies to set multiple annotators.
+      description: "**Optional.** Additional metadata for configuring AI Task Builder data annotation behavior. Only used when `data_collection_method` is set to `AI_TASK_BUILDER_BATCH`.\n\n**Properties:**\n\n- `annotators_per_task` (integer): Number of annotators per task. **This field must be provided if you want multiple annotators per task.** Without this field, the default value of 1 will be used.\n  - Minimum: 1\n  - Default: 1 (if not provided)\n\n**Example:**\n```json\n{\n  \"annotators_per_task\": 5\n}\n```\n\n**Important:** You must include `annotators_per_task` to control how many participants annotate each task. After the study is published, this value can only be increased (not decreased), which will increase the total available places on the study."
+      title: BaseStudyDataCollectionMetadata
+    Studies_DeleteStudy_Response_200:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: Studies_DeleteStudy_Response_200
+    StudyCostBreakdown:
       type: object
       properties:
         rewards:
-          $ref: '#/components/schemas/StudyCostBreakdown'
-        bonuses:
-          $ref: '#/components/schemas/StudyCostBreakdown'
-        _links:
-          type: object
-          additionalProperties:
-            description: Any type
-      title: StudyTotalCost
-    SubmissionShort:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Submission id.
-        participant_id:
-          type: string
-          description: Participant id.
-        status:
-          $ref: '#/components/schemas/SubmissionShortStatus'
-          description: Status of the submission.
-        started_at:
-          type: string
-          format: date-time
-          description: Date started
-        completed_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Date completed
-        has_siblings:
-          type: boolean
-          description: Whether or not the submission has sibling submissions (sharing the same study).
-        study_code:
-          type:
-          - string
-          - 'null'
-          description: The completion code used by the participant to complete the study.
-        return_requested:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: The date and time when a return request for the submission was made.
-      required:
-      - id
-      - participant_id
-      - status
-      - started_at
-      - has_siblings
-      title: SubmissionShort
-    RangeFilterWeightingsSelectedRange:
-      type: object
-      properties:
-        lower:
-          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRangeLower'
-        upper:
-          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRangeUpper'
-      title: RangeFilterWeightingsSelectedRange
-    CreateStudySubmissionsConfigAutoRejectionCategoriesItems:
-      type: string
-      enum:
-      - EXCEPTIONALLY_FAST
-      title: CreateStudySubmissionsConfigAutoRejectionCategoriesItems
-    CreateStudyCompletionCodesItemsActionsItems:
-      oneOf:
-      - $ref: '#/components/schemas/AutomaticallyApprove'
-      - $ref: '#/components/schemas/AddToParticipantGroup'
-      - $ref: '#/components/schemas/RemoveFromParticipantGroup'
-      - $ref: '#/components/schemas/ManuallyReview'
-      - $ref: '#/components/schemas/RequestReturn'
-      - $ref: '#/components/schemas/DynamicPayment'
-      - $ref: '#/components/schemas/FixedScreenOut'
-      title: CreateStudyCompletionCodesItemsActionsItems
-    RangeFilterWeightingsSelectedRangeLower:
-      oneOf:
-      - type: integer
-      - type: string
-      - type: number
-        format: double
-      title: RangeFilterWeightingsSelectedRangeLower
-    StudyCostRequest:
-      type: object
-      properties:
-        reward:
-          type: number
-          format: double
-          description: How much are you going to pay the participants in cents. We use the currency of your account
-        total_available_places:
-          type: number
-          format: double
-          description: How many participants are you looking to recruit
-      required:
-      - reward
-      - total_available_places
-      title: StudyCostRequest
-    RemoveFromParticipantGroup:
-      type: object
-      properties:
-        action:
-          $ref: '#/components/schemas/RemoveFromParticipantGroupAction'
-          description: Removes participants from specific groups
-        participant_group:
-          type: string
-          description: The participant group to remove the participant from.
-      required:
-      - action
-      - participant_group
-      title: RemoveFromParticipantGroup
-    TestStudySetUpResponse:
-      type: object
-      properties:
-        study_id:
-          type: string
-          format: objectId
-          description: The ID of the study that was created for the test.
-        study_url:
-          type: string
-          format: uri
-          description: The URL of the study that was created for the test.
-      title: TestStudySetUpResponse
-    BaseStudyProlificIdOption:
-      type: string
-      enum:
-      - question
-      - url_parameters
-      - not_required
-      description: 'Use ''question'' if you will add a question in your survey or experiment asking the participant ID
-
-
-        **Recommended** Use ''url_parameters'' if your survey or experiment can retrieve and store those parameters for your analysis.
-
-
-        Use ''not_required'' if you don''t need to record them.'
-      title: BaseStudyProlificIdOption
-    StudyPredictedRecruitmentTimeRequestStudyLabels:
+          $ref: '#/components/schemas/AmountAndCurrency'
+        fees:
+          $ref: '#/components/schemas/AmountAndCurrency'
+        tax:
+          $ref: '#/components/schemas/AmountAndCurrency'
+      title: StudyCostBreakdown
+    BaseStudyStudyLabelsItems:
       type: string
       enum:
       - survey
@@ -1656,14 +1447,201 @@ components:
       - ai_data_creation_video
       - ai_data_creation_images
       - ai_other
-      description: The field that the study is about to get tagged with.
-      title: StudyPredictedRecruitmentTimeRequestStudyLabels
-    DemographicExportRequestFiltersItems:
+      title: BaseStudyStudyLabelsItems
+    AddToParticipantGroup:
+      type: object
+      properties:
+        action:
+          $ref: '#/components/schemas/AddToParticipantGroupAction'
+          description: Adds participants to a specific group
+        participant_group:
+          type: string
+          description: The participant group to add the participant to.
+      required:
+      - action
+      - participant_group
+      title: AddToParticipantGroup
+    CreateStudyFiltersItems:
       oneOf:
       - $ref: '#/components/schemas/SelectFilter'
       - $ref: '#/components/schemas/RangeFilter'
       - $ref: '#/components/schemas/CompositeFilter'
-      title: DemographicExportRequestFiltersItems
+      title: CreateStudyFiltersItems
+    CreateStudyAccessDetailsItems:
+      oneOf:
+      - $ref: '#/components/schemas/AccessDetail'
+      title: CreateStudyAccessDetailsItems
+    CompositeFilterSelectedFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: CompositeFilterSelectedFiltersItems
+    DemographicExportHistoryResponseFiltersItems:
+      oneOf:
+      - $ref: '#/components/schemas/SelectFilter'
+      - $ref: '#/components/schemas/RangeFilter'
+      - $ref: '#/components/schemas/CompositeFilter'
+      title: DemographicExportHistoryResponseFiltersItems
+    BaseStudyCompletionCodesItems:
+      type: object
+      properties:
+        code:
+          type:
+          - string
+          - 'null'
+          description: "The code the participant will either enter manually at the end of your study or be redirected as part of the return URL.\n\nIf the code is null, then the participant will not be asked to submit a completion code when they return to Prolific.\nNull codes can only be provided when:\n  - The actor is \"participant\"\n  - There are no other completion codes with the \"participant\" actor\n  - The actions array is empty\n\nThe code must be unique within the study.\n"
+        code_type:
+          $ref: '#/components/schemas/BaseStudyCompletionCodesItemsCodeType'
+          description: 'A name for your code to make it easier to understand its intention. Either use one of the predefined options or any other free text.
+
+            '
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseStudyCompletionCodesItemsActionsItems'
+          description: 'The actions that will be completed automatically when the submission is completed with this code by the participant.
+
+
+            You have the ability to use one or multiple `actions` together - it''s up to you and your desired automated journey.
+
+
+            If you’re looking to keep things simple, we recommend setting the `{"action": "MANUALLY_REVIEW"}` option only, so all submissions wait for your manual approval.'
+        actor:
+          $ref: '#/components/schemas/BaseStudyCompletionCodesItemsActor'
+          default: participant
+          description: The actor that can provide this completion code.
+      required:
+      - code
+      - code_type
+      - actions
+      title: BaseStudyCompletionCodesItems
+    SubmissionShortStatus:
+      type: string
+      enum:
+      - RESERVED
+      - ACTIVE
+      - TIMED-OUT
+      - AWAITING REVIEW
+      - APPROVED
+      - RETURNED
+      - REJECTED
+      - SCREENED OUT
+      description: Status of the submission.
+      title: SubmissionShortStatus
+    ManuallyReviewAction:
+      type: string
+      enum:
+      - MANUALLY_REVIEW
+      description: Moves submission for the data collector to be manually reviewed.
+      title: ManuallyReviewAction
+    DynamicPaymentAction:
+      type: string
+      enum:
+      - DYNAMIC_PAYMENT
+      description: Use this action to set up a dynamic payment study. Only certain workspaces have access to this feature. When using this action, the actor must be "researcher".
+      title: DynamicPaymentAction
+    AddToParticipantGroupAction:
+      type: string
+      enum:
+      - ADD_TO_PARTICIPANT_GROUP
+      description: Adds participants to a specific group
+      title: AddToParticipantGroupAction
+    CompositeFilterFilterId:
+      type: string
+      enum:
+      - and
+      - or
+      description: Composite filter group operator. Use `and` when every child filter must match, or `or` when at least one child filter must match.
+      title: CompositeFilterFilterId
+    BaseStudyCompletionCodesItemsCodeType:
+      type: string
+      enum:
+      - COMPLETED
+      - FAILED_ATTENTION_CHECK
+      - FOLLOW_UP_STUDY
+      - GIVE_BONUS
+      - INCOMPATIBLE_DEVICE
+      - NO_CONSENT
+      - OTHER
+      - FIXED_SCREENOUT
+      - SCREENED_IN
+      - SCREENED_OUT
+      description: 'A name for your code to make it easier to understand its intention. Either use one of the predefined options or any other free text.
+
+        '
+      title: BaseStudyCompletionCodesItemsCodeType
+    BaseStudySubmissionsConfigAutoRejectionCategoriesItems:
+      type: string
+      enum:
+      - EXCEPTIONALLY_FAST
+      title: BaseStudySubmissionsConfigAutoRejectionCategoriesItems
+    AmountAndCurrency:
+      type: object
+      properties:
+        amount:
+          type: number
+          format: double
+          description: Amount in subcurrency. £1 will return 100
+        currency:
+          type: string
+          description: Currency Code
+      title: AmountAndCurrency
+    RangeFilterWeightings:
+      type: object
+      properties:
+        selected_range:
+          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRange'
+        weighting:
+          type: number
+          format: double
+      required:
+      - selected_range
+      - weighting
+      title: RangeFilterWeightings
+    BaseStudyCompletionCodesItemsActionsItems:
+      oneOf:
+      - $ref: '#/components/schemas/AutomaticallyApprove'
+      - $ref: '#/components/schemas/AddToParticipantGroup'
+      - $ref: '#/components/schemas/RemoveFromParticipantGroup'
+      - $ref: '#/components/schemas/ManuallyReview'
+      - $ref: '#/components/schemas/RequestReturn'
+      - $ref: '#/components/schemas/DynamicPayment'
+      - $ref: '#/components/schemas/FixedScreenOut'
+      title: BaseStudyCompletionCodesItemsActionsItems
+    RangeFilter:
+      type: object
+      properties:
+        filter_id:
+          type: string
+          description: ID of the "range" type filter.
+        selected_range:
+          $ref: '#/components/schemas/RangeFilterSelectedRange'
+          description: 'This schema applies for filters of the `range` type, as defined in the [filter list response](\#tag/Filters/paths/~1api~1v1~1filters~1/get).
+
+
+            A dictionary with two possible objects, ''lower'' and ''upper''. At least one must be present and a non-null value.
+
+
+            The expected data type for these values is defined by the `range` filter''s `data_type` (see response linked above).
+
+
+            If the data_type is a date, string format should be a parseable ISO8601 date string. Date values should be provided as a string in ISO 8601 format.
+
+
+            Leaving a value as null will result in that bound being set to the lowest or highest possible value, depending on whether it is the upper or lower bound.'
+        weightings:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/RangeFilterWeightings'
+          description: 'Ratios to control the distribution of participants across the selected values.
+
+
+            Integers and exact quantities are valid inputs.'
+      required:
+      - filter_id
+      - selected_range
+      title: RangeFilter
     BaseStudySubmissionsConfig:
       type: object
       properties:
@@ -1712,109 +1690,6 @@ components:
 
         Configuration related to study submissions. The purpose of this field is to capture any configuration options that impact the submissions made by participants in a study.'
       title: BaseStudySubmissionsConfig
-    BaseStudyDataCollectionMetadata:
-      type: object
-      properties:
-        annotators_per_task:
-          type: integer
-          description: Number of annotators required per task. Required for AI Task Builder Batch studies to set multiple annotators.
-      description: "**Optional.** Additional metadata for configuring AI Task Builder data annotation behavior. Only used when `data_collection_method` is set to `AI_TASK_BUILDER_BATCH`.\n\n**Properties:**\n\n- `annotators_per_task` (integer): Number of annotators per task. **This field must be provided if you want multiple annotators per task.** Without this field, the default value of 1 will be used.\n  - Minimum: 1\n  - Default: 1 (if not provided)\n\n**Example:**\n```json\n{\n  \"annotators_per_task\": 5\n}\n```\n\n**Important:** You must include `annotators_per_task` to control how many participants annotate each task. After the study is published, this value can only be increased (not decreased), which will increase the total available places on the study."
-      title: BaseStudyDataCollectionMetadata
-    RangeFilterSelectedRange:
-      type: object
-      properties:
-        lower:
-          $ref: '#/components/schemas/RangeFilterSelectedRangeLower'
-          description: Your selected lower bound for the range.
-        upper:
-          $ref: '#/components/schemas/RangeFilterSelectedRangeUpper'
-          description: Your selected upper bound for the range.
-      description: 'This schema applies for filters of the `range` type, as defined in the [filter list response](\#tag/Filters/paths/~1api~1v1~1filters~1/get).
-
-
-        A dictionary with two possible objects, ''lower'' and ''upper''. At least one must be present and a non-null value.
-
-
-        The expected data type for these values is defined by the `range` filter''s `data_type` (see response linked above).
-
-
-        If the data_type is a date, string format should be a parseable ISO8601 date string. Date values should be provided as a string in ISO 8601 format.
-
-
-        Leaving a value as null will result in that bound being set to the lowest or highest possible value, depending on whether it is the upper or lower bound.'
-      title: RangeFilterSelectedRange
-    StudyPredictedRecruitmentTimeRequestDeviceCompatibilityItems:
-      type: string
-      enum:
-      - desktop
-      - tablet
-      - mobile
-      title: StudyPredictedRecruitmentTimeRequestDeviceCompatibilityItems
-    StudyShortStudyType:
-      type: string
-      enum:
-      - SINGLE
-      - UK_REP_SAMPLE
-      - US_REP_SAMPLE
-      description: Deprecated. Type of study.
-      title: StudyShortStudyType
-    DynamicPayment:
-      type: object
-      properties:
-        action:
-          $ref: '#/components/schemas/DynamicPaymentAction'
-          description: Use this action to set up a dynamic payment study. Only certain workspaces have access to this feature. When using this action, the actor must be "researcher".
-      required:
-      - action
-      title: DynamicPayment
-    RequestReturn:
-      type: object
-      properties:
-        action:
-          $ref: '#/components/schemas/RequestReturnAction'
-          description: Requests the participant to return their study
-        return_reason:
-          type: string
-          description: The reason you would like to request a return
-      required:
-      - action
-      - return_reason
-      title: RequestReturn
-    SubmissionsCountResponse:
-      type: object
-      properties:
-        ACTIVE:
-          type: number
-          format: double
-        APPROVED:
-          type: number
-          format: double
-        AWAITING REVIEW:
-          type: number
-          format: double
-        REJECTED:
-          type: number
-          format: double
-        RESERVED:
-          type: number
-          format: double
-        RETURNED:
-          type: number
-          format: double
-        TIMED-OUT:
-          type: number
-          format: double
-        PARTIALLY APPROVED:
-          type: number
-          format: double
-        SCREENED OUT:
-          type: number
-          format: double
-        TOTAL:
-          type: number
-          format: double
-          description: The total number of submissions in the study.
-      title: SubmissionsCountResponse
     StudyPredictedRecruitmentTimeRequestStudyType:
       type: string
       enum:
@@ -1829,83 +1704,16 @@ components:
       - US_REGIONAL_REP_SAMPLE
       description: Type of study.
       title: StudyPredictedRecruitmentTimeRequestStudyType
-    AccessDetail:
+    ErrorDetailDetail2:
       type: object
       properties:
-        external_url:
-          type: string
-          description: URL of the task you want to send the participant to. You can pass URL search parameters as in `external_study_url`.
-        total_allocation:
-          type: number
-          format: double
-          description: 'The base number of places you want allocated to this URL. This value is set by you and is used to determine the study''s total available places.
-
-
-            Note: for studies with custom screening (fixed screen-out reward), participants who are screened out generate additional capacity on top of this base value. The `allocated` count in progress responses may therefore exceed `total_allocation` — this is expected behaviour. See `capacity_increments` in the progress response for details.'
-      required:
-      - external_url
-      - total_allocation
-      title: AccessDetail
-    CreateStudyFiltersItems:
-      oneOf:
-      - $ref: '#/components/schemas/SelectFilter'
-      - $ref: '#/components/schemas/RangeFilter'
-      - $ref: '#/components/schemas/CompositeFilter'
-      title: CreateStudyFiltersItems
-    CreateStudyDeviceCompatibilityItems:
-      type: string
-      enum:
-      - desktop
-      - tablet
-      - mobile
-      title: CreateStudyDeviceCompatibilityItems
-    StudyPredictedRecruitmentTimeRequestFiltersItems:
-      oneOf:
-      - $ref: '#/components/schemas/SelectFilter'
-      - $ref: '#/components/schemas/RangeFilter'
-      - $ref: '#/components/schemas/CompositeFilter'
-      title: StudyPredictedRecruitmentTimeRequestFiltersItems
-    CreateStudyCompletionCodesItemsActor:
-      type: string
-      enum:
-      - participant
-      - researcher
-      default: participant
-      description: The actor that can provide this completion code.
-      title: CreateStudyCompletionCodesItemsActor
-    CreateStudyCompletionCodesItems:
-      type: object
-      properties:
-        code:
-          type:
-          - string
-          - 'null'
-          description: "The code the participant will either enter manually at the end of your study or be redirected as part of the return URL.\n\nIf the code is null, then the participant will not be asked to submit a completion code when they return to Prolific.\nNull codes can only be provided when:\n  - The actor is \"participant\"\n  - There are no other completion codes with the \"participant\" actor\n  - The actions array is empty\n\nThe code must be unique within the study.\n"
-        code_type:
-          $ref: '#/components/schemas/CreateStudyCompletionCodesItemsCodeType'
-          description: 'A name for your code to make it easier to understand its intention. Either use one of the predefined options or any other free text.
-
-            '
-        actions:
+        any_field:
           type: array
           items:
-            $ref: '#/components/schemas/CreateStudyCompletionCodesItemsActionsItems'
-          description: 'The actions that will be completed automatically when the submission is completed with this code by the participant.
-
-
-            You have the ability to use one or multiple `actions` together - it''s up to you and your desired automated journey.
-
-
-            If you’re looking to keep things simple, we recommend setting the `{"action": "MANUALLY_REVIEW"}` option only, so all submissions wait for your manual approval.'
-        actor:
-          $ref: '#/components/schemas/CreateStudyCompletionCodesItemsActor'
-          default: participant
-          description: The actor that can provide this completion code.
-      required:
-      - code
-      - code_type
-      - actions
-      title: CreateStudyCompletionCodesItems
+            type: string
+          description: Name of the field with a validation error and as a value an array with the error descriptions
+      description: All fields with validation errors
+      title: ErrorDetailDetail2
     StudiesListResponse:
       type: object
       properties:
@@ -1917,60 +1725,51 @@ components:
       required:
       - results
       title: StudiesListResponse
-    CreateStudyStudyLabelsItems:
+    StudyTransitionAction:
       type: string
       enum:
-      - survey
-      - writing_task
-      - annotation
-      - decision_making_task
-      - interview
-      - other
-      - ai_annotation
-      - ai_evaluation
-      - ai_reasoning
-      - ai_fact_checking
-      - ai_safety
-      - ai_data_creation_text
-      - ai_data_creation_audio
-      - ai_data_creation_video
-      - ai_data_creation_images
-      - ai_other
-      title: CreateStudyStudyLabelsItems
-    RangeFilterSelectedRangeUpper:
-      oneOf:
-      - type: integer
-      - type: string
-      - type: number
-        format: double
-      description: Your selected upper bound for the range.
-      title: RangeFilterSelectedRangeUpper
-    StudyAccessDetailsProgress:
+      - PUBLISH
+      - SCHEDULE_PUBLISH
+      - CANCEL_PUBLISH
+      - PAUSE
+      - START
+      - STOP
+      description: The transition action to execute on the study.
+      title: StudyTransitionAction
+    StudyPredictedRecruitmentTimeRequestDeviceCompatibilityItems:
+      type: string
+      enum:
+      - desktop
+      - tablet
+      - mobile
+      title: StudyPredictedRecruitmentTimeRequestDeviceCompatibilityItems
+    RemoveFromParticipantGroupAction:
+      type: string
+      enum:
+      - REMOVE_FROM_PARTICIPANT_GROUP
+      description: Removes participants from specific groups
+      title: RemoveFromParticipantGroupAction
+    BaseStudyCompletionCodesItemsActor:
+      type: string
+      enum:
+      - participant
+      - researcher
+      default: participant
+      description: The actor that can provide this completion code.
+      title: BaseStudyCompletionCodesItemsActor
+    StudyTransition:
       type: object
       properties:
-        id:
+        action:
+          $ref: '#/components/schemas/StudyTransitionAction'
+          description: The transition action to execute on the study.
+        publish_at:
           type: string
-          description: The access details collection ID for this study's Taskflow configuration.
-        progress:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccessDetailProgress'
-          description: One row per `external_url` configured on the study.
-        _links:
-          type: object
-          additionalProperties:
-            description: Any type
-          description: HAL-style links; typically includes `self` pointing at this endpoint.
+          format: date-time
+          description: ISO 8601 datetime for when the study should be published. Required in the request when action is SCHEDULE_PUBLISH and the study does not already have a publish_at set.
       required:
-      - id
-      - progress
-      title: StudyAccessDetailsProgress
-    CompositeFilterSelectedFiltersItems:
-      oneOf:
-      - $ref: '#/components/schemas/SelectFilter'
-      - $ref: '#/components/schemas/RangeFilter'
-      - $ref: '#/components/schemas/CompositeFilter'
-      title: CompositeFilterSelectedFiltersItems
+      - action
+      title: StudyTransition
     StudyShort:
       type: object
       properties:
@@ -2042,6 +1841,635 @@ components:
       - id
       - name
       title: StudyShort
+    DemographicExportHistoryResponse:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Total number of different filter combinations that have been requested for demographic export
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/DemographicExportHistoryResponseFiltersItems'
+          description: 'The filters used in the most recent export request. Returns an empty array if no exports have been requested yet.
+
+
+            This shows you exactly what filter combination was used in your latest request, helping you track your export usage.'
+      required:
+      - count
+      - filters
+      description: Response containing the latest demographic export request history for a study
+      title: DemographicExportHistoryResponse
+    CreateStudyDataCollectionMetadata:
+      type: object
+      properties:
+        annotators_per_task:
+          type: integer
+          description: Number of annotators required per task. Required for AI Task Builder Batch studies to set multiple annotators.
+      description: "**Optional.** Additional metadata for configuring AI Task Builder data annotation behavior. Only used when `data_collection_method` is set to `AI_TASK_BUILDER_BATCH`.\n\n**Properties:**\n\n- `annotators_per_task` (integer): Number of annotators per task. **This field must be provided if you want multiple annotators per task.** Without this field, the default value of 1 will be used.\n  - Minimum: 1\n  - Default: 1 (if not provided)\n\n**Example:**\n```json\n{\n  \"annotators_per_task\": 5\n}\n```\n\n**Important:** You must include `annotators_per_task` to control how many participants annotate each task. After the study is published, this value can only be increased (not decreased), which will increase the total available places on the study."
+      title: CreateStudyDataCollectionMetadata
+    RangeFilterWeightingsSelectedRangeUpper:
+      oneOf:
+      - type: integer
+      - type: string
+      - type: number
+        format: double
+      title: RangeFilterWeightingsSelectedRangeUpper
+    RangeFilterWeightingsSelectedRangeLower:
+      oneOf:
+      - type: integer
+      - type: string
+      - type: number
+        format: double
+      title: RangeFilterWeightingsSelectedRangeLower
+    BaseStudyContentWarningsItems:
+      type: string
+      enum:
+      - sensitive
+      - explicit
+      title: BaseStudyContentWarningsItems
+    CreateStudyDeviceCompatibilityItems:
+      type: string
+      enum:
+      - desktop
+      - tablet
+      - mobile
+      title: CreateStudyDeviceCompatibilityItems
+    AccessDetailProgress:
+      type: object
+      properties:
+        external_url:
+          type: string
+          description: URL of the task you want to send the participant to. You can pass URL search parameters as in `external_study_url`.
+        total_allocation:
+          type: number
+          format: double
+          description: 'The base number of places set by the researcher for this URL. This is the value used to determine the study''s total available places and will match what was submitted when creating or updating the study.
+
+
+            This value does not include screenout-driven capacity. For studies with custom screening (fixed screen-out reward), `allocated` may exceed `total_allocation` — use `capacity_increments` to understand why.'
+        allocated:
+          type: number
+          format: double
+          description: 'The number of participants currently allocated to this URL.
+
+
+            For studies with custom screening (fixed screen-out reward), this value may exceed `total_allocation`. This occurs when participants have been screened out — each screenout adds 1 to `capacity_increments`, allowing a replacement participant to be allocated. The relationship is always: `allocated ≤ total_allocation + capacity_increments`.'
+        capacity_increments:
+          type: number
+          format: double
+          description: 'The cumulative number of additional capacity slots added to this URL by screenout events. Each time a participant is screened out, this value increases by 1, allowing a replacement participant to be allocated in their place.
+
+
+            This field is read-only and system-managed — it cannot be set when creating or updating a study. It will be absent (or 0) for URLs where no screenouts have occurred.
+
+
+            **Example:** If `total_allocation` is 10, `capacity_increments` is 3, and `allocated` is 11, it means 3 participants were screened out, creating 3 extra slots, and 11 participants have been allocated in total — 2 slots remain.'
+      required:
+      - external_url
+      - total_allocation
+      title: AccessDetailProgress
+    AutomaticallyApproveAction:
+      type: string
+      enum:
+      - AUTOMATICALLY_APPROVE
+      description: Automatically approves submission with payment being processed immediately
+      title: AutomaticallyApproveAction
+    CreateStudyCompletionCodesItemsActionsItems:
+      oneOf:
+      - $ref: '#/components/schemas/AutomaticallyApprove'
+      - $ref: '#/components/schemas/AddToParticipantGroup'
+      - $ref: '#/components/schemas/RemoveFromParticipantGroup'
+      - $ref: '#/components/schemas/ManuallyReview'
+      - $ref: '#/components/schemas/RequestReturn'
+      - $ref: '#/components/schemas/DynamicPayment'
+      - $ref: '#/components/schemas/FixedScreenOut'
+      title: CreateStudyCompletionCodesItemsActionsItems
+    CreateStudyContentWarningsItems:
+      type: string
+      enum:
+      - sensitive
+      - explicit
+      title: CreateStudyContentWarningsItems
+    CompositeFilter:
+      type: object
+      properties:
+        filter_id:
+          $ref: '#/components/schemas/CompositeFilterFilterId'
+          description: Composite filter group operator. Use `and` when every child filter must match, or `or` when at least one child filter must match.
+        selected_filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompositeFilterSelectedFiltersItems'
+          description: Child filters in this group. Children can be select filters, range filters, or supported nested composite groups.
+      required:
+      - filter_id
+      - selected_filters
+      title: CompositeFilter
+    ManuallyReview:
+      type: object
+      properties:
+        action:
+          $ref: '#/components/schemas/ManuallyReviewAction'
+          description: Moves submission for the data collector to be manually reviewed.
+      required:
+      - action
+      title: ManuallyReview
+    RemoveFromParticipantGroup:
+      type: object
+      properties:
+        action:
+          $ref: '#/components/schemas/RemoveFromParticipantGroupAction'
+          description: Removes participants from specific groups
+        participant_group:
+          type: string
+          description: The participant group to remove the participant from.
+      required:
+      - action
+      - participant_group
+      title: RemoveFromParticipantGroup
+    StudyPredictedRecruitmentTimeRequest:
+      type: object
+      properties:
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/StudyPredictedRecruitmentTimeRequestFiltersItems'
+          description: 'List of filters to apply to the count. This parameter uses the new, simplified
+
+            filters schema for interacting with eligibility.'
+        workspace_id:
+          type: string
+          description: The ID of the workspace the study will be created in.
+        reward:
+          type: number
+          format: double
+          description: How much are you going to pay the participants in cents. We use the currency of the workspace
+        study_type:
+          $ref: '#/components/schemas/StudyPredictedRecruitmentTimeRequestStudyType'
+          description: Type of study.
+        total_available_places:
+          type: number
+          format: double
+          description: How many participants are you looking to recruit
+        estimated_completion_time:
+          type: number
+          format: double
+          description: Estimated duration in minutes of the experiment or survey
+        device_compatibility:
+          type: array
+          items:
+            $ref: '#/components/schemas/StudyPredictedRecruitmentTimeRequestDeviceCompatibilityItems'
+          description: 'Add all devices that participants can use.
+
+            You can include one or more options.'
+        peripheral_requirements:
+          type: array
+          items:
+            $ref: '#/components/schemas/StudyPredictedRecruitmentTimeRequestPeripheralRequirementsItems'
+          description: Add all requirements that participants have to meet.
+        study_labels:
+          $ref: '#/components/schemas/StudyPredictedRecruitmentTimeRequestStudyLabels'
+          description: The field that the study is about to get tagged with.
+      required:
+      - filters
+      - workspace_id
+      - reward
+      - study_type
+      - total_available_places
+      - estimated_completion_time
+      title: StudyPredictedRecruitmentTimeRequest
+    SelectFilter:
+      type: object
+      properties:
+        filter_id:
+          type: string
+          description: ID of the "select" type filter.
+        selected_values:
+          type: array
+          items:
+            type: string
+          description: 'This schema applies for filters of the `select` type, as defined in the [filter list response](\#tag/Filters/paths/~1api~1v1~1filters~1/get).
+
+
+            Array of IDs matching the response IDs, from the `select` filter''s `choices` (see response linked above).
+
+
+            String format should match the `data_type` of the `select` filter''s `choices` (see response linked above).'
+        weightings:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+          description: 'Ratios to control the distribution of participants across the selected values.
+
+
+            Integer percentages, floats, and exact quantities are valid inputs.'
+      required:
+      - filter_id
+      - selected_values
+      title: SelectFilter
+    RangeFilterSelectedRangeUpper:
+      oneOf:
+      - type: integer
+      - type: string
+      - type: number
+        format: double
+      description: Your selected upper bound for the range.
+      title: RangeFilterSelectedRangeUpper
+    StudyCostResponse:
+      type: object
+      properties:
+        total_cost:
+          type: number
+          format: double
+          description: Total cost of the study including VAT and fees in cents. We use your account VAT and Fee percentage. The amount is in your account's currency.
+      required:
+      - total_cost
+      title: StudyCostResponse
+    RequestReturnAction:
+      type: string
+      enum:
+      - REQUEST_RETURN
+      description: Requests the participant to return their study
+      title: RequestReturnAction
+    BaseStudy:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Public name or title of the study
+        internal_name:
+          type:
+          - string
+          - 'null'
+          description: Internal name of the study, not shown to participants
+        description:
+          type: string
+          description: 'Description of the study for the participants to read before
+
+            starting the study
+
+
+            **Supported HTML in `description`**
+
+
+            The `description` field supports the following HTML tags for formatting participant instructions:
+
+
+            * `<b>` - bold
+
+            * `<i>` - italic
+
+            * `<em>` - emphasized text
+
+            * `<strong>` - strong importance
+
+            * `<s>` - strikethrough
+
+            * `<u>` - underline
+
+            * `<h1>` - heading level 1
+
+            * `<h2>` - heading level 2
+
+            * `<ol>` - ordered list
+
+            * `<ul>` - unordered list
+
+            * `<li>` - list item
+
+            * `<p>` - paragraph
+
+
+            Other HTML tags will be stripped or escaped. Please ensure that you only use supported tags for formatting to avoid rendering issues.'
+        external_study_url:
+          type: string
+          description: 'URL of the survey or experiment you want participant to access. You can pass URL search parameters to your survey or experiment
+
+
+            * Participant id {{%PROLIFIC_PID%}}
+
+            * Study id {{%STUDY_ID%}}
+
+            * Session id {{%SESSION_ID%}}
+
+
+            For example `https://eggs-experriment.com?participant={{%PROLIFIC_PID%}}`'
+        prolific_id_option:
+          $ref: '#/components/schemas/BaseStudyProlificIdOption'
+          description: 'Use ''question'' if you will add a question in your survey or experiment asking the participant ID
+
+
+            **Recommended** Use ''url_parameters'' if your survey or experiment can retrieve and store those parameters for your analysis.
+
+
+            Use ''not_required'' if you don''t need to record them.'
+        completion_codes:
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseStudyCompletionCodesItems'
+          description: 'Specify at least one completion code for your study. A participant will enter one of these codes when they complete your study.
+
+
+            Each code must be unique within a study.
+
+
+            You can specify as many actions as you like per code. However, some actions can''t be used together (e.g. AutomaticallyApprove and ManuallyReview).
+
+
+            **Note:** This field is optional when `data_collection_method` is set to `AI_TASK_BUILDER_BATCH` or `AI_TASK_BUILDER_COLLECTION`. When omitted, a default COMPLETED code with a `MANUALLY_REVIEW` action is auto-generated. When provided, AITB studies must include exactly one code with `code_type` of `COMPLETED` and an action of `MANUALLY_REVIEW` or `AUTOMATICALLY_APPROVE`.'
+        total_available_places:
+          type: number
+          format: double
+          description: 'How many participants are you looking to recruit.
+
+
+            **Note:** This field is optional when `data_collection_method` is set to `AI_TASK_BUILDER_BATCH`, as the total available places are automatically calculated from the batch configuration.'
+        estimated_completion_time:
+          type: number
+          format: double
+          description: Estimated duration in minutes of the experiment or survey
+        maximum_allowed_time:
+          type: number
+          format: double
+          description: 'Max time in minutes for a participant to finish the submission. Submissions are timed out if it takes longer.
+
+
+            If it is not provided the default value is set to the max value.
+
+
+            The min value is calculated as two minutes plus two times the estimated time plus two times the square root of the estimated time'
+        reward:
+          type: number
+          format: double
+          description: 'How much are you going to pay the participants in cents. We
+
+            use the currency of your account.'
+        device_compatibility:
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseStudyDeviceCompatibilityItems'
+          description: 'Add all devices that participants can use.
+
+            You can include one or more options.
+
+
+            An empty array indicates that all options are available.'
+        peripheral_requirements:
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseStudyPeripheralRequirementsItems'
+          description: 'Add all requirements that participants have to meet.
+
+
+            An empty array indicates that there are no extra peripheral requirements.'
+        filters:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/BaseStudyFiltersItems'
+          description: 'Array of filters.
+
+
+            For advanced participant targeting with `and` / `or` groups, see [Advanced filtering](/api-reference/filters/advanced-filtering).
+
+
+            Use empty array for "Everyone"'
+        filter_set_id:
+          type:
+          - string
+          - 'null'
+          description: 'The ID of a filter set, from which filters for the study will be taken.
+
+
+            For more information, see [Filter Sets](/api-reference/filter-sets).
+
+
+            Note, this cannot be used in combination with additional filters via the `filters` field.'
+        filter_set_version:
+          type:
+          - integer
+          - 'null'
+          description: 'The version of the filter set to be used.
+
+
+            If not provided, this will default to the latest available version at the time of applying the filter set.'
+        naivety_distribution_rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: 'Control the balance between speed of your studies and the naivety of the participants.
+
+
+            If not defined, by default Prolific calculates the best rate for most studies
+
+            taking into account the `filters` and the `total_available_places` needed for this study.
+
+
+            Use 0 if your priority is speed. When this property is set to 0 all eligible participants will have access
+
+            to your study at the same time, without any prioritization.
+
+
+            You can also set this at a workspace and project level.'
+        project:
+          type: string
+          description: Project ID. When you don't specify a project in your request, Prolific automatically uses your first created project as the default. For clarity, we recommend explicitly including the project ID in your requests.
+        submissions_config:
+          $ref: '#/components/schemas/BaseStudySubmissionsConfig'
+          description: '**Advanced**: This helps with faster data collection. Your survey system will need to handle providing a
+
+            unique experience each time the participant takes the study.
+
+
+            Configuration related to study submissions. The purpose of this field is to capture any configuration options that impact the submissions made by participants in a study.'
+        study_labels:
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseStudyStudyLabelsItems'
+          description: 'This field allows you to tag studies with information about the type/topic of the study and the kind of work involved in completing it.
+
+
+            We plan to make this information available to participants for easier self-selection. At present these options are mutually exclusive and only a single option can be selected, however in the future available categories will expand.'
+        content_warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseStudyContentWarningsItems'
+          description: 'Allow researchers to define content warnings for their study.
+
+
+            At present these options are mutually exclusive and only a single option can be selected, however in the future available warnings will expand.'
+        content_warning_details:
+          type: string
+          description: Allow researchers to add further details about their content warning.
+        metadata:
+          type:
+          - string
+          - 'null'
+          description: "This field can be used to store extra information required for a system integration.\nFor example, it could be some JSON, XML, an integer, or a string.\n\nExamples could include:\n\n  - `123345` - An ID from your system, that helps with linkage when returning the study.\n  - `{ \\\"id\\\": \\\"45\\\", \\\"type\\\": \\\"finance\\\"}` - Some JSON that you want to store."
+        credential_pool_id:
+          type:
+          - string
+          - 'null'
+          description: 'The ID of the credential pool to associate with this study. Credential pools contain
+
+            username/password pairs that are distributed to participants when they start the study.
+
+
+            When provided, participants will be assigned unique credentials from the pool. Each
+
+            credential can only be used once and is tracked throughout the study lifecycle.
+
+
+            **Note:** The credential pool must:
+
+            - Exist and belong to the study''s workspace
+
+            - Have available (unredeemed) credentials
+
+
+            See the [Credentials endpoints](#tag/Credentials) for managing credential pools.'
+        has_credentials:
+          type: boolean
+          description: 'Indicates whether this study requires participants to use credentials. This field is
+
+            automatically set to `true` when a `credential_pool_id` is provided, and `false` when
+
+            the credential pool is removed.
+
+
+            **Note:** This field is automatically managed based on the `credential_pool_id` field
+
+            and does not need to be set manually.'
+        data_collection_method:
+          oneOf:
+          - $ref: '#/components/schemas/BaseStudyDataCollectionMethod'
+          - type: 'null'
+          description: '**Optional.** Specifies the data collection method for the study.
+
+
+            - `AI_TASK_BUILDER_BATCH`: Use AI Task Builder for data annotation tasks.
+
+            - `AI_TASK_BUILDER_COLLECTION`: Use AI Task Builder for data collection tasks.
+
+
+            **Note:** This field is mutually exclusive with `external_study_url` and `access_details`. If not provided, you must specify one of those fields instead.'
+        data_collection_id:
+          type:
+          - string
+          - 'null'
+          description: 'The ID of the data collection batch or project from the Task Builder API.
+
+
+            **Required when `data_collection_method` is set to `AI_TASK_BUILDER_BATCH` or `AI_TASK_BUILDER_COLLECTION`.**'
+        data_collection_metadata:
+          oneOf:
+          - $ref: '#/components/schemas/BaseStudyDataCollectionMetadata'
+          - type: 'null'
+          description: "**Optional.** Additional metadata for configuring AI Task Builder data annotation behavior. Only used when `data_collection_method` is set to `AI_TASK_BUILDER_BATCH`.\n\n**Properties:**\n\n- `annotators_per_task` (integer): Number of annotators per task. **This field must be provided if you want multiple annotators per task.** Without this field, the default value of 1 will be used.\n  - Minimum: 1\n  - Default: 1 (if not provided)\n\n**Example:**\n```json\n{\n  \"annotators_per_task\": 5\n}\n```\n\n**Important:** You must include `annotators_per_task` to control how many participants annotate each task. After the study is published, this value can only be increased (not decreased), which will increase the total available places on the study."
+        access_details:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/BaseStudyAccessDetailsItems'
+          description: 'Array of access_details, which integrates with taskflow.
+
+
+            While this field is nullable, you must provide one of `access_details` or `external_study_url`.
+
+
+            The sum of all access_details must add to the `total_available_places` field, however the values can be different for an individual access_detail.'
+        is_external_study_url_secure:
+          type: boolean
+          description: "When set to true, any query parameters in the external study url will be signed with a JSON Web Token. The token will be added to the URL as a query parameter named `prolific_token`.\n\nThis feature is only available to certain workspaces.\n\n**The JWT payload**\n\nHeader:\n\n```json\n{\n  \"alg\": \"RS256\",\n  \"kid\": \"<KEY_ID>\",\n  \"typ\": \"JWT\"\n}\n```\n\nWhere\n- alg is always RS256.\n- kid indicates the key ID that was used to secure the JWT.\n- typ is always JWT.\n\nPayload:\n\n```json\n{\n  \"iss\": \"https://www.prolific.com\",\n  \"iat\": <CURRENT_TIME>,\n  \"exp\": <CURRENT_TIME + 2 minutes>,\n  \"aud\": \"<EXTERNAL_STUDY_URL>\",\n  \"sub\": \"<SESSION_ID>\",\n  \"prolific\":{\n    \"<QUERY_1>\": \"<VALUE_1>\",\n    \"<QUERY_2>\": \"<VALUE_2>\",\n    ...\n    \"workspace_id\": \"<WORKSPACE_ID>\",\n    \"organisation_id\": \"<ORGANISATION_ID>\"\n  }\n}\n```\n\n`<ORGANISATION_ID>` appears only when the workspace is linked to an\norganisation; otherwise omit that key from `prolific`.\n\nThe `prolific` object maps each URL parameter from your\nexternal study URL template to the resolved value for that\nplaceholder (for example participant, study, and session\nidentifiers). Prolific always adds `workspace_id` (string). When the\nworkspace is linked to an organisation, `organisation_id` (string)\nis also present.\n\nFor example (the sample below includes `organisation_id`; that key\nis omitted when the workspace has no linked organisation):\n\n```json\n{\n  \"iss\": \"https://www.prolific.com\",\n  \"iat\": 1740496135,\n  \"exp\": 1740496255,\n  \"aud\": \"https://x.com?STUDY_ID=1&...\",\n  \"sub\": \"1234\",\n  \"prolific\":{\n    \"STUDY_ID\": \"abcd\",\n    \"SESSION_ID\": \"1234\",\n    \"PROLIFIC_PID\": \"xyz\",\n    \"workspace_id\": \"507f1f77bcf86cd799439011\",\n    \"organisation_id\": \"507f191e810c19729de860ea\"\n  }\n}\n```\n\n**Verify the payload**\n\nWhen you receive the JWT, you must verify the following:\n- The JWT signature is authentic by verifying it with the public key from Prolific that correlates with the KID. The public keys can be retrieved from [/.well-known/study/jwks.json](#tag/Well-Known-Endpoints/paths/~1.well-known~1study~1jwks.json/get).\n- The JWT hasn't expired, by checking the `exp` claim.\n- The `aud` claim is the correct domain for your tool.\n- The `prolific` claim matches your expected payload as set in the `external_study_url` property. It always includes `workspace_id`. When the workspace is linked to an organisation, it also includes `organisation_id` (validate both against what your integration expects)."
+      title: BaseStudy
+    StudyPredictedRecruitmentTimeRequestStudyLabels:
+      type: string
+      enum:
+      - survey
+      - writing_task
+      - annotation
+      - decision_making_task
+      - interview
+      - other
+      - ai_annotation
+      - ai_evaluation
+      - ai_reasoning
+      - ai_fact_checking
+      - ai_safety
+      - ai_data_creation_text
+      - ai_data_creation_audio
+      - ai_data_creation_video
+      - ai_data_creation_images
+      - ai_other
+      description: The field that the study is about to get tagged with.
+      title: StudyPredictedRecruitmentTimeRequestStudyLabels
+    BaseStudyAccessDetailsItems:
+      oneOf:
+      - $ref: '#/components/schemas/AccessDetail'
+      title: BaseStudyAccessDetailsItems
+    BaseStudyDeviceCompatibilityItems:
+      type: string
+      enum:
+      - desktop
+      - tablet
+      - mobile
+      title: BaseStudyDeviceCompatibilityItems
+    FixedScreenOut:
+      type: object
+      properties:
+        action:
+          $ref: '#/components/schemas/FixedScreenOutAction'
+          description: 'Use this action to set up a fixed screen out reward study. This feature is currently available to select workspaces only.
+
+            - A fixed screen out reward study compensates participants with a predetermined amount when they do not qualify for the study.
+
+            - This feature enables researchers to implement more precise participant screening while ensuring fair compensation for participants'' time.'
+        fixed_screen_out_reward:
+          type: integer
+          description: The amount that you would like to pay for a screen-out submission (in subcurrency). This must be less that the study reward.
+        slots:
+          type: integer
+          description: "The slots field controls how many participants can be screened out of your study before it automatically pauses.\n\n#### What are slots?\n  - Slots set a limit on screen-outs to help you budget upfront, by setting the limit to the maximum number of screen-outs you're comfortable paying for in your study.\n  - When participants don't qualify for your study, they will receive a screen-out payment.\n  - The slots limit prevents unexpected high costs created from too many screen-outs.\n  - **Example**: If you set `slots: 50`, your study will pause after 50 participants are screened out, even if you still need more qualified participants.\n\n#### How slots work\n  1. **Participants are screened out** - When they enter the completion code linked to this action. They will automatically receive the fixed screen out reward.\n  2. **Study pauses automatically** - When the number of participants screened out reaches the slots limit, and there are still unfilled places in the study, the study will automatically pause.\n  3. **You get notified** - Via email and webhook, notifying you that you’ve reached your slot limit, and that your study has been paused.  (Webhook notifications only if they’re enabled for `study.status.change` events)\n\n#### Resuming your study\n  *To continue recruiting after hitting the slot limit:*\n\n  1. **Increase the slot limit** using the [update study](#tag/Studies/operation/UpdateStudy) endpoint.\n     - Update the initial property to your new slot limit.\n     - Refer `update_slots` in the example of the [UpdateStudy](#tag/Studies/operation/UpdateStudy) endpoint.\n     - For example, if you started with 50 slots and want to add another 50 slots, set the `slots` property to 100.\n  ```json\n    {\n      \"completion_codes\": [\n        {\n          \"code\": \"ABC123\",\n          \"actions\": [\n            {\n              \"action\": \"FIXED_SCREEN_OUT_PAYMENT\",\n              \"slots\": 100\n            }\n          ]\n        }\n      ]\n    }\n  ```\n  2. **Resume the study** by transitioning it back to `START` state using the [transition study](#tag/Studies/operation/PublishStudy) endpoint.\n\n  ```json\n  {\n    \"action\": \"START\"\n  }\n  ```"
+      required:
+      - action
+      - fixed_screen_out_reward
+      - slots
+      description: Use this action to set up a fixed screen out reward study.
+      title: FixedScreenOut
+    DynamicPayment:
+      type: object
+      properties:
+        action:
+          $ref: '#/components/schemas/DynamicPaymentAction'
+          description: Use this action to set up a dynamic payment study. Only certain workspaces have access to this feature. When using this action, the actor must be "researcher".
+      required:
+      - action
+      title: DynamicPayment
+    StudyTotalCost:
+      type: object
+      properties:
+        rewards:
+          $ref: '#/components/schemas/StudyCostBreakdown'
+        bonuses:
+          $ref: '#/components/schemas/StudyCostBreakdown'
+        _links:
+          type: object
+          additionalProperties:
+            description: Any type
+      title: StudyTotalCost
+    RangeFilterWeightingsSelectedRange:
+      type: object
+      properties:
+        lower:
+          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRangeLower'
+        upper:
+          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRangeUpper'
+      title: RangeFilterWeightingsSelectedRange
     Study:
       type: object
       properties:
@@ -2356,245 +2784,119 @@ components:
       - estimated_completion_time
       - reward
       title: Study
-    SelectFilter:
+    SubmissionsCountResponse:
       type: object
       properties:
-        filter_id:
-          type: string
-          description: ID of the "select" type filter.
-        selected_values:
-          type: array
-          items:
-            type: string
-          description: 'This schema applies for filters of the `select` type, as defined in the [filter list response](\#tag/Filters/paths/~1api~1v1~1filters~1/get).
-
-
-            Array of IDs matching the response IDs, from the `select` filter''s `choices` (see response linked above).
-
-
-            String format should match the `data_type` of the `select` filter''s `choices` (see response linked above).'
-        weightings:
-          type: object
-          additionalProperties:
-            type: number
-            format: double
-          description: 'Ratios to control the distribution of participants across the selected values.
-
-
-            Integer percentages, floats, and exact quantities are valid inputs.'
-      required:
-      - filter_id
-      - selected_values
-      title: SelectFilter
-    ErrorDetailDetail:
-      oneOf:
-      - type: string
-      - type: array
-        items:
-          type: string
-      - $ref: '#/components/schemas/ErrorDetailDetail2'
-      description: Error detail
-      title: ErrorDetailDetail
-    RangeFilterWeightings:
-      type: object
-      properties:
-        selected_range:
-          $ref: '#/components/schemas/RangeFilterWeightingsSelectedRange'
-        weighting:
+        ACTIVE:
           type: number
           format: double
-      required:
-      - selected_range
-      - weighting
-      title: RangeFilterWeightings
-    ErrorDetail:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: Status code as in the http standards
-        error_code:
-          type: integer
-          description: Internal error code
-        title:
-          type: string
-          description: Error title
-        detail:
-          $ref: '#/components/schemas/ErrorDetailDetail'
-          description: Error detail
-        additional_information:
-          type: string
-          description: Optional extra information
-        traceback:
-          type: string
-          description: Optional debug information
-        interactive:
-          type: boolean
-      required:
-      - status
-      - error_code
-      - title
-      - detail
-      title: ErrorDetail
-    ApiV1StudiesGetParametersState:
+        APPROVED:
+          type: number
+          format: double
+        AWAITING REVIEW:
+          type: number
+          format: double
+        REJECTED:
+          type: number
+          format: double
+        RESERVED:
+          type: number
+          format: double
+        RETURNED:
+          type: number
+          format: double
+        TIMED-OUT:
+          type: number
+          format: double
+        PARTIALLY APPROVED:
+          type: number
+          format: double
+        SCREENED OUT:
+          type: number
+          format: double
+        TOTAL:
+          type: number
+          format: double
+          description: The total number of submissions in the study.
+      title: SubmissionsCountResponse
+    BaseStudyDataCollectionMethod:
       type: string
       enum:
-      - ACTIVE
-      - PAUSED
-      - UNPUBLISHED
-      - PUBLISHING
-      - COMPLETED
-      - AWAITING REVIEW
-      - UNKNOWN
-      - SCHEDULED
-      title: ApiV1StudiesGetParametersState
-    StudyPredictedRecruitmentTimeRequestPeripheralRequirementsItems:
-      type: string
-      enum:
-      - audio
-      - camera
-      - download
-      - microphone
-      title: StudyPredictedRecruitmentTimeRequestPeripheralRequirementsItems
-    RangeFilter:
+      - AI_TASK_BUILDER_BATCH
+      - AI_TASK_BUILDER_COLLECTION
+      description: '**Optional.** Specifies the data collection method for the study.
+
+
+        - `AI_TASK_BUILDER_BATCH`: Use AI Task Builder for data annotation tasks.
+
+        - `AI_TASK_BUILDER_COLLECTION`: Use AI Task Builder for data collection tasks.
+
+
+        **Note:** This field is mutually exclusive with `external_study_url` and `access_details`. If not provided, you must specify one of those fields instead.'
+      title: BaseStudyDataCollectionMethod
+    DemographicExportRequest:
       type: object
       properties:
-        filter_id:
-          type: string
-          description: ID of the "range" type filter.
-        selected_range:
-          $ref: '#/components/schemas/RangeFilterSelectedRange'
-          description: 'This schema applies for filters of the `range` type, as defined in the [filter list response](\#tag/Filters/paths/~1api~1v1~1filters~1/get).
-
-
-            A dictionary with two possible objects, ''lower'' and ''upper''. At least one must be present and a non-null value.
-
-
-            The expected data type for these values is defined by the `range` filter''s `data_type` (see response linked above).
-
-
-            If the data_type is a date, string format should be a parseable ISO8601 date string. Date values should be provided as a string in ISO 8601 format.
-
-
-            Leaving a value as null will result in that bound being set to the lowest or highest possible value, depending on whether it is the upper or lower bound.'
-        weightings:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/RangeFilterWeightings'
-          description: 'Ratios to control the distribution of participants across the selected values.
-
-
-            Integers and exact quantities are valid inputs.'
-      required:
-      - filter_id
-      - selected_range
-      title: RangeFilter
-    CreateStudyPeripheralRequirementsItems:
-      type: string
-      enum:
-      - audio
-      - camera
-      - download
-      - microphone
-      title: CreateStudyPeripheralRequirementsItems
-    CreateStudySubmissionsConfig:
-      type: object
-      properties:
-        max_submissions_per_participant:
-          type:
-          - integer
-          - 'null'
-          default: 1
-          description: "- **1** is the default Prolific experience. This means one submission, per participant, per study. If you do\n  not specify this field, the **default is 1**.\n- **1+** turns your study into a multi-submission study, meaning a participant can create many submissions per study.\n  As noted above, your survey system will need to handle providing a\nunique experience each time the participant takes the study.\n- **-1** will allow an indefinite number of submissions from a single participant, up to `total_available_places`."
-        max_concurrent_submissions:
-          type:
-          - integer
-          - 'null'
-          default: -1
-          description: '- **-1** is the default value, meaning unlimited concurrent active/reserved submissions per study.
-
-            - **1+** limits the number of concurrent active/reserved submissions a study can have at one time.'
-        auto_rejection_categories:
+        filters:
           type: array
           items:
-            $ref: '#/components/schemas/CreateStudySubmissionsConfigAutoRejectionCategoriesItems'
-          default: []
-          description: 'List of rejection categories that trigger automatic submission rejections.
+            $ref: '#/components/schemas/DemographicExportRequestFiltersItems'
+          description: 'List of filters to apply to the demographic export.
 
 
-            **Available Categories:**
-
-            - **EXCEPTIONALLY_FAST**: Automatically reject submissions completed in an exceptionally short time
+            When filters are provided, the export includes both base demographic data and responses to the specified filters which were applied to the study.
 
 
-            **Important Notes:**
-
-            - **This feature is currently in an evaluation period and can be activated for your workspace upon request.**
-
-            - Auto-rejections only apply to submissions in "AWAITING REVIEW" status
-
-            - Submissions with return requests will not be auto-rejected
-
-            - Auto-rejected submissions do not count towards your rejection limit
-
-            - Set to an empty array `[]` or omit this field to disable auto-rejection'
-      description: '**Advanced**: This helps with faster data collection. Your survey system will need to handle providing a
-
-        unique experience each time the participant takes the study.
+            When empty, only base demographic data (age, sex, country, etc.) for all participants who took the study is exported, excluding study-specific filter responses.'
+      title: DemographicExportRequest
+    BaseStudyProlificIdOption:
+      type: string
+      enum:
+      - question
+      - url_parameters
+      - not_required
+      description: 'Use ''question'' if you will add a question in your survey or experiment asking the participant ID
 
 
-        Configuration related to study submissions. The purpose of this field is to capture any configuration options that impact the submissions made by participants in a study.'
-      title: CreateStudySubmissionsConfig
-    RangeFilterWeightingsSelectedRangeUpper:
+        **Recommended** Use ''url_parameters'' if your survey or experiment can retrieve and store those parameters for your analysis.
+
+
+        Use ''not_required'' if you don''t need to record them.'
+      title: BaseStudyProlificIdOption
+    BaseStudyPeripheralRequirementsItems:
+      type: string
+      enum:
+      - audio
+      - camera
+      - download
+      - microphone
+      title: BaseStudyPeripheralRequirementsItems
+    CreateStudySubmissionsConfigAutoRejectionCategoriesItems:
+      type: string
+      enum:
+      - EXCEPTIONALLY_FAST
+      title: CreateStudySubmissionsConfigAutoRejectionCategoriesItems
+    RequestReturn:
+      type: object
+      properties:
+        action:
+          $ref: '#/components/schemas/RequestReturnAction'
+          description: Requests the participant to return their study
+        return_reason:
+          type: string
+          description: The reason you would like to request a return
+      required:
+      - action
+      - return_reason
+      title: RequestReturn
+    RangeFilterSelectedRangeLower:
       oneOf:
       - type: integer
       - type: string
       - type: number
         format: double
-      title: RangeFilterWeightingsSelectedRangeUpper
-    AccessDetailProgress:
-      type: object
-      properties:
-        external_url:
-          type: string
-          description: URL of the task you want to send the participant to. You can pass URL search parameters as in `external_study_url`.
-        total_allocation:
-          type: number
-          format: double
-          description: 'The base number of places set by the researcher for this URL. This is the value used to determine the study''s total available places and will match what was submitted when creating or updating the study.
-
-
-            This value does not include screenout-driven capacity. For studies with custom screening (fixed screen-out reward), `allocated` may exceed `total_allocation` — use `capacity_increments` to understand why.'
-        allocated:
-          type: number
-          format: double
-          description: 'The number of participants currently allocated to this URL.
-
-
-            For studies with custom screening (fixed screen-out reward), this value may exceed `total_allocation`. This occurs when participants have been screened out — each screenout adds 1 to `capacity_increments`, allowing a replacement participant to be allocated. The relationship is always: `allocated ≤ total_allocation + capacity_increments`.'
-        capacity_increments:
-          type: number
-          format: double
-          description: 'The cumulative number of additional capacity slots added to this URL by screenout events. Each time a participant is screened out, this value increases by 1, allowing a replacement participant to be allocated in their place.
-
-
-            This field is read-only and system-managed — it cannot be set when creating or updating a study. It will be absent (or 0) for URLs where no screenouts have occurred.
-
-
-            **Example:** If `total_allocation` is 10, `capacity_increments` is 3, and `allocated` is 11, it means 3 participants were screened out, creating 3 extra slots, and 11 participants have been allocated in total — 2 slots remain.'
-      required:
-      - external_url
-      - total_allocation
-      title: AccessDetailProgress
-    ManuallyReview:
-      type: object
-      properties:
-        action:
-          $ref: '#/components/schemas/ManuallyReviewAction'
-          description: Moves submission for the data collector to be manually reviewed.
-      required:
-      - action
-      title: ManuallyReview
+      description: Your selected lower bound for the range.
+      title: RangeFilterSelectedRangeLower
     CreateStudy:
       type: object
       properties:
@@ -2897,17 +3199,157 @@ components:
       - estimated_completion_time
       - reward
       title: CreateStudy
-    StudyCostBreakdown:
+    StudyShortStatus:
+      type: string
+      enum:
+      - UNPUBLISHED
+      - SCHEDULED
+      - PUBLISHING
+      - ACTIVE
+      - AWAITING REVIEW
+      - PAUSED
+      - COMPLETED
+      description: Status of the study.
+      title: StudyShortStatus
+    CreateStudySubmissionsConfig:
       type: object
       properties:
-        rewards:
-          $ref: '#/components/schemas/AmountAndCurrency'
-        fees:
-          $ref: '#/components/schemas/AmountAndCurrency'
-        tax:
-          $ref: '#/components/schemas/AmountAndCurrency'
-      title: StudyCostBreakdown
-    BaseStudyStudyLabelsItems:
+        max_submissions_per_participant:
+          type:
+          - integer
+          - 'null'
+          default: 1
+          description: "- **1** is the default Prolific experience. This means one submission, per participant, per study. If you do\n  not specify this field, the **default is 1**.\n- **1+** turns your study into a multi-submission study, meaning a participant can create many submissions per study.\n  As noted above, your survey system will need to handle providing a\nunique experience each time the participant takes the study.\n- **-1** will allow an indefinite number of submissions from a single participant, up to `total_available_places`."
+        max_concurrent_submissions:
+          type:
+          - integer
+          - 'null'
+          default: -1
+          description: '- **-1** is the default value, meaning unlimited concurrent active/reserved submissions per study.
+
+            - **1+** limits the number of concurrent active/reserved submissions a study can have at one time.'
+        auto_rejection_categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateStudySubmissionsConfigAutoRejectionCategoriesItems'
+          default: []
+          description: 'List of rejection categories that trigger automatic submission rejections.
+
+
+            **Available Categories:**
+
+            - **EXCEPTIONALLY_FAST**: Automatically reject submissions completed in an exceptionally short time
+
+
+            **Important Notes:**
+
+            - **This feature is currently in an evaluation period and can be activated for your workspace upon request.**
+
+            - Auto-rejections only apply to submissions in "AWAITING REVIEW" status
+
+            - Submissions with return requests will not be auto-rejected
+
+            - Auto-rejected submissions do not count towards your rejection limit
+
+            - Set to an empty array `[]` or omit this field to disable auto-rejection'
+      description: '**Advanced**: This helps with faster data collection. Your survey system will need to handle providing a
+
+        unique experience each time the participant takes the study.
+
+
+        Configuration related to study submissions. The purpose of this field is to capture any configuration options that impact the submissions made by participants in a study.'
+      title: CreateStudySubmissionsConfig
+    SubmissionListResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubmissionShort'
+          description: List of all submissions matching the criteria.
+      required:
+      - results
+      title: SubmissionListResponse
+    CreateStudyCompletionCodesItemsCodeType:
+      type: string
+      enum:
+      - COMPLETED
+      - FAILED_ATTENTION_CHECK
+      - FOLLOW_UP_STUDY
+      - GIVE_BONUS
+      - INCOMPATIBLE_DEVICE
+      - NO_CONSENT
+      - OTHER
+      - FIXED_SCREENOUT
+      - SCREENED_IN
+      - SCREENED_OUT
+      description: 'A name for your code to make it easier to understand its intention. Either use one of the predefined options or any other free text.
+
+        '
+      title: CreateStudyCompletionCodesItemsCodeType
+    TestStudySetUpResponse:
+      type: object
+      properties:
+        study_id:
+          type: string
+          format: objectId
+          description: The ID of the study that was created for the test.
+        study_url:
+          type: string
+          format: uri
+          description: The URL of the study that was created for the test.
+      title: TestStudySetUpResponse
+    AutomaticallyApprove:
+      type: object
+      properties:
+        action:
+          $ref: '#/components/schemas/AutomaticallyApproveAction'
+          description: Automatically approves submission with payment being processed immediately
+      required:
+      - action
+      title: AutomaticallyApprove
+    StudyShortStudyType:
+      type: string
+      enum:
+      - SINGLE
+      - UK_REP_SAMPLE
+      - US_REP_SAMPLE
+      description: Deprecated. Type of study.
+      title: StudyShortStudyType
+    CreateStudyCompletionCodesItems:
+      type: object
+      properties:
+        code:
+          type:
+          - string
+          - 'null'
+          description: "The code the participant will either enter manually at the end of your study or be redirected as part of the return URL.\n\nIf the code is null, then the participant will not be asked to submit a completion code when they return to Prolific.\nNull codes can only be provided when:\n  - The actor is \"participant\"\n  - There are no other completion codes with the \"participant\" actor\n  - The actions array is empty\n\nThe code must be unique within the study.\n"
+        code_type:
+          $ref: '#/components/schemas/CreateStudyCompletionCodesItemsCodeType'
+          description: 'A name for your code to make it easier to understand its intention. Either use one of the predefined options or any other free text.
+
+            '
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateStudyCompletionCodesItemsActionsItems'
+          description: 'The actions that will be completed automatically when the submission is completed with this code by the participant.
+
+
+            You have the ability to use one or multiple `actions` together - it''s up to you and your desired automated journey.
+
+
+            If you’re looking to keep things simple, we recommend setting the `{"action": "MANUALLY_REVIEW"}` option only, so all submissions wait for your manual approval.'
+        actor:
+          $ref: '#/components/schemas/CreateStudyCompletionCodesItemsActor'
+          default: participant
+          description: The actor that can provide this completion code.
+      required:
+      - code
+      - code_type
+      - actions
+      title: CreateStudyCompletionCodesItems
+    CreateStudyStudyLabelsItems:
       type: string
       enum:
       - survey
@@ -2926,42 +3368,18 @@ components:
       - ai_data_creation_video
       - ai_data_creation_images
       - ai_other
-      title: BaseStudyStudyLabelsItems
-    StudyTransitionAction:
+      title: CreateStudyStudyLabelsItems
+    FixedScreenOutAction:
       type: string
       enum:
-      - PUBLISH
-      - SCHEDULE_PUBLISH
-      - CANCEL_PUBLISH
-      - PAUSE
-      - START
-      - STOP
-      description: The transition action to execute on the study.
-      title: StudyTransitionAction
-    BaseStudyCompletionCodesItemsActor:
-      type: string
-      enum:
-      - participant
-      - researcher
-      default: participant
-      description: The actor that can provide this completion code.
-      title: BaseStudyCompletionCodesItemsActor
-    CreateStudyAccessDetailsItems:
-      oneOf:
-      - $ref: '#/components/schemas/AccessDetail'
-      title: CreateStudyAccessDetailsItems
-    BaseStudySubmissionsConfigAutoRejectionCategoriesItems:
-      type: string
-      enum:
-      - EXCEPTIONALLY_FAST
-      title: BaseStudySubmissionsConfigAutoRejectionCategoriesItems
-    CreateStudyContentWarningsItems:
-      type: string
-      enum:
-      - sensitive
-      - explicit
-      title: CreateStudyContentWarningsItems
-    BaseStudyDataCollectionMethod:
+      - FIXED_SCREEN_OUT_PAYMENT
+      description: 'Use this action to set up a fixed screen out reward study. This feature is currently available to select workspaces only.
+
+        - A fixed screen out reward study compensates participants with a predetermined amount when they do not qualify for the study.
+
+        - This feature enables researchers to implement more precise participant screening while ensuring fair compensation for participants'' time.'
+      title: FixedScreenOutAction
+    CreateStudyDataCollectionMethod:
       type: string
       enum:
       - AI_TASK_BUILDER_BATCH
@@ -2975,17 +3393,59 @@ components:
 
 
         **Note:** This field is mutually exclusive with `external_study_url` and `access_details`. If not provided, you must specify one of those fields instead.'
-      title: BaseStudyDataCollectionMethod
-    StudyCostResponse:
+      title: CreateStudyDataCollectionMethod
+    SubmissionShort:
       type: object
       properties:
-        total_cost:
-          type: number
-          format: double
-          description: Total cost of the study including VAT and fees in cents. We use your account VAT and Fee percentage. The amount is in your account's currency.
+        id:
+          type: string
+          description: Submission id.
+        participant_id:
+          type: string
+          description: Participant id.
+        status:
+          $ref: '#/components/schemas/SubmissionShortStatus'
+          description: Status of the submission.
+        started_at:
+          type: string
+          format: date-time
+          description: Date started
+        completed_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Date completed
+        has_siblings:
+          type: boolean
+          description: Whether or not the submission has sibling submissions (sharing the same study).
+        study_code:
+          type:
+          - string
+          - 'null'
+          description: The completion code used by the participant to complete the study.
+        return_requested:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: The date and time when a return request for the submission was made.
       required:
-      - total_cost
-      title: StudyCostResponse
+      - id
+      - participant_id
+      - status
+      - started_at
+      - has_siblings
+      title: SubmissionShort
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
     StudyStatus:
       type: string
       enum:
@@ -3001,466 +3461,6 @@ components:
 
         To change the status you can use `/api/v1/studies/{id}/transition/`'
       title: StudyStatus
-    Error:
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/ErrorDetail'
-      required:
-      - error
-      title: Error
-    AutomaticallyApprove:
-      type: object
-      properties:
-        action:
-          $ref: '#/components/schemas/AutomaticallyApproveAction'
-          description: Automatically approves submission with payment being processed immediately
-      required:
-      - action
-      title: AutomaticallyApprove
-    AddToParticipantGroup:
-      type: object
-      properties:
-        action:
-          $ref: '#/components/schemas/AddToParticipantGroupAction'
-          description: Adds participants to a specific group
-        participant_group:
-          type: string
-          description: The participant group to add the participant to.
-      required:
-      - action
-      - participant_group
-      title: AddToParticipantGroup
-    BaseStudyPeripheralRequirementsItems:
-      type: string
-      enum:
-      - audio
-      - camera
-      - download
-      - microphone
-      title: BaseStudyPeripheralRequirementsItems
-    BaseStudy:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Public name or title of the study
-        internal_name:
-          type:
-          - string
-          - 'null'
-          description: Internal name of the study, not shown to participants
-        description:
-          type: string
-          description: 'Description of the study for the participants to read before
-
-            starting the study
-
-
-            **Supported HTML in `description`**
-
-
-            The `description` field supports the following HTML tags for formatting participant instructions:
-
-
-            * `<b>` - bold
-
-            * `<i>` - italic
-
-            * `<em>` - emphasized text
-
-            * `<strong>` - strong importance
-
-            * `<s>` - strikethrough
-
-            * `<u>` - underline
-
-            * `<h1>` - heading level 1
-
-            * `<h2>` - heading level 2
-
-            * `<ol>` - ordered list
-
-            * `<ul>` - unordered list
-
-            * `<li>` - list item
-
-            * `<p>` - paragraph
-
-
-            Other HTML tags will be stripped or escaped. Please ensure that you only use supported tags for formatting to avoid rendering issues.'
-        external_study_url:
-          type: string
-          description: 'URL of the survey or experiment you want participant to access. You can pass URL search parameters to your survey or experiment
-
-
-            * Participant id {{%PROLIFIC_PID%}}
-
-            * Study id {{%STUDY_ID%}}
-
-            * Session id {{%SESSION_ID%}}
-
-
-            For example `https://eggs-experriment.com?participant={{%PROLIFIC_PID%}}`'
-        prolific_id_option:
-          $ref: '#/components/schemas/BaseStudyProlificIdOption'
-          description: 'Use ''question'' if you will add a question in your survey or experiment asking the participant ID
-
-
-            **Recommended** Use ''url_parameters'' if your survey or experiment can retrieve and store those parameters for your analysis.
-
-
-            Use ''not_required'' if you don''t need to record them.'
-        completion_codes:
-          type: array
-          items:
-            $ref: '#/components/schemas/BaseStudyCompletionCodesItems'
-          description: 'Specify at least one completion code for your study. A participant will enter one of these codes when they complete your study.
-
-
-            Each code must be unique within a study.
-
-
-            You can specify as many actions as you like per code. However, some actions can''t be used together (e.g. AutomaticallyApprove and ManuallyReview).
-
-
-            **Note:** This field is optional when `data_collection_method` is set to `AI_TASK_BUILDER_BATCH` or `AI_TASK_BUILDER_COLLECTION`. When omitted, a default COMPLETED code with a `MANUALLY_REVIEW` action is auto-generated. When provided, AITB studies must include exactly one code with `code_type` of `COMPLETED` and an action of `MANUALLY_REVIEW` or `AUTOMATICALLY_APPROVE`.'
-        total_available_places:
-          type: number
-          format: double
-          description: 'How many participants are you looking to recruit.
-
-
-            **Note:** This field is optional when `data_collection_method` is set to `AI_TASK_BUILDER_BATCH`, as the total available places are automatically calculated from the batch configuration.'
-        estimated_completion_time:
-          type: number
-          format: double
-          description: Estimated duration in minutes of the experiment or survey
-        maximum_allowed_time:
-          type: number
-          format: double
-          description: 'Max time in minutes for a participant to finish the submission. Submissions are timed out if it takes longer.
-
-
-            If it is not provided the default value is set to the max value.
-
-
-            The min value is calculated as two minutes plus two times the estimated time plus two times the square root of the estimated time'
-        reward:
-          type: number
-          format: double
-          description: 'How much are you going to pay the participants in cents. We
-
-            use the currency of your account.'
-        device_compatibility:
-          type: array
-          items:
-            $ref: '#/components/schemas/BaseStudyDeviceCompatibilityItems'
-          description: 'Add all devices that participants can use.
-
-            You can include one or more options.
-
-
-            An empty array indicates that all options are available.'
-        peripheral_requirements:
-          type: array
-          items:
-            $ref: '#/components/schemas/BaseStudyPeripheralRequirementsItems'
-          description: 'Add all requirements that participants have to meet.
-
-
-            An empty array indicates that there are no extra peripheral requirements.'
-        filters:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/BaseStudyFiltersItems'
-          description: 'Array of filters.
-
-
-            For advanced participant targeting with `and` / `or` groups, see [Advanced filtering](/api-reference/filters/advanced-filtering).
-
-
-            Use empty array for "Everyone"'
-        filter_set_id:
-          type:
-          - string
-          - 'null'
-          description: 'The ID of a filter set, from which filters for the study will be taken.
-
-
-            For more information, see [Filter Sets](/api-reference/filter-sets).
-
-
-            Note, this cannot be used in combination with additional filters via the `filters` field.'
-        filter_set_version:
-          type:
-          - integer
-          - 'null'
-          description: 'The version of the filter set to be used.
-
-
-            If not provided, this will default to the latest available version at the time of applying the filter set.'
-        naivety_distribution_rate:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: 'Control the balance between speed of your studies and the naivety of the participants.
-
-
-            If not defined, by default Prolific calculates the best rate for most studies
-
-            taking into account the `filters` and the `total_available_places` needed for this study.
-
-
-            Use 0 if your priority is speed. When this property is set to 0 all eligible participants will have access
-
-            to your study at the same time, without any prioritization.
-
-
-            You can also set this at a workspace and project level.'
-        project:
-          type: string
-          description: Project ID. When you don't specify a project in your request, Prolific automatically uses your first created project as the default. For clarity, we recommend explicitly including the project ID in your requests.
-        submissions_config:
-          $ref: '#/components/schemas/BaseStudySubmissionsConfig'
-          description: '**Advanced**: This helps with faster data collection. Your survey system will need to handle providing a
-
-            unique experience each time the participant takes the study.
-
-
-            Configuration related to study submissions. The purpose of this field is to capture any configuration options that impact the submissions made by participants in a study.'
-        study_labels:
-          type: array
-          items:
-            $ref: '#/components/schemas/BaseStudyStudyLabelsItems'
-          description: 'This field allows you to tag studies with information about the type/topic of the study and the kind of work involved in completing it.
-
-
-            We plan to make this information available to participants for easier self-selection. At present these options are mutually exclusive and only a single option can be selected, however in the future available categories will expand.'
-        content_warnings:
-          type: array
-          items:
-            $ref: '#/components/schemas/BaseStudyContentWarningsItems'
-          description: 'Allow researchers to define content warnings for their study.
-
-
-            At present these options are mutually exclusive and only a single option can be selected, however in the future available warnings will expand.'
-        content_warning_details:
-          type: string
-          description: Allow researchers to add further details about their content warning.
-        metadata:
-          type:
-          - string
-          - 'null'
-          description: "This field can be used to store extra information required for a system integration.\nFor example, it could be some JSON, XML, an integer, or a string.\n\nExamples could include:\n\n  - `123345` - An ID from your system, that helps with linkage when returning the study.\n  - `{ \\\"id\\\": \\\"45\\\", \\\"type\\\": \\\"finance\\\"}` - Some JSON that you want to store."
-        credential_pool_id:
-          type:
-          - string
-          - 'null'
-          description: 'The ID of the credential pool to associate with this study. Credential pools contain
-
-            username/password pairs that are distributed to participants when they start the study.
-
-
-            When provided, participants will be assigned unique credentials from the pool. Each
-
-            credential can only be used once and is tracked throughout the study lifecycle.
-
-
-            **Note:** The credential pool must:
-
-            - Exist and belong to the study''s workspace
-
-            - Have available (unredeemed) credentials
-
-
-            See the [Credentials endpoints](#tag/Credentials) for managing credential pools.'
-        has_credentials:
-          type: boolean
-          description: 'Indicates whether this study requires participants to use credentials. This field is
-
-            automatically set to `true` when a `credential_pool_id` is provided, and `false` when
-
-            the credential pool is removed.
-
-
-            **Note:** This field is automatically managed based on the `credential_pool_id` field
-
-            and does not need to be set manually.'
-        data_collection_method:
-          oneOf:
-          - $ref: '#/components/schemas/BaseStudyDataCollectionMethod'
-          - type: 'null'
-          description: '**Optional.** Specifies the data collection method for the study.
-
-
-            - `AI_TASK_BUILDER_BATCH`: Use AI Task Builder for data annotation tasks.
-
-            - `AI_TASK_BUILDER_COLLECTION`: Use AI Task Builder for data collection tasks.
-
-
-            **Note:** This field is mutually exclusive with `external_study_url` and `access_details`. If not provided, you must specify one of those fields instead.'
-        data_collection_id:
-          type:
-          - string
-          - 'null'
-          description: 'The ID of the data collection batch or project from the Task Builder API.
-
-
-            **Required when `data_collection_method` is set to `AI_TASK_BUILDER_BATCH` or `AI_TASK_BUILDER_COLLECTION`.**'
-        data_collection_metadata:
-          oneOf:
-          - $ref: '#/components/schemas/BaseStudyDataCollectionMetadata'
-          - type: 'null'
-          description: "**Optional.** Additional metadata for configuring AI Task Builder data annotation behavior. Only used when `data_collection_method` is set to `AI_TASK_BUILDER_BATCH`.\n\n**Properties:**\n\n- `annotators_per_task` (integer): Number of annotators per task. **This field must be provided if you want multiple annotators per task.** Without this field, the default value of 1 will be used.\n  - Minimum: 1\n  - Default: 1 (if not provided)\n\n**Example:**\n```json\n{\n  \"annotators_per_task\": 5\n}\n```\n\n**Important:** You must include `annotators_per_task` to control how many participants annotate each task. After the study is published, this value can only be increased (not decreased), which will increase the total available places on the study."
-        access_details:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/BaseStudyAccessDetailsItems'
-          description: 'Array of access_details, which integrates with taskflow.
-
-
-            While this field is nullable, you must provide one of `access_details` or `external_study_url`.
-
-
-            The sum of all access_details must add to the `total_available_places` field, however the values can be different for an individual access_detail.'
-        is_external_study_url_secure:
-          type: boolean
-          description: "When set to true, any query parameters in the external study url will be signed with a JSON Web Token. The token will be added to the URL as a query parameter named `prolific_token`.\n\nThis feature is only available to certain workspaces.\n\n**The JWT payload**\n\nHeader:\n\n```json\n{\n  \"alg\": \"RS256\",\n  \"kid\": \"<KEY_ID>\",\n  \"typ\": \"JWT\"\n}\n```\n\nWhere\n- alg is always RS256.\n- kid indicates the key ID that was used to secure the JWT.\n- typ is always JWT.\n\nPayload:\n\n```json\n{\n  \"iss\": \"https://www.prolific.com\",\n  \"iat\": <CURRENT_TIME>,\n  \"exp\": <CURRENT_TIME + 2 minutes>,\n  \"aud\": \"<EXTERNAL_STUDY_URL>\",\n  \"sub\": \"<SESSION_ID>\",\n  \"prolific\":{\n    \"<QUERY_1>\": \"<VALUE_1>\",\n    \"<QUERY_2>\": \"<VALUE_2>\",\n    ...\n    \"workspace_id\": \"<WORKSPACE_ID>\",\n    \"organisation_id\": \"<ORGANISATION_ID>\"\n  }\n}\n```\n\n`<ORGANISATION_ID>` appears only when the workspace is linked to an\norganisation; otherwise omit that key from `prolific`.\n\nThe `prolific` object maps each URL parameter from your\nexternal study URL template to the resolved value for that\nplaceholder (for example participant, study, and session\nidentifiers). Prolific always adds `workspace_id` (string). When the\nworkspace is linked to an organisation, `organisation_id` (string)\nis also present.\n\nFor example (the sample below includes `organisation_id`; that key\nis omitted when the workspace has no linked organisation):\n\n```json\n{\n  \"iss\": \"https://www.prolific.com\",\n  \"iat\": 1740496135,\n  \"exp\": 1740496255,\n  \"aud\": \"https://x.com?STUDY_ID=1&...\",\n  \"sub\": \"1234\",\n  \"prolific\":{\n    \"STUDY_ID\": \"abcd\",\n    \"SESSION_ID\": \"1234\",\n    \"PROLIFIC_PID\": \"xyz\",\n    \"workspace_id\": \"507f1f77bcf86cd799439011\",\n    \"organisation_id\": \"507f191e810c19729de860ea\"\n  }\n}\n```\n\n**Verify the payload**\n\nWhen you receive the JWT, you must verify the following:\n- The JWT signature is authentic by verifying it with the public key from Prolific that correlates with the KID. The public keys can be retrieved from [/.well-known/study/jwks.json](#tag/Well-Known-Endpoints/paths/~1.well-known~1study~1jwks.json/get).\n- The JWT hasn't expired, by checking the `exp` claim.\n- The `aud` claim is the correct domain for your tool.\n- The `prolific` claim matches your expected payload as set in the `external_study_url` property. It always includes `workspace_id`. When the workspace is linked to an organisation, it also includes `organisation_id` (validate both against what your integration expects)."
-      title: BaseStudy
-    BaseStudyContentWarningsItems:
-      type: string
-      enum:
-      - sensitive
-      - explicit
-      title: BaseStudyContentWarningsItems
-    StudyShortStatus:
-      type: string
-      enum:
-      - UNPUBLISHED
-      - SCHEDULED
-      - PUBLISHING
-      - ACTIVE
-      - AWAITING REVIEW
-      - PAUSED
-      - COMPLETED
-      description: Status of the study.
-      title: StudyShortStatus
-    AddToParticipantGroupAction:
-      type: string
-      enum:
-      - ADD_TO_PARTICIPANT_GROUP
-      description: Adds participants to a specific group
-      title: AddToParticipantGroupAction
-    DemographicExportRequest:
-      type: object
-      properties:
-        filters:
-          type: array
-          items:
-            $ref: '#/components/schemas/DemographicExportRequestFiltersItems'
-          description: 'List of filters to apply to the demographic export.
-
-
-            When filters are provided, the export includes both base demographic data and responses to the specified filters which were applied to the study.
-
-
-            When empty, only base demographic data (age, sex, country, etc.) for all participants who took the study is exported, excluding study-specific filter responses.'
-      title: DemographicExportRequest
-    RequestReturnAction:
-      type: string
-      enum:
-      - REQUEST_RETURN
-      description: Requests the participant to return their study
-      title: RequestReturnAction
-    FixedScreenOutAction:
-      type: string
-      enum:
-      - FIXED_SCREEN_OUT_PAYMENT
-      description: 'Use this action to set up a fixed screen out reward study. This feature is currently available to select workspaces only.
-
-        - A fixed screen out reward study compensates participants with a predetermined amount when they do not qualify for the study.
-
-        - This feature enables researchers to implement more precise participant screening while ensuring fair compensation for participants'' time.'
-      title: FixedScreenOutAction
-    AmountAndCurrency:
-      type: object
-      properties:
-        amount:
-          type: number
-          format: double
-          description: Amount in subcurrency. £1 will return 100
-        currency:
-          type: string
-          description: Currency Code
-      title: AmountAndCurrency
-    RemoveFromParticipantGroupAction:
-      type: string
-      enum:
-      - REMOVE_FROM_PARTICIPANT_GROUP
-      description: Removes participants from specific groups
-      title: RemoveFromParticipantGroupAction
-    BaseStudyCompletionCodesItems:
-      type: object
-      properties:
-        code:
-          type:
-          - string
-          - 'null'
-          description: "The code the participant will either enter manually at the end of your study or be redirected as part of the return URL.\n\nIf the code is null, then the participant will not be asked to submit a completion code when they return to Prolific.\nNull codes can only be provided when:\n  - The actor is \"participant\"\n  - There are no other completion codes with the \"participant\" actor\n  - The actions array is empty\n\nThe code must be unique within the study.\n"
-        code_type:
-          $ref: '#/components/schemas/BaseStudyCompletionCodesItemsCodeType'
-          description: 'A name for your code to make it easier to understand its intention. Either use one of the predefined options or any other free text.
-
-            '
-        actions:
-          type: array
-          items:
-            $ref: '#/components/schemas/BaseStudyCompletionCodesItemsActionsItems'
-          description: 'The actions that will be completed automatically when the submission is completed with this code by the participant.
-
-
-            You have the ability to use one or multiple `actions` together - it''s up to you and your desired automated journey.
-
-
-            If you’re looking to keep things simple, we recommend setting the `{"action": "MANUALLY_REVIEW"}` option only, so all submissions wait for your manual approval.'
-        actor:
-          $ref: '#/components/schemas/BaseStudyCompletionCodesItemsActor'
-          default: participant
-          description: The actor that can provide this completion code.
-      required:
-      - code
-      - code_type
-      - actions
-      title: BaseStudyCompletionCodesItems
-    RangeFilterSelectedRangeLower:
-      oneOf:
-      - type: integer
-      - type: string
-      - type: number
-        format: double
-      description: Your selected lower bound for the range.
-      title: RangeFilterSelectedRangeLower
-    CompositeFilter:
-      type: object
-      properties:
-        filter_id:
-          $ref: '#/components/schemas/CompositeFilterFilterId'
-          description: Composite filter group operator. Use `and` when every child filter must match, or `or` when at least one child filter must match.
-        selected_filters:
-          type: array
-          items:
-            $ref: '#/components/schemas/CompositeFilterSelectedFiltersItems'
-          description: Child filters in this group. Children can be select filters, range filters, or supported nested composite groups.
-      required:
-      - filter_id
-      - selected_filters
-      title: CompositeFilter
   securitySchemes:
     token:
       type: apiKey

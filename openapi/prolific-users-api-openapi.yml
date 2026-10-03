@@ -119,6 +119,14 @@ paths:
               $ref: '#/components/schemas/CreateTestParticipantForResearcher'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
+      required:
+      - error
+      title: Error
     ErrorDetailDetail2:
       type: object
       properties:
@@ -129,34 +137,6 @@ components:
           description: Name of the field with a validation error and as a value an array with the error descriptions
       description: All fields with validation errors
       title: ErrorDetailDetail2
-    Error:
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/ErrorDetail'
-      required:
-      - error
-      title: Error
-    User:
-      type: object
-      properties:
-        id:
-          type: string
-        email:
-          type: string
-      required:
-      - id
-      - email
-      title: User
-    ErrorDetailDetail:
-      oneOf:
-      - type: string
-      - type: array
-        items:
-          type: string
-      - $ref: '#/components/schemas/ErrorDetailDetail2'
-      description: Error detail
-      title: ErrorDetailDetail
     ErrorDetail:
       type: object
       properties:
@@ -186,6 +166,26 @@ components:
       - title
       - detail
       title: ErrorDetail
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+      required:
+      - id
+      - email
+      title: User
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
     CreateTestParticipantForResearcher:
       type: object
       properties:

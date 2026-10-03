@@ -52,14 +52,6 @@ components:
       - RS256
       description: Algorithm used, always "RS256".
       title: JwkAlg
-    JWKSResponse:
-      type: object
-      properties:
-        keys:
-          type: array
-          items:
-            $ref: '#/components/schemas/JWK'
-      title: JWKSResponse
     JWK:
       type: object
       properties:
@@ -95,6 +87,14 @@ components:
       - use
       - key_ops
       title: JWK
+    JWKSResponse:
+      type: object
+      properties:
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/JWK'
+      title: JWKSResponse
     JwkKty:
       type: string
       enum:
