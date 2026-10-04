@@ -54,14 +54,39 @@ paths:
               $ref: '#/components/schemas/CreateInvitationRequest'
 components:
   schemas:
-    Error:
+    InvitationStatus:
+      type: string
+      enum:
+      - INVITED
+      - ACCEPTED
+      description: The current status of the invitation.
+      title: InvitationStatus
+    InvitationRole:
+      type: string
+      enum:
+      - WORKSPACE_ADMIN
+      - WORKSPACE_COLLABORATOR
+      description: Assigned role for the user in this workspace.
+      title: InvitationRole
+    InvitationInvitee:
       type: object
       properties:
-        error:
-          $ref: '#/components/schemas/ErrorDetail'
-      required:
-      - error
-      title: Error
+        id:
+          type:
+          - string
+          - 'null'
+          format: objectId
+          description: The unique ID of the invitee.
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the invitee.
+        email:
+          type: string
+          format: email
+          description: The email address of the invitee.
+      title: InvitationInvitee
     ErrorDetail:
       type: object
       properties:
@@ -91,34 +116,6 @@ components:
       - title
       - detail
       title: ErrorDetail
-    InvitationInvitee:
-      type: object
-      properties:
-        id:
-          type:
-          - string
-          - 'null'
-          format: objectId
-          description: The unique ID of the invitee.
-        name:
-          type:
-          - string
-          - 'null'
-          description: The name of the invitee.
-        email:
-          type: string
-          format: email
-          description: The email address of the invitee.
-      title: InvitationInvitee
-    ErrorDetailDetail:
-      oneOf:
-      - type: string
-      - type: array
-        items:
-          type: string
-      - $ref: '#/components/schemas/ErrorDetailDetail2'
-      description: Error detail
-      title: ErrorDetailDetail
     CreateInvitationRequest:
       type: object
       properties:
@@ -142,6 +139,54 @@ components:
 
             '
       title: CreateInvitationRequest
+    Error:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
+      required:
+      - error
+      title: Error
+    CreateInvitationResponse:
+      type: object
+      properties:
+        invitations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Invitation'
+      title: CreateInvitationResponse
+    ErrorDetailDetail2:
+      type: object
+      properties:
+        any_field:
+          type: array
+          items:
+            type: string
+          description: Name of the field with a validation error and as a value an array with the error descriptions
+      description: All fields with validation errors
+      title: ErrorDetailDetail2
+    CreateInvitationRequestRole:
+      type: string
+      enum:
+      - WORKSPACE_ADMIN
+      - WORKSPACE_COLLABORATOR
+      description: 'The role that the invited users will have in the workspace. This can be one of the following:
+
+        - "WORKSPACE_ADMIN": The user will have administrative rights in the workspace. They can manage settings, invite users, and oversee all projects.
+
+        - "WORKSPACE_COLLABORATOR": The user will be a regular collaborator in the workspace. They can contribute to projects but don''t have administrative rights.
+
+        '
+      title: CreateInvitationRequestRole
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
     Invitation:
       type: object
       properties:
@@ -166,51 +211,6 @@ components:
           $ref: '#/components/schemas/InvitationRole'
           description: Assigned role for the user in this workspace.
       title: Invitation
-    InvitationStatus:
-      type: string
-      enum:
-      - INVITED
-      - ACCEPTED
-      description: The current status of the invitation.
-      title: InvitationStatus
-    ErrorDetailDetail2:
-      type: object
-      properties:
-        any_field:
-          type: array
-          items:
-            type: string
-          description: Name of the field with a validation error and as a value an array with the error descriptions
-      description: All fields with validation errors
-      title: ErrorDetailDetail2
-    CreateInvitationResponse:
-      type: object
-      properties:
-        invitations:
-          type: array
-          items:
-            $ref: '#/components/schemas/Invitation'
-      title: CreateInvitationResponse
-    InvitationRole:
-      type: string
-      enum:
-      - WORKSPACE_ADMIN
-      - WORKSPACE_COLLABORATOR
-      description: Assigned role for the user in this workspace.
-      title: InvitationRole
-    CreateInvitationRequestRole:
-      type: string
-      enum:
-      - WORKSPACE_ADMIN
-      - WORKSPACE_COLLABORATOR
-      description: 'The role that the invited users will have in the workspace. This can be one of the following:
-
-        - "WORKSPACE_ADMIN": The user will have administrative rights in the workspace. They can manage settings, invite users, and oversee all projects.
-
-        - "WORKSPACE_COLLABORATOR": The user will be a regular collaborator in the workspace. They can contribute to projects but don''t have administrative rights.
-
-        '
-      title: CreateInvitationRequestRole
   securitySchemes:
     token:
       type: apiKey

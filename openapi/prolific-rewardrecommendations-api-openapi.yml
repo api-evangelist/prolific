@@ -100,6 +100,12 @@ paths:
                 $ref: '#/components/schemas/ErrorDetail'
 components:
   schemas:
+    ApiV1RewardRecommendationsGetParametersCurrency:
+      type: string
+      enum:
+      - USD
+      - GBP
+      title: ApiV1RewardRecommendationsGetParametersCurrency
     RewardRecommendationsResponseItems:
       type: object
       properties:
@@ -159,13 +165,6 @@ components:
 
             '
       title: RewardRecommendationsResponseItems
-    RewardRecommendationsResponseItemsCurrency:
-      type: string
-      enum:
-      - USD
-      - GBP
-      description: An ISO 4217 currency code. Note that we only support a selection of currency codes as per the enum values.
-      title: RewardRecommendationsResponseItemsCurrency
     ErrorDetail:
       type: object
       properties:
@@ -195,26 +194,6 @@ components:
       - title
       - detail
       title: ErrorDetail
-    ErrorDetailDetail:
-      oneOf:
-      - type: string
-      - type: array
-        items:
-          type: string
-      - $ref: '#/components/schemas/ErrorDetailDetail2'
-      description: Error detail
-      title: ErrorDetailDetail
-    RewardRecommendationsResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/RewardRecommendationsResponseItems'
-      title: RewardRecommendationsResponse
-    ApiV1RewardRecommendationsGetParametersCurrency:
-      type: string
-      enum:
-      - USD
-      - GBP
-      title: ApiV1RewardRecommendationsGetParametersCurrency
     ErrorDetailDetail2:
       type: object
       properties:
@@ -225,6 +204,27 @@ components:
           description: Name of the field with a validation error and as a value an array with the error descriptions
       description: All fields with validation errors
       title: ErrorDetailDetail2
+    RewardRecommendationsResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/RewardRecommendationsResponseItems'
+      title: RewardRecommendationsResponse
+    ErrorDetailDetail:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/ErrorDetailDetail2'
+      description: Error detail
+      title: ErrorDetailDetail
+    RewardRecommendationsResponseItemsCurrency:
+      type: string
+      enum:
+      - USD
+      - GBP
+      description: An ISO 4217 currency code. Note that we only support a selection of currency codes as per the enum values.
+      title: RewardRecommendationsResponseItemsCurrency
   securitySchemes:
     token:
       type: apiKey

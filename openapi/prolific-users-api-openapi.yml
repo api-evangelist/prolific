@@ -119,24 +119,25 @@ paths:
               $ref: '#/components/schemas/CreateTestParticipantForResearcher'
 components:
   schemas:
-    Error:
+    CreateTestParticipantForResearcherResponse:
       type: object
       properties:
-        error:
-          $ref: '#/components/schemas/ErrorDetail'
+        participant_id:
+          type: string
+          format: objectId
+          description: The ID of the test participant
+      title: CreateTestParticipantForResearcherResponse
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
       required:
-      - error
-      title: Error
-    ErrorDetailDetail2:
-      type: object
-      properties:
-        any_field:
-          type: array
-          items:
-            type: string
-          description: Name of the field with a validation error and as a value an array with the error descriptions
-      description: All fields with validation errors
-      title: ErrorDetailDetail2
+      - id
+      - email
+      title: User
     ErrorDetail:
       type: object
       properties:
@@ -166,17 +167,24 @@ components:
       - title
       - detail
       title: ErrorDetail
-    User:
+    Error:
       type: object
       properties:
-        id:
-          type: string
-        email:
-          type: string
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
       required:
-      - id
-      - email
-      title: User
+      - error
+      title: Error
+    ErrorDetailDetail2:
+      type: object
+      properties:
+        any_field:
+          type: array
+          items:
+            type: string
+          description: Name of the field with a validation error and as a value an array with the error descriptions
+      description: All fields with validation errors
+      title: ErrorDetailDetail2
     ErrorDetailDetail:
       oneOf:
       - type: string
@@ -200,14 +208,6 @@ components:
       required:
       - email
       title: CreateTestParticipantForResearcher
-    CreateTestParticipantForResearcherResponse:
-      type: object
-      properties:
-        participant_id:
-          type: string
-          format: objectId
-          description: The ID of the test participant
-      title: CreateTestParticipantForResearcherResponse
   securitySchemes:
     token:
       type: apiKey
