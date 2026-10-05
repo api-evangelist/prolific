@@ -1,0 +1,12 @@
+{
+ "url": "https://docs.prolific.com/openapi.json",
+ "requested_url": "https://docs.prolific.com/openapi.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 439932,
+ "sha256": "9cabd62d103f1845663192f5a811f2caa17adf1f16a2899a579f396a40defc4b",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 0.922), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
