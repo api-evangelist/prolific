@@ -43,3 +43,41 @@ plans:
   included_quota: Complete datasets; Expert curation and verification; Custom sourcing campaigns; Participant
     training and onboarding; Ongoing pool optimization; Multi-stage quality assurance; Dedicated project
     team; Shared Slack channels; Data analysis and reporting
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - subscription
+  units: []
+  plans:
+  - name: Platform
+    access: other
+    model: unstated
+    model_how: derived
+    units:
+    - other
+    periods:
+    - other
+  - name: Platform fee (corporate)
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - other
+  - name: Platform fee (academic or non-profit)
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - other
+  - name: Managed services
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
