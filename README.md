@@ -64,6 +64,161 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Prolific is a company surfaced as a portfolio company of partech and added to the API Evangelist network as a stub for enrichment. Sector: AI/ML. This profile is a lead awaiting the enrichment pipeline.
+Prolific is a platform for high-quality human data collection, connecting researchers and AI/ML teams with a vetted pool of verified participants for online studies, surveys, and human-feedback tasks (preference tuning, safety evals, benchmarks, RLHF). Its public REST API (api.prolific.com, OpenAPI 3.1) automates the full workflow: create and cost studies, target participants with demographic filters and filter sets, launch and monitor recruitment, review and approve submissions, pay rewards and bonuses, message participants, run AI Task Builder batches, and receive HMAC-signed webhooks. Prolific also ships a Go CLI and an official Model Context Protocol server for agent-driven study workflows. Trusted by Google, Hugging Face, and academic and government researchers.
 
-Backed by: partech — https://www.prolific.co/
+**Areas:** Company · Artificial Intelligence · Human Data · Research · Participant Recruitment · Surveys · Human Feedback · RLHF · Data Collection
+
+## Prolific on APIs.io
+
+Everything profiled for Prolific is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/prolific/](https://apis.io/providers/prolific/)** — or go straight to one of the APIs or properties below.
+
+### APIs (18)
+
+- [Prolific aiTaskBuilder API](https://apis.io/apis/prolific/prolific-aitaskbuilder-api/) — The aiTaskBuilder API from Prolific — 24 operation(s) for aitaskbuilder.
+- [Prolific Bonuses API](https://apis.io/apis/prolific/prolific-bonuses-api/) — The bonuses API from Prolific — 2 operation(s) for bonuses.
+- [Prolific Credentials API](https://apis.io/apis/prolific/prolific-credentials-api/) — The credentials API from Prolific — 2 operation(s) for credentials.
+- [Prolific Filters API](https://apis.io/apis/prolific/prolific-filters-api/) — The filters API from Prolific — 3 operation(s) for filters.
+- [Prolific Invitations API](https://apis.io/apis/prolific/prolific-invitations-api/) — The invitations API from Prolific — 1 operation(s) for invitations.
+- [Prolific Messages API](https://apis.io/apis/prolific/prolific-messages-api/) — The messages API from Prolific — 4 operation(s) for messages.
+- [Prolific Participant Groups API](https://apis.io/apis/prolific/prolific-participantgroups-api/) — The participantGroups API from Prolific — 3 operation(s) for participantgroups.
+- [Prolific Projects API](https://apis.io/apis/prolific/prolific-projects-api/) — The projects API from Prolific — 2 operation(s) for projects.
+- [Prolific Reward Recommendations API](https://apis.io/apis/prolific/prolific-rewardrecommendations-api/) — The rewardRecommendations API from Prolific — 1 operation(s) for rewardrecommendations.
+- [Prolific Studies API](https://apis.io/apis/prolific/prolific-studies-api/) — The studies API from Prolific — 18 operation(s) for studies.
+- [Prolific Submission Feedback Upload API](https://apis.io/apis/prolific/prolific-submissionfeedbackupload-api/) — The submissionFeedbackUpload API from Prolific — 1 operation(s) for submissionfeedbackupload.
+- [Prolific Submissions API](https://apis.io/apis/prolific/prolific-submissions-api/) — The submissions API from Prolific — 5 operation(s) for submissions.
+- [Prolific Surveys API](https://apis.io/apis/prolific/prolific-surveys-api/) — The surveys API from Prolific — 5 operation(s) for surveys.
+- [Prolific Users API](https://apis.io/apis/prolific/prolific-users-api/) — The users API from Prolific — 2 operation(s) for users.
+- [Prolific Webhooks API](https://apis.io/apis/prolific/prolific-webhooks-api/) — The webhooks API from Prolific — 5 operation(s) for webhooks.
+- [Prolific Well Known Endpoints API](https://apis.io/apis/prolific/prolific-wellknownendpoints-api/) — The wellKnownEndpoints API from Prolific — 1 operation(s) for wellknownendpoints.
+- [Prolific Workspaces API](https://apis.io/apis/prolific/prolific-workspaces-api/) — The workspaces API from Prolific — 3 operation(s) for workspaces.
+- [Prolific Filter Sets API](https://apis.io/apis/prolific/prolific-filter-sets-api/) — The Filter Sets API from Prolific — 5 operation(s) for filter sets.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Prolific Webhooks](https://apis.io/asyncapis/prolific/prolific-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [prolific-mcp.yml](https://apis.io/servers/prolific/prolific-mcp-yml/)
+
+#### Collections (18)
+
+Postman and Open Collection request collections.
+
+- [API Reference aiTaskBuilder API](https://apis.io/collections/prolific/open-prolific-aitaskbuilder-api/)
+- [API Reference aiTaskBuilder bonuses API](https://apis.io/collections/prolific/open-prolific-bonuses-api/)
+- [API Reference aiTaskBuilder credentials API](https://apis.io/collections/prolific/open-prolific-credentials-api/)
+- [API Reference aiTaskBuilder filters API](https://apis.io/collections/prolific/open-prolific-filters-api/)
+- [API Reference aiTaskBuilder filterSets API](https://apis.io/collections/prolific/open-prolific-filtersets-api/)
+- [API Reference aiTaskBuilder invitations API](https://apis.io/collections/prolific/open-prolific-invitations-api/)
+- [API Reference aiTaskBuilder messages API](https://apis.io/collections/prolific/open-prolific-messages-api/)
+- [API Reference aiTaskBuilder participantGroups API](https://apis.io/collections/prolific/open-prolific-participantgroups-api/)
+- [API Reference aiTaskBuilder projects API](https://apis.io/collections/prolific/open-prolific-projects-api/)
+- [API Reference aiTaskBuilder rewardRecommendations API](https://apis.io/collections/prolific/open-prolific-rewardrecommendations-api/)
+- [API Reference aiTaskBuilder studies API](https://apis.io/collections/prolific/open-prolific-studies-api/)
+- [API Reference aiTaskBuilder submissionFeedbackUpload API](https://apis.io/collections/prolific/open-prolific-submissionfeedbackupload-api/)
+- [API Reference aiTaskBuilder submissions API](https://apis.io/collections/prolific/open-prolific-submissions-api/)
+- [API Reference aiTaskBuilder surveys API](https://apis.io/collections/prolific/open-prolific-surveys-api/)
+- [API Reference aiTaskBuilder users API](https://apis.io/collections/prolific/open-prolific-users-api/)
+- [API Reference aiTaskBuilder webhooks API](https://apis.io/collections/prolific/open-prolific-webhooks-api/)
+- [API Reference aiTaskBuilder wellKnownEndpoints API](https://apis.io/collections/prolific/open-prolific-wellknownendpoints-api/)
+- [API Reference aiTaskBuilder workspaces API](https://apis.io/collections/prolific/open-prolific-workspaces-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Prolific Openapi Overlay](https://apis.io/overlays/prolific/prolific-openapi-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Prolific Authentication](https://apis.io/security/prolific/prolific-authentication/)
+- [Prolific Domain Security](https://apis.io/security/prolific/prolific-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Prolific Plans Pricing](https://apis.io/plans/prolific/prolific-plans-pricing/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.prolific.com/)
+- [Documentation](https://docs.prolific.com/)
+- [Getting started](https://docs.prolific.com/documentation/get-started/your-first-data-collection)
+- [API reference](https://docs.prolific.com/api-reference.md)
+- [Pricing](https://www.prolific.com/pricing)
+- [Sign up](https://app.prolific.com/register)
+- [Support](https://researcher-help.prolific.com/en)
+- [Blog](https://www.prolific.com/blog)
+- [Security](https://www.prolific.com/prolific-security-overview)
+- [Privacy policy](https://www.prolific.com/privacy-and-legal)
+- [GitHub](https://github.com/prolific-oss)
+- [Status](https://status.prolific.com)
+
+## API Evangelist rating
+
+**Kin Score 52.6** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 58.0 |
+| Contract governance | 4.5 |
+| Operational transparency | 28.9 |
+| Developer ergonomics | 80.4 |
+| Access clarity | 52.6 |
+
+**Agent readiness 30.1** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | documented (partial credit) |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 19.1** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/prolific/](https://apis.io/providers/prolific/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Prolific: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/prolific/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
